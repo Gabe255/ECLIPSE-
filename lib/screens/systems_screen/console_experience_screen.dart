@@ -85,6 +85,18 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
   void initState() {
     super.initState();
     _gamepadNav = GamepadNavigation(
+      onNavigateUp: () {
+        if (!_booting && _interfaceFamily == 'wii') _moveWiiPointer(const Offset(0, -0.055));
+      },
+      onNavigateDown: () {
+        if (!_booting && _interfaceFamily == 'wii') _moveWiiPointer(const Offset(0, 0.055));
+      },
+      onNavigateLeft: () {
+        if (!_booting && _interfaceFamily == 'wii') _moveWiiPointer(const Offset(-0.055, 0));
+      },
+      onNavigateRight: () {
+        if (!_booting && _interfaceFamily == 'wii') _moveWiiPointer(const Offset(0.055, 0));
+      },
       onSelectItem: () {
         if (_booting) {
           _finishBoot();
