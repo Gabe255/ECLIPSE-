@@ -589,7 +589,12 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
       ),
       child: SafeArea(
         child: Padding(
-          padding: EdgeInsets.fromLTRB(\n            MediaQuery.sizeOf(context).width < 600 ? 18 : 32,\n            MediaQuery.sizeOf(context).height < 520 ? 14 : 22,\n            MediaQuery.sizeOf(context).width < 600 ? 18 : 32,\n            MediaQuery.sizeOf(context).height < 520 ? 14 : 24,\n          ),
+          padding: EdgeInsets.fromLTRB(
+            MediaQuery.sizeOf(context).width < 600 ? 18 : 32,
+            MediaQuery.sizeOf(context).height < 520 ? 14 : 22,
+            MediaQuery.sizeOf(context).width < 600 ? 18 : 32,
+            MediaQuery.sizeOf(context).height < 520 ? 14 : 24,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
