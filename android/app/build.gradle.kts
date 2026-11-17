@@ -12,14 +12,31 @@ val keystorePropertiesFile = rootProject.file("key.properties")
 if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 }
-val hasReleaseSigning = listOf(
+val requiredSigningProperties = listOf(
     "keyAlias",
     "keyPassword",
     "storeFile",
     "storePassword",
-).all { key ->
-    val value = keystoreProperties.getProperty(key)
-    !value.isNullOrBlank()
+)
+val missingSigningProperties = requiredSigningProperties.filter { key ->
+    keystoreProperties.getProperty(key).isNullOrBlank()
+}
+val hasReleaseSigning = missingSigningProperties.isEmpty()
+val releaseKeystoreFile = if (hasReleaseSigning) {
+    rootProject.file(keystoreProperties.getProperty("storeFile"))
+} else {
+    null
+}
+
+if (!hasReleaseSigning) {
+    logger.lifecycle(
+        "Android release signing is not configured. Missing: ${missingSigningProperties.joinToString()}"
+    )
+}
+if (hasReleaseSigning && (releaseKeystoreFile == null || !releaseKeystoreFile.isFile)) {
+    throw GradleException(
+        "Configured Android release keystore does not exist: ${releaseKeystoreFile?.absolutePath}"
+    )
 }
 
 android {
@@ -37,7 +54,7 @@ android {
             create("release") {
                 keyAlias = keystoreProperties.getProperty("keyAlias")
                 keyPassword = keystoreProperties.getProperty("keyPassword")
-                storeFile = file(keystoreProperties.getProperty("storeFile"))
+                storeFile = releaseKeystoreFile
                 storePassword = keystoreProperties.getProperty("storePassword")
             }
         }
@@ -57,11 +74,14 @@ android {
 
     buildTypes {
         release {
-            signingConfig = if (hasReleaseSigning) {
-                signingConfigs.getByName("release")
-            } else {
-                signingConfigs.getByName("debug")
+            // Never produce a debug-signed release APK. The build helper and
+            // CI validate the persistent key; this is the final Gradle guard.
+            if (!hasReleaseSigning) {
+                throw GradleException(
+                    "Release signing is required. Configure android/key.properties with the original ECLIPSE signing certificate."
+                )
             }
+            signingConfig = signingConfigs.getByName("release")
         }
     }
 }
