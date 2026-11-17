@@ -174,6 +174,52 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
     );
   }
 
+  String get _bootLabel {
+    switch (_interfaceFamily) {
+      case 'psp':
+        return 'PLAYSTATION PORTABLE';
+      case 'wii':
+        return 'WII MENU';
+      case 'ds':
+        return 'DUAL SCREEN SYSTEM';
+      case 'xbox':
+        return 'XBOX DASHBOARD';
+      case 'xbox360':
+        return 'XBOX 360 DASHBOARD';
+      case 'playstation-ps1':
+        return 'PLAYSTATION BIOS';
+      case 'playstation-ps2':
+        return 'PLAYSTATION 2 BROWSER';
+      case 'playstation-xmb':
+        return 'XMB INTERFACE';
+      case 'playstation-modern':
+        return 'PLAYSTATION HOME';
+      case 'switch':
+        return 'NINTENDO SWITCH';
+      case 'gamecube':
+        return 'GAMECUBE SYSTEM MENU';
+      case 'n64':
+        return 'NINTENDO 64';
+      case 'gameboy':
+        return 'HANDHELD SYSTEM';
+      case 'dreamcast':
+        return 'DREAMCAST CONSOLE';
+      case 'sega':
+        return 'SEGA SYSTEM';
+      case 'nintendo-classic':
+        return 'NINTENDO SYSTEM';
+      case 'arcade':
+        return 'ARCADE SYSTEM';
+      default:
+        return 'ECLIPSE CONSOLE ENVIRONMENT';
+    }
+  }
+
+  String get _bootStatus {
+    if (widget.system.romCount == 0) return 'Preparing your console space';
+    return 'Preparing ${widget.system.romCount} games for your library';
+  }
+
   Widget _buildBoot() {
     final name = widget.system.shortName ?? widget.system.realName;
     return GestureDetector(
@@ -218,7 +264,7 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
                       ),
                       const SizedBox(height: 12),
                       Text(
-                        'STARTING SYSTEM',
+                        _bootLabel,
                         style: TextStyle(
                           color: Colors.white.withValues(alpha: 0.58),
                           fontSize: 11,
@@ -238,7 +284,7 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
                       ),
                       const SizedBox(height: 18),
                       Text(
-                        'TAP TO SKIP',
+                        _bootStatus.toUpperCase(),
                         style: TextStyle(
                           color: Colors.white.withValues(alpha: 0.35),
                           fontSize: 9,
@@ -543,7 +589,7 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
       ),
       child: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(28, 22, 28, 24),
+          padding: EdgeInsets.fromLTRB(\n            MediaQuery.sizeOf(context).width < 600 ? 18 : 32,\n            MediaQuery.sizeOf(context).height < 520 ? 14 : 22,\n            MediaQuery.sizeOf(context).width < 600 ? 18 : 32,\n            MediaQuery.sizeOf(context).height < 520 ? 14 : 24,\n          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
