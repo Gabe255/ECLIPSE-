@@ -26,6 +26,7 @@ import '../services/permission_service.dart';
 import '../services/steam_scraper_service.dart';
 import '../services/systems_update_service.dart';
 import '../models/secondary_display_state.dart';
+import '../models/handheld_device_profile.dart';
 
 import 'package:flutter/services.dart';
 
@@ -89,6 +90,7 @@ class SqliteConfigProvider extends ChangeNotifier with WidgetsBindingObserver {
   bool _isFastScan = false;
   bool _initialized = false;
   SecondaryDisplayState? _secondaryDisplayState;
+  HandheldDeviceProfile _handheldDeviceProfile = HandheldDeviceProfile.fallback;
   Future<void> _pendingGameListSizeSave = Future<void>.value();
   bool _lifecycleObserverAdded = false;
   int _lastMuteToggleTrigger = 0;
@@ -192,6 +194,9 @@ class SqliteConfigProvider extends ChangeNotifier with WidgetsBindingObserver {
   bool get isScanningRoms => _isScanningRoms;
   bool get isSilentScanning => _isSilentScanning;
 
+  /// Current hardware recommendation profile. This never asserts that an emulator is installed.
+  HandheldDeviceProfile get handheldDeviceProfile => _handheldDeviceProfile;
+
   /// The shared secondary display state instance (null on non-Android platforms).
   SecondaryDisplayState? get secondaryDisplayState => _secondaryDisplayState;
 
@@ -259,6 +264,7 @@ class SqliteConfigProvider extends ChangeNotifier with WidgetsBindingObserver {
     _databaseOpened = false;
 
     try {
+      _handheldDeviceProfile = await HandheldDeviceProfile.detectCurrentDevice();
       if (Platform.isAndroid) {
         // The secondary display's engine persists across a main-engine restart
         // (its cached engine group survives), so the second screen keeps showing
