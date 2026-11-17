@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:provider/provider.dart';
 import 'package:neostation/sync/sync_manager.dart';
+import 'package:neostation/data/datasources/sqlite_service.dart';
 import 'package:neostation/models/game_model.dart';
 import 'package:neostation/models/system_model.dart';
 import 'package:neostation/utils/effective_system.dart';
@@ -135,6 +136,58 @@ class GamesCarousel extends StatefulWidget {
 
   @override
   State<GamesCarousel> createState() => _GamesCarouselState();
+}
+
+
+class _PlayCountLabel extends StatefulWidget {
+  const _PlayCountLabel({super.key, required this.romPath});
+
+  final String romPath;
+
+  @override
+  State<_PlayCountLabel> createState() => _PlayCountLabelState();
+}
+
+class _PlayCountLabelState extends State<_PlayCountLabel> {
+  late Future<int> _playCount;
+
+  @override
+  void initState() {
+    super.initState();
+    _playCount = SqliteService.getRomPlayCount(widget.romPath);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<int>(
+      future: _playCount,
+      builder: (context, snapshot) {
+        if (!snapshot.hasData || snapshot.data == 0) {
+          return const SizedBox.shrink();
+        }
+        final count = snapshot.data!;
+        return Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Symbols.play_circle_outline_rounded,
+              size: 11.r,
+              color: Colors.white.withValues(alpha: 0.72),
+            ),
+            SizedBox(width: 4.r),
+            Text(
+              '${count} ${count == 1 ? 'play' : 'plays'}',
+              style: TextStyle(
+                color: Colors.white.withValues(alpha: 0.72),
+                fontSize: 9.r,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
 
 class _GamesCarouselState extends State<GamesCarousel> {
@@ -1259,6 +1312,13 @@ class _GamesCarouselState extends State<GamesCarousel> {
                     fontWeight: FontWeight.w600,
                     letterSpacing: 0.2,
                   ),
+                ),
+              ],
+              if (game.romPath != null && game.romPath!.isNotEmpty) ...[
+                SizedBox(height: 5.r),
+                _PlayCountLabel(
+                  key: ValueKey(game.romPath),
+                  romPath: game.romPath!,
                 ),
               ],
             ],
