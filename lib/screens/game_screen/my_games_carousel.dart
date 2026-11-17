@@ -148,13 +148,41 @@ class _PlayCountLabel extends StatefulWidget {
   State<_PlayCountLabel> createState() => _PlayCountLabelState();
 }
 
-class _PlayCountLabelState extends State<_PlayCountLabel> {
+class _PlayCountLabelState extends State<_PlayCountLabel>
+    with WidgetsBindingObserver {
   late Future<int> _playCount;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    _loadPlayCount();
+  }
+
+  @override
+  void didUpdateWidget(covariant _PlayCountLabel oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.romPath != widget.romPath) {
+      _loadPlayCount();
+    }
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _loadPlayCount();
+    }
+  }
+
+  void _loadPlayCount() {
     _playCount = SqliteService.getRomPlayCount(widget.romPath);
+    if (mounted) setState(() {});
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
   }
 
   @override
