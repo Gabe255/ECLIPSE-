@@ -5,6 +5,7 @@ import 'package:neostation/themes/custom_theme.dart';
 
 // Import all individual themes
 import 'dark_theme.dart' as dark;
+import 'eclipse_theme.dart' as eclipse;
 import 'light_theme.dart' as light;
 import 'oled_theme.dart' as oled;
 import 'valentine_theme.dart' as valentine;
@@ -32,6 +33,7 @@ class AppThemes {
   }
 
   // References to individual themes
+  static ThemeData get eclipseTheme => eclipse.eclipseTheme;
   static ThemeData get darkTheme => dark.darkTheme;
   static ThemeData get lightTheme => light.lightTheme;
   static ThemeData get oledTheme => oled.oledTheme;
@@ -49,6 +51,7 @@ class AppThemes {
   static ThemeData get dmgTheme => dmg.dmgTheme;
 
   // References to custom colors for each theme
+  static dynamic get eclipseCustomColors => eclipse.EclipseCustomColors();
   static dynamic get darkCustomColors => dark.DarkCustomColors();
   static dynamic get lightCustomColors => light.LightCustomColors();
   static dynamic get oledCustomColors => oled.OledCustomColors();
@@ -87,6 +90,8 @@ class AppThemes {
     }
 
     switch (resolvedThemeName) {
+      case 'eclipse':
+        return eclipse.EclipseCustomColors();
       case 'light':
         return light.LightCustomColors();
       case 'oled':
@@ -189,6 +194,8 @@ class AppThemes {
     }
 
     switch (themeName) {
+      case 'eclipse':
+        return eclipseTheme;
       case 'dark':
         return darkTheme;
       case 'light':
