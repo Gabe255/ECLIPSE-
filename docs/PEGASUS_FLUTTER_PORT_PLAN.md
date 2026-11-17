@@ -153,6 +153,7 @@ Implement providers behind a common interface, with per-provider enable/disable,
 - HowLongToBeat: play-length estimates only; do not treat it as an artwork provider or promise an official public API if access is unavailable.
 - SteamGridDB: artwork roles such as grids, heroes, logos, and banners (requires user API key).
 - RetroAchievements: account linking, supported-game matching, achievement progress, and profile data; achievements depend on supported cores/emulators and successful game identification.
+
 - Existing NeoStation scraper integrations must be audited and reused where suitable rather than duplicated.
 
 Provider credentials must be stored using platform-secure storage where available, never committed to source control, logs, exported config, or analytics. Scraping must be opt-in/configurable and respect each provider's terms and rate limits.
@@ -183,3 +184,10 @@ Provider credentials must be stored using platform-secure storage where availabl
 9. Verify release signing compatibility before producing a distributable APK. No APK/release is complete until the build artifact and signing identity are confirmed.
 
 Current PR work is still an initial slice, not completion of this expanded scope.
+
+## CI workflow triggers and release safety
+
+- **PR Checks** runs on pull-request events and on pushes to `main`. Pushing a commit to this open migration PR branch emits a pull-request synchronize event and is the safe way to request validation of this branch.
+- **Build and Deploy** runs on a `v*` tag or manual workflow dispatch. It is a release pipeline, not the normal PR validation workflow.
+- The Android release job must stop if any original signing secret is absent. Never create a release tag to work around missing signing credentials; a debug APK is not an update-compatible release.
+- A successful PR debug build validates compilation only. It does not prove the original release certificate is available or that an APK can update an already-installed ECLIPSE build.
