@@ -58,34 +58,34 @@ void main() {
     test(
       'does not leave last played updated if the counter write fails',
       () async {
-      await db.execute('''
-        CREATE TABLE user_rom_play_stats (
-          rom_path TEXT PRIMARY KEY COLLATE NOCASE,
-          play_count INTEGER NOT NULL DEFAULT 0,
-          updated_at TEXT NOT NULL
-        )
-      ''');
-      await db.execute('''
-        CREATE TRIGGER reject_play_stat
-        BEFORE INSERT ON user_rom_play_stats
-        BEGIN
-          SELECT RAISE(ABORT, 'forced test failure');
-        END
-      ''');
+        await db.execute('''
+          CREATE TABLE user_rom_play_stats (
+            rom_path TEXT PRIMARY KEY COLLATE NOCASE,
+            play_count INTEGER NOT NULL DEFAULT 0,
+            updated_at TEXT NOT NULL
+          )
+        ''');
+        await db.execute('''
+          CREATE TRIGGER reject_play_stat
+          BEFORE INSERT ON user_rom_play_stats
+          BEGIN
+            SELECT RAISE(ABORT, 'forced test failure');
+          END
+        ''');
 
-      await expectLater(
-        SqliteService.recordRomPlayed(firstRom),
-        throwsA(anything),
-      );
+        await expectLater(
+          SqliteService.recordRomPlayed(firstRom),
+          throwsA(anything),
+        );
 
-      final rows = await db.query(
-        'user_roms',
-        columns: ['last_played'],
-        where: 'rom_path = ?',
-        whereArgs: [firstRom],
-        limit: 1,
-      );
-      expect(rows.single['last_played'], isNull);
+        final rows = await db.query(
+          'user_roms',
+          columns: ['last_played'],
+          where: 'rom_path = ?',
+          whereArgs: [firstRom],
+          limit: 1,
+        );
+        expect(rows.single['last_played'], isNull);
         expect(await SqliteService.getRomPlayCount(firstRom), 0);
       },
     );
