@@ -53,21 +53,25 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
   bool _hasAny(List<String> terms) =>
       terms.any((term) => _platformKey.contains(term));
 
+  bool _isFolderCode(List<String> codes) =>
+      codes.contains(widget.system.folderName.toLowerCase());
+
   String get _interfaceFamily {
-    if (_isPsp) return 'psp';
+    if (_isPsp || _isFolderCode(['psp', 'pspminis'])) return 'psp';
     if (_isWii) return 'wii';
-    if (_isDsFamily) return 'ds';
+    if (_isDsFamily || _isFolderCode(['ds', '3ds'])) return 'ds';
     if (_hasAny(['xbox', 'xbox360', 'xbox-one', 'xbox-series'])) return 'xbox';
     if (_hasAny(['ps5', 'playstation 5', 'ps4', 'playstation 4'])) return 'playstation-modern';
     if (_hasAny(['ps3', 'playstation 3'])) return 'playstation-xmb';
-    if (_hasAny(['ps2', 'playstation 2', 'ps1', 'psx', 'playstation'])) return 'playstation-classic';
-    if (_hasAny(['switch', 'nintendo switch'])) return 'switch';
-    if (_hasAny(['gamecube', 'gc'])) return 'gamecube';
-    if (_hasAny(['n64', 'nintendo 64'])) return 'n64';
-    if (_hasAny(['gba', 'game boy advance', 'gbc', 'game boy color', 'gameboy'])) return 'gameboy';
-    if (_hasAny(['dreamcast'])) return 'dreamcast';
-    if (_hasAny(['genesis', 'megadrive', 'mega drive', 'sega'])) return 'sega';
-    if (_hasAny(['snes', 'super nintendo', 'nes', 'famicom'])) return 'nintendo-classic';
+    if (_hasAny(['ps2', 'playstation 2', 'ps1', 'psx', 'playstation']) || _isFolderCode(['ps1', 'ps2'])) return 'playstation-classic';
+    if (_hasAny(['switch', 'nintendo switch']) || _isFolderCode(['switch'])) return 'switch';
+    if (_hasAny(['gamecube']) || _isFolderCode(['gc'])) return 'gamecube';
+    if (_hasAny(['n64', 'nintendo 64']) || _isFolderCode(['n64'])) return 'n64';
+    if (_hasAny(['gba', 'game boy advance', 'gbc', 'game boy color', 'gameboy']) || _isFolderCode(['gb', 'gbc', 'gba'])) return 'gameboy';
+    if (_hasAny(['dreamcast']) || _isFolderCode(['dc'])) return 'dreamcast';
+    if (_hasAny(['genesis', 'megadrive', 'mega drive', 'sega']) || _isFolderCode(['genesis', 'md', 'sms', 'gg', 'mark3', 'sat', 'scd', 'mcd', 'sg1k'])) return 'sega';
+    if (_hasAny(['snes', 'super nintendo', 'nes', 'famicom']) || _isFolderCode(['nes', 'snes', 'sfc', 'fc', 'fds'])) return 'nintendo-classic';
+    if (_isFolderCode(['mame', 'fbneo', 'cps1', 'cps2', 'cps3', 'neogeo', 'ngcd'])) return 'arcade';
     return 'desktop';
   }
 
@@ -262,6 +266,8 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
         return _buildSegaHome();
       case 'nintendo-classic':
         return _buildNintendoClassicHome();
+      case 'arcade':
+        return _buildArcadeHome();
       default:
         return _buildConsoleHome();
     }
@@ -681,6 +687,23 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildArcadeHome() {
+    return _buildShell(
+      eyebrow: 'Arcade machine select',
+      child: Column(children: [
+        const Spacer(),
+        Icon(Icons.sports_esports_rounded, size: 70, color: _accent),
+        const SizedBox(height: 18),
+        const Text('INSERT COIN', style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.w900, letterSpacing: 4)),
+        const SizedBox(height: 8),
+        Text('${widget.system.romCount} arcade titles ready', style: const TextStyle(color: Colors.white60)),
+        const SizedBox(height: 26),
+        _HomeTile(accent: _accent, icon: Icons.play_arrow_rounded, title: 'Start', subtitle: 'Open arcade game library', onTap: _openLibrary),
+        const Spacer(),
+      ]),
     );
   }
 
