@@ -1,6 +1,6 @@
 # ECLIPSE Pegasus-to-Flutter Port Plan
 
-Status: active audit. The audit has inspected the Flutter models/services and selected Pegasus model/providers. No Pegasus source or assets have been copied into the app yet.
+Status: active port. Pegasus is a behavioral/UX reference; compatible features are being reimplemented natively in Flutter/Dart. No Qt/QML runtime or unverified Pegasus assets are being added.
 
 ## Source of truth
 
@@ -9,7 +9,9 @@ Status: active audit. The audit has inspected the Flutter models/services and se
 - Legacy ECLIPSE app: `Gabe255/ECLIPSE` (Vite/Capacitor; retain as backup/reference until migration is verified).
 - Imported duplicate repositories are not build dependencies and can be removed by the repository owner after confirming they contain no unique work.
 
-## Architecture decision
+## Product identity and architecture decision
+
+ECLIPSE owns the visual identity: its existing purple/black cosmic styling, system selector, console-specific boot sequences, and console home experiences remain the product's source of truth. Do not replace these with Pegasus or iiSU visuals. iiSU/Prism Flow is optional inspiration for a theme or polish layer only, never a mandatory app-wide redesign.
 
 Keep Flutter/Dart and the existing NeoStation layered architecture. Do not embed Qt/QML or attempt to compile Pegasus UI inside Flutter.
 
@@ -31,7 +33,7 @@ Pegasus should be studied as a reference for interaction and product behavior, t
 | Favorites | Present through `GameModel.isFavorite`, `FavoritesService`, and `GameRepository` | Reuse existing persisted favorite flow |
 | Collections | Present through `CollectionModel`, collection repository/provider, manual and smart collection screens | Reuse; compare UX and sorting details before changing |
 | Playtime and last played | Present through `GameModel`, `GameSessionManager`, `PlaytimeMeter`, and session persistence | Reuse; compare aggregation and interrupted-session behavior |
-| Play count | Pegasus exposes a separate play-count value; the inspected Flutter game/database models expose last-played and total playtime but no play-count field | Confirm whether the SQLite schema already tracks count; if not, design a versioned migration and tests before adding it |
+| Play count | Added an additive `user_rom_play_stats` table created on first recorded launch, plus `recordRomPlayed` increment and `getRomPlayCount` read API | Initial native Flutter/Dart port committed; historical launches remain zero because no trustworthy old count exists. Still needs UI/model integration and database tests |
 | Missing-game state | Pegasus model exposes a missing flag | Not yet confirmed in Flutter; inspect scanner/library behavior before deciding whether a separate flag is needed |
 | Gamepad navigation | Flutter has dedicated gamepad navigation utilities and focused list/grid components | Reuse; test focus/axis/button parity rather than replacing navigation wholesale |
 | Themes | Flutter has ThemeProvider and custom theme services | Reuse; inspect Pegasus theme configuration only for genuinely missing customization options |
@@ -76,12 +78,12 @@ Pegasus:
 
 ## Safe implementation sequence
 
-1. Complete the feature matrix, including SQLite schema and tests for play-count and missing-game parity.
-2. Select one verified gap with low migration risk and define acceptance criteria.
-3. Implement the gap natively in Flutter, preserving the existing system menu and console-specific startup/home experiences.
-4. Add unit/widget/database migration tests and run Flutter analysis plus Android debug build.
-5. Repeat for themes, navigation, collections, metadata, and playtime only where gaps are confirmed.
-6. Integrate remaining ECLIPSE product features after the port audit; avoid speculative feature additions until the base is stable.
+1. Complete the feature matrix, including missing-game parity and UI/model integration for play count.
+2. Implement verified gaps natively in Flutter, preserving ECLIPSE visuals, the system selector, and all console-specific startup/home experiences.
+3. Add unit/widget/database tests and run Flutter analysis plus Android debug build; no feature is considered complete until checks pass.
+4. Compare Pegasus navigation, sorting, collections, metadata, and themes against existing Flutter behavior; port only measurable gaps.
+5. Smooth the end-to-end flow (system selector → boot → console home → game selection → launch) without changing the established visual identity.
+6. Integrate remaining ECLIPSE product features only after the core port is stable.
 7. Verify signed APK update compatibility with the original application ID and signing certificate before publishing any release.
 
 ## Licensing and asset checks
