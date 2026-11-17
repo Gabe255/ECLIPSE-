@@ -22,6 +22,7 @@ import '../../../providers/sqlite_database_provider.dart';
 import '../../../providers/file_provider.dart';
 import '../../../widgets/system_scan_progress_widget.dart';
 import '../../game_screen/my_games_list.dart';
+import '../console_experience_screen.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
@@ -545,7 +546,7 @@ class MySystems extends StatelessWidget {
           orElse: () =>
               throw Exception('System not found: ${systemInfo.folderName}'),
         );
-        final targetScreen = SystemGamesList(
+        final targetScreen = ConsoleExperienceScreen(
           system: systemMeta,
           fileProvider: fileProvider,
         );
