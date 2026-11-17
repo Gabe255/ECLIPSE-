@@ -33,7 +33,7 @@ Pegasus should be studied as a reference for interaction and product behavior, t
 | Favorites | Present through `GameModel.isFavorite`, `FavoritesService`, and `GameRepository` | Reuse existing persisted favorite flow |
 | Collections | Present through `CollectionModel`, collection repository/provider, manual and smart collection screens | Reuse; compare UX and sorting details before changing |
 | Playtime and last played | Present through `GameModel`, `GameSessionManager`, `PlaytimeMeter`, and session persistence | Reuse; compare aggregation and interrupted-session behavior |
-| Play count | Added an additive `user_rom_play_stats` table created on first recorded launch, plus `recordRomPlayed` increment and `getRomPlayCount` read API | Initial native Flutter/Dart port committed; historical launches remain zero because no trustworthy old count exists. Still needs UI/model integration and database tests |
+| Play count | Additive `user_rom_play_stats` table; confirmed session launches increment it; carousel focus panel displays the count | Implemented end-to-end in Flutter. Counter and `last_played` update share one SQLite transaction; lifecycle resume refreshes the visible count. Regression tests cover incrementing, per-game isolation, empty paths, and rollback. CI/device verification is still pending. Historical launches remain zero because no trustworthy old count exists |
 | Missing-game state | Pegasus model exposes a missing flag | Not yet confirmed in Flutter; inspect scanner/library behavior before deciding whether a separate flag is needed |
 | Gamepad navigation | Flutter has dedicated gamepad navigation utilities and focused list/grid components | Reuse; test focus/axis/button parity rather than replacing navigation wholesale |
 | Themes | Flutter has ThemeProvider and custom theme services | Reuse; inspect Pegasus theme configuration only for genuinely missing customization options |
@@ -78,7 +78,7 @@ Pegasus:
 
 ## Safe implementation sequence
 
-1. Complete the feature matrix, including missing-game parity and UI/model integration for play count.
+1. Complete the feature matrix, including missing-game parity; play-count UI/storage is implemented, so validate it with the regression suite and Android builds.
 2. Implement verified gaps natively in Flutter, preserving ECLIPSE visuals, the system selector, and all console-specific startup/home experiences.
 3. Add unit/widget/database tests and run Flutter analysis plus Android debug build; no feature is considered complete until checks pass.
 4. Compare Pegasus navigation, sorting, collections, metadata, and themes against existing Flutter behavior; port only measurable gaps.
