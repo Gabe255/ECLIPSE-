@@ -5474,7 +5474,9 @@ class SqliteService {
     return null;
   }
 
-  /// Updates the last played timestamp for a specific game.
+  /// Updates the last played timestamp and increments the launch count
+  /// for a specific game. The stats table is additive so existing user_roms
+  /// rows and installations are not rewritten.
   static Future<void> recordRomPlayed(String romPath) async {
     final db = await instance.database;
     final now = DateTime.now().toIso8601String();
@@ -5484,6 +5486,39 @@ class SqliteService {
       where: 'rom_path = ?',
       whereArgs: [romPath],
     );
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS user_rom_play_stats (
+        rom_path TEXT PRIMARY KEY COLLATE NOCASE,
+        play_count INTEGER NOT NULL DEFAULT 0,
+        updated_at TEXT NOT NULL
+      )
+    ''');
+    await db.execute('''
+      INSERT INTO user_rom_play_stats (rom_path, play_count, updated_at)
+      VALUES (?, 1, ?)
+      ON CONFLICT(rom_path) DO UPDATE SET
+        play_count = user_rom_play_stats.play_count + 1,
+        updated_at = excluded.updated_at
+    ''', [romPath, now]);
+  }
+
+  /// Returns the number of times a game has been launched on this device.
+  /// Games launched before this statistic was introduced return zero.
+  static Future<int> getRomPlayCount(String romPath) async {
+    final db = await instance.database;
+    final tables = await db.rawQuery(
+      "SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'user_rom_play_stats'",
+    );
+    if (tables.isEmpty) return 0;
+    final rows = await db.query(
+      'user_rom_play_stats',
+      columns: ['play_count'],
+      where: 'rom_path = ?',
+      whereArgs: [romPath],
+      limit: 1,
+    );
+    if (rows.isEmpty) return 0;
+    return int.tryParse(rows.first['play_count']?.toString() ?? '') ?? 0;
   }
 
   /// Increments the accumulated play time for a specific game.
