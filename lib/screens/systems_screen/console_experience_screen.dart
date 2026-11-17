@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 
 import '../../models/system_model.dart';
 import '../../providers/file_provider.dart';
+import '../../services/gamepad/gamepad_navigation_manager.dart';
+import '../../utils/gamepad_nav.dart';
 import '../game_screen/my_games_list.dart';
 
 /// A console-specific layer between the systems carousel and the existing
@@ -30,6 +32,11 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
   Timer? _bootTimer;
   bool _booting = true;
 
+  static int _navigationSequence = 0;
+  late final String _navigationLayerId =
+      'console_experience#${++_navigationSequence}';
+  late final GamepadNavigation _gamepadNav;
+
   Color get _accent => widget.system.colorAsColor;
 
   String get _platformKey =>
@@ -44,16 +51,48 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
   @override
   void initState() {
     super.initState();
+    _gamepadNav = GamepadNavigation(
+      onSelectItem: () {
+        if (_booting) {
+          _finishBoot();
+        } else {
+          _openLibrary();
+        }
+      },
+      onBack: () {
+        if (_booting) {
+          _finishBoot();
+        } else {
+          Navigator.of(context).maybePop();
+        }
+      },
+      onSettings: () {
+        if (!_booting) _showSystemInfo();
+      },
+    );
     _bootController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1250),
     )..forward();
     _bootTimer = Timer(const Duration(milliseconds: 1450), _finishBoot);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      _gamepadNav.initialize();
+      final isCurrentRoute = ModalRoute.of(context)?.isCurrent ?? true;
+      GamepadNavigationManager.pushLayer(
+        _navigationLayerId,
+        onActivate: _gamepadNav.activate,
+        onDeactivate: _gamepadNav.deactivate,
+        background: !isCurrentRoute,
+      );
+    });
   }
 
   @override
   void dispose() {
     _bootTimer?.cancel();
+    GamepadNavigationManager.popLayer(_navigationLayerId);
+    _gamepadNav.dispose();
     _bootController.dispose();
     super.dispose();
   }
