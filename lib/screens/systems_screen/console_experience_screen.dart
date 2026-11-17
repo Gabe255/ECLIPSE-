@@ -67,11 +67,11 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
     if (_hasAny(['switch', 'nintendo switch']) || _isFolderCode(['switch'])) return 'switch';
     if (_hasAny(['gamecube']) || _isFolderCode(['gc'])) return 'gamecube';
     if (_hasAny(['n64', 'nintendo 64']) || _isFolderCode(['n64'])) return 'n64';
-    if (_hasAny(['gba', 'game boy advance', 'gbc', 'game boy color', 'gameboy']) || _isFolderCode(['gb', 'gbc', 'gba'])) return 'gameboy';
+    if (_hasAny(['gba', 'game boy advance', 'gbc', 'game boy color', 'gameboy']) || _isFolderCode(['gb', 'gbc', 'gba', 'gb-hacks', 'gba-hacks', 'gbc-hacks', 'lynx', 'ngp', 'ngpc', 'ws', 'wsc'])) return 'gameboy';
     if (_hasAny(['dreamcast']) || _isFolderCode(['dc'])) return 'dreamcast';
-    if (_hasAny(['genesis', 'megadrive', 'mega drive', 'sega']) || _isFolderCode(['genesis', 'md', 'sms', 'gg', 'mark3', 'sat', 'scd', 'mcd', 'sg1k'])) return 'sega';
-    if (_hasAny(['snes', 'super nintendo', 'nes', 'famicom']) || _isFolderCode(['nes', 'snes', 'sfc', 'fc', 'fds'])) return 'nintendo-classic';
-    if (_isFolderCode(['mame', 'fbneo', 'cps1', 'cps2', 'cps3', 'neogeo', 'ngcd'])) return 'arcade';
+    if (_hasAny(['genesis', 'megadrive', 'mega drive', 'sega']) || _isFolderCode(['genesis', 'genesis-hacks', 'md', 'md-hacks', 'sms', 'gg', 'gg-hacks', 'mark3', 'sat', 'scd', 'mcd', 'sg1k'])) return 'sega';
+    if (_hasAny(['snes', 'super nintendo', 'nes', 'famicom']) || _isFolderCode(['nes', 'nes-hacks', 'snes', 'snes-hacks', 'sfc', 'sfc-hacks', 'fc', 'fds'])) return 'nintendo-classic';
+    if (_isFolderCode(['mame', 'fbneo', 'cps1', 'cps2', 'cps3', 'neogeo', 'ngcd', 'naomi', 'naomi2', 'naomigd', 'model3', 'triforce'])) return 'arcade';
     return 'desktop';
   }
 
