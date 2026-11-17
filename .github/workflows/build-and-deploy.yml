@@ -323,7 +323,7 @@ jobs:
         uses: softprops/action-gh-release@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          name: NeoStation Beta ${{ steps.version.outputs.version }}
+          name: ECLIPSE ${{ steps.version.outputs.version }}
           body: ${{ steps.build_changelog.outputs.changelog }}
           files: release-artifacts/*
           draft: true
