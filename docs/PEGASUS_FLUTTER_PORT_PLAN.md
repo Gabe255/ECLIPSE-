@@ -1,17 +1,17 @@
 # ECLIPSE Pegasus-to-Flutter Port Plan
 
-Status: planning/audit only. This document does not claim that Pegasus code has been migrated.
+Status: active audit. The audit has inspected the Flutter models/services and selected Pegasus model/providers. No Pegasus source or assets have been copied into the app yet.
 
 ## Source of truth
 
 - Working Flutter base: `Gabe255/ECLIPSE-` (NeoStation-derived Flutter/Dart app).
 - Reference project: `Gabe255/pegasus-frontend` (C++11, Qt/QML).
 - Legacy ECLIPSE app: `Gabe255/ECLIPSE` (Vite/Capacitor; retain as backup/reference until migration is verified).
-- The imported duplicate repositories are not build dependencies and can be removed by the repository owner after confirming they contain no unique work.
+- Imported duplicate repositories are not build dependencies and can be removed by the repository owner after confirming they contain no unique work.
 
 ## Architecture decision
 
-Keep Flutter/Dart and the existing NeoStation layered architecture. Do not embed Qt/QML or attempt to compile Pegasus UI inside the Flutter app.
+Keep Flutter/Dart and the existing NeoStation layered architecture. Do not embed Qt/QML or attempt to compile Pegasus UI inside Flutter.
 
 NeoStation already has:
 - Presentation screens and reusable widgets under `lib/screens/` and `lib/widgets/`.
@@ -23,14 +23,44 @@ NeoStation already has:
 
 Pegasus should be studied as a reference for interaction and product behavior, then compatible behavior should be implemented using Flutter widgets, Dart state, and existing NeoStation services/repositories.
 
-## Pegasus areas to study
+## Audited feature matrix
 
-1. Game and collection model behavior: metadata, assets, favorites, missing entries, play count, play time, and last-played state.
-2. Theme and layout system: flexible screens, theme configuration, responsive layout, and reusable UI patterns.
-3. Navigation: keyboard/gamepad focus, axis dead zones, button navigation, selection behavior, and predictable focus restoration.
-4. Library organization: collections, sorting, filtering, favorites, folders, and metadata presentation.
-5. Launch/session behavior: launch parameters, play-session tracking, and error handling.
-6. Android-specific behavior and platform boundaries.
+| Pegasus capability | Flutter audit result | Decision |
+|---|---|---|
+| Game metadata and artwork | Present in `GameModel`, `DatabaseGameModel`, file provider, and scraper pipeline | Reuse; do not duplicate metadata storage |
+| Favorites | Present through `GameModel.isFavorite`, `FavoritesService`, and `GameRepository` | Reuse existing persisted favorite flow |
+| Collections | Present through `CollectionModel`, collection repository/provider, manual and smart collection screens | Reuse; compare UX and sorting details before changing |
+| Playtime and last played | Present through `GameModel`, `GameSessionManager`, `PlaytimeMeter`, and session persistence | Reuse; compare aggregation and interrupted-session behavior |
+| Play count | Pegasus exposes a separate play-count value; the inspected Flutter game/database models expose last-played and total playtime but no play-count field | Confirm whether the SQLite schema already tracks count; if not, design a versioned migration and tests before adding it |
+| Missing-game state | Pegasus model exposes a missing flag | Not yet confirmed in Flutter; inspect scanner/library behavior before deciding whether a separate flag is needed |
+| Gamepad navigation | Flutter has dedicated gamepad navigation utilities and focused list/grid components | Reuse; test focus/axis/button parity rather than replacing navigation wholesale |
+| Themes | Flutter has ThemeProvider and custom theme services | Reuse; inspect Pegasus theme configuration only for genuinely missing customization options |
+| Launch parameters | Flutter has Android/desktop placeholder resolution and launch services | Preserve current platform-safe launcher; port only compatible metadata/configuration ideas |
+| Assets/collections model links | Flutter has game artwork lookup and collection membership | Compare model relationships and caching before making changes |
+
+### Files inspected for this audit
+
+Flutter:
+- `ARCHITECTURE.md`
+- `lib/models/game_model.dart`
+- `lib/models/database_game_model.dart`
+- `lib/models/collection_model.dart`
+- `lib/repositories/game_repository.dart`
+- `lib/services/game/favorites_service.dart`
+- `lib/services/game/game_session_manager.dart`
+- `lib/services/game/playtime_meter.dart`
+- `lib/screens/game_screen/game_list_view.dart`
+- `lib/screens/collections_screen/collections_browser_screen.dart`
+- `lib/providers/theme_provider.dart`
+
+Pegasus:
+- `README.md` and `LICENSE.md`
+- `src/backend/model/gaming/Game.h`
+- `src/backend/model/gaming/Collection.h`
+- `src/backend/providers/pegasus_favorites/Favorites.cpp`
+- `src/backend/providers/pegasus_playtime/PlaytimeStats.cpp`
+- `src/backend/model/internal/GamepadAxisNavigation.*`
+- `src/backend/model/internal/GamepadButtonNavigation.*`
 
 ## Porting map
 
@@ -41,19 +71,18 @@ Pegasus should be studied as a reference for interaction and product behavior, t
 | QML list/grid presentation | Existing game list, collection browser, and reusable Flutter components |
 | Gamepad axis/button navigation | Existing gamepad navigation utilities; compare behavior and add tests before changing |
 | Metadata/assets providers | Existing scraper/repository pipeline; reuse existing integrations rather than duplicating them |
-| Playtime statistics | Existing GameService and playtime persistence; verify edge cases |
-| Launch commands | Existing LauncherService / GameService; do not bypass Android launch validation |
+| Playtime statistics | Existing GameSessionManager and playtime persistence; investigate play-count parity separately |
+| Launch commands | Existing launcher services; do not bypass Android launch validation |
 
 ## Safe implementation sequence
 
-1. Inventory the current NeoStation screens, models, providers, services, tests, and Android launch flow.
-2. Build a Pegasus feature matrix: existing, missing, partial, and not relevant to ECLIPSE.
-3. Select one low-risk vertical slice (for example, game browsing/focus behavior) and document acceptance criteria.
-4. Implement the slice natively in Flutter without replacing existing system selection or console-specific startup/home work.
-5. Add unit/widget tests and run Flutter analysis plus Android debug build.
-6. Repeat for collections, themes, metadata, gamepad behavior, and playtime only where gaps are confirmed.
-7. Integrate remaining ECLIPSE product features after the port audit; avoid speculative feature additions until the base is stable.
-8. Verify signed APK update compatibility with the original application ID and signing certificate before publishing any release.
+1. Complete the feature matrix, including SQLite schema and tests for play-count and missing-game parity.
+2. Select one verified gap with low migration risk and define acceptance criteria.
+3. Implement the gap natively in Flutter, preserving the existing system menu and console-specific startup/home experiences.
+4. Add unit/widget/database migration tests and run Flutter analysis plus Android debug build.
+5. Repeat for themes, navigation, collections, metadata, and playtime only where gaps are confirmed.
+6. Integrate remaining ECLIPSE product features after the port audit; avoid speculative feature additions until the base is stable.
+7. Verify signed APK update compatibility with the original application ID and signing certificate before publishing any release.
 
 ## Licensing and asset checks
 
@@ -68,10 +97,3 @@ Do not assume every file in Pegasus is GPLv3. Its README explicitly warns that s
 - Do not paste C++/Qt code into Dart files.
 - Do not copy Pegasus logos, product marks, or artwork without checking rights.
 - Do not create a release or APK claim until a real build and signing verification succeed.
-
-## Current audit notes
-
-- NeoStation's architecture document describes a layered Flutter application with Provider state, services, repositories, and SQLite.
-- Pegasus README describes a C++11/Qt 5.15+ application with QML/QtQuick UI.
-- Pegasus game models expose useful concepts such as metadata, collections, favorites, play count, play time, last played, assets, and launch parameters.
-- The two stacks are different; the port is a behavior/design adaptation, not a direct source-file merge.
