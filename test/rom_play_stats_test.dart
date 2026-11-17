@@ -54,6 +54,13 @@ void main() {
 
     test('does not leave last played updated if the counter write fails', () async {
       await db.execute('''
+        CREATE TABLE user_rom_play_stats (
+          rom_path TEXT PRIMARY KEY COLLATE NOCASE,
+          play_count INTEGER NOT NULL DEFAULT 0,
+          updated_at TEXT NOT NULL
+        )
+      ''');
+      await db.execute('''
         CREATE TRIGGER reject_play_stat
         BEFORE INSERT ON user_rom_play_stats
         BEGIN
