@@ -170,13 +170,17 @@ class _PlayCountLabelState extends State<_PlayCountLabel>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      _loadPlayCount();
+      _loadPlayCount(notify: true);
     }
   }
 
-  void _loadPlayCount() {
-    _playCount = SqliteService.getRomPlayCount(widget.romPath);
-    if (mounted) setState(() {});
+  void _loadPlayCount({bool notify = false}) {
+    final nextCount = SqliteService.getRomPlayCount(widget.romPath);
+    if (notify && mounted) {
+      setState(() => _playCount = nextCount);
+    } else {
+      _playCount = nextCount;
+    }
   }
 
   @override
