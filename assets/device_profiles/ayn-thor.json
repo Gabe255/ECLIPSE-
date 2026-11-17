@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "id": "ayn-thor",
+  "display_name": "AYN Thor",
+  "match_hints": {
+    "manufacturer": [
+      "AYN"
+    ],
+    "model": [
+      "Thor"
+    ]
+  },
+  "display": {
+    "mode": "auto",
+    "primary_surface": "library",
+    "secondary_surface": "game_details",
+    "allow_secondary_if_available": true,
+    "swap_binding": "l3_r3"
+  },
+  "secondary_surfaces": [
+    "game_details",
+    "artwork_gallery",
+    "screenshots",
+    "muted_video_preview",
+    "now_playing",
+    "retro_achievements",
+    "app_dock",
+    "control_deck"
+  ],
+  "systems": {
+    "recommended": [
+      "ds",
+      "3ds",
+      "ps2",
+      "psp",
+      "gba",
+      "gbc",
+      "gb",
+      "wii",
+      "gc"
+    ],
+    "advanced": [
+      "switch",
+      "ps3",
+      "wiiu",
+      "xbox360"
+    ],
+    "hide_unavailable": false,
+    "allow_user_override": true
+  },
+  "performance": {
+    "tier": "balanced_handheld",
+    "previews_enabled": true,
+    "pause_previews_when_display_off": true,
+    "reduce_motion_on_battery": true
+  },
+  "controller": {
+    "keyboard_required": false,
+    "touch_enabled": true,
+    "display_swap_binding": "l3_r3",
+    "back_to_frontend_binding": "unassigned"
+  },
+  "notes": "Recommendation preset only. Verify physical second-display availability and controller mapping before enabling dual-screen behavior."
+}
