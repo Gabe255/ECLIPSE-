@@ -924,6 +924,16 @@ class _GamesCarouselState extends State<GamesCarousel> {
                   ),
                 ),
               ),
+            // Pegasus-inspired focus metadata: keep the selected game's
+            // identity readable even when the wheel artwork is missing.
+            // The panel is deliberately compact so it does not cover the
+            // centre artwork or the existing controller/status badges.
+            Positioned(
+              left: 14.r,
+              bottom: 14.r,
+              width: 190.r,
+              child: _buildPegasusFocusInfo(game),
+            ),
             Positioned(
               left: 0,
               right: 0,
@@ -1191,6 +1201,68 @@ class _GamesCarouselState extends State<GamesCarousel> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  /// Compact Pegasus-style selected-game information for the hero card.
+  /// Uses metadata already loaded by the existing game model; no extra
+  /// scraper/network work is triggered while the carousel is moving.
+  Widget _buildPegasusFocusInfo(GameModel game) {
+    final title = game.name.trim().isNotEmpty
+        ? game.name.trim()
+        : game.realname.trim();
+    final details = <String>[
+      if (game.formattedYear.trim().isNotEmpty) game.formattedYear.trim(),
+      if (game.genre.trim().isNotEmpty) game.genre.trim(),
+      if (game.developer.trim().isNotEmpty) game.developer.trim(),
+    ].take(2).join('  •  ');
+
+    return IgnorePointer(
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: Colors.black.withValues(alpha: 0.48),
+          borderRadius: BorderRadius.circular(14.r),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.12)),
+        ),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 12.r, vertical: 9.r),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                title,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 13.r,
+                  height: 1.12,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: 0.1,
+                  shadows: const [
+                    Shadow(color: Colors.black54, blurRadius: 8),
+                  ],
+                ),
+              ),
+              if (details.isNotEmpty) ...[
+                SizedBox(height: 4.r),
+                Text(
+                  details,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: Colors.white.withValues(alpha: 0.78),
+                    fontSize: 9.r,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 0.2,
+                  ),
+                ),
+              ],
+            ],
+          ),
         ),
       ),
     );
