@@ -23,6 +23,25 @@ void main() {
       expect(profile.allowUserOverride, isTrue);
     });
 
+    test('matches only supported AYN handheld models', () {
+      expect(
+        HandheldDeviceProfile.assetPathForDevice('AYN', 'Thor'),
+        'assets/device_profiles/ayn-thor.json',
+      );
+      expect(
+        HandheldDeviceProfile.assetPathForDevice('AYN', 'Odin 3'),
+        'assets/device_profiles/odin3.json',
+      );
+      expect(
+        HandheldDeviceProfile.assetPathForDevice('Other', 'Thor'),
+        isNull,
+      );
+      expect(
+        HandheldDeviceProfile.assetPathForDevice('AYN', 'Unknown'),
+        isNull,
+      );
+    });
+
     test('rejects unsupported schema versions', () {
       expect(
         () => HandheldDeviceProfile.fromJson({
