@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -197,3 +198,39 @@ jobs:
       - name: Summarize slowest suites
         if: always()
         run: dart tool/test_slowest.dart test-results.json
+
+  android-debug-build:
+    name: Android debug APK compile check
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup Java
+        uses: actions/setup-java@v6
+        with:
+          distribution: zulu
+          java-version: '17'
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version-file: .fvmrc
+          channel: stable
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get --enforce-lockfile
+
+      # Debug compilation validates Dart, Android plugins, Gradle and the
+      # manifest without requiring access to the private release keystore.
+      - name: Build Android debug APK
+        run: flutter build apk --debug
+
+      - name: Upload debug validation APK
+        uses: actions/upload-artifact@v7
+        with:
+          name: eclipse-android-debug-validation
+          path: build/app/outputs/flutter-apk/app-debug.apk
+          if-no-files-found: error
+          retention-days: 3
