@@ -191,3 +191,45 @@ Current PR work is still an initial slice, not completion of this expanded scope
 - **Build and Deploy** runs on a `v*` tag or manual workflow dispatch. It is a release pipeline, not the normal PR validation workflow.
 - The Android release job must stop if any original signing secret is absent. Never create a release tag to work around missing signing credentials; a debug APK is not an update-compatible release.
 - A successful PR debug build validates compilation only. It does not prove the original release certificate is available or that an APK can update an already-installed ECLIPSE build.
+
+
+## Android handheld frontend checklist (additional requirements)
+
+The following requirements were supplied as external product feedback and are now part of the ECLIPSE acceptance checklist. They complement the expanded scope above; they do not imply the features already exist.
+
+### Metadata and library discovery
+- Keep metadata providers behind the existing scraper/provider architecture. Audit TheGamesDB and other candidate sources for current API access, licensing, attribution, and rate limits before selecting an adapter.
+- Support box art, screenshots, videos, descriptions, release metadata, and platform-specific media roles where the provider actually supplies them.
+- Preserve manual metadata overrides and show which provider supplied a field; cache results and make scraping opt-in.
+- Allow multiple ROM roots at once, including internal storage and SD-card/removable-storage locations. Persist Android Storage Access Framework tree permissions, associate each root with its system/profile, and handle revoked permissions or removed media without silently deleting library entries.
+- Support user-defined system/emulator profiles through a documented XML import/export format. Validate imported XML, show a preview, reject unsafe or unsupported launch placeholders, and never execute arbitrary commands from an imported definition. Profiles for Yuzu or other standalone apps are configuration only; launching is available only when a compatible installed app and supported Android intent/API are detected.
+
+### Controller-first navigation and touch usability
+- Treat gamepad/controller navigation as a primary interaction model: predictable focus order, visible focus, axis repeat/dead-zone tuning, button mapping, back behavior, and no focus traps.
+- Keep touch fully supported, especially in Settings, folder selection, metadata editing, and onboarding. Large touch targets and controller focus should coexist rather than forcing either interaction style.
+- Add a configurable console-style / hide-Android-clutter mode. It should provide a focused full-screen launcher experience where Android permits it, with a clear escape path to system settings and no misleading promise that a normal app can hide system UI or replace the system HOME role without user authorization.
+
+### Emulator and core launch integrations
+- Support standalone emulator profiles (including Dolphin, PPSSPP, Vita3K, and other installed compatible apps) alongside RetroArch cores.
+- Build a capability-based integration registry: detect installed apps and supported launch contracts, expose only verified launch options, and report missing/incompatible apps clearly. Do not bundle, download, or imply support for an emulator solely because its name appears in a catalogue.
+- Keep per-system and per-profile launch arguments/configuration separate, validate URI/intent handling, and preserve user-selected emulator preferences.
+
+### Dual-screen and performance
+- Extend the existing Auto / Single / Dual display design to make the secondary surface useful for Now Playing, selected-game details, widgets, or optional touch controls. Let users choose the secondary-screen layout and retain a clean single-screen fallback.
+- Keep browsing lightweight: lazy-load artwork, bound image/video caches, pause media when not visible or app is backgrounded, avoid expensive blur/animation on low-power devices, and expose a performance mode.
+- Measure startup time, memory use, scroll/focus responsiveness, and preview decode behavior on representative Android handhelds rather than claiming performance from code inspection alone.
+
+### Portable configuration and backups
+- Add an explicit export/import flow for portable ECLIPSE configuration: system definitions, emulator profiles, library roots (as paths/URI references, not copied ROM data), theme/preferences, collections, and user metadata overrides.
+- Keep credentials and secrets out of portable exports by default. Offer a separate opt-in secure migration flow only if a safe platform-supported mechanism is available.
+- Make imports versioned, validate before applying, support backup/restore, and explain that SD-card URIs or absolute paths may need relinking on another device.
+
+### Acceptance checks
+- Test two or more ROM roots across internal storage and removable storage, including a revoked folder permission and a removed SD card.
+- Test controller-only navigation through onboarding, library, settings, profile selection, and dialogs; repeat with touch-only navigation.
+- Import/export a custom XML profile and verify invalid XML and unsafe launch templates are rejected.
+- Test standalone emulator detection and launch only against apps actually installed on the test device; separately test RetroArch core selection.
+- Verify console-style mode has a safe exit and behaves within Android's HOME/immersive-mode restrictions.
+- Exercise secondary-screen Now Playing/details/widgets and hot-unplug fallback.
+- Export settings on one device and restore on another without exporting credentials or ROM contents.
+- Record performance measurements on target handheld hardware with media previews enabled and disabled.
