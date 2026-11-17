@@ -11,7 +11,7 @@ Status: active port. Pegasus is a behavioral/UX reference; compatible features a
 
 ## Product identity and architecture decision
 
-ECLIPSE owns the visual identity: its existing purple/black cosmic styling, system selector, console-specific boot sequences, and console home experiences remain the product's source of truth. Do not replace these with Pegasus or iiSU visuals. iiSU/Prism Flow is optional inspiration for a theme or polish layer only, never a mandatory app-wide redesign.
+ECLIPSE owns the product identity, but its appearance must be user-selectable rather than locked to purple/black. Provide four clear appearance modes: ECLIPSE (signature cosmic palette), Light, Dark, and System (follow Android brightness). Existing extra themes and imported themes remain available. Console-specific startup sequences and console home experiences remain core ECLIPSE behavior. Pegasus is the primary UX reference for a substantial library/menu redesign: port its useful layout, browsing, collection, sorting, filtering, and customization concepts natively in Flutter. Do not embed Qt/QML or copy Pegasus branding/assets. The redesign must replace the weak current library presentation, not merely recolor it.
 
 Keep Flutter/Dart and the existing NeoStation layered architecture. Do not embed Qt/QML or attempt to compile Pegasus UI inside Flutter.
 
@@ -103,7 +103,17 @@ Do not assume every file in Pegasus is GPLv3. Its README explicitly warns that s
 
 ## Expanded ECLIPSE product scope (requested)
 
-This scope is additive to the existing NeoStation-derived app. It is not permission to replace its system selector, console-specific startup sequences, console home screens, or purple/black ECLIPSE identity.
+This scope is additive to the existing NeoStation-derived app. Keep its system selector, console-specific startup sequences, and console home screens, while redesigning the general library/menu experience around Pegasus-inspired UX. The ECLIPSE signature palette is one selectable theme, not the only visual mode.
+
+
+### Pegasus-inspired ECLIPSE interface redesign
+
+- Treat the current library/menu presentation as a redesign target; do not preserve it merely for visual continuity.
+- Port Pegasus-inspired browsing patterns into native Flutter: clean horizontal/vertical navigation, strong selected-game presentation, metadata hierarchy, collection browsing, sorting/filtering, favorites, and configurable layouts.
+- Keep the existing NeoStation data layer, ROM scanning, emulator launch integrations, RetroAchievements, gamepad navigation, and console-specific startup/home experiences. Reuse these instead of rebuilding duplicate systems.
+- Make the ECLIPSE, Light, Dark, and System modes first-class choices in Settings. ECLIPSE is the purple/cosmic signature theme; Light and Dark are neutral palettes; System follows Android brightness.
+- Keep the UI legible and controller-friendly on handhelds such as the Odin, including safe-area handling, focus states, and scalable layouts.
+- Do not claim the Pegasus-inspired UI port is complete until the redesigned screens are implemented and tested on Android.
 
 ### Library presentation and media
 
