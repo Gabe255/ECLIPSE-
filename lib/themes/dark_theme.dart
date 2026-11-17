@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:neostation/themes/corner_radii.dart';
 import 'package:neostation/themes/chrome_surface.dart';
 
-const Color _primaryColor = Color(0xFFB9A0FF);
-const Color _onPrimaryColor = Color(0xFF160D2B);
-const Color _secondaryColor = Color(0xFF8D6BFF);
+const Color _primaryColor = Color(0xFFEFEFEF);
+const Color _onPrimaryColor = Color(0xFF1D1D1D);
+const Color _secondaryColor = Color(0xFFEFEFEF);
 const Color _onSecondaryColor = Color(0xFF1D1D1D);
-const Color _surfaceColor = Color(0xFF1B1530);
-const Color _onSurfaceColor = Color(0xFFF2EEFF);
+const Color _surfaceColor = Color(0xFF282828);
+const Color _onSurfaceColor = Color(0xFFEFEFEF);
 
-const Color _outlineColor = Color(0xFF3A3154);
-const Color _shadowColor = Color(0xFF070510);
+const Color _outlineColor = Color(0xFF212830);
+const Color _shadowColor = Color(0xFF090909);
 
-const Color _backgroundColor = Color(0xFF0B0714);
+const Color _backgroundColor = Color(0xFF121212);
 
 const Color _batteryFull = Color(0xFF00d390);
 const Color _batteryMedium = Color(0xFFfcb700);
