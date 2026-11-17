@@ -49,10 +49,15 @@ void main() {
       );
       expect(rows, hasLength(1));
       expect(rows.single['last_played'], isA<String>());
-      expect(DateTime.tryParse(rows.single['last_played']! as String), isNotNull);
+      expect(
+        DateTime.tryParse(rows.single['last_played']! as String),
+        isNotNull,
+      );
     });
 
-    test('does not leave last played updated if the counter write fails', () async {
+    test(
+      'does not leave last played updated if the counter write fails',
+      () async {
       await db.execute('''
         CREATE TABLE user_rom_play_stats (
           rom_path TEXT PRIMARY KEY COLLATE NOCASE,
@@ -81,8 +86,9 @@ void main() {
         limit: 1,
       );
       expect(rows.single['last_played'], isNull);
-      expect(await SqliteService.getRomPlayCount(firstRom), 0);
-    });
+        expect(await SqliteService.getRomPlayCount(firstRom), 0);
+      },
+    );
 
     test('ignores an empty path', () async {
       await SqliteService.recordRomPlayed('  ');
