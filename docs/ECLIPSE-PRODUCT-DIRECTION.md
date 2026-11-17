@@ -1,66 +1,40 @@
-# ECLIPSE — Product Direction
+# ECLIPSE — Console Experience Integration
 
-ECLIPSE is the product identity and user experience built on the NeoStation Flutter codebase. Pegasus is a separate GPLv3 reference implementation used to study theme architecture, navigation flexibility, and library presentation. The Pegasus C++/Qt frontend is not merged into this Flutter application.
+ECLIPSE keeps the NeoStation-derived systems carousel, grid, scanning, gamepad navigation, settings, emulator integrations, and game library. This work adds a console-specific experience after a user selects a real system.
 
-## Product principles
+## Intended flow
 
-- One ECLIPSE app, one library, one settings system.
-- Controller-first, with touch and mouse support.
-- Landscape-first layouts that scale from handheld screens to Android TV and desktop.
-- A dark cosmic visual identity with restrained purple accents, readable contrast, and smooth transitions.
-- Preserve the existing scanning, emulator launching, gamepad, achievements, metadata, and save-sync services while replacing presentation incrementally.
-- Never label a feature complete until it is implemented, tested, and verified on a device.
+`ECLIPSE app startup → existing systems carousel/grid → console boot → console home → existing game library → existing game launch flow`
 
-## Main experience
+The console home is an intermediate layer, not a replacement for the app's systems screen or game browser. Back returns from the game library to that console's home, then from the home to the existing systems screen.
 
-1. **ECLIPSE startup** — branded boot animation, then a short readiness transition. Startup must not block on optional network services.
-2. **Home** — a featured hero area for the focused/recent game or selected platform, followed by horizontally navigable content rows.
-3. **Platforms** — console-specific entry points. Selecting a platform opens its own themed landing view before showing that platform's games.
-4. **Games** — horizontal shelves with clear titles, artwork, metadata, favorites, and playtime. A single available shelf expands into a featured hero instead of leaving a sparse screen.
-5. **Collections** — user-created and smart collections, surfaced as their own shelves.
-6. **Settings** — one predictable settings hub with clear categories, search, and consistent back behavior.
+## Design direction
 
-## First-run experience
+Use the selected system's existing metadata (name, icon, accent color, manufacturer, ROM count, and optional description) to make its screen feel tied to that platform. Build original interfaces inspired by broad console navigation patterns:
 
-- A small ECLIPSE guide mascot introduces the library setup.
-- Explain why a ROM/game folder is needed before opening the platform folder picker.
-- Ask where game data should be stored only when a feature actually needs a storage location; explain the choice and allow changing it later.
-- Offer a clear route to add a platform, scan the library, or skip optional setup.
-- Every first-run action must be reachable by touch and gamepad.
+- PSP-inspired horizontal XMB-style category navigation.
+- Wii-inspired channel tiles.
+- DS/3DS-inspired dual-panel layout that adapts to single-screen Android devices.
+- A platform-themed home layout for other systems, with the same clear entry into the game library.
 
-## Platform flow
+Do not copy Konsoru's source code, graphics, logos, or other assets. Its public release repository is binary-only. Recreate interaction patterns with original Flutter widgets and ECLIPSE's own assets.
 
-The intended flow is:
+## Integration rules
 
-`ECLIPSE startup → Home → Platform landing → Platform games → Game details → Launch`
+- Do not replace or redesign the existing NeoStation systems carousel/grid.
+- Do not create a second game database or a second emulator launch pipeline.
+- Reuse `SystemGamesList` and its existing launch, metadata, achievements, and gamepad behavior.
+- Keep virtual entries such as Recent Games, All Games, Search, Collections, and Android apps on their existing navigation paths.
+- Keep the current database schema compatible.
+- Preserve the Android application ID `com.eclipse.launcher` and the same release signing certificate to support in-place updates.
 
-Each platform landing page may use its own accent color and artwork, but navigation, controls, settings, and data remain consistent across platforms.
+## Current implementation
 
-## Pegasus research notes
+- Real console selections now open a console-specific boot transition.
+- PSP, Wii, DS/3DS, and other platforms receive different home layouts.
+- The console home opens the existing system game library; existing game launch behavior remains in place.
+- The systems carousel and its virtual-system navigation remain the entry point.
 
-Use Pegasus as a reference for:
-- user-controlled layouts and themes;
-- clear, predictable navigation between library sections;
-- flexible presentation of game collections;
-- responsive artwork and metadata layouts.
+## Verification still required
 
-Do not copy Pegasus product logos, console trademarks, or bundled artwork into ECLIPSE. The Pegasus source is GPLv3 with additional Section 7 terms and asset/trademark caveats; preserve its notices if any source code is ever adapted. Prefer original Flutter implementations of the interaction patterns.
-
-## Implementation order
-
-1. Rebrand the NeoStation-derived app shell as ECLIPSE without changing its internal Dart package namespace.
-2. Establish the ECLIPSE cosmic theme and app identity.
-3. Replace the top-level navigation and Systems landing presentation with the ECLIPSE home/shelf model while preserving existing gamepad navigation layers.
-4. Add platform landing pages and per-platform startup transitions.
-5. Add onboarding mascot and guided setup.
-6. Add Treat as Game, home pinning, playtime presentation, and data-location prompts where missing.
-7. Add customization for shelves, hero banners, home sections, and widgets.
-8. Verify Android install/update signing, storage permissions, gamepad navigation, and emulator launch on real hardware.
-
-## Compatibility and release safeguards
-
-- Keep Android application ID `com.eclipse.launcher` for ECLIPSE update compatibility.
-- Keep the Android signing certificate stable across releases. Changing the application ID or signing key can prevent in-place updates.
-- Preserve NeoStation's upstream copyright and GPLv3 notices. Clearly mark ECLIPSE modifications.
-- Pegasus is a separate repository and codebase; do not combine its Qt/C++ project into the Flutter app.
-- Keep the original `Gabe255/ECLIPSE` repository untouched until the new fork is ready to replace it.
+A successful source commit is not proof of a working APK. Run the Android build, resolve analyzer/compiler failures, then verify on-device: console selection, boot skip/timing, game library navigation, game launch, back navigation, touch, and controller input. Do not publish a release until the build and signing checks pass.
