@@ -48,6 +48,7 @@ class ThemeProvider extends ChangeNotifier with WidgetsBindingObserver {
 
   /// Registry of all available concrete themes.
   static final Map<String, ThemeData> availableThemes = {
+    'eclipse': AppThemes.eclipseTheme,
     'dark': AppThemes.darkTheme,
     'light': AppThemes.lightTheme,
     'oled': AppThemes.oledTheme,
@@ -67,6 +68,7 @@ class ThemeProvider extends ChangeNotifier with WidgetsBindingObserver {
 
   /// Human-readable mapping for theme identifiers.
   static const Map<String, String> themeDisplayNames = {
+    'eclipse': 'ECLIPSE',
     'system': 'System',
     'dark': 'Dark',
     'light': 'Light',
