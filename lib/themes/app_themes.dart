@@ -140,7 +140,10 @@ class AppThemes {
     final secondary = scheme.secondary;
 
     // Compare with surface or secondary colors of each theme.
-    if (surface == lightTheme.colorScheme.surface ||
+    if (surface == eclipseTheme.colorScheme.surface ||
+        secondary == eclipseTheme.colorScheme.secondary) {
+      return eclipse.EclipseCustomColors();
+    } else if (surface == lightTheme.colorScheme.surface ||
         secondary == lightTheme.colorScheme.secondary) {
       return light.LightCustomColors();
     } else if (surface == oledTheme.colorScheme.surface ||
