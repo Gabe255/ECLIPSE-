@@ -35,6 +35,7 @@ import 'package:neostation/providers/retro_achievements_provider.dart';
 import 'package:neostation/services/secondary_achievements_controller.dart';
 
 import '../../game_screen/my_games_list.dart';
+import '../console_experience_screen.dart';
 
 import 'package:neostation/models/secondary_display_state.dart';
 import 'package:neostation/widgets/native_carousel.dart';
@@ -606,7 +607,7 @@ class _MySystemsCarouselState extends State<MySystemsCarousel> {
           orElse: () =>
               throw Exception('System not found: ${systemInfo.folderName}'),
         );
-        final targetScreen = SystemGamesList(
+        final targetScreen = ConsoleExperienceScreen(
           system: systemMeta,
           fileProvider: fileProvider,
         );
