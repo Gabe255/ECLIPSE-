@@ -1,4 +1,7 @@
 import 'dart:convert';
+import 'dart:io';
+
+import 'package:device_info_plus/device_info_plus.dart';
 
 import 'package:flutter/services.dart';
 
@@ -80,6 +83,46 @@ class HandheldDeviceProfile {
       advancedSystems: readSystemList(systems['advanced']),
       allowUserOverride: allowOverride,
     );
+  }
+
+
+  /// Selects a bundled profile from Android's manufacturer/model identifiers.
+  /// Unknown hardware deliberately receives the generic fallback.
+  static String? assetPathForDevice(String manufacturer, String model) {
+    final maker = manufacturer.trim().toLowerCase();
+    final deviceModel = model.trim().toLowerCase();
+    if (maker != 'ayn') return null;
+    if (deviceModel.contains('thor')) {
+      return 'assets/device_profiles/ayn-thor.json';
+    }
+    if (deviceModel.contains('odin 3') || deviceModel.contains('odin3')) {
+      return 'assets/device_profiles/odin3.json';
+    }
+    return null;
+  }
+
+  /// Detects supported AYN devices at runtime. On other platforms/devices,
+  /// returns the generic profile without failing app startup.
+  static Future<HandheldDeviceProfile> detectCurrentDevice({
+    AssetBundle? bundle,
+    String? manufacturer,
+    String? model,
+  }) async {
+    try {
+      String maker = manufacturer ?? '';
+      String deviceModel = model ?? '';
+      if (maker.isEmpty || deviceModel.isEmpty) {
+        if (!Platform.isAndroid) return fallback;
+        final info = await DeviceInfoPlugin().androidInfo;
+        maker = info.manufacturer;
+        deviceModel = info.model;
+      }
+      final path = assetPathForDevice(maker, deviceModel);
+      if (path == null) return fallback;
+      return loadAsset(path, bundle: bundle);
+    } catch (_) {
+      return fallback;
+    }
   }
 
   /// Loads a bundled profile, falling back safely when it is missing or invalid.
