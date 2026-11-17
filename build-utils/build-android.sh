@@ -90,7 +90,7 @@ MISSING=0
 
 for ABI in arm64-v8a armeabi-v7a; do
     SOURCE_APK="$APK_DIR/app-$ABI-release.apk"
-    DEST_APK="$PROJECT_ROOT/release/neostation-android-$ABI-$VERSION.apk"
+    DEST_APK="$PROJECT_ROOT/release/eclipse-android-$ABI-$VERSION.apk"
 
     if [ -f "$SOURCE_APK" ]; then
         cp "$SOURCE_APK" "$DEST_APK"
@@ -108,4 +108,4 @@ fi
 echo ""
 echo "Build completed!"
 echo "Result in: release/"
-ls -lh "$PROJECT_ROOT/release/neostation-android-"*"-$VERSION.apk"
+ls -lh "$PROJECT_ROOT/release/eclipse-android-"*"-$VERSION.apk"
