@@ -1,8 +1,8 @@
 <div align="center">
 
-# NeoStation
+# ECLIPSE — Your Gaming Universe
 
-<h4>Modern, multi-platform emulation frontend built with Flutter</h4>
+<h4>A customizable gaming universe for your library, consoles, and apps — built with Flutter</h4>
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![Discord](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fdiscord.com%2Fapi%2Fv10%2Finvites%2FxE2kgKsRVq%3Fwith_counts%3Dtrue&query=%24.approximate_member_count&label=Discord&suffix=%20members&logo=discord&color=5865f2)](https://discord.gg/xE2kgKsRVq) ![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/miguelsotobaez/neostation-frontend/total) ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/miguelsotobaez/neostation-frontend/build-and-deploy.yml) [![Stars](https://img.shields.io/github/stars/misobadev/neostation-frontend?logo=github)](https://github.com/misobadev/neostation-frontend) [![Issues](https://img.shields.io/github/issues/misobadev/neostation-frontend)](https://github.com/misobadev/neostation-frontend/issues)  [![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20(x64%2Farm64)%20%7C%20macOS%20%7C%20Android-blue)](https://github.com/misobadev/neostation-frontend)
 
@@ -12,7 +12,7 @@
 
 <div align="left">
 
-NeoStation provides a fast, lightweight, and customizable experience for managing and launching retro games across desktop and mobile devices, with seamless integration for RetroArch and standalone emulators.
+ECLIPSE is an Android-first gaming frontend for organizing and launching your game library, consoles, and apps. Built on the NeoStation Flutter foundation, ECLIPSE is evolving toward a unified, customizable home experience with console-specific startup flows, horizontal game rows, hero artwork, and controller-first navigation.
 
 ---
 
@@ -105,7 +105,7 @@ flutter pub get
 
 ## Build-time Configuration
 
-NeoStation uses compile-time environment variables (`--dart-define`) for Flutter configuration, and Gradle properties for Android signing. No `.env` files are required at runtime.
+ECLIPSE uses compile-time environment variables (`--dart-define`) for Flutter configuration, and Gradle properties for Android signing. No `.env` files are required at runtime.
 
 ### Flutter variables (via `--dart-define` or `.env`)
 
