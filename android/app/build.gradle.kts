@@ -74,16 +74,32 @@ android {
 
     buildTypes {
         release {
-            // Never produce a debug-signed release APK. The build helper and
-            // CI validate the persistent key; this is the final Gradle guard.
-            if (!hasReleaseSigning) {
-                throw GradleException(
-                    "Release signing is required. Configure android/key.properties with the original ECLIPSE signing certificate."
-                )
+            // Never fall back to the debug certificate. The release-only
+            // verification task below blocks unsigned release builds.
+            if (hasReleaseSigning) {
+                signingConfig = signingConfigs.getByName("release")
             }
-            signingConfig = signingConfigs.getByName("release")
         }
     }
+}
+
+// Do not fail Gradle configuration for debug builds or static analysis when
+// the private release key is intentionally absent. Gate the release variant
+// itself so every assemble/bundle release path requires the persistent key.
+val verifyReleaseSigning = tasks.register("verifyReleaseSigning") {
+    doLast {
+        if (!hasReleaseSigning) {
+            throw GradleException(
+                "Release signing is required. Configure android/key.properties with the original ECLIPSE signing certificate. Missing: ${missingSigningProperties.joinToString()}"
+            )
+        }
+        if (releaseKeystoreFile == null || !releaseKeystoreFile.isFile) {
+            throw GradleException("The configured ECLIPSE release keystore is missing.")
+        }
+    }
+}
+tasks.matching { it.name == "preReleaseBuild" }.configureEach {
+    dependsOn(verifyReleaseSigning)
 }
 
 kotlin {
