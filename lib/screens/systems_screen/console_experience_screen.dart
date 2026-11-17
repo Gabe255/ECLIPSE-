@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:gamepads/gamepads.dart';
 
 import '../../models/system_model.dart';
 import '../../providers/file_provider.dart';
@@ -30,7 +31,10 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
     with SingleTickerProviderStateMixin {
   late final AnimationController _bootController;
   Timer? _bootTimer;
+  StreamSubscription<GamepadEvent>? _wiiPointerSubscription;
   bool _booting = true;
+  Offset _wiiPointer = const Offset(0.5, 0.5);
+  DateTime _lastWiiAxisUpdate = DateTime.fromMillisecondsSinceEpoch(0);
 
   static int _navigationSequence = 0;
   late final String _navigationLayerId =
@@ -40,7 +44,7 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
   Color get _accent => widget.system.colorAsColor;
 
   String get _platformKey =>
-      '${widget.system.folderName} ${widget.system.shortName ?? ''}'
+      '${widget.system.folderName} ${widget.system.shortName ?? ''} ${widget.system.realName}'
           .toLowerCase();
 
   bool get _isPsp => _platformKey.contains('psp');
@@ -60,10 +64,12 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
     if (_isPsp || _isFolderCode(['psp', 'pspminis'])) return 'psp';
     if (_isWii) return 'wii';
     if (_isDsFamily || _isFolderCode(['ds', '3ds'])) return 'ds';
-    if (_hasAny(['xbox', 'xbox360', 'xbox-one', 'xbox-series'])) return 'xbox';
+    if (_isFolderCode(['xbox360']) || _hasAny(['xbox 360', 'xbox360', 'xb360', '360'])) return 'xbox360';
+    if (_isFolderCode(['xbox']) || _hasAny(['original xbox', 'microsoft xbox'])) return 'xbox';
+    if (_isFolderCode(['ps1', 'psx']) || _hasAny(['ps1', 'playstation 1', 'playstation (1994)', 'psx'])) return 'playstation-ps1';
+    if (_isFolderCode(['ps2']) || _hasAny(['ps2', 'playstation 2'])) return 'playstation-ps2';
     if (_hasAny(['ps5', 'playstation 5', 'ps4', 'playstation 4'])) return 'playstation-modern';
     if (_hasAny(['ps3', 'playstation 3'])) return 'playstation-xmb';
-    if (_hasAny(['ps2', 'playstation 2', 'ps1', 'psx', 'playstation']) || _isFolderCode(['ps1', 'ps2'])) return 'playstation-classic';
     if (_hasAny(['switch', 'nintendo switch']) || _isFolderCode(['switch'])) return 'switch';
     if (_hasAny(['gamecube']) || _isFolderCode(['gc'])) return 'gamecube';
     if (_hasAny(['n64', 'nintendo 64']) || _isFolderCode(['n64'])) return 'n64';
@@ -102,6 +108,7 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
       duration: const Duration(milliseconds: 1250),
     )..forward();
     _bootTimer = Timer(const Duration(milliseconds: 1450), _finishBoot);
+    if (_interfaceFamily == 'wii') _listenForWiiStick();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
       _gamepadNav.initialize();
@@ -118,6 +125,7 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
   @override
   void dispose() {
     _bootTimer?.cancel();
+    _wiiPointerSubscription?.cancel();
     GamepadNavigationManager.popLayer(_navigationLayerId);
     _gamepadNav.dispose();
     _bootController.dispose();
@@ -246,6 +254,12 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
         return _buildDsHome();
       case 'xbox':
         return _buildXboxHome();
+      case 'xbox360':
+        return _buildXbox360Home();
+      case 'playstation-ps1':
+        return _buildPs1Home();
+      case 'playstation-ps2':
+        return _buildPs2Home();
       case 'playstation-modern':
         return _buildPlayStationModernHome();
       case 'playstation-xmb':
@@ -292,6 +306,69 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
           ])),
         ],
       ),
+    );
+  }
+
+  Widget _buildXbox360Home() {
+    return _buildShell(
+      eyebrow: 'Xbox 360 dashboard',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text('XBOX 360', style: TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.w900, letterSpacing: 3)),
+          const SizedBox(height: 8),
+          const Text('Welcome to your dashboard', style: TextStyle(color: Colors.white70)),
+          const SizedBox(height: 18),
+          Expanded(child: Row(children: [
+            Expanded(flex: 3, child: _FeaturePanel(accent: _accent, icon: Icons.sports_esports, title: 'Game Library', subtitle: '${widget.system.romCount} games ready', onTap: _openLibrary)),
+            const SizedBox(width: 12),
+            Expanded(flex: 2, child: Column(children: [
+              Expanded(child: _FeaturePanel(accent: _accent, icon: Icons.person_outline, title: 'Player Profile', subtitle: 'Console profile', onTap: _showSystemInfo)),
+              const SizedBox(height: 12),
+              Expanded(child: _FeaturePanel(accent: _accent, icon: Icons.settings, title: 'System Settings', subtitle: 'Console details', onTap: _showSystemInfo)),
+            ])),
+          ])),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPs1Home() {
+    return _buildShell(
+      eyebrow: 'PlayStation memory card',
+      child: Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
+        const Icon(Icons.album_outlined, color: Colors.white70, size: 68),
+        const SizedBox(height: 14),
+        const Text('SONY PLAYSTATION', style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w800, letterSpacing: 2)),
+        const SizedBox(height: 8),
+        const Text('Insert a virtual disc', style: TextStyle(color: Colors.white60)),
+        const SizedBox(height: 26),
+        _HomeTile(accent: _accent, icon: Icons.album, title: 'CD Player / Game Disc', subtitle: '${widget.system.romCount} titles in your collection', onTap: _openLibrary),
+        const SizedBox(height: 12),
+        _HomeTile(accent: _accent, icon: Icons.sd_storage, title: 'Memory Card', subtitle: 'Browse saved game collection', onTap: _showSystemInfo),
+      ])),
+    );
+  }
+
+  Widget _buildPs2Home() {
+    return _buildShell(
+      eyebrow: 'PlayStation 2 browser',
+      child: Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
+        Container(
+          width: 150,
+          height: 150,
+          decoration: BoxDecoration(color: Colors.white.withValues(alpha: .06), borderRadius: BorderRadius.circular(24), border: Border.all(color: _accent.withValues(alpha: .65), width: 2)),
+          child: Icon(Icons.videogame_asset_rounded, color: _accent, size: 76),
+        ),
+        const SizedBox(height: 24),
+        const Text('BROWSER', style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.w900, letterSpacing: 4)),
+        const SizedBox(height: 8),
+        Text('${widget.system.romCount} games available', style: const TextStyle(color: Colors.white60)),
+        const SizedBox(height: 22),
+        _HomeTile(accent: _accent, icon: Icons.sports_esports, title: 'Start Game', subtitle: 'Open your PS2 game collection', onTap: _openLibrary),
+        const SizedBox(height: 12),
+        _HomeTile(accent: _accent, icon: Icons.settings, title: 'Console Settings', subtitle: 'System information', onTap: _showSystemInfo),
+      ])),
     );
   }
 
@@ -580,45 +657,97 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
     );
   }
 
+  void _moveWiiPointer(Offset delta) {
+    setState(() {
+      _wiiPointer = Offset(
+        (_wiiPointer.dx + delta.dx).clamp(0.02, 0.98),
+        (_wiiPointer.dy + delta.dy).clamp(0.02, 0.98),
+      );
+    });
+  }
+
+  void _listenForWiiStick() {
+    _wiiPointerSubscription?.cancel();
+    double? axisX;
+    double? axisY;
+    _wiiPointerSubscription = Gamepads.events.listen((event) {
+      if (!mounted || _booting || _interfaceFamily != 'wii') return;
+      final key = event.key.toLowerCase();
+      final raw = event.value;
+      final normalized = raw.abs() > 1.5 ? (raw / 32767.0).clamp(-1.0, 1.0) : raw.clamp(-1.0, 1.0);
+      if (key.contains('left') && (key.contains('x') || key.contains('horizontal'))) {
+        axisX = normalized;
+      } else if ((key.contains('axis_x') || key == 'x' || key.contains('abs_x'))) {
+        axisX = normalized;
+      } else if (key.contains('left') && (key.contains('y') || key.contains('vertical'))) {
+        axisY = normalized;
+      } else if ((key.contains('axis_y') || key == 'y' || key.contains('abs_y'))) {
+        axisY = normalized;
+      } else {
+        return;
+      }
+      final now = DateTime.now();
+      if (now.difference(_lastWiiAxisUpdate).inMilliseconds < 16) return;
+      _lastWiiAxisUpdate = now;
+      final x = (axisX ?? 0).abs() < .16 ? 0.0 : axisX!;
+      final y = (axisY ?? 0).abs() < .16 ? 0.0 : axisY!;
+      if (x != 0 || y != 0) {
+        _moveWiiPointer(Offset(x * .025, y * .025));
+      }
+    });
+  }
+
   Widget _buildWiiHome() {
     return _buildShell(
-      eyebrow: 'Channel menu',
-      child: Column(
-        children: [
-          Expanded(
-            child: Center(
-              child: Wrap(
-                spacing: 14,
-                runSpacing: 14,
-                alignment: WrapAlignment.center,
-                children: [
-                  _ChannelTile(
-                    accent: _accent,
-                    icon: Icons.sports_esports_rounded,
-                    label: 'Disc Channel',
-                    onTap: _openLibrary,
+      eyebrow: 'Wii channel menu',
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final width = constraints.maxWidth;
+          final height = constraints.maxHeight;
+          return GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onPanUpdate: (details) => _moveWiiPointer(Offset(
+              details.delta.dx / width,
+              details.delta.dy / height,
+            )),
+            onTapDown: (details) {
+              setState(() => _wiiPointer = Offset(
+                (details.localPosition.dx / width).clamp(.02, .98),
+                (details.localPosition.dy / height).clamp(.02, .98),
+              ));
+            },
+            child: Stack(
+              children: [
+                Column(
+                  children: [
+                    Expanded(
+                      child: Center(
+                        child: Wrap(
+                          spacing: 14,
+                          runSpacing: 14,
+                          alignment: WrapAlignment.center,
+                          children: [
+                            _ChannelTile(accent: _accent, icon: Icons.album_rounded, label: 'Disc Channel', onTap: _openLibrary),
+                            _ChannelTile(accent: _accent, icon: Icons.grid_view_rounded, label: 'Game Library', onTap: _openLibrary),
+                            _ChannelTile(accent: _accent, icon: Icons.settings_rounded, label: 'Wii Settings', onTap: _showSystemInfo),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Text('${widget.system.romCount} games available  •  Move pointer to select a channel', style: const TextStyle(color: Colors.white54, fontSize: 11)),
+                  ],
+                ),
+                Positioned(
+                  left: (_wiiPointer.dx * width - 13).clamp(0.0, width - 26),
+                  top: (_wiiPointer.dy * height - 13).clamp(0.0, height - 26),
+                  child: IgnorePointer(
+                    child: Icon(Icons.ads_click_rounded, color: Colors.white, size: 26, shadows: const [Shadow(color: Colors.black, blurRadius: 8)]),
                   ),
-                  _ChannelTile(
-                    accent: _accent,
-                    icon: Icons.grid_view_rounded,
-                    label: 'Game Library',
-                    onTap: _openLibrary,
-                  ),
-                  _ChannelTile(
-                    accent: _accent,
-                    icon: Icons.settings_rounded,
-                    label: 'System Info',
-                    onTap: _showSystemInfo,
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ),
-          Text(
-            '${widget.system.romCount} games available',
-            style: const TextStyle(color: Colors.white54, fontSize: 12),
-          ),
-        ],
+          );
+        },
       ),
     );
   }
