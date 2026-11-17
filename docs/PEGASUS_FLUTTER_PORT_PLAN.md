@@ -233,3 +233,92 @@ The following requirements were supplied as external product feedback and are no
 - Exercise secondary-screen Now Playing/details/widgets and hot-unplug fallback.
 - Export settings on one device and restore on another without exporting credentials or ROM contents.
 - Record performance measurements on target handheld hardware with media previews enabled and disabled.
+
+
+## AYN handheld implementation target (Odin 3 + Thor)
+
+This section is the hardware-specific product contract for ECLIPSE. It takes precedence over generic handheld assumptions above. The Odin 3 is a first-class single-screen target; the Thor is a first-class dual-screen target. Neither is treated as a reduced version of the other.
+
+### Existing implementation discovered during the audit
+
+The Flutter branch already contains substantial reusable groundwork:
+- `SecondaryDisplayStateData` carries selected-game artwork, screenshot/video preview state, mute state, scraper progress, RetroAchievements, Now Playing/session data, dock apps, and display activity.
+- `SqliteConfigSecondaryDisplay` handles secondary-display connect/disconnect, visibility, state synchronization, and accessibility-state updates.
+- Android `SecondaryAppsPresentation` hosts the secondary Flutter engine and app dock channel.
+- `StandaloneEmulatorModel`, `CoreEmulatorModel`, and `EmulatorModel` already distinguish standalone apps from RetroArch/Libretro cores.
+- The systems catalogue already includes many requested platforms, including DS, 3DS, PS2, PSP, Wii U, Switch, PS3, Vita, and Xbox 360 definitions.
+
+These are code-audit findings, not claims that every feature is polished or verified on Odin 3 / Thor hardware. Preserve and extend these implementations. Do not create a second secondary-display service, duplicate emulator registry, or duplicate platform catalogue.
+
+### Device profiles and defaults
+
+Ship editable device presets, with all recommendations overridable by the user.
+
+| Capability | AYN Odin 3 | AYN Thor |
+|---|---|---|
+| Default display mode | Single | Auto / Dual when the second panel is detected |
+| Main browsing surface | Full-screen library grid, carousel, or cover flow | Top-screen library grid, carousel, or cover flow |
+| Companion surface | Hidden; optional user-selected secondary/external display if Android exposes one | Bottom-screen details, art, preview, and interactive control deck |
+| Default system emphasis | Switch, PS3, Wii U, GameCube, PS2, PSP, and other installed-capability systems | DS, 3DS, PS2, PSP, Game Boy families, and other installed-capability systems |
+| Performance policy | High-performance recommendation tier; never imply an emulator is installed | Balanced handheld recommendation tier; heavier systems hidden or marked advanced by default |
+| User override | Always available | Always available |
+
+Device detection must be capability-based and fail safely. A device name alone must never imply that a display, emulator, GPU feature, or Android permission is available. If detection is unavailable, use a generic profile and let the user select a preset manually.
+
+### Thor dual-screen interaction contract
+
+- Top screen owns primary browsing focus and controller navigation.
+- Bottom screen supports assignable surfaces: selected-game details, artwork gallery, screenshots, muted preview, Now Playing, RetroAchievements, app dock, and an interactive control deck.
+- Provide per-screen assignment, swap, and reset-to-default controls.
+- Provide the established L3/R3 swap shortcut as a configurable binding; do not hard-code it if the controller mapping conflicts with a game or system action.
+- Bottom-screen touch must not steal controller focus from the top-screen library. Preserve the non-focusable secondary presentation behavior.
+- When a game launches, the top screen remains available to the emulator; the bottom screen may show supported Now Playing/achievement/artwork content. Do not promise overlays, live game input, cheat injection, or a mini-map unless a specific emulator integration exposes a safe supported API.
+- On disconnect, hide secondary-only controls and move all essential navigation/details to the primary screen without losing selection.
+- The Odin 3 and any single-screen device must never show empty secondary-display placeholders.
+
+### Emulator profile contract
+
+Support standalone Android emulator applications and RetroArch cores as separate launch targets. User-defined profiles may be imported from JSON/XML and must validate before use.
+
+A profile may declare: stable ID, display name, supported system IDs, launch kind (Android package / RetroArch core / approved desktop executable), package or core identifier, supported ROM extensions, URI/path argument template, optional documented intent action, and user-visible notes.
+
+Validation rules:
+- Reject arbitrary shell commands, shell metacharacters, and untrusted executable scripts.
+- Never collect emulator account passwords or silently install emulator apps.
+- Resolve Android apps through package/intent APIs and verify the package is installed before enabling Launch.
+- Resolve RetroArch cores only when the selected core is installed and supports the selected content.
+- Keep user-defined profiles isolated from built-in defaults; export/import must not overwrite built-ins without explicit confirmation.
+- Only advertise tested launch integrations. Eden/Yuzu, RPCS3, Cemu, Azahar, melonDS/WatermelonDS, and PPSSPP are target examples, not proof of working launch adapters.
+
+### Metadata and in-session companion behavior
+
+Reuse existing ScreenScraper and media lookup/cache paths first. Add TheGamesDB only behind the same provider abstraction, with provider enable/disable, attribution, rate limiting, source priority, cache, and manual-edit protection. Artwork roles must remain distinct (box/front, back, screenshot, fanart, wheel/logo, hero/banner, marquee, video).
+
+On Thor, the bottom screen should be able to show the selected game's scraped media while browsing and an appropriate Now Playing surface during gameplay. Preview video must be muted by default, lifecycle-aware, cache-aware, and disabled on low-power settings. ES-DE companion mode is a separate integration mode: ECLIPSE may display companion content only when a documented external signal/API or user-selected media source exists. Do not claim to control ES-DE's top-screen process or read its private state without a supported integration.
+
+### Controller and Android integration
+
+- All primary flows must be usable without a keyboard: onboarding, library, settings, emulator selection, dialogs, and display assignment.
+- Touch remains supported on both screens.
+- Add configurable shortcuts for back-to-frontend and display swap. The AYN home button may be supported only through a documented Android input/accessibility mechanism and explicit user-granted permission; do not promise global interception where Android/device firmware blocks it.
+- Never trap the user in kiosk/immersive mode. Android HOME and system escape behavior must remain available.
+
+### Performance policy
+
+- Lazy-load artwork and video; use bounded caches and cancel stale requests.
+- Pause secondary-screen animation/video when the display sleeps, disconnects, or the app is backgrounded.
+- Offer preview quality / motion reduction / low-power controls.
+- Heavy-system recommendations must be informational, not a guarantee of playable performance. Do not auto-hide a user's manually pinned systems.
+- Record startup time, library-scroll frame stability, artwork decode/cache behavior, and preview memory use on actual Odin 3 and Thor hardware before calling the experience optimized.
+
+### Hardware acceptance gate
+
+A release candidate is not handheld-ready until the following are checked on physical devices:
+1. Odin 3: cold start, single-screen library, controller-only navigation, touch settings, emulator detection, launch/return, and no phantom second-screen UI.
+2. Thor: top/bottom assignment, touch on both panels, L3/R3 swap, hot connect/disconnect, screen sleep/wake, launch/return, Now Playing, and bottom-screen focus isolation.
+3. Both: import/export a valid custom profile; reject invalid/unsafe profiles; verify standalone package and RetroArch core launch separately.
+4. Both: compare default system recommendations, then verify manual overrides persist.
+5. Both: measure scrolling and preview performance with media enabled and disabled.
+6. ES-DE companion mode: test only against a documented/available integration; otherwise clearly label it unavailable rather than simulating live linkage.
+
+No device-level acceptance result is implied until these tests are run on the named hardware.
