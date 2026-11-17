@@ -99,3 +99,77 @@ Do not assume every file in Pegasus is GPLv3. Its README explicitly warns that s
 - Do not paste C++/Qt code into Dart files.
 - Do not copy Pegasus logos, product marks, or artwork without checking rights.
 - Do not create a release or APK claim until a real build and signing verification succeed.
+
+
+## Expanded ECLIPSE product scope (requested)
+
+This scope is additive to the existing NeoStation-derived app. It is not permission to replace its system selector, console-specific startup sequences, console home screens, or purple/black ECLIPSE identity.
+
+### Library presentation and media
+
+- Add optional per-system video previews (ES-DE-style) using locally cached or user-configured media. Videos must be muted, lightweight, lifecycle-aware, and disabled/reduced on low-power devices; never autoplay audio.
+- Support system banner/hero artwork and game hero/banner artwork as distinct media roles, with fallbacks to existing box art/scraped artwork.
+- Preserve system art packs already supplied by NeoStation. Theme/deck imports such as iiSU Dark are optional, user-selectable presentation packs; they must not replace the built-in system art pack.
+- Keep artwork and video sources configurable and cache-aware. Do not bundle scraped copyrighted artwork/videos in the app package.
+
+### Display modes
+
+- Provide explicit Auto / Single display / Dual display preferences.
+- Auto uses the existing secondary-display subsystem when a second display is available and falls back cleanly to the primary display.
+- Single display keeps navigation, library, details, and playback controls usable on one screen.
+- Dual display assigns complementary surfaces to each display (for example, library/navigation on the primary display and selected-game details/media on the secondary display), with no duplicated focus ownership or controller event handling.
+- Handle display attach/detach, orientation changes, window resizing, and Android devices that expose no secondary display. Verify against the existing secondary_screen implementation before changing platform channels.
+
+### Requested systems catalogue
+
+Treat this as the requested catalogue, not a claim that every emulator/core or launcher is bundled. A system is selectable only when its platform definition exists; launch requires a user-installed compatible emulator/core and valid game files.
+
+- Nintendo: NES, SNES, Nintendo 64, GameCube, Wii, Wii U, Switch, Game Boy, Game Boy Color, Game Boy Advance, Nintendo DS, DSi (optional alias/profile for DS), Nintendo 3DS, Virtual Boy, Pokémon Mini.
+- Sony: PlayStation, PlayStation 2, PlayStation 3, PlayStation 4, PlayStation 5, PSP, PS Vita.
+- Microsoft / PC: Xbox, Xbox 360, Steam, Windows PC, Android Games, Xbox Cloud Gaming (shortcut/integration only; requires the official supported app/service and user sign-in).
+- Sega: Master System, Genesis/Mega Drive, Saturn, Dreamcast.
+- Atari: 2600, 5200, 7800, Lynx, Jaguar.
+- Other systems should remain extensible through user-defined platform profiles rather than being hard-coded into UI layouts.
+
+Avoid duplicate system entries where aliases describe the same platform. Steam and Windows PC are separate library sources; Android Games is a separate user-managed source. Xbox Cloud Gaming is not a ROM platform.
+
+### Metadata and scraping provider responsibilities
+
+Implement providers behind a common interface, with per-provider enable/disable, API-key/account settings, attribution, rate-limit handling, cache, and field-level source priority. Never overwrite a user's manual edits without consent.
+
+- IGDB: game metadata lookup (requires Twitch developer credentials and OAuth flow).
+- ScreenScraper: metadata and media scraping (requires user account credentials; respect service limits).
+- LaunchBox: metadata/media provider where permitted by its service/API terms.
+- HowLongToBeat: play-length estimates only; do not treat it as an artwork provider or promise an official public API if access is unavailable.
+- SteamGridDB: artwork roles such as grids, heroes, logos, and banners (requires user API key).
+- RetroAchievements: account linking, supported-game matching, achievement progress, and profile data; achievements depend on supported cores/emulators and successful game identification.
+- Existing NeoStation scraper integrations must be audited and reused where suitable rather than duplicated.
+
+Provider credentials must be stored using platform-secure storage where available, never committed to source control, logs, exported config, or analytics. Scraping must be opt-in/configurable and respect each provider's terms and rate limits.
+
+### Steam and play activity
+
+- Distinguish Steam library/account integration from SteamGridDB artwork lookup. Steam sign-in/library access requires an approved, supported authentication/API approach; never collect a Steam password or imitate the Steam login page.
+- Investigate GameNative as an optional Android/Steam compatibility/launch integration, not a required dependency. Only show titles and launch actions actually available through the installed integration.
+- Expand play activity into daily activity history, per-game play count, total playtime, last played, and top-ranked games. Keep timezone-aware day boundaries and avoid double-counting interrupted sessions.
+- Add a Players area for installed/available emulator and core profiles, with detected paths and launch capability status. It is a manager/view, not a promise to bundle emulators.
+
+### First-run onboarding and branding
+
+- Add a friendly original ECLIPSE mascot guide for first-run setup. Walk users through ROM/library folder selection, optional Steam connection, optional provider/API keys (including SteamGridDB), emulator/core detection, and display mode.
+- Every step must be skippable and revisitable from Settings. Never require credentials to finish onboarding.
+- Replace the Android launcher/app icon only after creating and validating the complete adaptive icon asset set (foreground/background/monochrome where supported) and checking the existing application ID/signing setup. Do not change the application ID or signing certificate as part of branding.
+
+### Delivery gates (not optional)
+
+1. Audit existing code and assets before adding duplicate systems, providers, or display services.
+2. Implement core Pegasus parity and data integrity first; add tests for play count/session history.
+3. Add system catalogue and source/provider adapters with credentials protected.
+4. Add system/game video previews and hero/banner artwork with caching and fallback behavior.
+5. Add explicit single/dual display preferences and verify actual secondary-display behavior on target hardware.
+6. Add daily activity, top games, Players view, and first-run mascot onboarding.
+7. Replace launcher icon assets and verify adaptive icon rendering.
+8. Run formatting, Flutter analysis, tests, and Android debug build. Verify runtime behavior on single and dual displays.
+9. Verify release signing compatibility before producing a distributable APK. No APK/release is complete until the build artifact and signing identity are confirmed.
+
+Current PR work is still an initial slice, not completion of this expanded scope.
