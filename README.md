@@ -136,7 +136,7 @@ keyAlias=upload
 storeFile=../release.jks
 ```
 
-If `android/key.properties` is not present, the build automatically falls back to debug signing, which is sufficient for local testing and sideloading.
+Release builds now **fail closed** when signing is not configured; they never fall back to the Android debug certificate. For local development, use a debug build (`flutter build apk --debug`) rather than a release build without the release key. To install an update over an existing ECLIPSE install, the release APK must use the exact same application ID and signing certificate as that install.
 
 ### GitHub Actions CI/CD
 
@@ -167,7 +167,7 @@ The release workflow (`.github/workflows/build-and-deploy.yml`) reads build secr
 > [Convert]::ToBase64String([IO.File]::ReadAllBytes("release.jks"))
 > ```
 
-If the Android secrets are missing, the CI build falls back to debug signing (users will need to uninstall before installing a new release).
+The Android release job refuses to build if any of these secrets are missing, if the base64 keystore is invalid, or if the configured store password / alias cannot be read. The keystore is written to `android/release.jks`, and Gradle resolves that exact path. Keep using the original certificate for every update; creating a new keystore will not update installs signed by the old one. Never commit the keystore or passwords.
 
 ### Running
 
