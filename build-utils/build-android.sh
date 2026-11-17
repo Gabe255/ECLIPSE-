@@ -33,17 +33,33 @@ fi
 echo "Building Android release..."
 
 # Create keystore properties from environment variables
-if [ -n "$KEYSTORE_PASSWORD" ] && [ -n "$KEY_PASSWORD" ] && [ -n "$KEY_ALIAS" ] && [ -n "$KEYSTORE_PATH" ]; then
-  echo "Creating android/key.properties from environment variables..."
-  cat > android/key.properties << EOF
+# Release APKs must always use the same persistent certificate. Never silently
+# fall back to Android's debug key: that creates APKs that cannot update installs.
+for name in KEYSTORE_PASSWORD KEY_PASSWORD KEY_ALIAS KEYSTORE_PATH; do
+  if [ -z "${!name:-}" ]; then
+    echo "Error: $name is required for a signed release APK."
+    exit 1
+  fi
+done
+
+KEYSTORE_FILE="android/$KEYSTORE_PATH"
+if [ ! -s "$KEYSTORE_FILE" ]; then
+  echo "Error: release keystore not found at $KEYSTORE_FILE."
+  exit 1
+fi
+
+if ! keytool -list -keystore "$KEYSTORE_FILE" -storepass "$KEYSTORE_PASSWORD" -alias "$KEY_ALIAS" >/dev/null 2>&1; then
+  echo "Error: keystore, store password, or key alias is invalid."
+  exit 1
+fi
+
+echo "Creating android/key.properties for the validated release keystore..."
+cat > android/key.properties << EOF
 storePassword=$KEYSTORE_PASSWORD
 keyPassword=$KEY_PASSWORD
 keyAlias=$KEY_ALIAS
 storeFile=$KEYSTORE_PATH
 EOF
-else
-  echo "Warning: Keystore environment variables not set. Release build may use debug signing."
-fi
 
 # One APK per ABI instead of a universal one: no target device is x86_64, and
 # armeabi-v7a is kept for 32-bit Android TV boxes. Both flags are needed:
