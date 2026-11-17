@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/services.dart';
+import 'package:neostation/data/datasources/sqlite_service.dart';
 import 'package:neostation/services/logger_service.dart';
 
 import '../../models/game_model.dart';
@@ -234,6 +235,17 @@ class GameSessionManager {
     _launchedEmulatorExe = emulatorExeName;
     _currentGameSystem = system;
     _currentGame = game;
+
+    // Count only confirmed game sessions: this method is reached after the
+    // emulator launch succeeds, not when the user merely selects a game.
+    // Keep statistics best-effort so a stats write can never block launch.
+    if (game.romPath != null && game.romPath!.isNotEmpty) {
+      unawaited(
+        SqliteService.recordRomPlayed(game.romPath!).catchError((Object error) {
+          _log.w('Unable to record game launch count: $error');
+        }),
+      );
+    }
 
     if (Platform.isAndroid) {
       GameSessionPersistence.saveGameSession(
