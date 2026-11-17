@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "id": "ayn-odin-3",
+  "display_name": "AYN Odin 3",
+  "match_hints": {
+    "manufacturer": [
+      "AYN"
+    ],
+    "model": [
+      "Odin 3"
+    ]
+  },
+  "display": {
+    "mode": "single",
+    "primary_surface": "library",
+    "secondary_surface": "disabled",
+    "allow_secondary_if_available": true
+  },
+  "systems": {
+    "recommended": [
+      "switch",
+      "ps3",
+      "wiiu",
+      "gc",
+      "wii",
+      "ps2",
+      "psp",
+      "3ds",
+      "ds"
+    ],
+    "advanced": [
+      "xbox360",
+      "vita"
+    ],
+    "hide_unavailable": false,
+    "allow_user_override": true
+  },
+  "performance": {
+    "tier": "high_performance",
+    "previews_enabled": true,
+    "reduce_motion_on_battery": false
+  },
+  "controller": {
+    "keyboard_required": false,
+    "touch_enabled": true,
+    "display_swap_binding": "unassigned",
+    "back_to_frontend_binding": "unassigned"
+  },
+  "notes": "Recommendation preset only. Runtime hardware, installed emulators, permissions, and user preferences remain authoritative."
+}
