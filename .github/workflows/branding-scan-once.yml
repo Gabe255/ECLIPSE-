@@ -1,4 +1,6 @@
-name: ECLIPSE branding scan after settings refresh
+name: ECLIPSE branding scan after final formatting
+
+# Validate the ECLIPSE secondary-display logo formatting pass.
 
 # Trigger source validation after the ECLIPSE settings navigation refresh.
 
