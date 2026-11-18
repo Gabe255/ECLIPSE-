@@ -1296,8 +1296,10 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
                   ),
                 ],
               ),
+              const SizedBox(height: 14),
+              _buildPlatformSpotlight(),
               if (eyebrow != null) ...[
-                const SizedBox(height: 30),
+                const SizedBox(height: 18),
                 Text(
                   eyebrow.toUpperCase(),
                   style: TextStyle(
@@ -1308,11 +1310,161 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
                   ),
                 ),
               ],
-              const SizedBox(height: 16),
+              const SizedBox(height: 12),
               Expanded(child: child),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  /// A Daijisho-style platform showcase with a Cocoon-inspired hardware
+  /// foreground. Uses the system's configured artwork as the backdrop; it
+  /// never invents gameplay footage or downloads copyrighted media.
+  Widget _buildPlatformSpotlight() {
+    final system = widget.system;
+    final backdrop = system.carouselImagePath;
+    final iconPath = system.iconImage;
+    final hasBackdrop = backdrop.isNotEmpty && File(backdrop).existsSync();
+    final hasIcon = iconPath.isNotEmpty && File(iconPath).existsSync();
+
+    return Container(
+      height: MediaQuery.sizeOf(context).height < 520 ? 142 : 184,
+      width: double.infinity,
+      clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
+        color: const Color(0xFF111522),
+      ),
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          if (hasBackdrop)
+            Image.file(
+              File(backdrop),
+              fit: BoxFit.cover,
+              errorBuilder: (_, __, ___) => const SizedBox.expand(),
+            )
+          else
+            DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    _accent.withValues(alpha: 0.48),
+                    const Color(0xFF111522),
+                    const Color(0xFF080A0F),
+                  ],
+                ),
+              ),
+            ),
+          DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [
+                  const Color(0xFF080A0F).withValues(alpha: 0.94),
+                  const Color(0xFF080A0F).withValues(alpha: 0.62),
+                  const Color(0xFF080A0F).withValues(alpha: 0.12),
+                ],
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 6,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'PLATFORM SPOTLIGHT',
+                        maxLines: 1,
+                        style: TextStyle(
+                          color: _accent,
+                          fontSize: 9,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: 2.2,
+                        ),
+                      ),
+                      const SizedBox(height: 7),
+                      Text(
+                        (system.shortName ?? system.realName).toUpperCase(),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 25,
+                          height: 1.0,
+                          fontWeight: FontWeight.w900,
+                          letterSpacing: -0.7,
+                        ),
+                      ),
+                      const SizedBox(height: 7),
+                      Text(
+                        '${system.romCount} GAMES  ·  ${system.manufacturer ?? 'YOUR COLLECTION'}',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: Colors.white.withValues(alpha: 0.72),
+                          fontSize: 9,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 0.8,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  flex: 4,
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Container(
+                      width: 112,
+                      height: 112,
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withValues(alpha: 0.28),
+                        borderRadius: BorderRadius.circular(18),
+                        border: Border.all(
+                          color: Colors.white.withValues(alpha: 0.18),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.30),
+                            blurRadius: 22,
+                            offset: const Offset(0, 10),
+                          ),
+                        ],
+                      ),
+                      child: hasIcon
+                          ? Image.file(
+                              File(iconPath),
+                              fit: BoxFit.contain,
+                              errorBuilder: (_, __, ___) => Icon(
+                                Icons.videogame_asset_rounded,
+                                color: Colors.white,
+                                size: 58,
+                              ),
+                            )
+                          : Icon(
+                              Icons.videogame_asset_rounded,
+                              color: Colors.white,
+                              size: 58,
+                            ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
