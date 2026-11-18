@@ -390,7 +390,7 @@ class GeneralSettingsContentState extends State<GeneralSettingsContent>
       return;
     }
     final selected = await wallpaper.chooseWallpaper();
-    if (!selected && mounted) {
+    if (selected == false && mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Could not load that image. Try another file.'),
