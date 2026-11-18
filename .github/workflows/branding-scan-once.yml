@@ -1,0 +1,24 @@
+name: ECLIPSE branding scan
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/branding-scan-once.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Find remaining user-facing NeoStation text
+        run: |
+          echo "=== Dart screens and widgets ==="
+          grep -RIn --include='*.dart' 'NeoStation' lib/screens lib/widgets lib/main.dart || true
+          echo "=== Android resource labels ==="
+          grep -RIn 'NeoStation' android/app/src/main/res || true
+          echo "=== Flutter title and splash assets ==="
+          grep -RIn 'NeoStation' lib/main.dart lib/widgets/shimmering_logo.dart lib/widgets/splash_status_layout.dart || true
