@@ -11,6 +11,7 @@ import 'package:neostation/services/sfx_service.dart';
 import 'package:neostation/utils/adaptive_scroll.dart';
 import 'package:neostation/data/datasources/sqlite_service.dart';
 import 'package:neostation/widgets/custom_notification.dart';
+import 'package:neostation/widgets/shimmering_logo.dart';
 import 'package:neostation/widgets/neo_glass.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -180,15 +181,7 @@ class AboutSettingsContentState extends State<AboutSettingsContent> {
                     SizedBox(
                       width: 64.r,
                       height: 64.r,
-                      child: Image.asset(
-                        'assets/images/logo_transparent.png',
-                        fit: BoxFit.contain,
-                        errorBuilder: (context, error, stackTrace) => Icon(
-                          Symbols.games_rounded,
-                          size: 64.r,
-                          color: theme.colorScheme.primary,
-                        ),
-                      ),
+                      child: EclipseLogoMark(size: 64.r),
                     ),
                     SizedBox(height: 6.r),
                     Text(
