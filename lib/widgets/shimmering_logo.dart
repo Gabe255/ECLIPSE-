@@ -183,6 +183,21 @@ class _ShimmeringLogoState extends State<ShimmeringLogo>
 }
 
 
+/// Standalone ECLIPSE eclipse mark for onboarding and secondary displays.
+class EclipseLogoMark extends StatelessWidget {
+  const EclipseLogoMark({super.key, required this.size});
+
+  final double size;
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomPaint(
+      size: Size.square(size),
+      painter: const _EclipseMarkPainter(),
+    );
+  }
+}
+
 /// Compact vector mark shared by the splash wordmark and the Android icon.
 class _EclipseMarkPainter extends CustomPainter {
   const _EclipseMarkPainter();
