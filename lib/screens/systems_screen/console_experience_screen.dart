@@ -117,9 +117,9 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
     );
     _bootController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1250),
+      duration: const Duration(milliseconds: 2400),
     )..forward();
-    _bootTimer = Timer(const Duration(milliseconds: 1450), _finishBoot);
+    _bootTimer = Timer(const Duration(milliseconds: 2800), _finishBoot);
     if (_interfaceFamily == 'wii') _listenForWiiStick();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
@@ -174,8 +174,51 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
     );
   }
 
+  String get _bootLabel {
+    switch (_interfaceFamily) {
+      case 'psp':
+        return 'PLAYSTATION PORTABLE';
+      case 'wii':
+        return 'WII SYSTEM MENU';
+      case 'ds':
+        return 'NINTENDO DUAL SCREEN';
+      case 'xbox':
+        return 'XBOX SYSTEM';
+      case 'xbox360':
+        return 'XBOX 360';
+      case 'playstation-ps1':
+        return 'PLAYSTATION';
+      case 'playstation-ps2':
+        return 'PLAYSTATION 2';
+      case 'playstation-modern':
+        return 'PLAYSTATION HOME';
+      case 'playstation-xmb':
+        return 'PLAYSTATION 3';
+      case 'playstation-classic':
+        return 'PLAYSTATION CLASSIC';
+      case 'switch':
+        return 'NINTENDO SWITCH';
+      case 'gamecube':
+        return 'NINTENDO GAMECUBE';
+      case 'n64':
+        return 'NINTENDO 64';
+      case 'gameboy':
+        return 'GAME BOY';
+      case 'dreamcast':
+        return 'SEGA DREAMCAST';
+      case 'sega':
+        return 'SEGA SYSTEM';
+      case 'nintendo-classic':
+        return 'NINTENDO ENTERTAINMENT SYSTEM';
+      case 'arcade':
+        return 'ARCADE SYSTEM';
+      default:
+        return widget.system.shortName ?? widget.system.realName;
+    }
+  }
+
   Widget _buildBoot() {
-    final name = widget.system.shortName ?? widget.system.realName;
+    final name = _bootLabel;
     return GestureDetector(
       key: const ValueKey('console-boot'),
       behavior: HitTestBehavior.opaque,
@@ -185,72 +228,136 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
         decoration: BoxDecoration(
           gradient: RadialGradient(
             center: Alignment.center,
-            radius: 1.05,
+            radius: 1.15,
             colors: [
-              _accent.withValues(alpha: 0.25),
-              const Color(0xFF090B10),
+              _accent.withValues(alpha: 0.30),
+              const Color(0xFF111522),
+              const Color(0xFF05060A),
             ],
+            stops: const [0, 0.58, 1],
           ),
         ),
-        child: Center(
-          child: AnimatedBuilder(
-            animation: _bootController,
-            builder: (context, _) {
-              final scale = 0.92 + (_bootController.value * 0.08);
-              return Opacity(
-                opacity: _bootController.value.clamp(0.15, 1),
-                child: Transform.scale(
-                  scale: scale,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      _SystemMark(system: widget.system, size: 92),
-                      const SizedBox(height: 24),
-                      Text(
-                        name.toUpperCase(),
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 25,
-                          fontWeight: FontWeight.w800,
-                          letterSpacing: 4,
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      Text(
-                        'STARTING SYSTEM',
-                        style: TextStyle(
-                          color: Colors.white.withValues(alpha: 0.58),
-                          fontSize: 11,
-                          letterSpacing: 3,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(height: 26),
-                      SizedBox(
-                        width: 150,
-                        child: LinearProgressIndicator(
-                          value: _bootController.value,
-                          minHeight: 3,
-                          backgroundColor: Colors.white.withValues(alpha: 0.12),
-                          valueColor: AlwaysStoppedAnimation<Color>(_accent),
-                        ),
-                      ),
-                      const SizedBox(height: 18),
-                      Text(
-                        'TAP TO SKIP',
-                        style: TextStyle(
-                          color: Colors.white.withValues(alpha: 0.35),
-                          fontSize: 9,
-                          letterSpacing: 2,
-                        ),
-                      ),
-                    ],
-                  ),
+        child: Stack(
+          children: [
+            Positioned(
+              top: 28,
+              left: 0,
+              right: 0,
+              child: Text(
+                'E C L I P S E',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white.withValues(alpha: 0.38),
+                  fontSize: 10,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 5,
                 ),
-              );
-            },
-          ),
+              ),
+            ),
+            Center(
+              child: AnimatedBuilder(
+                animation: _bootController,
+                builder: (context, _) {
+                  final progress = Curves.easeOutCubic.transform(
+                    _bootController.value,
+                  );
+                  final scale = 0.88 + (progress * 0.12);
+                  return Opacity(
+                    opacity: (0.2 + progress * 0.8).clamp(0.0, 1.0),
+                    child: Transform.scale(
+                      scale: scale,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(17),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: _accent.withValues(alpha: 0.10),
+                              border: Border.all(
+                                color: _accent.withValues(alpha: 0.65),
+                                width: 1.4,
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: _accent.withValues(alpha: 0.24),
+                                  blurRadius: 38,
+                                  spreadRadius: 4,
+                                ),
+                              ],
+                            ),
+                            child: _SystemMark(system: widget.system, size: 86),
+                          ),
+                          const SizedBox(height: 30),
+                          Text(
+                            name.toUpperCase(),
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 21,
+                              fontWeight: FontWeight.w900,
+                              letterSpacing: 3.2,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Text(
+                            'SYSTEM STARTUP',
+                            style: TextStyle(
+                              color: _accent.withValues(alpha: 0.95),
+                              fontSize: 10,
+                              letterSpacing: 3,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                          const SizedBox(height: 28),
+                          SizedBox(
+                            width: 190,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: LinearProgressIndicator(
+                                value: progress,
+                                minHeight: 3,
+                                backgroundColor:
+                                    Colors.white.withValues(alpha: 0.12),
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  _accent,
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 17),
+                          Text(
+                            'PREPARING YOUR GAME LIBRARY',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white.withValues(alpha: 0.42),
+                              fontSize: 9,
+                              letterSpacing: 1.7,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+            Positioned(
+              bottom: 26,
+              left: 0,
+              right: 0,
+              child: Text(
+                'TAP OR PRESS A TO CONTINUE',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white.withValues(alpha: 0.42),
+                  fontSize: 9,
+                  letterSpacing: 1.8,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
