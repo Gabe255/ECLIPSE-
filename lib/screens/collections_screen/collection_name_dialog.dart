@@ -34,7 +34,7 @@ class NumberStepper {
 /// Gamepad-navigable single-field text prompt, used to name a collection on
 /// creation and to rename one afterwards.
 ///
-/// There is no in-app soft keyboard in NeoStation: text entry is a real
+/// There is no in-app soft keyboard in ECLIPSE: text entry is a real
 /// [TextField] driven by the platform IME on Android and by the physical
 /// keyboard on desktop, exactly as the search screen does it. What the gamepad
 /// contributes is the way in and the way out.
