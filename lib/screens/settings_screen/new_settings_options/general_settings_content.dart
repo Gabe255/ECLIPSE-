@@ -253,6 +253,7 @@ class GeneralSettingsContentState extends State<GeneralSettingsContent>
     if (Platform.isAndroid) {
       count++; // System Settings
     }
+    count++; // Library Wallpaper
     count++; // Scan on Startup
     count++; // Ignore hidden files in scan
     count++; // Auto-update App
@@ -412,14 +413,14 @@ class GeneralSettingsContentState extends State<GeneralSettingsContent>
       currentItemIndex++;
     }
 
-/symbols.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_localization/flutter_localization.dart';
-import 'package:neostation/l10n/app_locale.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
-import 'package:window_manager/window_manager.dart';
-import 'package:f    // Protocol: Background ROM Scanning.
+    // Protocol: Library Wallpaper.
+    if (index == currentItemIndex) {
+      _manageWallpaper();
+      return;
+    }
+    currentItemIndex++;
+
+    // Protocol: Background ROM Scanning.
     if (index == currentItemIndex) {
       final scanOnStartup = configProvider.config.scanOnStartup;
       configProvider.updateScanOnStartup(!scanOnStartup);
