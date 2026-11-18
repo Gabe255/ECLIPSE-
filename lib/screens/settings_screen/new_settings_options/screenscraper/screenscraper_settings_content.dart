@@ -8,6 +8,7 @@ import 'package:neostation/providers/scraping_provider.dart';
 import 'package:neostation/repositories/scraper_repository.dart';
 import 'package:neostation/services/logger_service.dart';
 import 'package:neostation/services/screenscraper_service.dart';
+import 'package:neostation/services/steamgriddb_service.dart';
 import 'package:neostation/services/sfx_service.dart';
 import 'package:neostation/utils/adaptive_scroll.dart';
 import 'package:neostation/widgets/confirm_action_dialog.dart';
@@ -119,6 +120,7 @@ class ScreenScraperSettingsContentState
   int get _gridEnd => _gridStart + _systems.length;
   int get _mediaStart => _gridEnd;
   int get _regionStart => _mediaStart + _mediaTypes.length;
+  int get _steamGridSlot => _regionStart + _regions.length;
 
   bool _isRegionSlot(int slot) =>
       slot >= _regionStart && slot < _regionStart + _regions.length;
@@ -203,8 +205,8 @@ class ScreenScraperSettingsContentState
 
   int getItemCount() {
     if (_isLoading) return 0;
-    if (!_signedIn) return 1;
-    return _regionStart + _regions.length;
+    if (!_signedIn) return 2;
+    return _steamGridSlot + 1;
   }
 
   /// Returns whether the cursor moved (drives the nav sound).
@@ -279,7 +281,11 @@ class ScreenScraperSettingsContentState
   void selectItem() {
     if (_isLoading) return;
     if (!_signedIn) {
-      _signIn();
+      if (_cursor == 0) {
+        _signIn();
+      } else {
+        _configureSteamGridDb();
+      }
       return;
     }
     final slot = _cursor;
@@ -304,6 +310,8 @@ class ScreenScraperSettingsContentState
       } else {
         setState(() => _movingRegion = true);
       }
+    } else if (slot == _steamGridSlot) {
+      _configureSteamGridDb();
     } else if (slot == _toggleAllSlot) {
       _toggleAllSystems();
     } else if (_isGridSlot(slot)) {
@@ -567,6 +575,15 @@ class ScreenScraperSettingsContentState
           trailing: Icon(Symbols.login_rounded, size: 20.r),
         ),
         SizedBox(height: 12.r),
+        SettingRow(
+          key: _keyFor(1),
+          title: 'SteamGridDB artwork',
+          subtitle: 'Add box art, heroes, logos and icons with your API key',
+          focused: _focused(1),
+          onTap: _configureSteamGridDb,
+          trailing: Icon(Symbols.image_search_rounded, size: 20.r),
+        ),
+        SizedBox(height: 12.r),
         Text(
           AppLocale.screenScraperDescription.getString(context),
           style: theme.textTheme.bodyMedium?.copyWith(
@@ -660,6 +677,16 @@ class ScreenScraperSettingsContentState
         ),
         _buildHint(context, AppLocale.regionPrioritySub.getString(context)),
         _buildRegionList(context),
+        SizedBox(height: 16.r),
+        SettingsSectionHeader(label: 'SteamGridDB'),
+        SettingRow(
+          key: _keyFor(_steamGridSlot),
+          title: 'Configure / scrape artwork',
+          subtitle: 'Save your key securely, then fill missing artwork in your library',
+          focused: _focused(_steamGridSlot),
+          onTap: _configureSteamGridDb,
+          trailing: Icon(Symbols.image_search_rounded, size: 20.r),
+        ),
       ],
     );
   }
@@ -1060,4 +1087,73 @@ class ScreenScraperSettingsContentState
       ),
     );
   }
+  Future<void> _configureSteamGridDb() async {
+    final controller = TextEditingController();
+    final key = await showDialog<String>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('SteamGridDB'),
+        content: TextField(
+          controller: controller,
+          autofocus: true,
+          obscureText: true,
+          autocorrect: false,
+          enableSuggestions: false,
+          decoration: const InputDecoration(
+            labelText: 'SteamGridDB API key',
+            hintText: 'Paste your API key',
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(dialogContext, controller.text.trim()),
+            child: const Text('Save & scrape'),
+          ),
+        ],
+      ),
+    );
+    controller.dispose();
+    if (key == null || key.trim().isEmpty || !mounted) return;
+
+    final saved = await SteamGridDbService.saveApiKey(key);
+    if (!mounted) return;
+    if (!saved) {
+      AppNotification.showNotification(
+        context,
+        'Could not securely save the SteamGridDB API key.',
+        type: NotificationType.error,
+      );
+      return;
+    }
+
+    AppNotification.showNotification(
+      context,
+      'SteamGridDB artwork scraping started.',
+      type: NotificationType.info,
+    );
+    try {
+      final count = await SteamGridDbService.scrapeLibrary();
+      if (!mounted) return;
+      context.read<ScrapingProvider>().markArtworkUpdated();
+      AppNotification.showNotification(
+        context,
+        'SteamGridDB updated artwork for $count games.',
+        type: NotificationType.success,
+      );
+    } catch (e) {
+      _log.e('SteamGridDB scrape failed', error: e);
+      if (!mounted) return;
+      AppNotification.showNotification(
+        context,
+        'SteamGridDB scrape failed: $e',
+        type: NotificationType.error,
+      );
+    }
+  }
+
+
 }
