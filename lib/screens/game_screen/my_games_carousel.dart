@@ -138,7 +138,6 @@ class GamesCarousel extends StatefulWidget {
   State<GamesCarousel> createState() => _GamesCarouselState();
 }
 
-
 class _PlayCountLabel extends StatefulWidget {
   const _PlayCountLabel({super.key, required this.romPath});
 
@@ -1327,9 +1326,7 @@ class _GamesCarouselState extends State<GamesCarousel> {
                   height: 1.12,
                   fontWeight: FontWeight.w800,
                   letterSpacing: 0.1,
-                  shadows: const [
-                    Shadow(color: Colors.black54, blurRadius: 8),
-                  ],
+                  shadows: const [Shadow(color: Colors.black54, blurRadius: 8)],
                 ),
               ),
               if (details.isNotEmpty) ...[

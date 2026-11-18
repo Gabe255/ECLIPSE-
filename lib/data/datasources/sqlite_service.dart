@@ -5502,13 +5502,16 @@ class SqliteService {
         where: 'rom_path = ?',
         whereArgs: [normalizedPath],
       );
-      await txn.execute('''
+      await txn.execute(
+        '''
         INSERT INTO user_rom_play_stats (rom_path, play_count, updated_at)
         VALUES (?, 1, ?)
         ON CONFLICT(rom_path) DO UPDATE SET
           play_count = user_rom_play_stats.play_count + 1,
           updated_at = excluded.updated_at
-      ''', [normalizedPath, now]);
+      ''',
+        [normalizedPath, now],
+      );
     });
   }
 

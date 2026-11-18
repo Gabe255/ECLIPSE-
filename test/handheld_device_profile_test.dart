@@ -32,10 +32,7 @@ void main() {
         HandheldDeviceProfile.assetPathForDevice('AYN', 'Odin 3'),
         'assets/device_profiles/odin3.json',
       );
-      expect(
-        HandheldDeviceProfile.assetPathForDevice('Other', 'Thor'),
-        isNull,
-      );
+      expect(HandheldDeviceProfile.assetPathForDevice('Other', 'Thor'), isNull);
       expect(
         HandheldDeviceProfile.assetPathForDevice('AYN', 'Unknown'),
         isNull,
@@ -44,9 +41,7 @@ void main() {
 
     test('rejects unsupported schema versions', () {
       expect(
-        () => HandheldDeviceProfile.fromJson({
-          'schema_version': 2,
-        }),
+        () => HandheldDeviceProfile.fromJson({'schema_version': 2}),
         throwsFormatException,
       );
     });

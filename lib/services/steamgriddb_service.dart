@@ -98,7 +98,9 @@ class SteamGridDbService {
       }
     }
 
-    _log.i('SteamGridDB: Updated artwork for $updated of ${games.length} games.');
+    _log.i(
+      'SteamGridDB: Updated artwork for $updated of ${games.length} games.',
+    );
     return updated;
   }
 
@@ -116,7 +118,9 @@ class SteamGridDbService {
     );
     final fromFilename = _cleanTitle(romName);
     if (fromFilename.isNotEmpty &&
-        !candidates.any((value) => _normalizeTitle(value) == _normalizeTitle(fromFilename))) {
+        !candidates.any(
+          (value) => _normalizeTitle(value) == _normalizeTitle(fromFilename),
+        )) {
       candidates.add(fromFilename);
     }
     return candidates;
@@ -172,7 +176,8 @@ class SteamGridDbService {
       if (data is! List) continue;
       final normalized = _normalizeTitle(title);
       for (final candidate in data.whereType<Map>()) {
-        if (_normalizeTitle(candidate['name']?.toString() ?? '') == normalized) {
+        if (_normalizeTitle(candidate['name']?.toString() ?? '') ==
+            normalized) {
           matchedGame = Map<String, dynamic>.from(candidate);
           break;
         }
@@ -210,18 +215,21 @@ class SteamGridDbService {
   ) async {
     await Future<void>.delayed(const Duration(milliseconds: 250));
     final uri = Uri.parse('$_apiRoot$endpoint');
-    final response = await (_clientOverride?.get(
-              uri,
-              headers: {'Authorization': 'Bearer $apiKey'},
-            ) ??
-            http.get(uri, headers: {'Authorization': 'Bearer $apiKey'}))
-        .timeout(const Duration(seconds: 20));
+    final response =
+        await (_clientOverride?.get(
+                  uri,
+                  headers: {'Authorization': 'Bearer $apiKey'},
+                ) ??
+                http.get(uri, headers: {'Authorization': 'Bearer $apiKey'}))
+            .timeout(const Duration(seconds: 20));
 
     if (response.statusCode == 401 || response.statusCode == 403) {
       throw const HttpException('SteamGridDB rejected the API key.');
     }
     if (response.statusCode == 429) {
-      throw const HttpException('SteamGridDB rate limit reached. Try again later.');
+      throw const HttpException(
+        'SteamGridDB rate limit reached. Try again later.',
+      );
     }
     if (response.statusCode != 200) {
       throw HttpException('SteamGridDB returned HTTP ${response.statusCode}.');
@@ -260,12 +268,14 @@ class SteamGridDbService {
   static Future<bool> _downloadImage(String url, String destination) async {
     try {
       final uri = Uri.tryParse(url);
-      if (uri == null || uri.scheme != 'https' || uri.host.isEmpty) return false;
+      if (uri == null || uri.scheme != 'https' || uri.host.isEmpty)
+        return false;
       if (await _hasImage(path.withoutExtension(destination))) return false;
 
       final response = await (_clientOverride?.get(uri) ?? http.get(uri))
           .timeout(const Duration(seconds: 60));
-      if (response.statusCode != 200 || response.bodyBytes.isEmpty) return false;
+      if (response.statusCode != 200 || response.bodyBytes.isEmpty)
+        return false;
 
       final contentType = response.headers['content-type']?.toLowerCase() ?? '';
       if (contentType.isNotEmpty && !contentType.startsWith('image/')) {

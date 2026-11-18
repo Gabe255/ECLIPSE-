@@ -221,9 +221,7 @@ class MySystems extends StatelessWidget {
               !SystemFolderNames.recursiveScanExcluded.contains(
                 system.folderName,
               ) &&
-              systems.any(
-                (entry) => entry.folderName == system.folderName,
-              ),
+              systems.any((entry) => entry.folderName == system.folderName),
         )
         .length;
     final gameCount = configProvider.totalGames;
@@ -441,12 +439,7 @@ class MySystems extends StatelessWidget {
 
     return Column(
       children: [
-        _buildLibraryHero(
-          context,
-          allSystems,
-          currentSystem,
-          configProvider,
-        ),
+        _buildLibraryHero(context, allSystems, currentSystem, configProvider),
         Expanded(
           child: Padding(
             padding: EdgeInsets.only(

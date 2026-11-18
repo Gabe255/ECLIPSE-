@@ -326,9 +326,9 @@ class _SystemCardState extends State<SystemCard> {
               border: Border.all(
                 color: widget.isSelected
                     ? Theme.of(context).colorScheme.primary
-                        .withValues(alpha: 0.92)
+                          .withValues(alpha: 0.92)
                     : Theme.of(context).colorScheme.outline
-                        .withValues(alpha: 0.16),
+                          .withValues(alpha: 0.16),
                 width: widget.isSelected ? 1.5.r : 0.6.r,
               ),
               boxShadow: widget.showShadow && !_performanceMode

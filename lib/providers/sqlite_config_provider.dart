@@ -264,7 +264,8 @@ class SqliteConfigProvider extends ChangeNotifier with WidgetsBindingObserver {
     _databaseOpened = false;
 
     try {
-      _handheldDeviceProfile = await HandheldDeviceProfile.detectCurrentDevice();
+      _handheldDeviceProfile =
+          await HandheldDeviceProfile.detectCurrentDevice();
       if (Platform.isAndroid) {
         // The secondary display's engine persists across a main-engine restart
         // (its cached engine group survives), so the second screen keeps showing

@@ -38,13 +38,29 @@ final ThemeData eclipseTheme = ThemeData(
   cardColor: _surface,
   extensions: [CornerRadii.m(), ChromeSurface.standard()],
   textTheme: const TextTheme(
-    displayLarge: TextStyle(color: _onSurface, fontSize: 32, fontWeight: FontWeight.bold),
-    titleLarge: TextStyle(color: _onSurface, fontSize: 24, fontWeight: FontWeight.w600),
-    titleMedium: TextStyle(color: _onSurface, fontSize: 18, fontWeight: FontWeight.w500),
+    displayLarge: TextStyle(
+      color: _onSurface,
+      fontSize: 32,
+      fontWeight: FontWeight.bold,
+    ),
+    titleLarge: TextStyle(
+      color: _onSurface,
+      fontSize: 24,
+      fontWeight: FontWeight.w600,
+    ),
+    titleMedium: TextStyle(
+      color: _onSurface,
+      fontSize: 18,
+      fontWeight: FontWeight.w500,
+    ),
     bodyLarge: TextStyle(color: _onSurface, fontSize: 16),
     bodyMedium: TextStyle(color: _onSurface, fontSize: 14),
     bodySmall: TextStyle(color: _onSurface, fontSize: 12),
-    labelLarge: TextStyle(color: _onSurface, fontSize: 14, fontWeight: FontWeight.w500),
+    labelLarge: TextStyle(
+      color: _onSurface,
+      fontSize: 14,
+      fontWeight: FontWeight.w500,
+    ),
   ),
 );
 

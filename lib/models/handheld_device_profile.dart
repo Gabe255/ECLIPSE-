@@ -65,7 +65,8 @@ class HandheldDeviceProfile {
         throw const FormatException('Invalid system recommendation list');
       }
       return List<String>.unmodifiable(
-        value.map((entry) => (entry as String).trim().toLowerCase())
+        value
+            .map((entry) => (entry as String).trim().toLowerCase())
             .where((entry) => entry.isNotEmpty),
       );
     }
@@ -84,7 +85,6 @@ class HandheldDeviceProfile {
       allowUserOverride: allowOverride,
     );
   }
-
 
   /// Selects a bundled profile from Android's manufacturer/model identifiers.
   /// Unknown hardware deliberately receives the generic fallback.

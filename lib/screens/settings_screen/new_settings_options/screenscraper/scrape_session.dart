@@ -104,7 +104,10 @@ Future<void> startScrapeSession(
           _log.i('SteamGridDB: Added artwork for $artworkGames games.');
           if (artworkGames > 0) scrapingProvider.markArtworkUpdated();
         } catch (e) {
-          _log.w('SteamGridDB artwork pass failed; ScreenScraper results remain saved.', error: e);
+          _log.w(
+            'SteamGridDB artwork pass failed; ScreenScraper results remain saved.',
+            error: e,
+          );
         }
       }
       if (scrapingProvider.successfulGames > 0) {

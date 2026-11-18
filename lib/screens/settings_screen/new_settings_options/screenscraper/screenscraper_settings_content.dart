@@ -1087,6 +1087,7 @@ class ScreenScraperSettingsContentState
       ),
     );
   }
+
   Future<void> _configureSteamGridDb() async {
     final controller = TextEditingController();
     final key = await showDialog<String>(
@@ -1110,7 +1111,8 @@ class ScreenScraperSettingsContentState
             child: const Text('Cancel'),
           ),
           FilledButton(
-            onPressed: () => Navigator.pop(dialogContext, controller.text.trim()),
+            onPressed: () =>
+                Navigator.pop(dialogContext, controller.text.trim()),
             child: const Text('Save & scrape'),
           ),
         ],
@@ -1154,6 +1156,4 @@ class ScreenScraperSettingsContentState
       );
     }
   }
-
-
 }

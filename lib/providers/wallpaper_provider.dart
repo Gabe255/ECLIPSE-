@@ -45,7 +45,8 @@ class WallpaperProvider extends ChangeNotifier {
       if (result == null || result.files.isEmpty) return false;
 
       final picked = result.files.single;
-      final bytes = picked.bytes ??
+      final bytes =
+          picked.bytes ??
           (picked.path != null ? await File(picked.path!).readAsBytes() : null);
       if (bytes == null || bytes.isEmpty) return false;
 
@@ -56,8 +57,8 @@ class WallpaperProvider extends ChangeNotifier {
       await wallpaperDirectory.create(recursive: true);
 
       final extension = path.extension(picked.name).toLowerCase();
-      final safeExtension = RegExp(r'^\.(png|jpe?g|webp|bmp|gif)$')
-              .hasMatch(extension)
+      final safeExtension =
+          RegExp(r'^\.(png|jpe?g|webp|bmp|gif)$').hasMatch(extension)
           ? extension
           : '.jpg';
       final destination = File(
