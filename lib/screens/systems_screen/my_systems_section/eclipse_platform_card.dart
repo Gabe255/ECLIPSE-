@@ -59,7 +59,7 @@ class EclipsePlatformCard extends StatelessWidget {
     final cardEyebrow = isRecentGame
         ? 'RECENTLY PLAYED'
         : (info.shortName ?? info.folderName ?? 'SYSTEM').toUpperCase();
-    final badgeText = isRecentGame ? 'RECENT' : badgeText;
+    final badgeText = isRecentGame ? 'RECENT' : '$count GAMES';
     final cardAction = isRecentGame ? 'PLAY AGAIN' : 'OPEN LIBRARY';
 
     return AnimatedScale(
@@ -157,7 +157,7 @@ class EclipsePlatformCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(30.r),
                       ),
                       child: Text(
-                        '$count GAMES',
+                        badgeText,
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 8.r,
