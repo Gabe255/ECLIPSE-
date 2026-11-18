@@ -254,7 +254,7 @@ class SqliteConfigService {
         detectedSystems: detectedSystems.map((s) => s.folderName).toList(),
         emulators: detectedEmulators,
         gameViewMode: userConfig?['game_view_mode']?.toString() ?? 'list',
-        systemViewMode: userConfig?['system_view_mode']?.toString() ?? 'grid',
+        systemViewMode: userConfig?['system_view_mode']?.toString() ?? 'shelf',
         showGameInfo:
             (int.tryParse(userConfig?['show_game_info']?.toString() ?? '0') ??
                 0) ==
