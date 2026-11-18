@@ -6,6 +6,7 @@ import 'package:neostation/providers/scraping_provider.dart';
 import 'package:neostation/services/global_notification_service.dart';
 import 'package:neostation/services/logger_service.dart';
 import 'package:neostation/services/screenscraper_service.dart';
+import 'package:neostation/services/steamgriddb_service.dart';
 import 'package:neostation/services/screenscraper/screenscraper_exceptions.dart';
 import 'package:neostation/widgets/custom_notification.dart';
 import 'package:neostation/utils/user_data_move_guard.dart';
@@ -95,6 +96,17 @@ Future<void> startScrapeSession(
     );
 
     if (scrapingSuccess) {
+      // SteamGridDB is an optional second artwork provider. It runs as part
+      // of the same metadata scrape only when the user has configured a key.
+      if (await SteamGridDbService.hasApiKey()) {
+        try {
+          final artworkGames = await SteamGridDbService.scrapeLibrary();
+          _log.i('SteamGridDB: Added artwork for $artworkGames games.');
+          if (artworkGames > 0) scrapingProvider.markArtworkUpdated();
+        } catch (e) {
+          _log.w('SteamGridDB artwork pass failed; ScreenScraper results remain saved.', error: e);
+        }
+      }
       if (scrapingProvider.successfulGames > 0) {
         scrapingProvider.markArtworkUpdated();
       }
