@@ -128,7 +128,12 @@ class MySystems extends StatelessWidget {
                     padding: EdgeInsets.only(top: 56.r),
                     child: MySystemsCarousel(
                       selectedIndex: selectedIndex,
-                      onCardTapped: onCardTapped,
+                      onCardTapped: (index) {
+                        onCardTapped?.call(index);
+                        if (index >= 0 && index < allSystems.length) {
+                          _navigateToSystem(context, allSystems[index], configProvider);
+                        }
+                      },
                       hideSystemLogos: configProvider.config.hideSystemLogos,
                       bindYButton: false,
                       onOptions: (index) {
@@ -229,7 +234,12 @@ class MySystems extends StatelessWidget {
                   : 0.80,
               recentCardSize: configProvider.config.recentCardSize,
               selectedIndex: selectedIndex,
-              onCardTapped: onCardTapped,
+              onCardTapped: (index) {
+                        onCardTapped?.call(index);
+                        if (index >= 0 && index < allSystems.length) {
+                          _navigateToSystem(context, allSystems[index], configProvider);
+                        }
+                      },
               systems: allSystems,
               bindYButton: false,
               onYPressed: () =>
