@@ -63,27 +63,47 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
       codes.contains(widget.system.folderName.toLowerCase());
 
   String get _interfaceFamily {
-    if (_isPsp || _isFolderCode(['psp', 'pspminis'])) return 'psp';
-    if (_isWii) return 'wii';
-    if (_isDsFamily || _isFolderCode(['ds', '3ds'])) return 'ds';
+    if (_isPsp || _isFolderCode(['psp', 'pspminis'])) {
+      return 'psp';
+    }
+    if (_isWii) {
+      return 'wii';
+    }
+    if (_isDsFamily || _isFolderCode(['ds', '3ds'])) {
+      return 'ds';
+    }
     if (_isFolderCode(['xbox360']) ||
-        _hasAny(['xbox 360', 'xbox360', 'xb360', '360']))
+        _hasAny(['xbox 360', 'xbox360', 'xb360', '360'])) {
       return 'xbox360';
-    if (_isFolderCode(['xbox']) || _hasAny(['original xbox', 'microsoft xbox']))
+    }
+    if (_isFolderCode(['xbox']) || _hasAny(['original xbox', 'microsoft xbox'])) {
       return 'xbox';
+    }
     if (_isFolderCode(['ps1', 'psx']) ||
-        _hasAny(['ps1', 'playstation 1', 'playstation (1994)', 'psx']))
+        _hasAny(['ps1', 'playstation 1', 'playstation (1994)', 'psx'])) {
       return 'playstation-ps1';
-    if (_isFolderCode(['ps2']) || _hasAny(['ps2', 'playstation 2']))
+    }
+    if (_isFolderCode(['ps2']) || _hasAny(['ps2', 'playstation 2'])) {
       return 'playstation-ps2';
-    if (_isFolderCode(['ps4']) || _hasAny(['ps4', 'playstation 4']))
+    }
+    if (_isFolderCode(['ps4']) || _hasAny(['ps4', 'playstation 4'])) {
       return 'playstation-ps4';
-    if (_hasAny(['ps5', 'playstation 5'])) return 'playstation-modern';
-    if (_hasAny(['ps3', 'playstation 3'])) return 'playstation-xmb';
-    if (_hasAny(['switch', 'nintendo switch']) || _isFolderCode(['switch']))
+    }
+    if (_hasAny(['ps5', 'playstation 5'])) {
+      return 'playstation-modern';
+    }
+    if (_hasAny(['ps3', 'playstation 3'])) {
+      return 'playstation-xmb';
+    }
+    if (_hasAny(['switch', 'nintendo switch']) || _isFolderCode(['switch'])) {
       return 'switch';
-    if (_hasAny(['gamecube']) || _isFolderCode(['gc'])) return 'gamecube';
-    if (_hasAny(['n64', 'nintendo 64']) || _isFolderCode(['n64'])) return 'n64';
+    }
+    if (_hasAny(['gamecube']) || _isFolderCode(['gc'])) {
+      return 'gamecube';
+    }
+    if (_hasAny(['n64', 'nintendo 64']) || _isFolderCode(['n64'])) {
+      return 'n64';
+    }
     if (_hasAny([
           'gba',
           'game boy advance',
@@ -103,9 +123,12 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
           'ngpc',
           'ws',
           'wsc',
-        ]))
+        ])) {
       return 'gameboy';
-    if (_hasAny(['dreamcast']) || _isFolderCode(['dc'])) return 'dreamcast';
+    }
+    if (_hasAny(['dreamcast']) || _isFolderCode(['dc'])) {
+      return 'dreamcast';
+    }
     if (_hasAny(['genesis', 'megadrive', 'mega drive', 'sega']) ||
         _isFolderCode([
           'genesis',
@@ -120,8 +143,9 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
           'scd',
           'mcd',
           'sg1k',
-        ]))
+        ])) {
       return 'sega';
+    }
     if (_hasAny(['snes', 'super nintendo', 'nes', 'famicom']) ||
         _isFolderCode([
           'nes',
@@ -132,8 +156,9 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
           'sfc-hacks',
           'fc',
           'fds',
-        ]))
+        ])) {
       return 'nintendo-classic';
+    }
     if (_isFolderCode([
       'mame',
       'fbneo',
@@ -147,8 +172,9 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
       'naomigd',
       'model3',
       'triforce',
-    ]))
+    ])) {
       return 'arcade';
+    }
     return 'desktop';
   }
 
@@ -157,20 +183,24 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
     super.initState();
     _gamepadNav = GamepadNavigation(
       onNavigateUp: () {
-        if (!_booting && _interfaceFamily == 'wii')
+        if (!_booting && _interfaceFamily == 'wii') {
           _moveWiiPointer(const Offset(0, -0.055));
+        }
       },
       onNavigateDown: () {
-        if (!_booting && _interfaceFamily == 'wii')
+        if (!_booting && _interfaceFamily == 'wii') {
           _moveWiiPointer(const Offset(0, 0.055));
+        }
       },
       onNavigateLeft: () {
-        if (!_booting && _interfaceFamily == 'wii')
+        if (!_booting && _interfaceFamily == 'wii') {
           _moveWiiPointer(const Offset(-0.055, 0));
+        }
       },
       onNavigateRight: () {
-        if (!_booting && _interfaceFamily == 'wii')
+        if (!_booting && _interfaceFamily == 'wii') {
           _moveWiiPointer(const Offset(0.055, 0));
+        }
       },
       onSelectItem: () {
         if (_booting) {
@@ -1787,7 +1817,7 @@ class _SystemMark extends StatelessWidget {
       child: Image.asset(
         asset,
         fit: BoxFit.contain,
-        errorBuilder: (_, __, ___) => Icon(
+        errorBuilder: (_, _, _) => Icon(
           Icons.videogame_asset_rounded,
           color: system.colorAsColor,
           size: size * 0.58,
