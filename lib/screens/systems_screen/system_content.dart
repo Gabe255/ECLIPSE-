@@ -72,6 +72,7 @@ class _SystemContentState extends State<SystemContent> {
     // Existing systems remain usable if a later rescan fails. The scan status
     // is surfaced through notifications, so don't hide the whole library.
     final showContent = !showSplash && configProvider.hasDetectedSystems;
+    // This phase remains visible when a previous scan left a stored library.
 
     // PHASE 1: Loading and Initialization — a shimmering NeoStation logo
     // with a thin progress bar and the current scan step as quiet detail.
