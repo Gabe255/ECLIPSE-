@@ -37,6 +37,16 @@ class EclipsePlatformCard extends StatelessWidget {
         customLogo != null &&
         customLogo.isNotEmpty &&
         File(customLogo).existsSync();
+    final customWheel = info.customWheelImage;
+    final hasCustomWheel =
+        info.isGame &&
+        customWheel != null &&
+        customWheel.isNotEmpty &&
+        File(customWheel).existsSync();
+    final logoFolder = info.primaryFolderName?.isNotEmpty == true
+        ? info.primaryFolderName!
+        : (info.folderName?.isNotEmpty == true ? info.folderName! : 'all');
+    final logoAssetPath = 'assets/images/logos/$logoFolder.webp';
     final title = info.title ?? info.shortName ?? 'Platform';
     final count = info.numOfRoms ?? 0;
 
@@ -153,7 +163,14 @@ class EclipsePlatformCard extends StatelessWidget {
                       width: 78.r,
                       child: Opacity(
                         opacity: 0.92,
-                        child: hasCustomLogo
+                        child: hasCustomWheel
+                            ? Image.file(
+                                File(customWheel!),
+                                fit: BoxFit.contain,
+                                errorBuilder: (context, error, stackTrace) =>
+                                    _buildFallbackMark(),
+                              )
+                            : hasCustomLogo
                             ? Image.file(
                                 File(customLogo!),
                                 fit: BoxFit.contain,
@@ -161,7 +178,7 @@ class EclipsePlatformCard extends StatelessWidget {
                                     _buildFallbackMark(),
                               )
                             : Image.asset(
-                                info.gridImagePath,
+                                logoAssetPath,
                                 fit: BoxFit.contain,
                                 errorBuilder: (context, error, stackTrace) =>
                                     _buildFallbackMark(),
