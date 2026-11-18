@@ -173,6 +173,23 @@ void main() {
     );
   });
 
+  testWidgets('ECLIPSE Shelf is a distinct wide-card layout', (
+    tester,
+  ) async {
+    await tester.pumpWidget(host(config: _ShelfConfig()));
+    await openDialog(tester);
+
+    final context = tester.element(find.byType(SystemOptionsDialog));
+    await tester.tap(
+      find.text(AppLocale.systemOptionsSystemLayout.getString(context)),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('ECLIPSE Shelf'), findsOneWidget);
+    expect(find.text(AppLocale.cardSizeGroup.getString(context)), findsNothing);
+    expect(find.text(AppLocale.viewModeGroup.getString(context)), findsOneWidget);
+  });
+
   testWidgets('the Search card has no system actions', (tester) async {
     await tester.pumpWidget(
       host(
@@ -246,4 +263,10 @@ class _GridConfig extends SqliteConfigProvider {
 class _CarouselConfig extends _GridConfig {
   @override
   ConfigModel get config => super.config.copyWith(systemViewMode: 'carousel');
+}
+
+/// ECLIPSE's default wide horizontal platform shelf.
+class _ShelfConfig extends _GridConfig {
+  @override
+  ConfigModel get config => super.config.copyWith(systemViewMode: 'shelf');
 }
