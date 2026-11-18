@@ -7,7 +7,7 @@ enum UserDataProblem {
   volumeMissing,
 
   /// The drive is there but the folder isn't: it was moved, renamed or
-  /// deleted. Creating it again would open NeoStation on an empty library.
+  /// deleted. Creating it again would open ECLIPSE on an empty library.
   folderMissing,
 }
 
