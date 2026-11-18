@@ -270,7 +270,7 @@ class DirectoriesSettingsContentState
           try {
             final uri = await PermissionService.requestFolderAccess();
             if (uri != null) {
-              // The folder as picked, never NeoStation's own storage.
+              // The folder as picked, never ECLIPSE's own storage.
               selected = UserDataLocationService.safUriToRealPath(
                 uri.toString(),
               );
@@ -358,7 +358,7 @@ class DirectoriesSettingsContentState
       context,
     );
 
-    // Without All files access, a folder NeoStation can't read looks empty to
+    // Without All files access, a folder ECLIPSE can't read looks empty to
     // the import; when it finds nothing, say how to grant it.
     final needsAllFilesAccess =
         Platform.isAndroid &&
@@ -431,7 +431,7 @@ class DirectoriesSettingsContentState
           progress: null,
         );
       } else if (result.gamesImported == 0 && result.systemsMatched == 0) {
-        // Valid ES-DE folder, but nothing here mapped to a NeoStation system.
+        // Valid ES-DE folder, but nothing here mapped to a ECLIPSE system.
         GlobalNotificationService().update(
           id: notificationId,
           message: '$localeEsdeImportNothingFound$allFilesHint',
@@ -665,7 +665,7 @@ class DirectoriesSettingsContentState
           selected = await TvDirectoryPicker.show(context);
         } else {
           // Regular Android: the system picker. The folder picked is the one
-          // tried: whether NeoStation can write it is found out below, never
+          // tried: whether ECLIPSE can write it is found out below, never
           // assumed from the permission.
           try {
             final uri = await PermissionService.requestFolderAccess();
@@ -706,9 +706,9 @@ class DirectoriesSettingsContentState
       final current = _currentUserDataPath;
       if (current == null) return;
 
-      // Tried before the move is offered: a folder NeoStation can't write
+      // Tried before the move is offered: a folder ECLIPSE can't write
       // was otherwise only found out once the move had been confirmed and
-      // its progress shown. On an SD card, NeoStation's own folder there is
+      // its progress shown. On an SD card, ECLIPSE's own folder there is
       // offered instead of a folder it can't write, and the dialogue says
       // so; nothing else is ever swapped for the folder picked.
       String? notice;
@@ -742,7 +742,7 @@ class DirectoriesSettingsContentState
       }
       if (!mounted) return;
 
-      // Relocating actually MOVES data (copy + delete of NeoStation's own
+      // Relocating actually MOVES data (copy + delete of ECLIPSE's own
       // files), so confirm the source → destination move explicitly, noting
       // when the destination already contains files.
       final entryCount = await UserDataLocationService.countDirectoryEntries(
@@ -774,7 +774,7 @@ class DirectoriesSettingsContentState
     }
   }
 
-  /// Whether a folder NeoStation can't write might become usable with All
+  /// Whether a folder ECLIPSE can't write might become usable with All
   /// files access: on Android, when the app doesn't have it.
   Future<bool> _shouldSuggestAllFilesAccess() async {
     if (!Platform.isAndroid) return false;
