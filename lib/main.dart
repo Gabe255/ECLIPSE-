@@ -1205,7 +1205,9 @@ class _MyAppState extends State<MyApp> {
         ),
         ChangeNotifierProvider.value(value: widget.rommProvider),
         ChangeNotifierProvider(create: (context) => SystemBackgroundProvider()),
-        ChangeNotifierProvider(create: (context) => WallpaperProvider()..load()),
+        ChangeNotifierProvider(
+          create: (context) => WallpaperProvider()..load(),
+        ),
         // Lazy: the board is a full library scan, and it must not run at
         // startup for the many users who never open the tab.
         ChangeNotifierProvider(create: (context) => DiscoveryProvider()),
