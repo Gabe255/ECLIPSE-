@@ -173,9 +173,7 @@ void main() {
     );
   });
 
-  testWidgets('ECLIPSE Shelf is a distinct wide-card layout', (
-    tester,
-  ) async {
+  testWidgets('ECLIPSE Shelf is a distinct wide-card layout', (tester) async {
     await tester.pumpWidget(host(config: _ShelfConfig()));
     await openDialog(tester);
 
@@ -187,7 +185,10 @@ void main() {
 
     expect(find.text('ECLIPSE Shelf'), findsOneWidget);
     expect(find.text(AppLocale.cardSizeGroup.getString(context)), findsNothing);
-    expect(find.text(AppLocale.viewModeGroup.getString(context)), findsOneWidget);
+    expect(
+      find.text(AppLocale.viewModeGroup.getString(context)),
+      findsOneWidget,
+    );
   });
 
   testWidgets('the Search card has no system actions', (tester) async {

@@ -182,7 +182,6 @@ class _ShimmeringLogoState extends State<ShimmeringLogo>
   }
 }
 
-
 /// Standalone ECLIPSE eclipse mark for onboarding and secondary displays.
 class EclipseLogoMark extends StatelessWidget {
   const EclipseLogoMark({super.key, required this.size});
@@ -250,10 +249,7 @@ class _EclipseMarkPainter extends CustomPainter {
       ..lineTo(42, 13)
       ..lineTo(48, 10)
       ..close();
-    canvas.drawPath(
-      star,
-      Paint()..color = const Color(0xFFF4F0FF),
-    );
+    canvas.drawPath(star, Paint()..color = const Color(0xFFF4F0FF));
 
     canvas.restore();
   }
