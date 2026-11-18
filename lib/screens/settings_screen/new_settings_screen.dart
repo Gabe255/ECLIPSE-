@@ -631,7 +631,9 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                         borderRadius: BorderRadius.circular(13.r),
                         border: Border.all(
                           color: isSelected
-                              ? accent.withValues(alpha: isFocused ? 0.72 : 0.38)
+                              ? accent.withValues(
+                                  alpha: isFocused ? 0.72 : 0.38,
+                                )
                               : Colors.white.withValues(alpha: 0.045),
                         ),
                       ),
@@ -654,7 +656,11 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                             ),
                             child: Row(
                               children: [
-                                Icon(item.icon, color: contentColor, size: 17.r),
+                                Icon(
+                                  item.icon,
+                                  color: contentColor,
+                                  size: 17.r,
+                                ),
                                 SizedBox(width: 9.r),
                                 Expanded(
                                   child: Text(
