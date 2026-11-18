@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/foundation.dart' show visibleForTesting;
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
 
@@ -17,19 +16,6 @@ class SteamGridDbService {
   static const _credentialKey = 'steamgriddb_api_key';
   static const _apiRoot = 'https://www.steamgriddb.com/api/v2';
   static final _log = LoggerService.instance;
-  static http.Client? _clientOverride;
-
-  @visibleForTesting
-  static void debugUseHttpClient(http.Client? client) {
-    _clientOverride = client;
-  }
-
-  static Future<http.Response> _get(Uri uri, String apiKey,
-      {bool image = false}) {
-    final client = _clientOverride;
-    final request = client?.get(uri) ?? http.get(uri);
-    return request.timeout(Duration(seconds: image ? 60 : 20));
-  }
 
   static Future<bool> saveApiKey(String key) async {
     final value = key.trim();
@@ -98,7 +84,116 @@ class SteamGridDbService {
   }
 
   static String _cleanTitle(String value) {
-    final noExtension = value.replaceFirst(RegExp(r'\\.[^.]+$'), '');
+    final noExtension = value.replaceFirst(RegExp(r'\.[^.]+), '');
+    return noExtension
+        .replaceAll(RegExp(r'\s*\([^)]*\)|\s*\[[^]]*\]'), '')
+        .replaceAll(RegExp(r'[_\.]+'), ' ')
+        .trim();
+  }
+
+  static String _normalizeTitle(String value) =>
+      value.toLowerCase().replaceAll(RegExp(r'[^a-z0-9]'), '');
+
+  static Future<bool> _scrapeGame({
+    required String apiKey,
+    required String title,
+    required String systemFolder,
+    required String filename,
+  }) async {
+    final mediaRoot = await ConfigService.getMediaPath();
+    final baseName = path.basenameWithoutExtension(filename);
+    final targets = <String, String>{
+      'grids': path.join(mediaRoot, systemFolder, 'box2d', baseName),
+      'heroes': path.join(mediaRoot, systemFolder, 'fanarts', baseName),
+      'logos': path.join(mediaRoot, systemFolder, 'wheels', baseName),
+      'icons': path.join(mediaRoot, systemFolder, 'icons', baseName),
+    };
+
+    final missing = <String>[];
+    for (final entry in targets.entries) {
+      if (!await _hasImage(entry.value)) missing.add(entry.key);
+    }
+    if (missing.isEmpty) return false;
+
+    final search = await _apiGet('/search/autocomplete/' + Uri.encodeComponent(title), apiKey);
+    final searchData = search['data'];
+    if (searchData is! List || searchData.isEmpty) return false;
+    final normalizedTitle = _normalizeTitle(title);
+    final exactMatch = searchData.whereType<Map>().where(
+      (entry) => _normalizeTitle(entry['name']?.toString() ?? '') == normalizedTitle,
+    );
+    if (exactMatch.isEmpty) return false;
+    final gameId = exactMatch.first['id'];
+    if (gameId == null) return false;
+
+    var changed = false;
+    for (final type in missing) {
+      final data = await _apiGet('/$type/game/$gameId', apiKey);
+      final entries = data['data'];
+      if (entries is! List || entries.isEmpty || entries.first is! Map) continue;
+      final imageUrl = entries.first['url']?.toString();
+      if (imageUrl == null || imageUrl.isEmpty) continue;
+      final ext = _extensionFor(imageUrl, type);
+      final destination = '${targets[type]}.$ext';
+      if (await _downloadImage(imageUrl, destination)) changed = true;
+    }
+    return changed;
+  }
+
+  static Future<Map<String, dynamic>> _apiGet(String endpoint, String apiKey) async {
+    await Future<void>.delayed(const Duration(milliseconds: 250));
+    final uri = Uri.parse('$_apiRoot$endpoint');
+    final client = _clientOverride;
+    final response = await (client?.get(uri, headers: {'Authorization': 'Bearer $apiKey'}) ??
+        http.get(uri, headers: {'Authorization': 'Bearer $apiKey'}))
+        .timeout(const Duration(seconds: 20));
+    if (response.statusCode == 401 || response.statusCode == 403) {
+      throw const HttpException('SteamGridDB rejected the API key.');
+    }
+    if (response.statusCode != 200) {
+      throw HttpException('SteamGridDB returned HTTP ${response.statusCode}.');
+    }
+    final decoded = jsonDecode(response.body);
+    if (decoded is! Map<String, dynamic>) {
+      throw const FormatException('Invalid SteamGridDB response.');
+    }
+    if (decoded['success'] == false) {
+      throw HttpException('SteamGridDB request failed: ${decoded['errors'] ?? 'unknown error'}');
+    }
+    return decoded;
+  }
+
+  static String _extensionFor(String url, String type) {
+    final uri = Uri.tryParse(url);
+    final ext = uri == null ? '' : path.extension(uri.path).replaceFirst('.', '').toLowerCase();
+    if (const {'png', 'jpg', 'jpeg', 'webp'}.contains(ext)) return ext;
+    return type == 'logos' || type == 'icons' ? 'png' : 'jpg';
+  }
+
+  static Future<bool> _hasImage(String basePath) async {
+    for (final ext in const ['png', 'jpg', 'jpeg', 'webp']) {
+      if (await File('$basePath.$ext').exists()) return true;
+    }
+    return false;
+  }
+
+  static Future<bool> _downloadImage(String url, String destination) async {
+    try {
+      final file = File(destination);
+      if (await _hasImage(path.withoutExtension(destination))) return false;
+      final response = await (_clientOverride?.get(Uri.parse(url)) ?? http.get(Uri.parse(url)))
+          .timeout(const Duration(seconds: 60));
+      if (response.statusCode != 200 || response.bodyBytes.isEmpty) return false;
+      await file.parent.create(recursive: true);
+      await writeFileAtomically(file, response.bodyBytes);
+      return true;
+    } catch (e) {
+      _log.w('SteamGridDB: Artwork download failed: $e');
+      return false;
+    }
+  }
+}
+), '');
     return noExtension
         .replaceAll(RegExp(r'\\s*\\([^)]*\\)|\\s*\\[[^]]*\\]'), '')
         .replaceAll(RegExp(r'[_\\.]+'), ' ')
