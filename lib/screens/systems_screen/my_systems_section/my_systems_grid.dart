@@ -130,35 +130,10 @@ class MySystems extends StatelessWidget {
                   configProvider,
                 ),
                 Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 56.r),
-                    child: MySystemsCarousel(
-                      selectedIndex: selectedIndex,
-                      onCardTapped: (index) {
-                        onCardTapped?.call(index);
-                        if (index >= 0 && index < allSystems.length) {
-                          _navigateToSystem(
-                            context,
-                            allSystems[index],
-                            configProvider,
-                          );
-                        }
-                      },
-                      hideSystemLogos: configProvider.config.hideSystemLogos,
-                      bindYButton: false,
-                      onOptions: (index) {
-                        final selected = index >= 0 && index < allSystems.length
-                            ? allSystems[index]
-                            : currentSystem;
-                        _openSystemOptions(context, selected, configProvider);
-                      },
-                      onYPressed: () => _openSystemOptions(
-                        context,
-                        currentSystem,
-                        configProvider,
-                      ),
-                      onWestPressed: () => _openSearch(context),
-                    ),
+                  child: _buildEclipsePlatformRow(
+                    context,
+                    allSystems,
+                    configProvider,
                   ),
                 ),
                 SystemsGridFooter(
@@ -195,6 +170,86 @@ class MySystems extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+
+  /// ECLIPSE's own wide, horizontal platform shelf.
+  ///
+  /// The original wheel carousel remains available in the codebase, but the
+  /// primary library now presents the systems as readable, landscape cards
+  /// with the same existing artwork, counts, and controller-safe actions.
+  Widget _buildEclipsePlatformRow(
+    BuildContext context,
+    List<SystemInfo> systems,
+    SqliteConfigProvider configProvider,
+  ) {
+    final width = MediaQuery.sizeOf(context).width;
+    final cardWidth = (width * 0.42).clamp(176.0, 252.0).toDouble();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsets.fromLTRB(16.r, 12.r, 16.r, 4.r),
+          child: Row(
+            children: [
+              Text(
+                'YOUR PLATFORMS',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSurface.withValues(
+                    alpha: 0.68,
+                  ),
+                  fontSize: 9.r,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: 1.35.r,
+                ),
+              ),
+              const Spacer(),
+              Text(
+                'SWIPE TO EXPLORE',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSurface.withValues(
+                    alpha: 0.38,
+                  ),
+                  fontSize: 8.r,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 0.9.r,
+                ),
+              ),
+            ],
+          ),
+        ),
+        Expanded(
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            padding: EdgeInsets.fromLTRB(12.r, 8.r, 12.r, 16.r),
+            physics: const BouncingScrollPhysics(),
+            itemCount: systems.length,
+            separatorBuilder: (context, index) => SizedBox(width: 10.r),
+            itemBuilder: (context, index) {
+              final system = systems[index];
+              return SizedBox(
+                width: cardWidth,
+                child: SystemCard(
+                  key: ValueKey(
+                    'eclipse-platform-${system.folderName}-$index',
+                  ),
+                  info: system,
+                  isSelected: index == selectedIndex,
+                  showCount: true,
+                  backgroundCacheWidth: 768,
+                  onTap: () {
+                    onCardTapped?.call(index);
+                    _navigateToSystem(context, system, configProvider);
+                  },
+                  onLongPress: () =>
+                      _openSystemOptions(context, system, configProvider),
+                ),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 
