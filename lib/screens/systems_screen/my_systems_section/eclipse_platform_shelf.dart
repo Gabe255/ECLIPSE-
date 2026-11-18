@@ -159,7 +159,8 @@ class _EclipsePlatformShelfState extends State<EclipsePlatformShelf> {
           : _platformScrollController;
 
       if (localIndex >= 0 && controller.hasClients) {
-        final target = (localIndex * (_cardWidth + 10.r))
+        final rowCardWidth = _activeRow == 0 ? _cardWidth * 1.08 : _cardWidth;
+        final target = (localIndex * (rowCardWidth + 10.r))
             .clamp(0.0, controller.position.maxScrollExtent)
             .toDouble();
         if (animate) {
