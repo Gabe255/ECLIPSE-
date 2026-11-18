@@ -30,7 +30,7 @@ void main() {
     await dbHelper.tearDown();
   });
 
-  testWidgets('signed out, the page is a single sign-in row', (tester) async {
+  testWidgets('signed out, the page exposes sign-in and SteamGridDB rows', (tester) async {
     final key = GlobalKey<ScreenScraperSettingsContentState>();
     await tester.pumpWidget(
       MediaQuery(
@@ -65,9 +65,9 @@ void main() {
 
     expect(find.text('Metadata'), findsOneWidget);
     expect(find.text('ScreenScraper Login'), findsOneWidget);
-    expect(key.currentState!.getItemCount(), 1);
-    // Nothing to move to or drop, so the cursor stays put and B falls through.
-    expect(key.currentState!.navigateDown(), isFalse);
+    expect(key.currentState!.getItemCount(), 2);
+    // The second row configures SteamGridDB; B still falls through at the top.
+    expect(key.currentState!.navigateDown(), isTrue);
     expect(key.currentState!.navigateBack(), isFalse);
   });
 }
