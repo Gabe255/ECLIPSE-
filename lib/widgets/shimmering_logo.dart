@@ -1,5 +1,3 @@
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 
 /// The original ECLIPSE wordmark with a soft light band sweeping across it.
