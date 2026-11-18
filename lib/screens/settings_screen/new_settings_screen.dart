@@ -6,6 +6,7 @@ import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:neostation/l10n/app_locale.dart';
 import 'package:neostation/services/sfx_service.dart';
+import 'package:neostation/widgets/shimmering_logo.dart';
 import 'package:neostation/utils/adaptive_scroll.dart';
 
 import 'new_settings_options/general_settings_content.dart';
@@ -23,8 +24,6 @@ import 'new_settings_options/screenscraper/screenscraper_settings_content.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:neostation/services/logger_service.dart';
-import 'package:neostation/themes/corner_radii.dart';
-import 'package:neostation/widgets/neo_glass.dart';
 
 import '../../providers/sqlite_config_provider.dart';
 
@@ -554,93 +553,150 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
   }
 
   Widget _buildLeftMenu(ThemeData theme) {
-    final radii = theme.extension<CornerRadii>();
-    final radiusPx = radii?.radiusExternalRadius ?? 14.r;
-    final radius = radii?.radiusExternal ?? BorderRadius.circular(14.r);
-    final rimWidth = NeoGlass.borderWidthOf(context);
+    final width = MediaQuery.sizeOf(context).width * 0.25;
+    final accent = theme.colorScheme.primary;
 
     return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.25,
-      child: ListView.builder(
-        padding: EdgeInsets.fromLTRB(16.r, 0, 8.r, 24.r),
-        itemCount: _menuItems.length,
-        itemBuilder: (context, index) {
-          final item = _menuItems[index];
-          if (!item.isVisible) return const SizedBox.shrink();
-
-          final isSelected = _selectedMenuIndex == index;
-          // While focus lives in the content panel, keep the active category
-          // visible but muted so the content's own selection reads as primary.
-          final mutedSelection = Color.alphaBlend(
-            theme.colorScheme.onSurface.withValues(alpha: 0.18),
-            theme.colorScheme.surface,
-          );
-          final background = isSelected
-              ? (_focusOnMenu ? theme.colorScheme.onSurface : mutedSelection)
-              : theme.colorScheme.surface;
-          final contentColor = isSelected
-              ? (_focusOnMenu
-                    ? theme.colorScheme.surface
-                    : theme.colorScheme.onSurface)
-              : theme.colorScheme.onSurface;
-
-          final button = Container(
-            decoration: BoxDecoration(color: background, borderRadius: radius),
-            child: Material(
-              color: Colors.transparent,
-              borderRadius: radius,
-              clipBehavior: Clip.antiAlias,
-              child: InkWell(
-                onTap: () {
-                  SfxService().playNavSound();
-                  _onMenuItemSelected(index);
-                },
-                canRequestFocus: false,
-                focusColor: Colors.transparent,
-                hoverColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                splashColor: Colors.transparent,
-                borderRadius: radius,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 12.r,
-                    vertical: 8.r,
+      width: width,
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(12.r, 0, 8.r, 16.r),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Padding(
+              padding: EdgeInsets.fromLTRB(8.r, 4.r, 8.r, 18.r),
+              child: Row(
+                children: [
+                  EclipseLogoMark(size: 27.r),
+                  SizedBox(width: 8.r),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'ECLIPSE',
+                          style: TextStyle(
+                            color: theme.colorScheme.onSurface,
+                            fontSize: 11.r,
+                            fontWeight: FontWeight.w900,
+                            letterSpacing: 1.2.r,
+                          ),
+                        ),
+                        SizedBox(height: 2.r),
+                        Text(
+                          'SYSTEM CONTROL',
+                          style: TextStyle(
+                            color: accent,
+                            fontSize: 7.r,
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: 1.05.r,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  child: Row(
-                    children: [
-                      Icon(item.icon, color: contentColor, size: 18.r),
-                      SizedBox(width: 10.r),
-                      Expanded(
-                        child: Text(
-                          item.localeKey.getString(context),
-                          style: theme.textTheme.bodyLarge?.copyWith(
-                            color: contentColor,
-                            fontWeight: isSelected
-                                ? FontWeight.w600
-                                : FontWeight.normal,
-                            fontSize: 12.r,
+                ],
+              ),
+            ),
+            Container(
+              height: 1,
+              margin: EdgeInsets.only(left: 8.r, right: 8.r, bottom: 12.r),
+              color: theme.colorScheme.onSurface.withValues(alpha: 0.10),
+            ),
+            Expanded(
+              child: ListView.builder(
+                padding: EdgeInsets.only(bottom: 12.r),
+                itemCount: _menuItems.length,
+                itemBuilder: (context, index) {
+                  final item = _menuItems[index];
+                  if (!item.isVisible) return const SizedBox.shrink();
+
+                  final isSelected = _selectedMenuIndex == index;
+                  final isFocused = isSelected && _focusOnMenu;
+                  final background = isSelected
+                      ? accent.withValues(alpha: isFocused ? 0.20 : 0.10)
+                      : theme.colorScheme.surface.withValues(alpha: 0.42);
+                  final contentColor = isSelected
+                      ? accent
+                      : theme.colorScheme.onSurface.withValues(alpha: 0.78);
+
+                  return Padding(
+                    key: isSelected ? _selectedMenuItemKey : null,
+                    padding: EdgeInsets.only(bottom: 7.r),
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 160),
+                      curve: Curves.easeOutCubic,
+                      decoration: BoxDecoration(
+                        color: background,
+                        borderRadius: BorderRadius.circular(13.r),
+                        border: Border.all(
+                          color: isSelected
+                              ? accent.withValues(alpha: isFocused ? 0.72 : 0.38)
+                              : Colors.white.withValues(alpha: 0.045),
+                        ),
+                      ),
+                      child: Material(
+                        color: Colors.transparent,
+                        borderRadius: BorderRadius.circular(13.r),
+                        clipBehavior: Clip.antiAlias,
+                        child: InkWell(
+                          onTap: () {
+                            SfxService().playNavSound();
+                            _onMenuItemSelected(index);
+                          },
+                          canRequestFocus: false,
+                          splashColor: accent.withValues(alpha: 0.12),
+                          highlightColor: Colors.transparent,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 11.r,
+                              vertical: 10.r,
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(item.icon, color: contentColor, size: 17.r),
+                                SizedBox(width: 9.r),
+                                Expanded(
+                                  child: Text(
+                                    item.localeKey.getString(context),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      color: contentColor,
+                                      fontSize: 11.r,
+                                      fontWeight: isSelected
+                                          ? FontWeight.w800
+                                          : FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                                if (isSelected)
+                                  Container(
+                                    width: 5.r,
+                                    height: 5.r,
+                                    decoration: BoxDecoration(
+                                      color: accent,
+                                      shape: BoxShape.circle,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: accent.withValues(alpha: 0.45),
+                                          blurRadius: 6.r,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ],
-                  ),
-                ),
+                    ),
+                  );
+                },
               ),
             ),
-          );
-
-          return Padding(
-            key: isSelected ? _selectedMenuItemKey : null,
-            padding: EdgeInsets.only(bottom: 8.r),
-            child: rimWidth > 0
-                ? NeoGlassRim(
-                    cornerRadius: radiusPx,
-                    borderWidth: rimWidth,
-                    child: button,
-                  )
-                : button,
-          );
-        },
+          ],
+        ),
       ),
     );
   }
