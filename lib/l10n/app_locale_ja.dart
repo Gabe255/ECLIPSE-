@@ -118,13 +118,13 @@ const Map<String, dynamic> appLocaleJa = {
   AppLocale.stop: '停止',
   AppLocale.reset: 'リセット',
   AppLocale.startupStorageUnavailable:
-      'NeoStation はデータの保存先フォルダーにアクセスできませんでした。SD カードまたはドライブが接続されているか確認してください。',
+      'ECLIPSE はデータの保存先フォルダーにアクセスできませんでした。SD カードまたはドライブが接続されているか確認してください。',
   AppLocale.startupStorageRetry: '再試行',
   AppLocale.startupStorageUseDefault: 'このまま続行',
-  AppLocale.startupStorageFolderMissing: 'NeoStation はデータの保存先フォルダーを見つけられませんでした。移動、名前の変更、削除のいずれかが行われたか、フォルダーのあるドライブが接続されていない可能性があります。',
+  AppLocale.startupStorageFolderMissing: 'ECLIPSE はデータの保存先フォルダーを見つけられませんでした。移動、名前の変更、削除のいずれかが行われたか、フォルダーのあるドライブが接続されていない可能性があります。',
   AppLocale.startupStorageStartEmpty: '空のフォルダーで始める',
-  AppLocale.startupStorageCreateFailed: 'NeoStation はそこにフォルダーを作成できませんでした。',
-  AppLocale.startupLoading: 'NeoStation を準備中です。ストレージとサービスを待機しています…',
+  AppLocale.startupStorageCreateFailed: 'ECLIPSE はそこにフォルダーを作成できませんでした。',
+  AppLocale.startupLoading: 'ECLIPSE を準備中です。ストレージとサービスを待機しています…',
 
   AppLocale.play: 'プレイ',
   AppLocale.playButton: 'プレイ',
@@ -164,7 +164,7 @@ const Map<String, dynamic> appLocaleJa = {
   AppLocale.systemArtApplied: '適用済み',
   AppLocale.systemArtHideLogos: 'システムロゴを非表示',
   AppLocale.systemArtHideLogosSubtitle: '背景にロゴが含まれている場合、システムカードのロゴを隠します',
-  AppLocale.about: 'NeoStationについて',
+  AppLocale.about: 'ECLIPSEについて',
   AppLocale.exit: '終了',
   AppLocale.launcher: 'ランチャー',
   AppLocale.emulators: 'エミュレータ',
@@ -177,7 +177,7 @@ const Map<String, dynamic> appLocaleJa = {
   AppLocale.recentCardSizeSubtitle: 'システムグリッドの最近プレイしたカードのサイズ',
   AppLocale.recentCardSizeDefault: 'デフォルト',
   AppLocale.recentCardSize2x1: 'コンパクト',
-  AppLocale.themesSubtitle: 'NeoStationの外観をカスタマイズ',
+  AppLocale.themesSubtitle: 'ECLIPSEの外観をカスタマイズ',
   AppLocale.neoglassGroup: 'NeoGlass',
   AppLocale.neoglassBlur: 'ガラスのぼかし',
   AppLocale.neoglassBlurSubtitle: 'ぼかしの強さ: オフ、1、2',
@@ -297,9 +297,9 @@ const Map<String, dynamic> appLocaleJa = {
   AppLocale.permissionGranted: '許可されました',
   AppLocale.permissionDisabled: '無効になりました',
   AppLocale.allFilesAccessSubtitle: 'RetroArchの設定とセーブデータの同期に必要',
-  AppLocale.defaultLauncherSubtitle: 'NeoStationはデフォルトのランチャーです',
-  AppLocale.isDefaultLauncher: 'NeoStationはデフォルトのランチャーです',
-  AppLocale.setAsDefaultLauncher: 'NeoStationをホーム画面として設定',
+  AppLocale.defaultLauncherSubtitle: 'ECLIPSEはデフォルトのランチャーです',
+  AppLocale.isDefaultLauncher: 'ECLIPSEはデフォルトのランチャーです',
+  AppLocale.setAsDefaultLauncher: 'ECLIPSEをホーム画面として設定',
   AppLocale.disableSecondaryScreen: 'セカンダリ画面で無効化',
   AppLocale.disableSecondaryScreenSub: 'セカンダリ画面のアプリを閉じる',
   AppLocale.bartopShutdown: '終了時にBarTOPをシャットダウン',
@@ -325,7 +325,7 @@ const Map<String, dynamic> appLocaleJa = {
   AppLocale.selectExecutablePath: '実行ファイルのパスを選択',
 
   AppLocale.exitApplication: 'アプリを終了',
-  AppLocale.exitConfirmation: 'NeoStationを終了してもよろしいですか？',
+  AppLocale.exitConfirmation: 'ECLIPSEを終了してもよろしいですか？',
   AppLocale.confirmExit: '終了の確認',
   AppLocale.rescanAllFolders: 'すべての ROM フォルダを再スキャン',
   AppLocale.rescanAllFoldersSubtitle: '新しいシステムとROMを手動で検索',
@@ -365,7 +365,7 @@ const Map<String, dynamic> appLocaleJa = {
   AppLocale.cleanOrphanedMetadataNothingToDelete:
       '削除するものはありません。孤立したメタデータはすべて ES-DE からインポートしたもので、このツールでは削除しません。',
   AppLocale.cleanOrphanedMetadataMediaUnavailable:
-      'NeoStation のメディアフォルダが見つかりません。NeoStation を再起動してからもう一度お試しください。',
+      'ECLIPSE のメディアフォルダが見つかりません。ECLIPSE を再起動してからもう一度お試しください。',
   AppLocale.cleanOrphanedMetadataFailed: '孤立したメタデータの削除に失敗しました: {error}',
   AppLocale.rematchAchievements: 'RetroAchievements のゲームを照合',
   AppLocale.rommLinkLibrary: 'ライブラリをRomMにリンク',
@@ -415,7 +415,7 @@ const Map<String, dynamic> appLocaleJa = {
   AppLocale.selectRomsFolder: 'ROMフォルダを選択',
   AppLocale.scanningSystem: 'システムをスキャン中',
 
-  AppLocale.thankYou: 'NeoStationをご利用いただきありがとうございます！',
+  AppLocale.thankYou: 'ECLIPSEをご利用いただきありがとうございます！',
   AppLocale.visitWebsite: '公式サイトを訪問',
   AppLocale.joinCommunity: 'コミュニティに参加してサポートを受ける',
   AppLocale.exportLogs: 'ログをエクスポート',
@@ -515,9 +515,9 @@ const Map<String, dynamic> appLocaleJa = {
   AppLocale.onlineSaves: 'オンラインセーブ',
   AppLocale.noOnlineSavesFound: 'オンラインセーブが見つかりません',
   AppLocale.whatIsNeoSync: 'NeoSyncクラウドとは？',
-  AppLocale.neoSyncDescription: 'NeoSyncは、NeoStationのための統合クラウドパートナーです。',
+  AppLocale.neoSyncDescription: 'NeoSyncは、ECLIPSEのための統合クラウドパートナーです。',
   AppLocale.crossPlatform: 'クロスプラットフォーム',
-  AppLocale.crossPlatformDesc: 'どのNeoStationデバイスからでも、続きから再開できます。',
+  AppLocale.crossPlatformDesc: 'どのECLIPSEデバイスからでも、続きから再開できます。',
   AppLocale.securePrivate: '安全でプライベート',
   AppLocale.securePrivateDesc: 'あなたのデータは暗号化され、あなただけがアクセスできます。',
   AppLocale.learnMoreEcosystem: 'エコシステムについての詳細',
@@ -866,7 +866,7 @@ const Map<String, dynamic> appLocaleJa = {
   AppLocale.screenScraperApiClosed:
       'ScreenScraperのAPIは一時的に利用できません。しばらくしてから再試行してください。',
   AppLocale.screenScraperAppOutdated:
-      'ScreenScraperはこのアプリバージョンを受け付けなくなりました。NeoStationを更新してください。',
+      'ScreenScraperはこのアプリバージョンを受け付けなくなりました。ECLIPSEを更新してください。',
   AppLocale.screenScraperQuotaReached: 'ScreenScraperの1日の上限に達しました。明日再試行してください。',
   AppLocale.screenScraperConnectionError:
       'ScreenScraperに接続できませんでした。インターネット接続を確認して再試行してください。',
@@ -885,22 +885,22 @@ const Map<String, dynamic> appLocaleJa = {
   AppLocale.ofSystems: '{scanned} / {total} システム',
   AppLocale.systemsDetected: '{count}個のシステムを検出',
   AppLocale.romsLabel: '{count}個のROM',
-  AppLocale.welcomeNeoStation: 'NeoStationへようこそ！',
+  AppLocale.welcomeEclipse: 'ECLIPSEへようこそ！',
   AppLocale.letsGetSetup: 'セットアップを始めましょう',
   AppLocale.storagePermission: 'ストレージの許可',
-  AppLocale.storagePermissionDesc: 'NeoStationがRetroArchの設定を管理し、セーブデータを正しく同期するには「すべてのファイルへのアクセス」が必要です。\n\n次の画面でこの許可を与えてください。',
+  AppLocale.storagePermissionDesc: 'ECLIPSEがRetroArchの設定を管理し、セーブデータを正しく同期するには「すべてのファイルへのアクセス」が必要です。\n\n次の画面でこの許可を与えてください。',
   AppLocale.screenReturnAccess: '画面復帰のアクセス許可',
   AppLocale.screenReturnAccessDesc: 'ドックから開いたアプリを閉じるとNow Playing画面に戻り、システムのスクリーンショットが使えるようになります。読み取るのは前面に表示中のアプリ名だけで、画面の内容は収集しません。',
-  AppLocale.screenReturnAccessHint: 'NeoStationをオンにして、「許可」をタップしてください',
+  AppLocale.screenReturnAccessHint: 'ECLIPSEをオンにして、「許可」をタップしてください',
   AppLocale.screenReturnDialogTitle: '画面復帰を有効にする',
   AppLocale.screenReturnDialogBody: 'ドックからアプリを起動するには、画面復帰のユーザー補助サービスが必要です。開いたアプリを閉じたあと、この画面に戻れるようにします。これがないと、戻る手段がなくなることがあります。',
   AppLocale.screenReturnDialogSteps:
-      '次の画面で、サービスの一覧から NeoStation を探してオンにしてください。',
+      '次の画面で、サービスの一覧から ECLIPSE を探してオンにしてください。',
   AppLocale.openSettings: '設定を開く',
   AppLocale.selectRomFolder: 'ROMフォルダを選択',
   AppLocale.romFolderSelected: 'ROMフォルダが選択されました！',
   AppLocale.chooseRomFolderDesc:
-      'ROMファイルが保存されているフォルダを選択してください。\n\nNeoStationはこのフォルダ内のゲームをスキャンします。',
+      'ROMファイルが保存されているフォルダを選択してください。\n\nECLIPSEはこのフォルダ内のゲームをスキャンします。',
   AppLocale.setupComplete: 'セットアップ完了！',
   AppLocale.scanningRoms: 'ROMをスキャン中',
   AppLocale.foundSystemsWithGames: 'ゲームのあるシステムが{count}個見つかりました！',
@@ -1146,7 +1146,7 @@ const Map<String, dynamic> appLocaleJa = {
   AppLocale.systemsUpdateCheckFailed:
       'システムの更新を確認できませんでした。インターネット接続を確認して、もう一度お試しください。',
   AppLocale.systemsUpdateNeedsNewerApp:
-      '新しいシステムバージョンには、より新しい NeoStation が必要です。先にアプリを更新してください。',
+      '新しいシステムバージョンには、より新しい ECLIPSE が必要です。先にアプリを更新してください。',
 
   AppLocale.checkingCredentials: '資格情報を確認中...',
   AppLocale.scrapeNoCredentials: 'ScreenScraperの資格情報が見つかりません。ログインしてください。',
@@ -1164,17 +1164,17 @@ const Map<String, dynamic> appLocaleJa = {
   AppLocale.selectUserDataFolder: 'データフォルダを選択',
   AppLocale.folderNotEmptyTitle: 'フォルダが空ではありません',
   AppLocale.folderNotEmptyBody:
-      'このフォルダには既に {count} 個の項目があります。NeoStation は既存の内容とともに、ここに独自のデータを保存します。',
+      'このフォルダには既に {count} 個の項目があります。ECLIPSE は既存の内容とともに、ここに独自のデータを保存します。',
   AppLocale.folderNotEmptyUseAnyway: 'このまま使用',
   AppLocale.userDataFolderNotWritable:
       "このフォルダに書き込めません。別のフォルダを選ぶか、既定の場所のままにしてください。",
   AppLocale.userDataFolderCantWrite: 'このフォルダに書き込めません。別のフォルダを選んでください。',
-  AppLocale.userDataFolderGrantAllFiles: "このフォルダを使うには、Android の設定 → アプリ → 特別なアプリアクセス → 全ファイルアクセス で NeoStation を許可してから、もう一度選択してください。",
-  AppLocale.userDataMoveToCardAppFolder: 'NeoStation はこの SD カード上の選んだフォルダに書き込めないため、データはカード上の NeoStation 専用フォルダに保存されます。このフォルダは NeoStation をアンインストールすると Android によって削除されます。',
+  AppLocale.userDataFolderGrantAllFiles: "このフォルダを使うには、Android の設定 → アプリ → 特別なアプリアクセス → 全ファイルアクセス で ECLIPSE を許可してから、もう一度選択してください。",
+  AppLocale.userDataMoveToCardAppFolder: 'ECLIPSE はこの SD カード上の選んだフォルダに書き込めないため、データはカード上の ECLIPSE 専用フォルダに保存されます。このフォルダは ECLIPSE をアンインストールすると Android によって削除されます。',
   AppLocale.moveUserDataTitle: 'ユーザーデータを移動しますか？',
-  AppLocale.moveUserDataBody: 'NeoStation は自身のデータ（データベース、取得したメディア、設定）を現在のフォルダから新しいフォルダへ移動します。NeoStation が作成していないファイルはそのまま残ります。',
+  AppLocale.moveUserDataBody: 'ECLIPSE は自身のデータ（データベース、取得したメディア、設定）を現在のフォルダから新しいフォルダへ移動します。ECLIPSE が作成していないファイルはそのまま残ります。',
   AppLocale.moveUserDataDestNotEmpty:
-      '新しいフォルダには既に {count} 個の項目があります。NeoStation のデータはそれらと一緒に追加されます。',
+      '新しいフォルダには既に {count} 個の項目があります。ECLIPSE のデータはそれらと一緒に追加されます。',
   AppLocale.moveUserDataConfirm: 'データを移動',
   AppLocale.migratingUserData: 'データを移動中',
   AppLocale.userDataMoveRunning: "データを移動しています。完了するまでお待ちください。",
@@ -1182,16 +1182,16 @@ const Map<String, dynamic> appLocaleJa = {
   AppLocale.migratingUserDataComplete: '移行完了',
   AppLocale.migratingUserDataError: '移行に失敗しました',
   AppLocale.userDataMoveBusy:
-      'NeoStationは処理中です（スキャン、スクレイピング、同期、インポート、またはツールを実行中）。終了してからデータを移動してください。',
+      'ECLIPSEは処理中です（スキャン、スクレイピング、同期、インポート、またはツールを実行中）。終了してからデータを移動してください。',
   AppLocale.userDataMoveNoSpace: '新しいフォルダーの空き容量が足りません。データは現在のフォルダーに残っています。',
   AppLocale.userDataMoveBlocked:
-      '新しいフォルダー内に、NeoStationのファイルまたはフォルダーと同じ名前のものがあります。データは現在のフォルダーに残っています。',
+      '新しいフォルダー内に、ECLIPSEのファイルまたはフォルダーと同じ名前のものがあります。データは現在のフォルダーに残っています。',
   AppLocale.userDataMoveOverlapping:
       '新しいフォルダーを現在のフォルダーの中に置いたり、現在のフォルダーを含んだりすることはできません。別のフォルダーを選んでください。',
   AppLocale.userDataMoveFailed: 'データを移動できませんでした。データは現在のフォルダーに残っています。',
   AppLocale.migratingFiles: '{total}件中{current}件のファイルをコピー中...',
   AppLocale.restartRequired: '再起動が必要です',
-  AppLocale.restartRequiredBody: 'NeoStationを今すぐ終了します。新しい場所を使用するには再度開いてください。',
+  AppLocale.restartRequiredBody: 'ECLIPSEを今すぐ終了します。新しい場所を使用するには再度開いてください。',
   AppLocale.userDataLocationUpdated: 'データの保存場所を更新しました',
   AppLocale.resetToDefault: 'デフォルトに戻す',
   AppLocale.romDirectories: 'ROMディレクトリ',
@@ -1270,7 +1270,7 @@ const Map<String, dynamic> appLocaleJa = {
   AppLocale.rommNoSystemMatch: 'このプラットフォームに一致するローカルシステムがありません',
   AppLocale.rommPlatformUnsupported: '非対応',
   AppLocale.rommNoWritableFolder:
-      'ROM フォルダーに書き込めませんでした。NeoStation に「すべてのファイルへのアクセス」を許可してから、もう一度お試しください。',
+      'ROM フォルダーに書き込めませんでした。ECLIPSE に「すべてのファイルへのアクセス」を許可してから、もう一度お試しください。',
   AppLocale.rommNotConnected: '先に設定で RomM サーバーに接続してください',
   // Bulk "sync a whole platform/collection".
   AppLocale.rommSyncAll: 'すべて同期',
@@ -1501,12 +1501,12 @@ const Map<String, dynamic> appLocaleJa = {
       '後で設定からインストールできます。',
   AppLocale.wizardSaveFailedTitle: 'セットアップが完了していません',
   AppLocale.wizardSaveFailedBody:
-      'NeoStation は設定を保存できませんでした。ストレージが使用できることを確認してから、もう一度お試しください。\n\n{error}',
+      'ECLIPSE は設定を保存できませんでした。ストレージが使用できることを確認してから、もう一度お試しください。\n\n{error}',
   AppLocale.wizardRomFolderNotAdded:
-      'NeoStation はこのフォルダを追加できませんでした。\n\n{error}',
-  AppLocale.wizardRomFolderTemporary: 'NeoStation は再起動後にこのフォルダへアクセスし続けることができません。ホームフォルダ内またはリムーバブルメディア上のフォルダを選んでください。',
+      'ECLIPSE はこのフォルダを追加できませんでした。\n\n{error}',
+  AppLocale.wizardRomFolderTemporary: 'ECLIPSE は再起動後にこのフォルダへアクセスし続けることができません。ホームフォルダ内またはリムーバブルメディア上のフォルダを選んでください。',
   AppLocale.wizardFolderNotUsable:
-      'NeoStation はこのフォルダを使用できません。端末のストレージまたは SD カード上のフォルダを選んでください。',
+      'ECLIPSE はこのフォルダを使用できません。端末のストレージまたは SD カード上のフォルダを選んでください。',
   AppLocale.wizardArtPackFailed:
       'System Art Pack をダウンロードできませんでした。もう一度お試しいただくか、今はスキップしてください。',
   AppLocale.wizardScanFailed:
