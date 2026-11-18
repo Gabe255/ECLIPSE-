@@ -55,6 +55,12 @@ class EclipsePlatformCard extends StatelessWidget {
         'assets/images/systems/carousel/$logoFolder-background.webp';
     final title = info.title ?? info.shortName ?? 'Platform';
     final count = info.numOfRoms ?? 0;
+    final isRecentGame = info.isGame;
+    final cardEyebrow = isRecentGame
+        ? 'RECENTLY PLAYED'
+        : (info.shortName ?? info.folderName ?? 'SYSTEM').toUpperCase();
+    final badgeText = isRecentGame ? 'RECENT' : badgeText;
+    final cardAction = isRecentGame ? 'PLAY AGAIN' : 'OPEN LIBRARY';
 
     return AnimatedScale(
       scale: selected ? 1 : 0.965,
@@ -126,7 +132,7 @@ class EclipsePlatformCard extends StatelessWidget {
                     top: 12.r,
                     left: 13.r,
                     child: Text(
-                      'ECLIPSE  /  PLATFORM',
+                      isRecentGame ? 'ECLIPSE  /  RECENT GAME' : 'ECLIPSE  /  PLATFORM',
                       style: TextStyle(
                         color: Colors.white.withValues(alpha: 0.70),
                         fontSize: 8.r,
@@ -201,8 +207,7 @@ class EclipsePlatformCard extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          (info.shortName ?? info.folderName ?? 'SYSTEM')
-                              .toUpperCase(),
+                          cardEyebrow,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -230,7 +235,7 @@ class EclipsePlatformCard extends StatelessWidget {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Text(
-                              'OPEN LIBRARY',
+                              cardAction,
                               style: TextStyle(
                                 color: Colors.white.withValues(alpha: 0.76),
                                 fontSize: 8.r,
