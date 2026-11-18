@@ -33,7 +33,7 @@ import 'widgets/grid_empty_state.dart';
 
 import 'package:neostation/widgets/spring_selected_card.dart';
 
-import 'my_systems_carousel.dart';
+import 'eclipse_platform_shelf.dart';
 
 import 'package:neostation/widgets/custom_notification.dart';
 import 'package:neostation/widgets/launch_failure_dialog.dart';
@@ -183,73 +183,21 @@ class MySystems extends StatelessWidget {
     List<SystemInfo> systems,
     SqliteConfigProvider configProvider,
   ) {
-    final width = MediaQuery.sizeOf(context).width;
-    final cardWidth = (width * 0.42).clamp(176.0, 252.0).toDouble();
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: EdgeInsets.fromLTRB(16.r, 12.r, 16.r, 4.r),
-          child: Row(
-            children: [
-              Text(
-                'YOUR PLATFORMS',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSurface.withValues(
-                    alpha: 0.68,
-                  ),
-                  fontSize: 9.r,
-                  fontWeight: FontWeight.w800,
-                  letterSpacing: 1.35.r,
-                ),
-              ),
-              const Spacer(),
-              Text(
-                'SWIPE TO EXPLORE',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSurface.withValues(
-                    alpha: 0.38,
-                  ),
-                  fontSize: 8.r,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: 0.9.r,
-                ),
-              ),
-            ],
-          ),
-        ),
-        Expanded(
-          child: ListView.separated(
-            scrollDirection: Axis.horizontal,
-            padding: EdgeInsets.fromLTRB(12.r, 8.r, 12.r, 16.r),
-            physics: const BouncingScrollPhysics(),
-            itemCount: systems.length,
-            separatorBuilder: (context, index) => SizedBox(width: 10.r),
-            itemBuilder: (context, index) {
-              final system = systems[index];
-              return SizedBox(
-                width: cardWidth,
-                child: SystemCard(
-                  key: ValueKey(
-                    'eclipse-platform-${system.folderName}-$index',
-                  ),
-                  info: system,
-                  isSelected: index == selectedIndex,
-                  showCount: true,
-                  backgroundCacheWidth: 768,
-                  onTap: () {
-                    onCardTapped?.call(index);
-                    _navigateToSystem(context, system, configProvider);
-                  },
-                  onLongPress: () =>
-                      _openSystemOptions(context, system, configProvider),
-                ),
-              );
-            },
-          ),
-        ),
-      ],
+    return EclipsePlatformShelf(
+      systems: systems,
+      selectedIndex: selectedIndex,
+      onSelected: (index) => onCardTapped?.call(index),
+      onOpen: (index) {
+        if (index >= 0 && index < systems.length) {
+          _navigateToSystem(context, systems[index], configProvider);
+        }
+      },
+      onOptions: (index) {
+        if (index >= 0 && index < systems.length) {
+          _openSystemOptions(context, systems[index], configProvider);
+        }
+      },
+      onSearch: () => _openSearch(context),
     );
   }
 
