@@ -133,7 +133,7 @@ class ScreenScraperService {
 
       final response = await ScreenscraperClient.httpGetWithRetry(
         url,
-        headers: {'User-Agent': 'NeoStation/1.0', 'Accept': 'application/json'},
+        headers: {'User-Agent': 'ECLIPSE/1.0', 'Accept': 'application/json'},
       );
 
       if (response.statusCode == 200) {
@@ -363,7 +363,7 @@ class ScreenScraperService {
 
       final response = await ScreenscraperClient.httpGetWithRetry(
         url,
-        headers: {'User-Agent': 'NeoStation/1.0', 'Accept': 'application/json'},
+        headers: {'User-Agent': 'ECLIPSE/1.0', 'Accept': 'application/json'},
       );
 
       if (response.statusCode == 200) {
@@ -610,7 +610,7 @@ class ScreenScraperService {
 
       final response = await ScreenscraperClient.httpGetWithRetry(
         url,
-        headers: {'User-Agent': 'NeoStation/1.0', 'Accept': 'application/json'},
+        headers: {'User-Agent': 'ECLIPSE/1.0', 'Accept': 'application/json'},
         maxDailyRequests: maxDailyRequests,
       );
 
@@ -1011,7 +1011,7 @@ class ScreenScraperService {
 
       final response = await ScreenscraperClient.httpGetWithRetry(
         url,
-        headers: {'User-Agent': 'NeoStation/1.0', 'Accept': 'application/json'},
+        headers: {'User-Agent': 'ECLIPSE/1.0', 'Accept': 'application/json'},
       );
 
       // Nothing by that name is an ordinary outcome, not a fault.
