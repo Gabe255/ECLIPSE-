@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:gamepads/gamepads.dart';
@@ -152,6 +153,12 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
   }
 
   Future<void> _openPs4Emulator() async {
+    if (!Platform.isAndroid) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Bachata S4 is currently supported on Android only.')),
+      );
+      return;
+    }
     final installed = await AndroidService.isPackageInstalled(
       'com.bachatas4.android',
     );
