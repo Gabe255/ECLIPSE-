@@ -232,7 +232,7 @@ class AboutSettingsContentState extends State<AboutSettingsContent> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SettingsTitle(title: AppLocale.thankYou.getString(context)),
+          SettingsTitle(title: 'About ECLIPSE'),
           SizedBox(height: 12.r),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 6.r),
