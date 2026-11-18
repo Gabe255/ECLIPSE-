@@ -35,7 +35,7 @@ class ScreenscraperClient {
       final packageInfo = await PackageInfo.fromPlatform();
       final name = packageInfo.appName.isNotEmpty
           ? packageInfo.appName
-          : 'neostation';
+          : 'eclipse';
       final version = packageInfo.version;
 
       String platform = '';
@@ -53,7 +53,7 @@ class ScreenscraperClient {
       _appVersion = '$name-$version-$platform';
       return _appVersion!;
     } catch (e) {
-      _appVersion = 'neostation';
+      _appVersion = 'eclipse';
       return _appVersion!;
     }
   }
