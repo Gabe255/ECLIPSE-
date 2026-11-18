@@ -323,7 +323,7 @@ class ConfigModel {
     this.lastScan,
     this.emulators = const {},
     this.gameViewMode = 'list',
-    this.systemViewMode = 'grid',
+    this.systemViewMode = 'shelf',
     this.showGameInfo = false,
     this.isFullscreen = true,
     this.bartopExitPoweroff = false,
@@ -419,7 +419,7 @@ class ConfigModel {
           : null,
       emulators: emulators,
       gameViewMode: (json['gameViewMode'] ?? 'list').toString(),
-      systemViewMode: (json['systemViewMode'] ?? 'grid').toString(),
+      systemViewMode: (json['systemViewMode'] ?? 'shelf').toString(),
       showGameInfo:
           (json['showGameInfo'] ?? false).toString().toLowerCase() == 'true',
       isFullscreen:
