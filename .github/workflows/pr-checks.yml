@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - main
+      - migration/pegasus-flutter-port
   workflow_dispatch:
 
 env:
