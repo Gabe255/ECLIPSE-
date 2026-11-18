@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:gamepads/gamepads.dart';
 
 import '../../models/system_model.dart';
 import '../../providers/file_provider.dart';
+import '../../services/android_service.dart';
 import '../../services/gamepad/gamepad_navigation_manager.dart';
 import '../../utils/gamepad_nav.dart';
 import '../game_screen/my_games_list.dart';
@@ -61,26 +63,48 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
       codes.contains(widget.system.folderName.toLowerCase());
 
   String get _interfaceFamily {
-    if (_isPsp || _isFolderCode(['psp', 'pspminis'])) return 'psp';
-    if (_isWii) return 'wii';
-    if (_isDsFamily || _isFolderCode(['ds', '3ds'])) return 'ds';
+    if (_isPsp || _isFolderCode(['psp', 'pspminis'])) {
+      return 'psp';
+    }
+    if (_isWii) {
+      return 'wii';
+    }
+    if (_isDsFamily || _isFolderCode(['ds', '3ds'])) {
+      return 'ds';
+    }
     if (_isFolderCode(['xbox360']) ||
-        _hasAny(['xbox 360', 'xbox360', 'xb360', '360']))
+        _hasAny(['xbox 360', 'xbox360', 'xb360', '360'])) {
       return 'xbox360';
-    if (_isFolderCode(['xbox']) || _hasAny(['original xbox', 'microsoft xbox']))
+    }
+    if (_isFolderCode(['xbox']) ||
+        _hasAny(['original xbox', 'microsoft xbox'])) {
       return 'xbox';
+    }
     if (_isFolderCode(['ps1', 'psx']) ||
-        _hasAny(['ps1', 'playstation 1', 'playstation (1994)', 'psx']))
+        _hasAny(['ps1', 'playstation 1', 'playstation (1994)', 'psx'])) {
       return 'playstation-ps1';
-    if (_isFolderCode(['ps2']) || _hasAny(['ps2', 'playstation 2']))
+    }
+    if (_isFolderCode(['ps2']) || _hasAny(['ps2', 'playstation 2'])) {
       return 'playstation-ps2';
-    if (_hasAny(['ps5', 'playstation 5', 'ps4', 'playstation 4']))
+    }
+    if (_isFolderCode(['ps4']) || _hasAny(['ps4', 'playstation 4'])) {
+      return 'playstation-ps4';
+    }
+    if (_hasAny(['ps5', 'playstation 5'])) {
       return 'playstation-modern';
-    if (_hasAny(['ps3', 'playstation 3'])) return 'playstation-xmb';
-    if (_hasAny(['switch', 'nintendo switch']) || _isFolderCode(['switch']))
+    }
+    if (_hasAny(['ps3', 'playstation 3'])) {
+      return 'playstation-xmb';
+    }
+    if (_hasAny(['switch', 'nintendo switch']) || _isFolderCode(['switch'])) {
       return 'switch';
-    if (_hasAny(['gamecube']) || _isFolderCode(['gc'])) return 'gamecube';
-    if (_hasAny(['n64', 'nintendo 64']) || _isFolderCode(['n64'])) return 'n64';
+    }
+    if (_hasAny(['gamecube']) || _isFolderCode(['gc'])) {
+      return 'gamecube';
+    }
+    if (_hasAny(['n64', 'nintendo 64']) || _isFolderCode(['n64'])) {
+      return 'n64';
+    }
     if (_hasAny([
           'gba',
           'game boy advance',
@@ -100,9 +124,12 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
           'ngpc',
           'ws',
           'wsc',
-        ]))
+        ])) {
       return 'gameboy';
-    if (_hasAny(['dreamcast']) || _isFolderCode(['dc'])) return 'dreamcast';
+    }
+    if (_hasAny(['dreamcast']) || _isFolderCode(['dc'])) {
+      return 'dreamcast';
+    }
     if (_hasAny(['genesis', 'megadrive', 'mega drive', 'sega']) ||
         _isFolderCode([
           'genesis',
@@ -117,8 +144,9 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
           'scd',
           'mcd',
           'sg1k',
-        ]))
+        ])) {
       return 'sega';
+    }
     if (_hasAny(['snes', 'super nintendo', 'nes', 'famicom']) ||
         _isFolderCode([
           'nes',
@@ -129,8 +157,9 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
           'sfc-hacks',
           'fc',
           'fds',
-        ]))
+        ])) {
       return 'nintendo-classic';
+    }
     if (_isFolderCode([
       'mame',
       'fbneo',
@@ -144,8 +173,9 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
       'naomigd',
       'model3',
       'triforce',
-    ]))
+    ])) {
       return 'arcade';
+    }
     return 'desktop';
   }
 
@@ -154,20 +184,24 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
     super.initState();
     _gamepadNav = GamepadNavigation(
       onNavigateUp: () {
-        if (!_booting && _interfaceFamily == 'wii')
+        if (!_booting && _interfaceFamily == 'wii') {
           _moveWiiPointer(const Offset(0, -0.055));
+        }
       },
       onNavigateDown: () {
-        if (!_booting && _interfaceFamily == 'wii')
+        if (!_booting && _interfaceFamily == 'wii') {
           _moveWiiPointer(const Offset(0, 0.055));
+        }
       },
       onNavigateLeft: () {
-        if (!_booting && _interfaceFamily == 'wii')
+        if (!_booting && _interfaceFamily == 'wii') {
           _moveWiiPointer(const Offset(-0.055, 0));
+        }
       },
       onNavigateRight: () {
-        if (!_booting && _interfaceFamily == 'wii')
+        if (!_booting && _interfaceFamily == 'wii') {
           _moveWiiPointer(const Offset(0.055, 0));
+        }
       },
       onSelectItem: () {
         if (_booting) {
@@ -189,9 +223,9 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
     );
     _bootController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 2400),
+      duration: const Duration(milliseconds: 1250),
     )..forward();
-    _bootTimer = Timer(const Duration(milliseconds: 2800), _finishBoot);
+    _bootTimer = Timer(const Duration(milliseconds: 1450), _finishBoot);
     if (_interfaceFamily == 'wii') _listenForWiiStick();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
@@ -219,6 +253,45 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
   void _finishBoot() {
     if (!mounted || !_booting) return;
     setState(() => _booting = false);
+  }
+
+  Future<void> _openPs4Emulator() async {
+    if (!Platform.isAndroid) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Bachata S4 is currently supported on Android only.'),
+        ),
+      );
+      return;
+    }
+    final installed = await AndroidService.isPackageInstalled(
+      'com.bachatas4.android',
+    );
+    if (!mounted) return;
+    if (!installed) {
+      await showDialog<void>(
+        context: context,
+        builder: (dialogContext) => AlertDialog(
+          title: const Text('Bachata S4 is not installed'),
+          content: const Text(
+            'Install Bachata S4 to import and run your legally-owned PS4 game packages. ECLIPSE can hand off .pkg files to it once installed.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(),
+              child: const Text('Got it'),
+            ),
+          ],
+        ),
+      );
+      return;
+    }
+    final opened = await AndroidService.launchPackage('com.bachatas4.android');
+    if (!opened && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Could not open Bachata S4.')),
+      );
+    }
   }
 
   Future<void> _openLibrary() async {
@@ -251,46 +324,51 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
       case 'psp':
         return 'PLAYSTATION PORTABLE';
       case 'wii':
-        return 'WII SYSTEM MENU';
+        return 'WII MENU';
       case 'ds':
-        return 'NINTENDO DUAL SCREEN';
+        return 'DUAL SCREEN SYSTEM';
       case 'xbox':
-        return 'XBOX SYSTEM';
+        return 'XBOX DASHBOARD';
       case 'xbox360':
-        return 'XBOX 360';
+        return 'XBOX 360 DASHBOARD';
       case 'playstation-ps1':
-        return 'PLAYSTATION';
+        return 'PLAYSTATION BIOS';
       case 'playstation-ps2':
-        return 'PLAYSTATION 2';
+        return 'PLAYSTATION 2 BROWSER';
+      case 'playstation-ps4':
+        return 'PLAYSTATION 4 SYSTEM SOFTWARE';
+      case 'playstation-xmb':
+        return 'XMB INTERFACE';
       case 'playstation-modern':
         return 'PLAYSTATION HOME';
-      case 'playstation-xmb':
-        return 'PLAYSTATION 3';
-      case 'playstation-classic':
-        return 'PLAYSTATION CLASSIC';
       case 'switch':
         return 'NINTENDO SWITCH';
       case 'gamecube':
-        return 'NINTENDO GAMECUBE';
+        return 'GAMECUBE SYSTEM MENU';
       case 'n64':
         return 'NINTENDO 64';
       case 'gameboy':
-        return 'GAME BOY';
+        return 'HANDHELD SYSTEM';
       case 'dreamcast':
-        return 'SEGA DREAMCAST';
+        return 'DREAMCAST CONSOLE';
       case 'sega':
         return 'SEGA SYSTEM';
       case 'nintendo-classic':
-        return 'NINTENDO ENTERTAINMENT SYSTEM';
+        return 'NINTENDO SYSTEM';
       case 'arcade':
         return 'ARCADE SYSTEM';
       default:
-        return widget.system.shortName ?? widget.system.realName;
+        return 'ECLIPSE CONSOLE ENVIRONMENT';
     }
   }
 
+  String get _bootStatus {
+    if (widget.system.romCount == 0) return 'Preparing your console space';
+    return 'Preparing ${widget.system.romCount} games for your library';
+  }
+
   Widget _buildBoot() {
-    final name = _bootLabel;
+    final name = widget.system.shortName ?? widget.system.realName;
     return GestureDetector(
       key: const ValueKey('console-boot'),
       behavior: HitTestBehavior.opaque,
@@ -300,137 +378,69 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
         decoration: BoxDecoration(
           gradient: RadialGradient(
             center: Alignment.center,
-            radius: 1.15,
-            colors: [
-              _accent.withValues(alpha: 0.30),
-              const Color(0xFF111522),
-              const Color(0xFF05060A),
-            ],
-            stops: const [0, 0.58, 1],
+            radius: 1.05,
+            colors: [_accent.withValues(alpha: 0.25), const Color(0xFF090B10)],
           ),
         ),
-        child: Stack(
-          children: [
-            Positioned(
-              top: 28,
-              left: 0,
-              right: 0,
-              child: Text(
-                'E C L I P S E',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white.withValues(alpha: 0.38),
-                  fontSize: 10,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: 5,
-                ),
-              ),
-            ),
-            Center(
-              child: AnimatedBuilder(
-                animation: _bootController,
-                builder: (context, _) {
-                  final progress = Curves.easeOutCubic.transform(
-                    _bootController.value,
-                  );
-                  final scale = 0.88 + (progress * 0.12);
-                  return Opacity(
-                    opacity: (0.2 + progress * 0.8).clamp(0.0, 1.0),
-                    child: Transform.scale(
-                      scale: scale,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(17),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: _accent.withValues(alpha: 0.10),
-                              border: Border.all(
-                                color: _accent.withValues(alpha: 0.65),
-                                width: 1.4,
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: _accent.withValues(alpha: 0.24),
-                                  blurRadius: 38,
-                                  spreadRadius: 4,
-                                ),
-                              ],
-                            ),
-                            child: _SystemMark(system: widget.system, size: 86),
-                          ),
-                          const SizedBox(height: 30),
-                          Text(
-                            name.toUpperCase(),
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 21,
-                              fontWeight: FontWeight.w900,
-                              letterSpacing: 3.2,
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          Text(
-                            'SYSTEM STARTUP',
-                            style: TextStyle(
-                              color: _accent.withValues(alpha: 0.95),
-                              fontSize: 10,
-                              letterSpacing: 3,
-                              fontWeight: FontWeight.w800,
-                            ),
-                          ),
-                          const SizedBox(height: 28),
-                          SizedBox(
-                            width: 190,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: LinearProgressIndicator(
-                                value: progress,
-                                minHeight: 3,
-                                backgroundColor: Colors.white.withValues(
-                                  alpha: 0.12,
-                                ),
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                  _accent,
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 17),
-                          Text(
-                            'PREPARING YOUR GAME LIBRARY',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.white.withValues(alpha: 0.42),
-                              fontSize: 9,
-                              letterSpacing: 1.7,
-                            ),
-                          ),
-                        ],
+        child: Center(
+          child: AnimatedBuilder(
+            animation: _bootController,
+            builder: (context, _) {
+              final scale = 0.92 + (_bootController.value * 0.08);
+              return Opacity(
+                opacity: _bootController.value.clamp(0.15, 1),
+                child: Transform.scale(
+                  scale: scale,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      _SystemMark(system: widget.system, size: 92),
+                      const SizedBox(height: 24),
+                      Text(
+                        name.toUpperCase(),
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 25,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: 4,
+                        ),
                       ),
-                    ),
-                  );
-                },
-              ),
-            ),
-            Positioned(
-              bottom: 26,
-              left: 0,
-              right: 0,
-              child: Text(
-                'TAP OR PRESS A TO CONTINUE',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white.withValues(alpha: 0.42),
-                  fontSize: 9,
-                  letterSpacing: 1.8,
-                  fontWeight: FontWeight.w600,
+                      const SizedBox(height: 12),
+                      Text(
+                        _bootLabel,
+                        style: TextStyle(
+                          color: Colors.white.withValues(alpha: 0.58),
+                          fontSize: 11,
+                          letterSpacing: 3,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(height: 26),
+                      SizedBox(
+                        width: 150,
+                        child: LinearProgressIndicator(
+                          value: _bootController.value,
+                          minHeight: 3,
+                          backgroundColor: Colors.white.withValues(alpha: 0.12),
+                          valueColor: AlwaysStoppedAnimation<Color>(_accent),
+                        ),
+                      ),
+                      const SizedBox(height: 18),
+                      Text(
+                        _bootStatus.toUpperCase(),
+                        style: TextStyle(
+                          color: Colors.white.withValues(alpha: 0.35),
+                          fontSize: 9,
+                          letterSpacing: 2,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ),
-          ],
+              );
+            },
+          ),
         ),
       ),
     );
@@ -452,6 +462,8 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
         return _buildPs1Home();
       case 'playstation-ps2':
         return _buildPs2Home();
+      case 'playstation-ps4':
+        return _buildPlayStation4Home();
       case 'playstation-modern':
         return _buildPlayStationModernHome();
       case 'playstation-xmb':
@@ -714,6 +726,127 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildPlayStation4Home() {
+    const ps4Blue = Color(0xFF0070D1);
+    return _buildShell(
+      eyebrow: 'PlayStation 4 home',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const Text(
+                'PLAYSTATION 4',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 25,
+                  fontWeight: FontWeight.w900,
+                  letterSpacing: 3,
+                ),
+              ),
+              const Spacer(),
+              Icon(Icons.wifi, color: Colors.white.withValues(alpha: .65)),
+              const SizedBox(width: 12),
+              Icon(
+                Icons.notifications_none,
+                color: Colors.white.withValues(alpha: .65),
+              ),
+              const SizedBox(width: 12),
+              Icon(
+                Icons.person_outline,
+                color: Colors.white.withValues(alpha: .65),
+              ),
+            ],
+          ),
+          const SizedBox(height: 18),
+          Row(
+            children: [
+              _XmbCategory(
+                icon: Icons.auto_awesome,
+                label: "What's New",
+                accent: ps4Blue,
+                selected: true,
+              ),
+              const SizedBox(width: 14),
+              _XmbCategory(
+                icon: Icons.explore_outlined,
+                label: 'Explore',
+                accent: ps4Blue,
+              ),
+              const SizedBox(width: 14),
+              _XmbCategory(
+                icon: Icons.sports_esports,
+                label: 'Library',
+                accent: ps4Blue,
+              ),
+              const SizedBox(width: 14),
+              _XmbCategory(
+                icon: Icons.settings_outlined,
+                label: 'Settings',
+                accent: ps4Blue,
+              ),
+            ],
+          ),
+          const SizedBox(height: 18),
+          Expanded(
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 3,
+                  child: _FeaturePanel(
+                    accent: ps4Blue,
+                    icon: Icons.grid_view_rounded,
+                    title: 'Game Library',
+                    subtitle:
+                        '${widget.system.romCount} PS4 packages in your ECLIPSE library',
+                    onTap: _openLibrary,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  flex: 2,
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: _HomeTile(
+                          accent: ps4Blue,
+                          icon: Icons.folder_open_rounded,
+                          title: 'Your Games',
+                          subtitle: 'Browse your PS4 collection',
+                          onTap: _openLibrary,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Expanded(
+                        child: _HomeTile(
+                          accent: ps4Blue,
+                          icon: Icons.sports_esports_rounded,
+                          title: 'Bachata S4',
+                          subtitle: 'Open the PS4 emulator',
+                          onTap: _openPs4Emulator,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Expanded(
+                        child: _HomeTile(
+                          accent: ps4Blue,
+                          icon: Icons.tune_rounded,
+                          title: 'Console Settings',
+                          subtitle: 'ECLIPSE system options',
+                          onTap: _showSystemInfo,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -1128,7 +1261,12 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
       ),
       child: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(28, 22, 28, 24),
+          padding: EdgeInsets.fromLTRB(
+            MediaQuery.sizeOf(context).width < 600 ? 18 : 32,
+            MediaQuery.sizeOf(context).height < 520 ? 14 : 22,
+            MediaQuery.sizeOf(context).width < 600 ? 18 : 32,
+            MediaQuery.sizeOf(context).height < 520 ? 14 : 24,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -1680,7 +1818,7 @@ class _SystemMark extends StatelessWidget {
       child: Image.asset(
         asset,
         fit: BoxFit.contain,
-        errorBuilder: (_, __, ___) => Icon(
+        errorBuilder: (_, _, _) => Icon(
           Icons.videogame_asset_rounded,
           color: system.colorAsColor,
           size: size * 0.58,
