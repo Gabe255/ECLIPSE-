@@ -39,7 +39,7 @@ class NeoSyncAdapter extends ChangeNotifier implements ISyncProvider {
     id: kProviderId,
     name: 'NeoSync',
     description:
-        'Official NeoStation cloud sync. Includes auto '
+        'Cloud save sync powered by NeoSync. Includes auto '
         'resolution, per-game tracking, and quota management.',
     author: 'NeoGameLab',
     isOfficial: true,
