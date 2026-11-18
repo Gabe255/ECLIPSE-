@@ -726,8 +726,8 @@ class GeneralSettingsContentState extends State<GeneralSettingsContent>
                         : 'Choose an image for your library background',
                     trailing: Icon(
                       wallpaper.hasWallpaper
-                          ? Symbols.wallpaper_rounded
-                          : Symbols.add_photo_alternate_rounded,
+                          ? Symbols.image_rounded
+                          : Symbols.image_rounded,
                       size: 18.r,
                     ),
                   );
