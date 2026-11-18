@@ -46,7 +46,8 @@ class AboutSettingsContentState extends State<AboutSettingsContent> {
   String _systemsVersion = '';
 
   /// Blocks a second export while the zip is still being built.
-  bool _exporting = false;\n  bool _checkingForUpdates = false;
+  bool _exporting = false;
+  bool _checkingForUpdates = false;
 
   @override
   void initState() {
@@ -195,7 +196,7 @@ class AboutSettingsContentState extends State<AboutSettingsContent> {
   }
 
   int getItemCount() {
-    return 5;
+    return 6;
   }
 
   void selectItem(int index) {
@@ -213,6 +214,9 @@ class AboutSettingsContentState extends State<AboutSettingsContent> {
         _launchUrl('https://neostation.dev/');
         break;
       case 4:
+        _checkForAppUpdates();
+        break;
+      case 5:
         _exportLogs();
         break;
     }
@@ -337,6 +341,21 @@ class AboutSettingsContentState extends State<AboutSettingsContent> {
                       SizedBox(height: 12.r),
                       _buildInfoCard(
                         cardKey: _itemKeys[4],
+                        icon: Symbols.system_update_alt_rounded,
+                        title: 'Check for updates',
+                        value: _checkingForUpdates
+                            ? 'Checking GitHub Releases...'
+                            : 'Check for a newer ECLIPSE version',
+                        onTap: _checkForAppUpdates,
+                        trailingIcon: Symbols.download_rounded,
+                        theme: theme,
+                        isFocused:
+                            widget.isContentFocused &&
+                            widget.selectedContentIndex == 4,
+                      ),
+                      SizedBox(height: 12.r),
+                      _buildInfoCard(
+                        cardKey: _itemKeys[5],
                         icon: Symbols.bug_report_rounded,
                         title: AppLocale.exportLogs.getString(context),
                         value: AppLocale.exportLogsDesc.getString(context),
@@ -347,7 +366,7 @@ class AboutSettingsContentState extends State<AboutSettingsContent> {
                         theme: theme,
                         isFocused:
                             widget.isContentFocused &&
-                            widget.selectedContentIndex == 4,
+                            widget.selectedContentIndex == 5,
                       ),
                     ],
                   ),
