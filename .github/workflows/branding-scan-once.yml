@@ -1,4 +1,4 @@
-name: ECLIPSE branding scan after welcome rebrand
+name: ECLIPSE branding scan after final UI pass
 
 on:
   push:
