@@ -644,7 +644,7 @@ class _StartupScaffoldState extends State<_StartupScaffold> {
                           ),
                           SizedBox(height: 24 * scale),
                           Text(
-                            'NeoStation',
+                            'ECLIPSE',
                             style: TextStyle(
                               color: _colors.foreground,
                               fontSize: 28 * textScale,
@@ -1266,7 +1266,7 @@ class _MyAppState extends State<MyApp> {
                       // not Flutter's focus traversal (see appShortcuts).
                       shortcuts: appShortcuts(),
                       debugShowCheckedModeBanner: false,
-                      title: 'NeoStation',
+                      title: 'ECLIPSE',
                       locale: _locale,
                       localizationsDelegates: [
                         const FallbackMaterialLocalizationsDelegate(),
