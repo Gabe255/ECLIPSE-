@@ -268,14 +268,18 @@ class SteamGridDbService {
   static Future<bool> _downloadImage(String url, String destination) async {
     try {
       final uri = Uri.tryParse(url);
-      if (uri == null || uri.scheme != 'https' || uri.host.isEmpty)
+      if (uri == null || uri.scheme != 'https' || uri.host.isEmpty) {
         return false;
-      if (await _hasImage(path.withoutExtension(destination))) return false;
+      }
+      if (await _hasImage(path.withoutExtension(destination))) {
+        return false;
+      }
 
       final response = await (_clientOverride?.get(uri) ?? http.get(uri))
           .timeout(const Duration(seconds: 60));
-      if (response.statusCode != 200 || response.bodyBytes.isEmpty)
+      if (response.statusCode != 200 || response.bodyBytes.isEmpty) {
         return false;
+      }
 
       final contentType = response.headers['content-type']?.toLowerCase() ?? '';
       if (contentType.isNotEmpty && !contentType.startsWith('image/')) {
