@@ -60,7 +60,7 @@ class LogExportService {
       );
       if (bytes == null) return (LogExportResult.failed, null);
 
-      final fileName = 'neostation-logs-${_timestamp(DateTime.now())}.zip';
+      final fileName = 'eclipse-logs-${_timestamp(DateTime.now())}.zip';
 
       if (Platform.isAndroid) {
         final tempDir = await getTemporaryDirectory();
@@ -120,7 +120,7 @@ class LogExportService {
     String logPath,
   ) async {
     final lines = <String>[
-      'NeoStation log export',
+      'ECLIPSE log export',
       'Exported: ${DateTime.now().toUtc().toIso8601String()}',
     ];
     try {
