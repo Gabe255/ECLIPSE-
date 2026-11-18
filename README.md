@@ -21,6 +21,8 @@ ECLIPSE is an Android-first gaming frontend for organizing and launching your ga
 ## Features
 
 - **Modern & customizable UI**: Designed for both large screens and handheld devices, with themes and animations.
+- **ECLIPSE Shelf**: A wide horizontal platform layout with artwork-backed hero banners and controller navigation.
+- **Personalization**: A signature ECLIPSE theme, original Android launcher icon, and optional custom library wallpaper.
 - **Collection management**: Intuitively organize your ROMs and platforms.
 - **Multi-disc ROM organization**: Automatically create `.m3u` playlists for your multi-disc games and organize them into game folders.
 - **RetroArch & standalone emulator integration**: Easy configuration and auto-detection.
