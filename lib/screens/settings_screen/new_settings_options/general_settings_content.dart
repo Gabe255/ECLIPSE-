@@ -411,7 +411,14 @@ class GeneralSettingsContentState extends State<GeneralSettingsContent>
       currentItemIndex++;
     }
 
-    // Protocol: Library Wallpaper.\n    if (index == currentItemIndex) {\n      _manageWallpaper();\n      return;\n    }\n    currentItemIndex++;\n\n    // Protocol: Background ROM Scanning.
+    // Protocol: Library Wallpaper.
+    if (index == currentItemIndex) {
+      _manageWallpaper();
+      return;
+    }
+    currentItemIndex++;
+
+    // Protocol: Background ROM Scanning.
     if (index == currentItemIndex) {
       final scanOnStartup = configProvider.config.scanOnStartup;
       configProvider.updateScanOnStartup(!scanOnStartup);
