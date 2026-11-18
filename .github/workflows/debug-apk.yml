@@ -1,5 +1,10 @@
 name: ECLIPSE Debug APK
 
+
+# Avoid stacking obsolete builds when several commits are pushed quickly.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 on:
   workflow_dispatch:
   push:
