@@ -556,7 +556,7 @@ class _SystemGamesListState extends State<SystemGamesList> {
   /// Tears the preview video down when the device screen goes off, and brings
   /// it back on wake.
   ///
-  /// NeoStation runs as a HOME launcher, so the activity is never paused on
+  /// ECLIPSE runs as a HOME launcher, so the activity is never paused on
   /// lock and nothing else stops this player: it would keep decoding — and,
   /// with video sound on and no second screen to defer to, keep playing audio —
   /// behind a dark screen for as long as the device slept.
@@ -952,7 +952,7 @@ class _SystemGamesListState extends State<SystemGamesList> {
     // A collection's synthesized system (`collection:<uuid>`) owns no artwork:
     // there is no `collection:<uuid>.webp` logo and no theme background under
     // that name, so restoring *it* here left the second screen on the default
-    // NeoStation logo over a bare background after backing out of a collection.
+    // ECLIPSE logo over a bare background after backing out of a collection.
     // Back from a collection always lands on a view of collections (the
     // browser, or the systems grid's Collections card), so restore the parent
     // `collections` system's branding — exactly what the second screen showed
