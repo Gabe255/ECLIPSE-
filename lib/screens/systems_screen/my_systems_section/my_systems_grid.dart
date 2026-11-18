@@ -237,6 +237,9 @@ class MySystems extends StatelessWidget {
         )
         .length;
     final gameCount = configProvider.totalGames;
+    final backgroundPath = selected.customBackgroundPath;
+    final hasBackground =
+        backgroundPath?.isNotEmpty == true && File(backgroundPath!).existsSync();
 
     Widget stat(String value, String label) {
       return Container(
@@ -380,16 +383,18 @@ class MySystems extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 16.r, vertical: 12.r),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(19.r),
-          gradient: LinearGradient(
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
-            colors: [
-              accent.withValues(alpha: 0.20),
-              theme.colorScheme.surface.withValues(alpha: 0.94),
-              theme.colorScheme.surface.withValues(alpha: 0.78),
-            ],
-          ),
-          border: Border.all(color: accent.withValues(alpha: 0.30)),
+          color: accent.withValues(alpha: 0.16),
+          image: hasBackground
+              ? DecorationImage(
+                  image: FileImage(File(backgroundPath!)),
+                  fit: BoxFit.cover,
+                  colorFilter: ColorFilter.mode(
+                    Colors.black.withValues(alpha: 0.52),
+                    BlendMode.darken,
+                  ),
+                )
+              : null,
+          border: Border.all(color: accent.withValues(alpha: 0.34)),
           boxShadow: [
             BoxShadow(
               color: accent.withValues(alpha: 0.09),
