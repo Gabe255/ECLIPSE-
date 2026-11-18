@@ -94,7 +94,7 @@ class EclipsePlatformCard extends StatelessWidget {
                 children: [
                   if (hasCustomBackground)
                     Image.file(
-                      File(customBackground!),
+                      File(customBackground),
                       fit: BoxFit.cover,
                       cacheWidth: 720,
                       errorBuilder: (context, error, stackTrace) =>
@@ -171,14 +171,14 @@ class EclipsePlatformCard extends StatelessWidget {
                         opacity: 0.92,
                         child: hasCustomWheel
                             ? Image.file(
-                                File(customWheel!),
+                                File(customWheel),
                                 fit: BoxFit.contain,
                                 errorBuilder: (context, error, stackTrace) =>
                                     _buildFallbackMark(),
                               )
                             : hasCustomLogo
                             ? Image.file(
-                                File(customLogo!),
+                                File(customLogo),
                                 fit: BoxFit.contain,
                                 errorBuilder: (context, error, stackTrace) =>
                                     _buildFallbackMark(),
