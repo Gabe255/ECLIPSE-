@@ -32,6 +32,7 @@ import 'package:neostation/widgets/app_lifecycle_handler.dart';
 import 'package:neostation/widgets/back_swipe_zone.dart';
 import 'package:neostation/services/startup_theme_cache.dart';
 import 'package:neostation/widgets/splash_status_layout.dart';
+import 'package:neostation/widgets/shimmering_logo.dart';
 import 'package:neostation/widgets/permission_check_wrapper.dart';
 import 'package:neostation/utils/app_shortcuts.dart';
 import 'package:neostation/utils/custom_scroll_behavior.dart';
@@ -637,11 +638,7 @@ class _StartupScaffoldState extends State<_StartupScaffold> {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Image.asset(
-                            'assets/images/logo_transparent.png',
-                            width: 112 * scale,
-                            height: 112 * scale,
-                          ),
+                          EclipseLogoMark(size: 112 * scale),
                           SizedBox(height: 24 * scale),
                           Text(
                             'ECLIPSE',
