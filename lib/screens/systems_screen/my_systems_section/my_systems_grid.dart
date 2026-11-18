@@ -278,7 +278,8 @@ class MySystems extends StatelessWidget {
     final gameCount = configProvider.totalGames;
     final backgroundPath = selected.customBackgroundPath;
     final hasBackground =
-        backgroundPath?.isNotEmpty == true && File(backgroundPath!).existsSync();
+        backgroundPath?.isNotEmpty == true &&
+        File(backgroundPath!).existsSync();
 
     Widget stat(String value, String label) {
       return Container(
