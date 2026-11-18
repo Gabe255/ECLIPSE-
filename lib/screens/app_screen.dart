@@ -687,6 +687,20 @@ class AppScreenState extends State<AppScreen> with WidgetsBindingObserver {
                               child: Image.file(
                                 File(wallpaperProvider.wallpaperPath!),
                                 fit: BoxFit.cover,
+                                cacheWidth:
+                                    (MediaQuery.sizeOf(context).width *
+                                            MediaQuery.devicePixelRatioOf(
+                                              context,
+                                            ))
+                                        .round(),
+                                cacheHeight:
+                                    (MediaQuery.sizeOf(context).height *
+                                            MediaQuery.devicePixelRatioOf(
+                                              context,
+                                            ))
+                                        .round(),
+                                gaplessPlayback: true,
+                                filterQuality: FilterQuality.medium,
                                 errorBuilder: (context, error, stackTrace) =>
                                     const SizedBox.shrink(),
                               ),
