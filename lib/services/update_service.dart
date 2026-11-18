@@ -717,7 +717,7 @@ rm -f "$scriptPath"
     }
   }
 
-  /// Whether NeoStation may install an APK, asking for the permission to
+  /// Whether ECLIPSE may install an APK, asking for the permission to
   /// install unknown apps when it may not yet.
   @visibleForTesting
   static Future<bool> Function() ensureInstallPermission = () async {
