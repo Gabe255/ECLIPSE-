@@ -64,15 +64,14 @@ class _SystemContentState extends State<SystemContent> {
     // reading as a flicker.
     final showSplash = isLoading;
 
-    // Show setup wizard if scan is finished but no systems were resolved.
-    final showInitialSetup =
-        !showSplash &&
-        !configProvider.hasDetectedSystems &&
-        configProvider.scanCompleted;
+    // Keep the setup path available when a first scan fails or exits early.
+    // The wizard can show the provider error and let the user choose a folder
+    // instead of leaving the systems tab blank.
+    final showInitialSetup = !showSplash && !configProvider.hasDetectedSystems;
 
-    // Show primary library content only when initialization and scanning are complete.
-    final showContent =
-        !showSplash && configProvider.scanCompleted && !showInitialSetup;
+    // Existing systems remain usable if a later rescan fails. The scan status
+    // is surfaced through notifications, so don't hide the whole library.
+    final showContent = !showSplash && configProvider.hasDetectedSystems;
 
     // PHASE 1: Loading and Initialization — a shimmering NeoStation logo
     // with a thin progress bar and the current scan step as quiet detail.
