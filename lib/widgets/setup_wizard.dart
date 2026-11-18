@@ -272,7 +272,7 @@ class _SetupWizardState extends State<SetupWizard> with WidgetsBindingObserver {
       // predate the flag, so a single push can be echoed away (same hazard as
       // `appReady`). Stops once we're finishing so it can't undo the clear.
       setupWizardActive: !_finishing,
-      systemName: AppLocale.welcomeNeoStation.getString(context),
+      systemName: AppLocale.welcomeEclipse.getString(context),
       useFluidShader: true,
       backgroundColor: bgColor,
       isOled: isOled,
@@ -458,7 +458,7 @@ class _SetupWizardState extends State<SetupWizard> with WidgetsBindingObserver {
 
             // Título
             Text(
-              AppLocale.welcomeNeoStation.getString(context),
+              AppLocale.welcomeEclipse.getString(context),
               style: TextStyle(
                 fontSize: 28.r,
                 fontWeight: FontWeight.bold,
@@ -526,7 +526,7 @@ class _SetupWizardState extends State<SetupWizard> with WidgetsBindingObserver {
                   SizedBox(height: 12.r),
 
                   Text(
-                    AppLocale.welcomeNeoStation.getString(context),
+                    AppLocale.welcomeEclipse.getString(context),
                     style: TextStyle(
                       fontSize: 14.r,
                       fontWeight: FontWeight.bold,
@@ -949,7 +949,7 @@ class _SetupWizardState extends State<SetupWizard> with WidgetsBindingObserver {
       }
 
       // Warn if the chosen folder already contains files, so the user doesn't
-      // unknowingly store NeoStation's data inside an existing library.
+      // unknowingly store ECLIPSE's data inside an existing library.
       final entryCount = await UserDataLocationService.countDirectoryEntries(
         selected,
       );
@@ -1629,7 +1629,7 @@ class _SetupWizardState extends State<SetupWizard> with WidgetsBindingObserver {
     String? selected;
     // A folder from another provider has no path the import can read.
     var unusable = false;
-    // Without All files access, a folder NeoStation can't read looks empty to
+    // Without All files access, a folder ECLIPSE can't read looks empty to
     // the import.
     var needsAllFilesAccess = false;
     _gamepadNav?.deactivate();
@@ -1643,7 +1643,7 @@ class _SetupWizardState extends State<SetupWizard> with WidgetsBindingObserver {
           try {
             final uri = await PermissionService.requestFolderAccess();
             if (uri != null) {
-              // The folder as picked, never NeoStation's own storage.
+              // The folder as picked, never ECLIPSE's own storage.
               selected = UserDataLocationService.safUriToRealPath(
                 uri.toString(),
               );
@@ -1838,7 +1838,7 @@ class _SetupWizardState extends State<SetupWizard> with WidgetsBindingObserver {
     }
   }
 
-  /// Downloads and applies the recommended NeoStation art pack (the first
+  /// Downloads and applies the recommended ECLIPSE art pack (the first
   /// non-AI theme in the manifest) for the wizard's art-pack step.
   Future<void> _downloadWizardArtPack() async {
     if (_isDownloadingArt) return;
