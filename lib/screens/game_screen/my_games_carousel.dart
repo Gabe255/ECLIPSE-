@@ -207,7 +207,7 @@ class _PlayCountLabelState extends State<_PlayCountLabel>
             ),
             SizedBox(width: 4.r),
             Text(
-              '${count} ${count == 1 ? 'play' : 'plays'}',
+              '$count ${count == 1 ? 'play' : 'plays'}',
               style: TextStyle(
                 color: Colors.white.withValues(alpha: 0.72),
                 fontSize: 9.r,
