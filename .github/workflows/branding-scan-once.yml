@@ -16,9 +16,12 @@ jobs:
       - uses: actions/checkout@v7
       - name: Find remaining user-facing NeoStation text
         run: |
+          echo "=== Second-pass ECLIPSE branding scan ==="
           echo "=== Dart screens and widgets ==="
           grep -RIn --include='*.dart' 'NeoStation' lib/screens lib/widgets lib/main.dart || true
           echo "=== Android resource labels ==="
           grep -RIn 'NeoStation' android/app/src/main/res || true
+          echo "=== Inherited logo asset references ==="
+          grep -RIn --include="*.dart" "logo_transparent.png" lib || true
           echo "=== Flutter title and splash assets ==="
           grep -RIn 'NeoStation' lib/main.dart lib/widgets/shimmering_logo.dart lib/widgets/splash_status_layout.dart || true
