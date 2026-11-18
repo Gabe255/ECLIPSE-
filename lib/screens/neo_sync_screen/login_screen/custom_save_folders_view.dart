@@ -362,7 +362,7 @@ class _CustomSaveFoldersViewState extends State<CustomSaveFoldersView> {
             );
           case CustomFolderUploadOutcome.empty:
             clearAutoFolderUploadNotice(system, emulatorSlug);
-            // Nothing to upload: an empty folder, or one NeoStation can't list.
+            // Nothing to upload: an empty folder, or one ECLIPSE can't list.
             // Without All files access, say how to grant it.
             final needsAllFilesAccess =
                 !await PermissionService.hasAllFilesAccess();
