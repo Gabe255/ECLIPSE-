@@ -9,10 +9,10 @@ import '../data/datasources/sqlite_service.dart';
 import '../services/config_service.dart';
 import '../services/credential_store.dart';
 import '../services/logger_service.dart';
+import '../services/screenscraper/rom_hasher.dart';
 import '../utils/atomic_file_writer.dart';
 
-/// SteamGridDB artwork provider. It only fills missing artwork, so it never
-/// overwrites a user's files or artwork supplied by another scraper.
+/// Optional SteamGridDB artwork provider. Existing media is never overwritten.
 class SteamGridDbService {
   static const _credentialKey = 'steamgriddb_api_key';
   static const _apiRoot = 'https://www.steamgriddb.com/api/v2';
@@ -43,18 +43,18 @@ class SteamGridDbService {
 
   static Future<void> clearApiKey() => CredentialStore.delete(_credentialKey);
 
-  /// Scrapes all library entries with a system folder, filling only absent
-  /// box art, fanart, logos, and icons. Returns the number of games updated.
+  /// Scrapes the ROM library, filling absent box art, heroes, logos and icons.
+  /// Returns the number of games for which at least one file was saved.
   static Future<int> scrapeLibrary({
     void Function(int done, int total)? onProgress,
   }) async {
-    final apiKey = await CredentialStore.read(_credentialKey);
-    if (apiKey == null || apiKey.trim().isEmpty) return 0;
+    final apiKey = (await CredentialStore.read(_credentialKey))?.trim();
+    if (apiKey == null || apiKey.isEmpty) return 0;
 
     final db = await SqliteService.getDatabase();
     final games = await db.rawQuery('''
       SELECT ur.app_system_id, ur.filename, s.folder_name,
-             COALESCE(NULLIF(m.real_name, ''), ur.filename) AS game_title
+             COALESCE(NULLIF(m.real_name, ''), '') AS game_title
       FROM user_roms ur
       JOIN app_systems s ON s.id = ur.app_system_id
       LEFT JOIN user_screenscraper_metadata m
@@ -65,99 +65,141 @@ class SteamGridDbService {
     ''');
 
     var updated = 0;
-    var done = 0;
-    for (final game in games) {
-      done++;
+    for (var index = 0; index < games.length; index++) {
+      final game = games[index];
       try {
         final filename = game['filename']?.toString() ?? '';
         final systemFolder = game['folder_name']?.toString() ?? '';
-        final title = game['game_title']?.toString() ?? filename;
-        if (filename.isNotEmpty && systemFolder.isNotEmpty && title.isNotEmpty) {
+        final systemId = game['app_system_id']?.toString();
+        final metadataTitle = game['game_title']?.toString() ?? '';
+        if (filename.isNotEmpty && systemFolder.isNotEmpty) {
           final changed = await _scrapeGame(
             apiKey: apiKey,
-            title: _cleanTitle(title),
+            titleCandidates: await _titleCandidates(
+              metadataTitle,
+              filename,
+              systemId,
+            ),
             systemFolder: systemFolder,
             filename: filename,
+            systemId: systemId,
           );
           if (changed) updated++;
         }
       } catch (e) {
         _log.w('SteamGridDB: Skipped ${game['filename']}: $e');
-        final error = e.toString().toLowerCase();
-        if (error.contains('rate limit') || error.contains('rejected the api key')) {
+        final message = e.toString().toLowerCase();
+        if (message.contains('rate limit') ||
+            message.contains('rejected the api key')) {
           break;
         }
+      } finally {
+        onProgress?.call(index + 1, games.length);
       }
-      onProgress?.call(done, games.length);
     }
+
     _log.i('SteamGridDB: Updated artwork for $updated of ${games.length} games.');
     return updated;
   }
 
-  static String _cleanTitle(String value) {
-    final noExtension = value.replaceFirst(
-      RegExp(r'\.(zip|7z|iso|bin|cue|nes|sfc|smc|gba|gbc|gb|nds|3ds|cia|nsp|xci|rom|chd|cso|pbp|pkg|apk|exe)
-    return noExtension
-        .replaceAll(RegExp(r'\s*\([^)]*\)|\s*\[[^]]*\]'), '')
-        .replaceAll(RegExp(r'[_\.]+'), ' ')
-        .trim();
+  static Future<List<String>> _titleCandidates(
+    String metadataTitle,
+    String filename,
+    String? systemId,
+  ) async {
+    final candidates = <String>[];
+    final metadata = _cleanTitle(metadataTitle);
+    if (metadata.isNotEmpty) candidates.add(metadata);
+    final romName = await ScreenscraperRomHasher.getCleanRomName(
+      path.basename(filename),
+      systemId,
+    );
+    final fromFilename = _cleanTitle(romName);
+    if (fromFilename.isNotEmpty &&
+        !candidates.any((value) => _normalizeTitle(value) == _normalizeTitle(fromFilename))) {
+      candidates.add(fromFilename);
+    }
+    return candidates;
   }
+
+  @visibleForTesting
+  static String debugCleanTitle(String value) => _cleanTitle(value);
+
+  static String _cleanTitle(String value) => value
+      .replaceAll(RegExp(r'[_]+'), ' ')
+      .replaceAll(RegExp(r'\s+'), ' ')
+      .trim();
 
   static String _normalizeTitle(String value) =>
       value.toLowerCase().replaceAll(RegExp(r'[^a-z0-9]'), '');
 
   static Future<bool> _scrapeGame({
     required String apiKey,
-    required String title,
+    required List<String> titleCandidates,
     required String systemFolder,
     required String filename,
+    required String? systemId,
   }) async {
     final mediaRoot = await ConfigService.getMediaPath();
-    final baseName = path.basenameWithoutExtension(filename);
+    final safeSystemFolder = path.basename(systemFolder);
+    final cleanRomName = await ScreenscraperRomHasher.getCleanRomName(
+      path.basename(filename),
+      systemId,
+    );
+    final safeRomName = path.basenameWithoutExtension(cleanRomName);
+    if (safeRomName.isEmpty) return false;
+
     final targets = <String, String>{
-      'grids': path.join(mediaRoot, systemFolder, 'box2d', baseName),
-      'heroes': path.join(mediaRoot, systemFolder, 'fanarts', baseName),
-      'logos': path.join(mediaRoot, systemFolder, 'wheels', baseName),
-      'icons': path.join(mediaRoot, systemFolder, 'icons', baseName),
+      'grids': path.join(mediaRoot, safeSystemFolder, 'box2d', safeRomName),
+      'heroes': path.join(mediaRoot, safeSystemFolder, 'fanarts', safeRomName),
+      'logos': path.join(mediaRoot, safeSystemFolder, 'wheels', safeRomName),
+      'icons': path.join(mediaRoot, safeSystemFolder, 'icons', safeRomName),
     };
 
     final missing = <String>[];
     for (final entry in targets.entries) {
       if (!await _hasImage(entry.value)) missing.add(entry.key);
     }
-    if (missing.isEmpty) return false;
+    if (missing.isEmpty || titleCandidates.isEmpty) return false;
 
-    final search = await _apiGet(
-      '/search/autocomplete/${Uri.encodeComponent(title)}',
-      apiKey,
-    );
-    final searchData = search['data'];
-    if (searchData is! List || searchData.isEmpty) return false;
-
-    // Autocomplete can return unrelated titles. Only apply artwork when the
-    // normalized result title exactly matches the library title.
-    final normalizedTitle = _normalizeTitle(title);
-    final exactMatches = searchData.whereType<Map>().where(
-      (entry) =>
-          _normalizeTitle(entry['name']?.toString() ?? '') == normalizedTitle,
-    );
-    if (exactMatches.isEmpty) return false;
-    final gameId = exactMatches.first['id'];
+    Map<String, dynamic>? matchedGame;
+    for (final title in titleCandidates) {
+      final search = await _apiGet(
+        '/search/autocomplete/${Uri.encodeComponent(title)}',
+        apiKey,
+      );
+      final data = search['data'];
+      if (data is! List) continue;
+      final normalized = _normalizeTitle(title);
+      for (final candidate in data.whereType<Map>()) {
+        if (_normalizeTitle(candidate['name']?.toString() ?? '') == normalized) {
+          matchedGame = Map<String, dynamic>.from(candidate);
+          break;
+        }
+      }
+      if (matchedGame != null) break;
+    }
+    final gameId = matchedGame?['id'];
     if (gameId == null) return false;
 
     var changed = false;
     for (final type in missing) {
       final query = type == 'grids' ? '?dimensions=600x900' : '';
-      final data = await _apiGet('/$type/game/$gameId$query', apiKey);
-      final entries = data['data'];
-      if (entries is! List || entries.isEmpty || entries.first is! Map) {
-        continue;
+      final response = await _apiGet('/$type/game/$gameId$query', apiKey);
+      final entries = response['data'];
+      if (entries is! List) continue;
+
+      for (final rawEntry in entries) {
+        if (rawEntry is! Map) continue;
+        final imageUrl = rawEntry['url']?.toString() ?? '';
+        if (imageUrl.isEmpty) continue;
+        final extension = _extensionFor(imageUrl, type);
+        final destination = '${targets[type]}.$extension';
+        if (await _downloadImage(imageUrl, destination)) {
+          changed = true;
+          break;
+        }
       }
-      final imageUrl = entries.first['url']?.toString();
-      if (imageUrl == null || imageUrl.isEmpty) continue;
-      final ext = _extensionFor(imageUrl, type);
-      final destination = '${targets[type]}.$ext';
-      if (await _downloadImage(imageUrl, destination)) changed = true;
     }
     return changed;
   }
@@ -168,10 +210,13 @@ class SteamGridDbService {
   ) async {
     await Future<void>.delayed(const Duration(milliseconds: 250));
     final uri = Uri.parse('$_apiRoot$endpoint');
-    final headers = {'Authorization': 'Bearer $apiKey'};
-    final response = await (_clientOverride?.get(uri, headers: headers) ??
-            http.get(uri, headers: headers))
+    final response = await (_clientOverride?.get(
+              uri,
+              headers: {'Authorization': 'Bearer $apiKey'},
+            ) ??
+            http.get(uri, headers: {'Authorization': 'Bearer $apiKey'}))
         .timeout(const Duration(seconds: 20));
+
     if (response.statusCode == 401 || response.statusCode == 403) {
       throw const HttpException('SteamGridDB rejected the API key.');
     }
@@ -181,6 +226,7 @@ class SteamGridDbService {
     if (response.statusCode != 200) {
       throw HttpException('SteamGridDB returned HTTP ${response.statusCode}.');
     }
+
     final decoded = jsonDecode(response.body);
     if (decoded is! Map<String, dynamic>) {
       throw const FormatException('Invalid SteamGridDB response.');
@@ -195,162 +241,39 @@ class SteamGridDbService {
 
   static String _extensionFor(String url, String type) {
     final uri = Uri.tryParse(url);
-    final ext = uri == null
+    final extension = uri == null
         ? ''
         : path.extension(uri.path).replaceFirst('.', '').toLowerCase();
-    if (const {'png', 'jpg', 'jpeg', 'webp'}.contains(ext)) return ext;
+    if (const {'png', 'jpg', 'jpeg', 'webp'}.contains(extension)) {
+      return extension;
+    }
     return type == 'logos' || type == 'icons' ? 'png' : 'jpg';
   }
 
   static Future<bool> _hasImage(String basePath) async {
-    for (final ext in const ['png', 'jpg', 'jpeg', 'webp']) {
-      if (await File('$basePath.$ext').exists()) return true;
+    for (final extension in const ['png', 'jpg', 'jpeg', 'webp']) {
+      if (await File('$basePath.$extension').exists()) return true;
     }
     return false;
   }
 
   static Future<bool> _downloadImage(String url, String destination) async {
     try {
-      final file = File(destination);
+      final uri = Uri.tryParse(url);
+      if (uri == null || uri.scheme != 'https' || uri.host.isEmpty) return false;
       if (await _hasImage(path.withoutExtension(destination))) return false;
-      final imageUri = Uri.tryParse(url);
-      if (imageUri == null || imageUri.scheme != 'https') return false;
-      final response = await (_clientOverride?.get(imageUri) ??
-              http.get(imageUri))
+
+      final response = await (_clientOverride?.get(uri) ?? http.get(uri))
           .timeout(const Duration(seconds: 60));
       if (response.statusCode != 200 || response.bodyBytes.isEmpty) return false;
-      await file.parent.create(recursive: true);
-      await writeFileAtomically(file, response.bodyBytes);
-      return true;
-    } catch (e) {
-      _log.w('SteamGridDB: Artwork download failed: $e');
-      return false;
-    }
-  }
-}
-, caseSensitive: false),
-      '',
-    );
-    return noExtension
-        .replaceAll(RegExp(r'\s*\([^)]*\)|\s*\[[^]]*\]'), '')
-        .replaceAll(RegExp(r'[_\.]+'), ' ')
-        .trim();
-  }
 
-  static String _normalizeTitle(String value) =>
-      value.toLowerCase().replaceAll(RegExp(r'[^a-z0-9]'), '');
-
-  static Future<bool> _scrapeGame({
-    required String apiKey,
-    required String title,
-    required String systemFolder,
-    required String filename,
-  }) async {
-    final mediaRoot = await ConfigService.getMediaPath();
-    final baseName = path.basenameWithoutExtension(filename);
-    final targets = <String, String>{
-      'grids': path.join(mediaRoot, systemFolder, 'box2d', baseName),
-      'heroes': path.join(mediaRoot, systemFolder, 'fanarts', baseName),
-      'logos': path.join(mediaRoot, systemFolder, 'wheels', baseName),
-      'icons': path.join(mediaRoot, systemFolder, 'icons', baseName),
-    };
-
-    final missing = <String>[];
-    for (final entry in targets.entries) {
-      if (!await _hasImage(entry.value)) missing.add(entry.key);
-    }
-    if (missing.isEmpty) return false;
-
-    final search = await _apiGet(
-      '/search/autocomplete/${Uri.encodeComponent(title)}',
-      apiKey,
-    );
-    final searchData = search['data'];
-    if (searchData is! List || searchData.isEmpty) return false;
-
-    // Autocomplete can return unrelated titles. Only apply artwork when the
-    // normalized result title exactly matches the library title.
-    final normalizedTitle = _normalizeTitle(title);
-    final exactMatches = searchData.whereType<Map>().where(
-      (entry) =>
-          _normalizeTitle(entry['name']?.toString() ?? '') == normalizedTitle,
-    );
-    if (exactMatches.isEmpty) return false;
-    final gameId = exactMatches.first['id'];
-    if (gameId == null) return false;
-
-    var changed = false;
-    for (final type in missing) {
-      final query = type == 'grids' ? '?dimensions=600x900' : '';
-      final data = await _apiGet('/$type/game/$gameId$query', apiKey);
-      final entries = data['data'];
-      if (entries is! List || entries.isEmpty || entries.first is! Map) {
-        continue;
+      final contentType = response.headers['content-type']?.toLowerCase() ?? '';
+      if (contentType.isNotEmpty && !contentType.startsWith('image/')) {
+        _log.w('SteamGridDB: Refusing non-image response for $url');
+        return false;
       }
-      final imageUrl = entries.first['url']?.toString();
-      if (imageUrl == null || imageUrl.isEmpty) continue;
-      final ext = _extensionFor(imageUrl, type);
-      final destination = '${targets[type]}.$ext';
-      if (await _downloadImage(imageUrl, destination)) changed = true;
-    }
-    return changed;
-  }
 
-  static Future<Map<String, dynamic>> _apiGet(
-    String endpoint,
-    String apiKey,
-  ) async {
-    await Future<void>.delayed(const Duration(milliseconds: 250));
-    final uri = Uri.parse('$_apiRoot$endpoint');
-    final headers = {'Authorization': 'Bearer $apiKey'};
-    final response = await (_clientOverride?.get(uri, headers: headers) ??
-            http.get(uri, headers: headers))
-        .timeout(const Duration(seconds: 20));
-    if (response.statusCode == 401 || response.statusCode == 403) {
-      throw const HttpException('SteamGridDB rejected the API key.');
-    }
-    if (response.statusCode == 429) {
-      throw const HttpException('SteamGridDB rate limit reached. Try again later.');
-    }
-    if (response.statusCode != 200) {
-      throw HttpException('SteamGridDB returned HTTP ${response.statusCode}.');
-    }
-    final decoded = jsonDecode(response.body);
-    if (decoded is! Map<String, dynamic>) {
-      throw const FormatException('Invalid SteamGridDB response.');
-    }
-    if (decoded['success'] == false) {
-      throw HttpException(
-        'SteamGridDB request failed: ${decoded['errors'] ?? 'unknown error'}',
-      );
-    }
-    return decoded;
-  }
-
-  static String _extensionFor(String url, String type) {
-    final uri = Uri.tryParse(url);
-    final ext = uri == null
-        ? ''
-        : path.extension(uri.path).replaceFirst('.', '').toLowerCase();
-    if (const {'png', 'jpg', 'jpeg', 'webp'}.contains(ext)) return ext;
-    return type == 'logos' || type == 'icons' ? 'png' : 'jpg';
-  }
-
-  static Future<bool> _hasImage(String basePath) async {
-    for (final ext in const ['png', 'jpg', 'jpeg', 'webp']) {
-      if (await File('$basePath.$ext').exists()) return true;
-    }
-    return false;
-  }
-
-  static Future<bool> _downloadImage(String url, String destination) async {
-    try {
       final file = File(destination);
-      if (await _hasImage(path.withoutExtension(destination))) return false;
-      final response = await (_clientOverride?.get(Uri.parse(url)) ??
-              http.get(Uri.parse(url)))
-          .timeout(const Duration(seconds: 60));
-      if (response.statusCode != 200 || response.bodyBytes.isEmpty) return false;
       await file.parent.create(recursive: true);
       await writeFileAtomically(file, response.bodyBytes);
       return true;
