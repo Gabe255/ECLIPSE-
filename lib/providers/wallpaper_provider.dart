@@ -37,13 +37,9 @@ class WallpaperProvider extends ChangeNotifier {
 
   Future<bool> chooseWallpaper() async {
     try {
-      final result = await FilePicker.platform.pickFiles(
-        type: FileType.image,
-        allowMultiple: false,
-      );
-      if (result == null || result.files.isEmpty) return false;
+      final picked = await FilePicker.pickFile(type: FileType.image);
+      if (picked == null) return false;
 
-      final picked = result.files.single;
       final bytes = await picked.readAsBytes();
       if (bytes.isEmpty) return false;
 
