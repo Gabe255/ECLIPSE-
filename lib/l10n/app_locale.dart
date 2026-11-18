@@ -907,7 +907,7 @@ mixin AppLocale {
   static const String ofSystems = 'of_systems';
   static const String systemsDetected = 'systems_detected';
   static const String romsLabel = 'roms_label';
-  static const String welcomeNeoStation = 'welcome_neostation';
+  static const String welcomeEclipse = 'welcome_neostation';
   static const String letsGetSetup = 'lets_get_setup';
   static const String storagePermission = 'storage_permission';
   static const String storagePermissionDesc = 'storage_permission_desc';
