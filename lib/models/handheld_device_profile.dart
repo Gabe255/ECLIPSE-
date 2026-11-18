@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 /// Validated recommendation data for a known handheld device.
@@ -119,7 +120,7 @@ class HandheldDeviceProfile {
       }
       final path = assetPathForDevice(maker, deviceModel);
       if (path == null) return fallback;
-      return loadAsset(path, bundle: bundle);
+      return await loadAsset(path, bundle: bundle);
     } catch (_) {
       return fallback;
     }
