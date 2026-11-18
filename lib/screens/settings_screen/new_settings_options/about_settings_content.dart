@@ -38,7 +38,7 @@ class AboutSettingsContentState extends State<AboutSettingsContent> {
 
   /// Keys used for calculating viewport alignment during navigation, one per
   /// card.
-  final List<GlobalKey> _itemKeys = List.generate(5, (_) => GlobalKey());
+  final List<GlobalKey> _itemKeys = List.generate(2, (_) => GlobalKey());
 
   String _appVersion = '';
   String _systemsVersion = '';
@@ -144,24 +144,15 @@ class AboutSettingsContentState extends State<AboutSettingsContent> {
   }
 
   int getItemCount() {
-    return 5;
+    return 2;
   }
 
   void selectItem(int index) {
     switch (index) {
       case 0:
-        _launchUrl('https://github.com/misobadev/neostation-frontend');
+        _launchUrl('https://github.com/Gabe255/ECLIPSE-');
         break;
       case 1:
-        _launchUrl('https://www.patreon.com/cw/NeoStation');
-        break;
-      case 2:
-        _launchUrl('https://discord.gg/xE2kgKsRVq');
-        break;
-      case 3:
-        _launchUrl('https://neostation.dev/');
-        break;
-      case 4:
         _exportLogs();
         break;
     }
@@ -201,7 +192,7 @@ class AboutSettingsContentState extends State<AboutSettingsContent> {
                     ),
                     SizedBox(height: 6.r),
                     Text(
-                      'NeoStation',
+                      'ECLIPSE',
                       style: theme.textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                         fontSize: 12.r,
@@ -238,10 +229,8 @@ class AboutSettingsContentState extends State<AboutSettingsContent> {
                         cardKey: _itemKeys[0],
                         icon: Symbols.code_rounded,
                         title: AppLocale.openSourceLicense.getString(context),
-                        value: AppLocale.openSourceLicenseDesc.getString(
-                          context,
-                        ),
-                        url: 'https://github.com/misobadev/neostation-frontend',
+                        value: 'View the ECLIPSE source code and updates',
+                        url: 'https://github.com/Gabe255/ECLIPSE-',
                         theme: theme,
                         isFocused:
                             widget.isContentFocused &&
@@ -250,42 +239,6 @@ class AboutSettingsContentState extends State<AboutSettingsContent> {
                       SizedBox(height: 12.r),
                       _buildInfoCard(
                         cardKey: _itemKeys[1],
-                        icon: Symbols.favorite_rounded,
-                        title: AppLocale.supportOnPatreon.getString(context),
-                        value: 'patreon.com/NeoStation',
-                        url: 'https://www.patreon.com/cw/NeoStation',
-                        theme: theme,
-                        isFocused:
-                            widget.isContentFocused &&
-                            widget.selectedContentIndex == 1,
-                      ),
-                      SizedBox(height: 12.r),
-                      _buildInfoCard(
-                        cardKey: _itemKeys[2],
-                        icon: Symbols.chat_bubble_outline_rounded,
-                        title: AppLocale.joinCommunity.getString(context),
-                        value: 'discord.gg/xE2kgKsRVq',
-                        url: 'https://discord.gg/xE2kgKsRVq',
-                        theme: theme,
-                        isFocused:
-                            widget.isContentFocused &&
-                            widget.selectedContentIndex == 2,
-                      ),
-                      SizedBox(height: 12.r),
-                      _buildInfoCard(
-                        cardKey: _itemKeys[3],
-                        icon: Symbols.language_rounded,
-                        title: AppLocale.visitWebsite.getString(context),
-                        value: 'neostation.dev',
-                        url: 'https://neostation.dev/',
-                        theme: theme,
-                        isFocused:
-                            widget.isContentFocused &&
-                            widget.selectedContentIndex == 3,
-                      ),
-                      SizedBox(height: 12.r),
-                      _buildInfoCard(
-                        cardKey: _itemKeys[4],
                         icon: Symbols.bug_report_rounded,
                         title: AppLocale.exportLogs.getString(context),
                         value: AppLocale.exportLogsDesc.getString(context),
@@ -296,7 +249,7 @@ class AboutSettingsContentState extends State<AboutSettingsContent> {
                         theme: theme,
                         isFocused:
                             widget.isContentFocused &&
-                            widget.selectedContentIndex == 4,
+                            widget.selectedContentIndex == 1,
                       ),
                     ],
                   ),
