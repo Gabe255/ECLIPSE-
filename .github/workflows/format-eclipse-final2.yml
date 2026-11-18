@@ -1,0 +1,34 @@
+name: Format remaining ECLIPSE files
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/format-eclipse-final2.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version-file: .fvmrc
+          channel: stable
+          cache: true
+      - name: Format remaining changed files
+        run: |
+          flutter pub get --enforce-lockfile
+          dart format lib/widgets/shimmering_logo.dart test/system_options_dialog_test.dart
+      - name: Commit formatting and remove workflow
+        run: |
+          rm .github/workflows/format-eclipse-final2.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add lib/widgets/shimmering_logo.dart test/system_options_dialog_test.dart .github/workflows/format-eclipse-final2.yml
+          git commit -m "style: format remaining ECLIPSE files"
+          git pull --rebase origin main
+          git push
