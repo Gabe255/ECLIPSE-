@@ -7,7 +7,7 @@ import 'package:neostation/utils/gamepad_nav.dart';
 
 import 'eclipse_platform_card.dart';
 
-/// ECLIPSE's horizontal platform shelf with touch and controller navigation.
+/// ECLIPSE's two-row library: recently played games above the platform shelf.
 class EclipsePlatformShelf extends StatefulWidget {
   const EclipsePlatformShelf({
     super.key,
@@ -33,19 +33,48 @@ class EclipsePlatformShelf extends StatefulWidget {
 class _EclipsePlatformShelfState extends State<EclipsePlatformShelf> {
   static const _navLayerId = 'eclipse_platform_shelf';
 
-  final ScrollController _scrollController = ScrollController();
+  final ScrollController _verticalScrollController = ScrollController();
+  final ScrollController _recentScrollController = ScrollController();
+  final ScrollController _platformScrollController = ScrollController();
+  final GlobalKey _recentRowKey = GlobalKey();
+  final GlobalKey _platformRowKey = GlobalKey();
+
   late final GamepadNavigation _navigation;
   late int _selectedIndex;
+  int _activeRow = 1;
   double _cardWidth = 220;
   bool _layerRegistered = false;
+
+  List<int> _indicesForRow(int row) {
+    final indices = <int>[];
+    for (var index = 0; index < widget.systems.length; index++) {
+      if (widget.systems[index].isGame == (row == 0)) {
+        indices.add(index);
+      }
+    }
+    return indices;
+  }
+
+  int _safeIndex(int index) {
+    if (widget.systems.isEmpty) return 0;
+    return index.clamp(0, widget.systems.length - 1);
+  }
+
+  int _rowForIndex(int index) {
+    if (widget.systems.isEmpty) return 1;
+    return widget.systems[_safeIndex(index)].isGame ? 0 : 1;
+  }
 
   @override
   void initState() {
     super.initState();
     _selectedIndex = _safeIndex(widget.selectedIndex);
+    _activeRow = _rowForIndex(_selectedIndex);
     _navigation = GamepadNavigation(
       onNavigateLeft: (_) => _moveSelection(-1),
       onNavigateRight: (_) => _moveSelection(1),
+      onNavigateUp: (_) => _moveRow(-1),
+      onNavigateDown: (_) => _moveRow(1),
       onSelectItem: _openSelected,
       onSettings: _openOptions,
       onFavorite: _openOptions,
@@ -67,51 +96,94 @@ class _EclipsePlatformShelfState extends State<EclipsePlatformShelf> {
     });
   }
 
-  int _safeIndex(int index) {
-    if (widget.systems.isEmpty) return 0;
-    return index.clamp(0, widget.systems.length - 1);
-  }
-
   @override
   void didUpdateWidget(EclipsePlatformShelf oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.systems.length != widget.systems.length ||
         oldWidget.selectedIndex != widget.selectedIndex) {
       _selectedIndex = _safeIndex(widget.selectedIndex);
+      _activeRow = _rowForIndex(_selectedIndex);
       _scrollToSelection(animate: false);
     }
   }
 
   void _moveSelection(int delta) {
-    if (widget.systems.isEmpty) return;
-    final next = (_selectedIndex + delta).clamp(0, widget.systems.length - 1);
-    if (next == _selectedIndex) return;
+    final indices = _indicesForRow(_activeRow);
+    if (indices.isEmpty) return;
+
+    final currentLocal = indices.indexOf(_selectedIndex);
+    final safeLocal = currentLocal < 0 ? 0 : currentLocal;
+    final nextLocal = (safeLocal + delta).clamp(0, indices.length - 1);
+    if (nextLocal == safeLocal) return;
+
     SfxService().playNavSound();
-    _select(next);
+    _select(indices[nextLocal]);
+  }
+
+  void _moveRow(int delta) {
+    if (_indicesForRow(0).isEmpty) return;
+    final targetRow = delta < 0 ? 0 : 1;
+    if (targetRow == _activeRow) return;
+
+    final currentIndices = _indicesForRow(_activeRow);
+    final targetIndices = _indicesForRow(targetRow);
+    if (targetIndices.isEmpty) return;
+
+    final currentLocal = currentIndices.indexOf(_selectedIndex);
+    final safeLocal = currentLocal < 0 ? 0 : currentLocal;
+    final nextLocal = safeLocal.clamp(0, targetIndices.length - 1);
+
+    SfxService().playNavSound();
+    _select(targetIndices[nextLocal]);
   }
 
   void _select(int index) {
     final next = _safeIndex(index);
-    if (next == _selectedIndex) return;
-    setState(() => _selectedIndex = next);
+    if (next == _selectedIndex && _rowForIndex(next) == _activeRow) return;
+
+    setState(() {
+      _selectedIndex = next;
+      _activeRow = _rowForIndex(next);
+    });
     widget.onSelected(next);
     _scrollToSelection();
   }
 
   void _scrollToSelection({bool animate = true}) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted || !_scrollController.hasClients) return;
-      final target = (_selectedIndex * (_cardWidth + 10.r))
-          .clamp(0.0, _scrollController.position.maxScrollExtent)
-          .toDouble();
-      if (animate) {
-        _scrollController.animateTo(
-          target,
-          duration: const Duration(milliseconds: 220),
+      if (!mounted) return;
+      final indices = _indicesForRow(_activeRow);
+      final localIndex = indices.indexOf(_selectedIndex);
+      final controller = _activeRow == 0
+          ? _recentScrollController
+          : _platformScrollController;
+
+      if (localIndex >= 0 && controller.hasClients) {
+        final target = (localIndex * (_cardWidth + 10.r))
+            .clamp(0.0, controller.position.maxScrollExtent)
+            .toDouble();
+        if (animate) {
+          controller.animateTo(
+            target,
+            duration: const Duration(milliseconds: 220),
+            curve: Curves.easeOutCubic,
+          );
+        } else {
+          controller.jumpTo(target);
+        }
+      }
+
+      final rowContext = (_activeRow == 0 ? _recentRowKey : _platformRowKey)
+          .currentContext;
+      if (rowContext != null && _verticalScrollController.hasClients) {
+        Scrollable.ensureVisible(
+          rowContext,
+          alignment: _activeRow == 0 ? 0 : 1,
+          duration: animate
+              ? const Duration(milliseconds: 200)
+              : Duration.zero,
           curve: Curves.easeOutCubic,
         );
-      } else {
-        _scrollController.jumpTo(target);
       }
     });
   }
@@ -133,73 +205,125 @@ class _EclipsePlatformShelfState extends State<EclipsePlatformShelf> {
       GamepadNavigationManager.popLayer(_navLayerId);
     }
     _navigation.dispose();
-    _scrollController.dispose();
+    _verticalScrollController.dispose();
+    _recentScrollController.dispose();
+    _platformScrollController.dispose();
     super.dispose();
+  }
+
+  Widget _buildRow({
+    required String title,
+    required List<int> indices,
+    required bool recent,
+  }) {
+    final rowKey = recent ? _recentRowKey : _platformRowKey;
+    final controller = recent
+        ? _recentScrollController
+        : _platformScrollController;
+    final rowCardWidth = recent ? _cardWidth * 1.08 : _cardWidth;
+
+    return Padding(
+      key: rowKey,
+      padding: EdgeInsets.fromLTRB(12.r, 12.r, 12.r, 2.r),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 4.r),
+            child: Row(
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSurface
+                        .withValues(alpha: 0.78),
+                    fontSize: 9.r,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: 1.35.r,
+                  ),
+                ),
+                const Spacer(),
+                Text(
+                  recent ? 'D-PAD / SWIPE' : '${indices.length} PLATFORMS',
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSurface
+                        .withValues(alpha: 0.38),
+                    fontSize: 8.r,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 0.85.r,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 9.r),
+          SizedBox(
+            height: 148.r,
+            child: ListView.separated(
+              controller: controller,
+              scrollDirection: Axis.horizontal,
+              padding: EdgeInsets.symmetric(horizontal: 2.r, vertical: 3.r),
+              physics: const BouncingScrollPhysics(),
+              itemCount: indices.length,
+              separatorBuilder: (context, index) => SizedBox(width: 10.r),
+              itemBuilder: (context, localIndex) {
+                final index = indices[localIndex];
+                final system = widget.systems[index];
+                return SizedBox(
+                  width: rowCardWidth,
+                  child: EclipsePlatformCard(
+                    key: ValueKey(
+                      'eclipse-${recent ? 'recent' : 'platform'}-${system.folderName}-$index',
+                    ),
+                    info: system,
+                    selected: index == _selectedIndex,
+                    onTap: () {
+                      if (index == _selectedIndex) {
+                        _openSelected();
+                      } else {
+                        _select(index);
+                      }
+                    },
+                    onLongPress: () => widget.onOptions(index),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
     _cardWidth = (width * 0.42).clamp(176.0, 252.0).toDouble();
+    final recentIndices = _indicesForRow(0);
+    final platformIndices = _indicesForRow(1);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: EdgeInsets.fromLTRB(16.r, 12.r, 16.r, 4.r),
-          child: Row(
-            children: [
-              Text(
-                'YOUR PLATFORMS',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSurface
-                      .withValues(alpha: 0.68),
-                  fontSize: 9.r,
-                  fontWeight: FontWeight.w800,
-                  letterSpacing: 1.35.r,
-                ),
-              ),
-              const Spacer(),
-              Text(
-                'SWIPE TO EXPLORE',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSurface
-                      .withValues(alpha: 0.38),
-                  fontSize: 8.r,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: 0.9.r,
-                ),
-              ),
-            ],
-          ),
-        ),
         Expanded(
-          child: ListView.separated(
-            controller: _scrollController,
-            scrollDirection: Axis.horizontal,
-            padding: EdgeInsets.fromLTRB(12.r, 8.r, 12.r, 16.r),
+          child: ListView(
+            controller: _verticalScrollController,
             physics: const BouncingScrollPhysics(),
-            itemCount: widget.systems.length,
-            separatorBuilder: (context, index) => SizedBox(width: 10.r),
-            itemBuilder: (context, index) {
-              final system = widget.systems[index];
-              return SizedBox(
-                width: _cardWidth,
-                child: EclipsePlatformCard(
-                  key: ValueKey('eclipse-platform-${system.folderName}-$index'),
-                  info: system,
-                  selected: index == _selectedIndex,
-                  onTap: () {
-                    if (index == _selectedIndex) {
-                      _openSelected();
-                    } else {
-                      _select(index);
-                    }
-                  },
-                  onLongPress: () => widget.onOptions(index),
+            children: [
+              if (recentIndices.isNotEmpty)
+                _buildRow(
+                  title: 'RECENTLY PLAYED',
+                  indices: recentIndices,
+                  recent: true,
                 ),
-              );
-            },
+              if (platformIndices.isNotEmpty)
+                _buildRow(
+                  title: 'YOUR PLATFORMS',
+                  indices: platformIndices,
+                  recent: false,
+                ),
+              SizedBox(height: 14.r),
+            ],
           ),
         ),
       ],
