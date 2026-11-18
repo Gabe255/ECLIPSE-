@@ -131,7 +131,11 @@ class MySystems extends StatelessWidget {
                       onCardTapped: (index) {
                         onCardTapped?.call(index);
                         if (index >= 0 && index < allSystems.length) {
-                          _navigateToSystem(context, allSystems[index], configProvider);
+                          _navigateToSystem(
+                            context,
+                            allSystems[index],
+                            configProvider,
+                          );
                         }
                       },
                       hideSystemLogos: configProvider.config.hideSystemLogos,
@@ -235,11 +239,11 @@ class MySystems extends StatelessWidget {
               recentCardSize: configProvider.config.recentCardSize,
               selectedIndex: selectedIndex,
               onCardTapped: (index) {
-                        onCardTapped?.call(index);
-                        if (index >= 0 && index < allSystems.length) {
-                          _navigateToSystem(context, allSystems[index], configProvider);
-                        }
-                      },
+                onCardTapped?.call(index);
+                if (index >= 0 && index < allSystems.length) {
+                  _navigateToSystem(context, allSystems[index], configProvider);
+                }
+              },
               systems: allSystems,
               bindYButton: false,
               onYPressed: () =>

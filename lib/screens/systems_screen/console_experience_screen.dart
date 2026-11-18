@@ -64,20 +64,88 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
     if (_isPsp || _isFolderCode(['psp', 'pspminis'])) return 'psp';
     if (_isWii) return 'wii';
     if (_isDsFamily || _isFolderCode(['ds', '3ds'])) return 'ds';
-    if (_isFolderCode(['xbox360']) || _hasAny(['xbox 360', 'xbox360', 'xb360', '360'])) return 'xbox360';
-    if (_isFolderCode(['xbox']) || _hasAny(['original xbox', 'microsoft xbox'])) return 'xbox';
-    if (_isFolderCode(['ps1', 'psx']) || _hasAny(['ps1', 'playstation 1', 'playstation (1994)', 'psx'])) return 'playstation-ps1';
-    if (_isFolderCode(['ps2']) || _hasAny(['ps2', 'playstation 2'])) return 'playstation-ps2';
-    if (_hasAny(['ps5', 'playstation 5', 'ps4', 'playstation 4'])) return 'playstation-modern';
+    if (_isFolderCode(['xbox360']) ||
+        _hasAny(['xbox 360', 'xbox360', 'xb360', '360']))
+      return 'xbox360';
+    if (_isFolderCode(['xbox']) || _hasAny(['original xbox', 'microsoft xbox']))
+      return 'xbox';
+    if (_isFolderCode(['ps1', 'psx']) ||
+        _hasAny(['ps1', 'playstation 1', 'playstation (1994)', 'psx']))
+      return 'playstation-ps1';
+    if (_isFolderCode(['ps2']) || _hasAny(['ps2', 'playstation 2']))
+      return 'playstation-ps2';
+    if (_hasAny(['ps5', 'playstation 5', 'ps4', 'playstation 4']))
+      return 'playstation-modern';
     if (_hasAny(['ps3', 'playstation 3'])) return 'playstation-xmb';
-    if (_hasAny(['switch', 'nintendo switch']) || _isFolderCode(['switch'])) return 'switch';
+    if (_hasAny(['switch', 'nintendo switch']) || _isFolderCode(['switch']))
+      return 'switch';
     if (_hasAny(['gamecube']) || _isFolderCode(['gc'])) return 'gamecube';
     if (_hasAny(['n64', 'nintendo 64']) || _isFolderCode(['n64'])) return 'n64';
-    if (_hasAny(['gba', 'game boy advance', 'gbc', 'game boy color', 'gameboy']) || _isFolderCode(['gb', 'gbc', 'gba', 'gb-hacks', 'gba-hacks', 'gbc-hacks', 'lynx', 'ngp', 'ngpc', 'ws', 'wsc'])) return 'gameboy';
+    if (_hasAny([
+          'gba',
+          'game boy advance',
+          'gbc',
+          'game boy color',
+          'gameboy',
+        ]) ||
+        _isFolderCode([
+          'gb',
+          'gbc',
+          'gba',
+          'gb-hacks',
+          'gba-hacks',
+          'gbc-hacks',
+          'lynx',
+          'ngp',
+          'ngpc',
+          'ws',
+          'wsc',
+        ]))
+      return 'gameboy';
     if (_hasAny(['dreamcast']) || _isFolderCode(['dc'])) return 'dreamcast';
-    if (_hasAny(['genesis', 'megadrive', 'mega drive', 'sega']) || _isFolderCode(['genesis', 'genesis-hacks', 'md', 'md-hacks', 'sms', 'gg', 'gg-hacks', 'mark3', 'sat', 'scd', 'mcd', 'sg1k'])) return 'sega';
-    if (_hasAny(['snes', 'super nintendo', 'nes', 'famicom']) || _isFolderCode(['nes', 'nes-hacks', 'snes', 'snes-hacks', 'sfc', 'sfc-hacks', 'fc', 'fds'])) return 'nintendo-classic';
-    if (_isFolderCode(['mame', 'fbneo', 'cps1', 'cps2', 'cps3', 'neogeo', 'ngcd', 'naomi', 'naomi2', 'naomigd', 'model3', 'triforce'])) return 'arcade';
+    if (_hasAny(['genesis', 'megadrive', 'mega drive', 'sega']) ||
+        _isFolderCode([
+          'genesis',
+          'genesis-hacks',
+          'md',
+          'md-hacks',
+          'sms',
+          'gg',
+          'gg-hacks',
+          'mark3',
+          'sat',
+          'scd',
+          'mcd',
+          'sg1k',
+        ]))
+      return 'sega';
+    if (_hasAny(['snes', 'super nintendo', 'nes', 'famicom']) ||
+        _isFolderCode([
+          'nes',
+          'nes-hacks',
+          'snes',
+          'snes-hacks',
+          'sfc',
+          'sfc-hacks',
+          'fc',
+          'fds',
+        ]))
+      return 'nintendo-classic';
+    if (_isFolderCode([
+      'mame',
+      'fbneo',
+      'cps1',
+      'cps2',
+      'cps3',
+      'neogeo',
+      'ngcd',
+      'naomi',
+      'naomi2',
+      'naomigd',
+      'model3',
+      'triforce',
+    ]))
+      return 'arcade';
     return 'desktop';
   }
 
@@ -86,16 +154,20 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
     super.initState();
     _gamepadNav = GamepadNavigation(
       onNavigateUp: () {
-        if (!_booting && _interfaceFamily == 'wii') _moveWiiPointer(const Offset(0, -0.055));
+        if (!_booting && _interfaceFamily == 'wii')
+          _moveWiiPointer(const Offset(0, -0.055));
       },
       onNavigateDown: () {
-        if (!_booting && _interfaceFamily == 'wii') _moveWiiPointer(const Offset(0, 0.055));
+        if (!_booting && _interfaceFamily == 'wii')
+          _moveWiiPointer(const Offset(0, 0.055));
       },
       onNavigateLeft: () {
-        if (!_booting && _interfaceFamily == 'wii') _moveWiiPointer(const Offset(-0.055, 0));
+        if (!_booting && _interfaceFamily == 'wii')
+          _moveWiiPointer(const Offset(-0.055, 0));
       },
       onNavigateRight: () {
-        if (!_booting && _interfaceFamily == 'wii') _moveWiiPointer(const Offset(0.055, 0));
+        if (!_booting && _interfaceFamily == 'wii')
+          _moveWiiPointer(const Offset(0.055, 0));
       },
       onSelectItem: () {
         if (_booting) {
@@ -317,8 +389,9 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
                               child: LinearProgressIndicator(
                                 value: progress,
                                 minHeight: 3,
-                                backgroundColor:
-                                    Colors.white.withValues(alpha: 0.12),
+                                backgroundColor: Colors.white.withValues(
+                                  alpha: 0.12,
+                                ),
                                 valueColor: AlwaysStoppedAnimation<Color>(
                                   _accent,
                                 ),
@@ -412,17 +485,59 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('HOME', style: TextStyle(color: Colors.white, fontSize: 32, fontWeight: FontWeight.w900, letterSpacing: 4)),
+          const Text(
+            'HOME',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 32,
+              fontWeight: FontWeight.w900,
+              letterSpacing: 4,
+            ),
+          ),
           const SizedBox(height: 18),
-          Expanded(child: Row(children: [
-            Expanded(flex: 3, child: _FeaturePanel(accent: _accent, icon: Icons.sports_esports, title: 'My games', subtitle: '${widget.system.romCount} games ready', onTap: _openLibrary)),
-            const SizedBox(width: 12),
-            Expanded(flex: 2, child: Column(children: [
-              Expanded(child: _FeaturePanel(accent: _accent, icon: Icons.person, title: 'Profile', subtitle: 'Player space', onTap: _showSystemInfo)),
-              const SizedBox(height: 12),
-              Expanded(child: _FeaturePanel(accent: _accent, icon: Icons.settings, title: 'Settings', subtitle: 'Console info', onTap: _showSystemInfo)),
-            ])),
-          ])),
+          Expanded(
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 3,
+                  child: _FeaturePanel(
+                    accent: _accent,
+                    icon: Icons.sports_esports,
+                    title: 'My games',
+                    subtitle: '${widget.system.romCount} games ready',
+                    onTap: _openLibrary,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  flex: 2,
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: _FeaturePanel(
+                          accent: _accent,
+                          icon: Icons.person,
+                          title: 'Profile',
+                          subtitle: 'Player space',
+                          onTap: _showSystemInfo,
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Expanded(
+                        child: _FeaturePanel(
+                          accent: _accent,
+                          icon: Icons.settings,
+                          title: 'Settings',
+                          subtitle: 'Console info',
+                          onTap: _showSystemInfo,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -434,19 +549,64 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('XBOX 360', style: TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.w900, letterSpacing: 3)),
+          const Text(
+            'XBOX 360',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 30,
+              fontWeight: FontWeight.w900,
+              letterSpacing: 3,
+            ),
+          ),
           const SizedBox(height: 8),
-          const Text('Welcome to your dashboard', style: TextStyle(color: Colors.white70)),
+          const Text(
+            'Welcome to your dashboard',
+            style: TextStyle(color: Colors.white70),
+          ),
           const SizedBox(height: 18),
-          Expanded(child: Row(children: [
-            Expanded(flex: 3, child: _FeaturePanel(accent: _accent, icon: Icons.sports_esports, title: 'Game Library', subtitle: '${widget.system.romCount} games ready', onTap: _openLibrary)),
-            const SizedBox(width: 12),
-            Expanded(flex: 2, child: Column(children: [
-              Expanded(child: _FeaturePanel(accent: _accent, icon: Icons.person_outline, title: 'Player Profile', subtitle: 'Console profile', onTap: _showSystemInfo)),
-              const SizedBox(height: 12),
-              Expanded(child: _FeaturePanel(accent: _accent, icon: Icons.settings, title: 'System Settings', subtitle: 'Console details', onTap: _showSystemInfo)),
-            ])),
-          ])),
+          Expanded(
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 3,
+                  child: _FeaturePanel(
+                    accent: _accent,
+                    icon: Icons.sports_esports,
+                    title: 'Game Library',
+                    subtitle: '${widget.system.romCount} games ready',
+                    onTap: _openLibrary,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  flex: 2,
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: _FeaturePanel(
+                          accent: _accent,
+                          icon: Icons.person_outline,
+                          title: 'Player Profile',
+                          subtitle: 'Console profile',
+                          onTap: _showSystemInfo,
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Expanded(
+                        child: _FeaturePanel(
+                          accent: _accent,
+                          icon: Icons.settings,
+                          title: 'System Settings',
+                          subtitle: 'Console details',
+                          onTap: _showSystemInfo,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -455,181 +615,499 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
   Widget _buildPs1Home() {
     return _buildShell(
       eyebrow: 'PlayStation memory card',
-      child: Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
-        const Icon(Icons.album_outlined, color: Colors.white70, size: 68),
-        const SizedBox(height: 14),
-        const Text('SONY PLAYSTATION', style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w800, letterSpacing: 2)),
-        const SizedBox(height: 8),
-        const Text('Insert a virtual disc', style: TextStyle(color: Colors.white60)),
-        const SizedBox(height: 26),
-        _HomeTile(accent: _accent, icon: Icons.album, title: 'CD Player / Game Disc', subtitle: '${widget.system.romCount} titles in your collection', onTap: _openLibrary),
-        const SizedBox(height: 12),
-        _HomeTile(accent: _accent, icon: Icons.sd_storage, title: 'Memory Card', subtitle: 'Browse saved game collection', onTap: _showSystemInfo),
-      ])),
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.album_outlined, color: Colors.white70, size: 68),
+            const SizedBox(height: 14),
+            const Text(
+              'SONY PLAYSTATION',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.w800,
+                letterSpacing: 2,
+              ),
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              'Insert a virtual disc',
+              style: TextStyle(color: Colors.white60),
+            ),
+            const SizedBox(height: 26),
+            _HomeTile(
+              accent: _accent,
+              icon: Icons.album,
+              title: 'CD Player / Game Disc',
+              subtitle: '${widget.system.romCount} titles in your collection',
+              onTap: _openLibrary,
+            ),
+            const SizedBox(height: 12),
+            _HomeTile(
+              accent: _accent,
+              icon: Icons.sd_storage,
+              title: 'Memory Card',
+              subtitle: 'Browse saved game collection',
+              onTap: _showSystemInfo,
+            ),
+          ],
+        ),
+      ),
     );
   }
 
   Widget _buildPs2Home() {
     return _buildShell(
       eyebrow: 'PlayStation 2 browser',
-      child: Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
-        Container(
-          width: 150,
-          height: 150,
-          decoration: BoxDecoration(color: Colors.white.withValues(alpha: .06), borderRadius: BorderRadius.circular(24), border: Border.all(color: _accent.withValues(alpha: .65), width: 2)),
-          child: Icon(Icons.videogame_asset_rounded, color: _accent, size: 76),
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 150,
+              height: 150,
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: .06),
+                borderRadius: BorderRadius.circular(24),
+                border: Border.all(
+                  color: _accent.withValues(alpha: .65),
+                  width: 2,
+                ),
+              ),
+              child: Icon(
+                Icons.videogame_asset_rounded,
+                color: _accent,
+                size: 76,
+              ),
+            ),
+            const SizedBox(height: 24),
+            const Text(
+              'BROWSER',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 22,
+                fontWeight: FontWeight.w900,
+                letterSpacing: 4,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              '${widget.system.romCount} games available',
+              style: const TextStyle(color: Colors.white60),
+            ),
+            const SizedBox(height: 22),
+            _HomeTile(
+              accent: _accent,
+              icon: Icons.sports_esports,
+              title: 'Start Game',
+              subtitle: 'Open your PS2 game collection',
+              onTap: _openLibrary,
+            ),
+            const SizedBox(height: 12),
+            _HomeTile(
+              accent: _accent,
+              icon: Icons.settings,
+              title: 'Console Settings',
+              subtitle: 'System information',
+              onTap: _showSystemInfo,
+            ),
+          ],
         ),
-        const SizedBox(height: 24),
-        const Text('BROWSER', style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.w900, letterSpacing: 4)),
-        const SizedBox(height: 8),
-        Text('${widget.system.romCount} games available', style: const TextStyle(color: Colors.white60)),
-        const SizedBox(height: 22),
-        _HomeTile(accent: _accent, icon: Icons.sports_esports, title: 'Start Game', subtitle: 'Open your PS2 game collection', onTap: _openLibrary),
-        const SizedBox(height: 12),
-        _HomeTile(accent: _accent, icon: Icons.settings, title: 'Console Settings', subtitle: 'System information', onTap: _showSystemInfo),
-      ])),
+      ),
     );
   }
 
   Widget _buildPlayStationModernHome() {
     return _buildShell(
       eyebrow: 'PlayStation home',
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        const Text('Welcome back', style: TextStyle(color: Colors.white70, fontSize: 15)),
-        const SizedBox(height: 8),
-        const Text('Your games', style: TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.w800)),
-        const SizedBox(height: 20),
-        Expanded(child: Row(children: [
-          Expanded(flex: 3, child: _FeaturePanel(accent: _accent, icon: Icons.grid_view_rounded, title: 'Game library', subtitle: '${widget.system.romCount} installed titles', onTap: _openLibrary)),
-          const SizedBox(width: 12),
-          Expanded(child: _FeaturePanel(accent: _accent, icon: Icons.settings_rounded, title: 'Settings', subtitle: 'System information', onTap: _showSystemInfo)),
-        ])),
-      ]),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Welcome back',
+            style: TextStyle(color: Colors.white70, fontSize: 15),
+          ),
+          const SizedBox(height: 8),
+          const Text(
+            'Your games',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 30,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+          const SizedBox(height: 20),
+          Expanded(
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 3,
+                  child: _FeaturePanel(
+                    accent: _accent,
+                    icon: Icons.grid_view_rounded,
+                    title: 'Game library',
+                    subtitle: '${widget.system.romCount} installed titles',
+                    onTap: _openLibrary,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: _FeaturePanel(
+                    accent: _accent,
+                    icon: Icons.settings_rounded,
+                    title: 'Settings',
+                    subtitle: 'System information',
+                    onTap: _showSystemInfo,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
   Widget _buildPlayStationXmbHome() {
     return _buildShell(
       eyebrow: 'XMB home',
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        const SizedBox(height: 18),
-        Row(children: [
-          _XmbCategory(icon: Icons.person_outline, label: 'Users', accent: _accent),
-          const SizedBox(width: 18),
-          _XmbCategory(icon: Icons.settings_outlined, label: 'Settings', accent: _accent),
-          const SizedBox(width: 18),
-          _XmbCategory(icon: Icons.photo_library_outlined, label: 'Photo', accent: _accent),
-          const SizedBox(width: 18),
-          _XmbCategory(icon: Icons.music_note, label: 'Music', accent: _accent),
-          const SizedBox(width: 18),
-          _XmbCategory(icon: Icons.sports_esports, label: 'Game', accent: _accent, selected: true),
-        ]),
-        const SizedBox(height: 26),
-        _HomeTile(accent: _accent, icon: Icons.folder_open, title: 'Game Library', subtitle: '${widget.system.romCount} titles available', onTap: _openLibrary),
-        const SizedBox(height: 12),
-        _HomeTile(accent: _accent, icon: Icons.info_outline, title: 'System Information', subtitle: 'Console details', onTap: _showSystemInfo),
-      ]),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 18),
+          Row(
+            children: [
+              _XmbCategory(
+                icon: Icons.person_outline,
+                label: 'Users',
+                accent: _accent,
+              ),
+              const SizedBox(width: 18),
+              _XmbCategory(
+                icon: Icons.settings_outlined,
+                label: 'Settings',
+                accent: _accent,
+              ),
+              const SizedBox(width: 18),
+              _XmbCategory(
+                icon: Icons.photo_library_outlined,
+                label: 'Photo',
+                accent: _accent,
+              ),
+              const SizedBox(width: 18),
+              _XmbCategory(
+                icon: Icons.music_note,
+                label: 'Music',
+                accent: _accent,
+              ),
+              const SizedBox(width: 18),
+              _XmbCategory(
+                icon: Icons.sports_esports,
+                label: 'Game',
+                accent: _accent,
+                selected: true,
+              ),
+            ],
+          ),
+          const SizedBox(height: 26),
+          _HomeTile(
+            accent: _accent,
+            icon: Icons.folder_open,
+            title: 'Game Library',
+            subtitle: '${widget.system.romCount} titles available',
+            onTap: _openLibrary,
+          ),
+          const SizedBox(height: 12),
+          _HomeTile(
+            accent: _accent,
+            icon: Icons.info_outline,
+            title: 'System Information',
+            subtitle: 'Console details',
+            onTap: _showSystemInfo,
+          ),
+        ],
+      ),
     );
   }
 
   Widget _buildPlayStationClassicHome() {
     return _buildShell(
       eyebrow: 'PlayStation menu',
-      child: Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
-        Icon(Icons.circle_outlined, size: 68, color: _accent),
-        const SizedBox(height: 14),
-        const Text('MEMORY CARD', style: TextStyle(color: Colors.white70, letterSpacing: 3, fontSize: 11)),
-        const SizedBox(height: 24),
-        _HomeTile(accent: _accent, icon: Icons.album_outlined, title: 'Game Disc', subtitle: 'Browse your game collection', onTap: _openLibrary),
-        const SizedBox(height: 12),
-        _HomeTile(accent: _accent, icon: Icons.sd_storage_outlined, title: 'Memory Card', subtitle: '${widget.system.romCount} games in library', onTap: _openLibrary),
-      ])),
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.circle_outlined, size: 68, color: _accent),
+            const SizedBox(height: 14),
+            const Text(
+              'MEMORY CARD',
+              style: TextStyle(
+                color: Colors.white70,
+                letterSpacing: 3,
+                fontSize: 11,
+              ),
+            ),
+            const SizedBox(height: 24),
+            _HomeTile(
+              accent: _accent,
+              icon: Icons.album_outlined,
+              title: 'Game Disc',
+              subtitle: 'Browse your game collection',
+              onTap: _openLibrary,
+            ),
+            const SizedBox(height: 12),
+            _HomeTile(
+              accent: _accent,
+              icon: Icons.sd_storage_outlined,
+              title: 'Memory Card',
+              subtitle: '${widget.system.romCount} games in library',
+              onTap: _openLibrary,
+            ),
+          ],
+        ),
+      ),
     );
   }
 
   Widget _buildSwitchHome() {
     return _buildShell(
       eyebrow: 'Nintendo Switch home',
-      child: Column(children: [
-        const Spacer(),
-        Row(children: [
-          Expanded(child: _RoundMenuButton(icon: Icons.sports_esports, label: 'Game Library', accent: _accent, onTap: _openLibrary)),
-          const SizedBox(width: 12),
-          Expanded(child: _RoundMenuButton(icon: Icons.photo_library, label: 'Albums', accent: _accent, onTap: _showSystemInfo)),
-          const SizedBox(width: 12),
-          Expanded(child: _RoundMenuButton(icon: Icons.settings, label: 'System Settings', accent: _accent, onTap: _showSystemInfo)),
-        ]),
-        const SizedBox(height: 18),
-        Text('${widget.system.romCount} games', style: const TextStyle(color: Colors.white60)),
-        const Spacer(),
-      ]),
+      child: Column(
+        children: [
+          const Spacer(),
+          Row(
+            children: [
+              Expanded(
+                child: _RoundMenuButton(
+                  icon: Icons.sports_esports,
+                  label: 'Game Library',
+                  accent: _accent,
+                  onTap: _openLibrary,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: _RoundMenuButton(
+                  icon: Icons.photo_library,
+                  label: 'Albums',
+                  accent: _accent,
+                  onTap: _showSystemInfo,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: _RoundMenuButton(
+                  icon: Icons.settings,
+                  label: 'System Settings',
+                  accent: _accent,
+                  onTap: _showSystemInfo,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 18),
+          Text(
+            '${widget.system.romCount} games',
+            style: const TextStyle(color: Colors.white60),
+          ),
+          const Spacer(),
+        ],
+      ),
     );
   }
 
   Widget _buildGameCubeHome() {
     return _buildShell(
       eyebrow: 'Nintendo GameCube',
-      child: Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
-        Container(width: 150, height: 150, decoration: BoxDecoration(shape: BoxShape.circle, color: _accent.withValues(alpha: .14), border: Border.all(color: _accent, width: 3)), child: Icon(Icons.videogame_asset_rounded, size: 82, color: _accent)),
-        const SizedBox(height: 28),
-        _HomeTile(accent: _accent, icon: Icons.sports_esports, title: 'Start Game', subtitle: '${widget.system.romCount} games available', onTap: _openLibrary),
-      ])),
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 150,
+              height: 150,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: _accent.withValues(alpha: .14),
+                border: Border.all(color: _accent, width: 3),
+              ),
+              child: Icon(
+                Icons.videogame_asset_rounded,
+                size: 82,
+                color: _accent,
+              ),
+            ),
+            const SizedBox(height: 28),
+            _HomeTile(
+              accent: _accent,
+              icon: Icons.sports_esports,
+              title: 'Start Game',
+              subtitle: '${widget.system.romCount} games available',
+              onTap: _openLibrary,
+            ),
+          ],
+        ),
+      ),
     );
   }
 
   Widget _buildN64Home() {
     return _buildShell(
       eyebrow: 'Nintendo 64 select',
-      child: Center(child: Wrap(spacing: 16, runSpacing: 16, alignment: WrapAlignment.center, children: [
-        _ChannelTile(accent: _accent, icon: Icons.sports_esports, label: 'Game Pak', onTap: _openLibrary),
-        _ChannelTile(accent: _accent, icon: Icons.settings, label: 'Options', onTap: _showSystemInfo),
-      ])),
+      child: Center(
+        child: Wrap(
+          spacing: 16,
+          runSpacing: 16,
+          alignment: WrapAlignment.center,
+          children: [
+            _ChannelTile(
+              accent: _accent,
+              icon: Icons.sports_esports,
+              label: 'Game Pak',
+              onTap: _openLibrary,
+            ),
+            _ChannelTile(
+              accent: _accent,
+              icon: Icons.settings,
+              label: 'Options',
+              onTap: _showSystemInfo,
+            ),
+          ],
+        ),
+      ),
     );
   }
 
   Widget _buildGameBoyHome() {
     return _buildShell(
       eyebrow: 'Handheld library',
-      child: Center(child: Container(width: 230, padding: const EdgeInsets.all(20), decoration: BoxDecoration(color: const Color(0xFFB8C9A0), borderRadius: BorderRadius.circular(22), border: Border.all(color: Colors.white24, width: 5)), child: Column(mainAxisSize: MainAxisSize.min, children: [
-        const Text('DOT MATRIX', style: TextStyle(color: Color(0xFF273526), letterSpacing: 3, fontSize: 10, fontWeight: FontWeight.bold)),
-        const SizedBox(height: 18),
-        const Icon(Icons.videogame_asset, color: Color(0xFF273526), size: 52),
-        const SizedBox(height: 18),
-        _DarkMenuButton(label: 'START', onTap: _openLibrary),
-      ]))),
+      child: Center(
+        child: Container(
+          width: 230,
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: const Color(0xFFB8C9A0),
+            borderRadius: BorderRadius.circular(22),
+            border: Border.all(color: Colors.white24, width: 5),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                'DOT MATRIX',
+                style: TextStyle(
+                  color: Color(0xFF273526),
+                  letterSpacing: 3,
+                  fontSize: 10,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 18),
+              const Icon(
+                Icons.videogame_asset,
+                color: Color(0xFF273526),
+                size: 52,
+              ),
+              const SizedBox(height: 18),
+              _DarkMenuButton(label: 'START', onTap: _openLibrary),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
   Widget _buildDreamcastHome() {
     return _buildShell(
       eyebrow: 'Dreamcast menu',
-      child: Center(child: Wrap(spacing: 18, runSpacing: 18, alignment: WrapAlignment.center, children: [
-        _ChannelTile(accent: _accent, icon: Icons.sports_esports, label: 'Play', onTap: _openLibrary),
-        _ChannelTile(accent: _accent, icon: Icons.sd_storage, label: 'Memory', onTap: _showSystemInfo),
-        _ChannelTile(accent: _accent, icon: Icons.settings, label: 'Settings', onTap: _showSystemInfo),
-      ])),
+      child: Center(
+        child: Wrap(
+          spacing: 18,
+          runSpacing: 18,
+          alignment: WrapAlignment.center,
+          children: [
+            _ChannelTile(
+              accent: _accent,
+              icon: Icons.sports_esports,
+              label: 'Play',
+              onTap: _openLibrary,
+            ),
+            _ChannelTile(
+              accent: _accent,
+              icon: Icons.sd_storage,
+              label: 'Memory',
+              onTap: _showSystemInfo,
+            ),
+            _ChannelTile(
+              accent: _accent,
+              icon: Icons.settings,
+              label: 'Settings',
+              onTap: _showSystemInfo,
+            ),
+          ],
+        ),
+      ),
     );
   }
 
   Widget _buildSegaHome() {
     return _buildShell(
       eyebrow: 'SEGA collection',
-      child: Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
-        Text('SEGA', style: TextStyle(color: _accent, fontSize: 54, fontWeight: FontWeight.w900, letterSpacing: 7)),
-        const SizedBox(height: 28),
-        _HomeTile(accent: _accent, icon: Icons.sports_esports, title: 'Cartridge Select', subtitle: '${widget.system.romCount} games ready', onTap: _openLibrary),
-      ])),
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'SEGA',
+              style: TextStyle(
+                color: _accent,
+                fontSize: 54,
+                fontWeight: FontWeight.w900,
+                letterSpacing: 7,
+              ),
+            ),
+            const SizedBox(height: 28),
+            _HomeTile(
+              accent: _accent,
+              icon: Icons.sports_esports,
+              title: 'Cartridge Select',
+              subtitle: '${widget.system.romCount} games ready',
+              onTap: _openLibrary,
+            ),
+          ],
+        ),
+      ),
     );
   }
 
   Widget _buildNintendoClassicHome() {
     return _buildShell(
       eyebrow: 'Nintendo game select',
-      child: Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
-        const Text('SELECT GAME', style: TextStyle(color: Colors.white, fontSize: 23, fontWeight: FontWeight.w800, letterSpacing: 3)),
-        const SizedBox(height: 22),
-        _HomeTile(accent: _accent, icon: Icons.grid_view_rounded, title: 'Game Library', subtitle: '${widget.system.romCount} titles', onTap: _openLibrary),
-      ])),
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text(
+              'SELECT GAME',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 23,
+                fontWeight: FontWeight.w800,
+                letterSpacing: 3,
+              ),
+            ),
+            const SizedBox(height: 22),
+            _HomeTile(
+              accent: _accent,
+              icon: Icons.grid_view_rounded,
+              title: 'Game Library',
+              subtitle: '${widget.system.romCount} titles',
+              onTap: _openLibrary,
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -673,7 +1151,10 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
                   IconButton(
                     tooltip: 'Back to systems',
                     onPressed: () => Navigator.of(context).maybePop(),
-                    icon: const Icon(Icons.close_rounded, color: Colors.white70),
+                    icon: const Icon(
+                      Icons.close_rounded,
+                      color: Colors.white70,
+                    ),
                   ),
                 ],
               ),
@@ -793,14 +1274,22 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
       if (!mounted || _booting || _interfaceFamily != 'wii') return;
       final key = event.key.toLowerCase();
       final raw = event.value;
-      final normalized = raw.abs() > 1.5 ? (raw / 32767.0).clamp(-1.0, 1.0) : raw.clamp(-1.0, 1.0);
-      if (key.contains('left') && (key.contains('x') || key.contains('horizontal'))) {
+      final normalized = raw.abs() > 1.5
+          ? (raw / 32767.0).clamp(-1.0, 1.0)
+          : raw.clamp(-1.0, 1.0);
+      if (key.contains('left') &&
+          (key.contains('x') || key.contains('horizontal'))) {
         axisX = normalized;
-      } else if ((key.contains('axis_x') || key == 'x' || key.contains('abs_x'))) {
+      } else if ((key.contains('axis_x') ||
+          key == 'x' ||
+          key.contains('abs_x'))) {
         axisX = normalized;
-      } else if (key.contains('left') && (key.contains('y') || key.contains('vertical'))) {
+      } else if (key.contains('left') &&
+          (key.contains('y') || key.contains('vertical'))) {
         axisY = normalized;
-      } else if ((key.contains('axis_y') || key == 'y' || key.contains('abs_y'))) {
+      } else if ((key.contains('axis_y') ||
+          key == 'y' ||
+          key.contains('abs_y'))) {
         axisY = normalized;
       } else {
         return;
@@ -825,15 +1314,16 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
           final height = constraints.maxHeight;
           return GestureDetector(
             behavior: HitTestBehavior.opaque,
-            onPanUpdate: (details) => _moveWiiPointer(Offset(
-              details.delta.dx / width,
-              details.delta.dy / height,
-            )),
+            onPanUpdate: (details) => _moveWiiPointer(
+              Offset(details.delta.dx / width, details.delta.dy / height),
+            ),
             onTapDown: (details) {
-              setState(() => _wiiPointer = Offset(
-                (details.localPosition.dx / width).clamp(.02, .98),
-                (details.localPosition.dy / height).clamp(.02, .98),
-              ));
+              setState(
+                () => _wiiPointer = Offset(
+                  (details.localPosition.dx / width).clamp(.02, .98),
+                  (details.localPosition.dy / height).clamp(.02, .98),
+                ),
+              );
             },
             child: Stack(
               children: [
@@ -846,21 +1336,49 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
                           runSpacing: 14,
                           alignment: WrapAlignment.center,
                           children: [
-                            _ChannelTile(accent: _accent, icon: Icons.album_rounded, label: 'Disc Channel', onTap: _openLibrary),
-                            _ChannelTile(accent: _accent, icon: Icons.grid_view_rounded, label: 'Game Library', onTap: _openLibrary),
-                            _ChannelTile(accent: _accent, icon: Icons.settings_rounded, label: 'Wii Settings', onTap: _showSystemInfo),
+                            _ChannelTile(
+                              accent: _accent,
+                              icon: Icons.album_rounded,
+                              label: 'Disc Channel',
+                              onTap: _openLibrary,
+                            ),
+                            _ChannelTile(
+                              accent: _accent,
+                              icon: Icons.grid_view_rounded,
+                              label: 'Game Library',
+                              onTap: _openLibrary,
+                            ),
+                            _ChannelTile(
+                              accent: _accent,
+                              icon: Icons.settings_rounded,
+                              label: 'Wii Settings',
+                              onTap: _showSystemInfo,
+                            ),
                           ],
                         ),
                       ),
                     ),
-                    Text('${widget.system.romCount} games available  •  Move pointer to select a channel', style: const TextStyle(color: Colors.white54, fontSize: 11)),
+                    Text(
+                      '${widget.system.romCount} games available  •  Move pointer to select a channel',
+                      style: const TextStyle(
+                        color: Colors.white54,
+                        fontSize: 11,
+                      ),
+                    ),
                   ],
                 ),
                 Positioned(
                   left: (_wiiPointer.dx * width - 13).clamp(0.0, width - 26),
                   top: (_wiiPointer.dy * height - 13).clamp(0.0, height - 26),
                   child: IgnorePointer(
-                    child: Icon(Icons.ads_click_rounded, color: Colors.white, size: 26, shadows: const [Shadow(color: Colors.black, blurRadius: 8)]),
+                    child: Icon(
+                      Icons.ads_click_rounded,
+                      color: Colors.white,
+                      size: 26,
+                      shadows: const [
+                        Shadow(color: Colors.black, blurRadius: 8),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -941,17 +1459,36 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
   Widget _buildArcadeHome() {
     return _buildShell(
       eyebrow: 'Arcade machine select',
-      child: Column(children: [
-        const Spacer(),
-        Icon(Icons.sports_esports_rounded, size: 70, color: _accent),
-        const SizedBox(height: 18),
-        const Text('INSERT COIN', style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.w900, letterSpacing: 4)),
-        const SizedBox(height: 8),
-        Text('${widget.system.romCount} arcade titles ready', style: const TextStyle(color: Colors.white60)),
-        const SizedBox(height: 26),
-        _HomeTile(accent: _accent, icon: Icons.play_arrow_rounded, title: 'Start', subtitle: 'Open arcade game library', onTap: _openLibrary),
-        const Spacer(),
-      ]),
+      child: Column(
+        children: [
+          const Spacer(),
+          Icon(Icons.sports_esports_rounded, size: 70, color: _accent),
+          const SizedBox(height: 18),
+          const Text(
+            'INSERT COIN',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 24,
+              fontWeight: FontWeight.w900,
+              letterSpacing: 4,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            '${widget.system.romCount} arcade titles ready',
+            style: const TextStyle(color: Colors.white60),
+          ),
+          const SizedBox(height: 26),
+          _HomeTile(
+            accent: _accent,
+            icon: Icons.play_arrow_rounded,
+            title: 'Start',
+            subtitle: 'Open arcade game library',
+            onTap: _openLibrary,
+          ),
+          const Spacer(),
+        ],
+      ),
     );
   }
 
@@ -983,7 +1520,13 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
 }
 
 class _FeaturePanel extends StatelessWidget {
-  const _FeaturePanel({required this.accent, required this.icon, required this.title, required this.subtitle, required this.onTap});
+  const _FeaturePanel({
+    required this.accent,
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+    required this.onTap,
+  });
   final Color accent;
   final IconData icon;
   final String title;
@@ -998,20 +1541,39 @@ class _FeaturePanel extends StatelessWidget {
       borderRadius: BorderRadius.circular(20),
       child: Padding(
         padding: const EdgeInsets.all(18),
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Icon(icon, color: accent, size: 34),
-          const Spacer(),
-          Text(title, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 17)),
-          const SizedBox(height: 5),
-          Text(subtitle, style: const TextStyle(color: Colors.white60, fontSize: 11)),
-        ]),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(icon, color: accent, size: 34),
+            const Spacer(),
+            Text(
+              title,
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w800,
+                fontSize: 17,
+              ),
+            ),
+            const SizedBox(height: 5),
+            Text(
+              subtitle,
+              style: const TextStyle(color: Colors.white60, fontSize: 11),
+            ),
+          ],
+        ),
       ),
     ),
   );
 }
 
 class _RoundMenuButton extends StatelessWidget {
-  const _RoundMenuButton({required this.icon, required this.label, required this.accent, required this.onTap});
+  const _RoundMenuButton({
+    required this.icon,
+    required this.label,
+    required this.accent,
+    required this.onTap,
+  });
   final IconData icon;
   final String label;
   final Color accent;
@@ -1020,26 +1582,58 @@ class _RoundMenuButton extends StatelessWidget {
   Widget build(BuildContext context) => InkWell(
     onTap: onTap,
     borderRadius: BorderRadius.circular(18),
-    child: Column(children: [
-      Container(height: 66, decoration: BoxDecoration(color: Colors.white.withValues(alpha: .08), shape: BoxShape.circle, border: Border.all(color: accent.withValues(alpha: .6))), child: Center(child: Icon(icon, color: accent, size: 27))),
-      const SizedBox(height: 9),
-      Text(label, textAlign: TextAlign.center, style: const TextStyle(color: Colors.white70, fontSize: 10)),
-    ]),
+    child: Column(
+      children: [
+        Container(
+          height: 66,
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: .08),
+            shape: BoxShape.circle,
+            border: Border.all(color: accent.withValues(alpha: .6)),
+          ),
+          child: Center(child: Icon(icon, color: accent, size: 27)),
+        ),
+        const SizedBox(height: 9),
+        Text(
+          label,
+          textAlign: TextAlign.center,
+          style: const TextStyle(color: Colors.white70, fontSize: 10),
+        ),
+      ],
+    ),
   );
 }
 
 class _XmbCategory extends StatelessWidget {
-  const _XmbCategory({required this.icon, required this.label, required this.accent, this.selected = false});
+  const _XmbCategory({
+    required this.icon,
+    required this.label,
+    required this.accent,
+    this.selected = false,
+  });
   final IconData icon;
   final String label;
   final Color accent;
   final bool selected;
   @override
-  Widget build(BuildContext context) => Column(children: [
-    Icon(icon, size: selected ? 33 : 26, color: selected ? accent : Colors.white54),
-    const SizedBox(height: 6),
-    Text(label, style: TextStyle(color: selected ? Colors.white : Colors.white54, fontSize: 9, fontWeight: selected ? FontWeight.bold : FontWeight.normal)),
-  ]);
+  Widget build(BuildContext context) => Column(
+    children: [
+      Icon(
+        icon,
+        size: selected ? 33 : 26,
+        color: selected ? accent : Colors.white54,
+      ),
+      const SizedBox(height: 6),
+      Text(
+        label,
+        style: TextStyle(
+          color: selected ? Colors.white : Colors.white54,
+          fontSize: 9,
+          fontWeight: selected ? FontWeight.bold : FontWeight.normal,
+        ),
+      ),
+    ],
+  );
 }
 
 class _DarkMenuButton extends StatelessWidget {
@@ -1047,7 +1641,20 @@ class _DarkMenuButton extends StatelessWidget {
   final String label;
   final VoidCallback onTap;
   @override
-  Widget build(BuildContext context) => SizedBox(width: double.infinity, child: TextButton(onPressed: onTap, style: TextButton.styleFrom(backgroundColor: const Color(0xFF273526), foregroundColor: const Color(0xFFB8C9A0)), child: Text(label, style: const TextStyle(fontWeight: FontWeight.w900, letterSpacing: 2))));
+  Widget build(BuildContext context) => SizedBox(
+    width: double.infinity,
+    child: TextButton(
+      onPressed: onTap,
+      style: TextButton.styleFrom(
+        backgroundColor: const Color(0xFF273526),
+        foregroundColor: const Color(0xFFB8C9A0),
+      ),
+      child: Text(
+        label,
+        style: const TextStyle(fontWeight: FontWeight.w900, letterSpacing: 2),
+      ),
+    ),
+  );
 }
 
 class _SystemMark extends StatelessWidget {
@@ -1068,9 +1675,7 @@ class _SystemMark extends StatelessWidget {
       decoration: BoxDecoration(
         color: system.colorAsColor.withValues(alpha: 0.16),
         borderRadius: BorderRadius.circular(size * 0.24),
-        border: Border.all(
-          color: system.colorAsColor.withValues(alpha: 0.55),
-        ),
+        border: Border.all(color: system.colorAsColor.withValues(alpha: 0.55)),
       ),
       child: Image.asset(
         asset,
@@ -1129,7 +1734,10 @@ class _HomeTile extends StatelessWidget {
                     const SizedBox(height: 4),
                     Text(
                       subtitle,
-                      style: const TextStyle(color: Colors.white60, fontSize: 12),
+                      style: const TextStyle(
+                        color: Colors.white60,
+                        fontSize: 12,
+                      ),
                     ),
                   ],
                 ),
