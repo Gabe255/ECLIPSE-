@@ -105,8 +105,7 @@ Future<void> startScrapeSession(
           if (artworkGames > 0) scrapingProvider.markArtworkUpdated();
         } catch (e) {
           _log.w(
-            'SteamGridDB artwork pass failed; ScreenScraper results remain saved.',
-            error: e,
+            'SteamGridDB artwork pass failed; ScreenScraper results remain saved: $e',
           );
         }
       }
