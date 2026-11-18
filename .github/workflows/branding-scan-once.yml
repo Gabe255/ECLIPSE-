@@ -23,5 +23,9 @@ jobs:
           grep -RIn 'NeoStation' android/app/src/main/res || true
           echo "=== Inherited logo asset references ==="
           grep -RIn --include="*.dart" "logo_transparent.png" lib || true
+          echo "=== AppThemes logo path references ==="
+          grep -RIn --include="*.dart" "getLogoPath" lib || true
+          echo "=== Full lib branding scan ==="
+          grep -RIn --include="*.dart" "NeoStation" lib || true
           echo "=== Flutter title and splash assets ==="
           grep -RIn 'NeoStation' lib/main.dart lib/widgets/shimmering_logo.dart lib/widgets/splash_status_layout.dart || true
