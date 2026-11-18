@@ -35,7 +35,7 @@ class NeoDocumentsProvider : DocumentsProvider() {
     companion object {
         // Constants
         private const val DEFAULT_ROOT_ID = "root"
-        private const val ROOT_NAME = "NeoStation"
+        private const val ROOT_NAME = "ECLIPSE"
 
         // The open database: changing or deleting it from outside the app
         // would lose or corrupt the library. Compared after folding a name
