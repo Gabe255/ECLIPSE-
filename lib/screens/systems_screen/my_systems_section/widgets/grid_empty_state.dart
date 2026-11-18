@@ -70,7 +70,7 @@ class GridEmptyState extends StatelessWidget {
             Text(
               configProvider.hasRomFolders
                   ? AppLocale.noSystemsFoundTitle.getString(context)
-                  : AppLocale.welcomeNeoStation.getString(context),
+                  : AppLocale.welcomeEclipse.getString(context),
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: Theme.of(context).colorScheme.onSurface,
