@@ -48,7 +48,7 @@ class RaCatalogueService {
           .get(
             uri,
             headers: {
-              'User-Agent': 'NeoStation/1.0',
+              'User-Agent': 'ECLIPSE/1.0',
               'Accept': 'application/json',
             },
           )
