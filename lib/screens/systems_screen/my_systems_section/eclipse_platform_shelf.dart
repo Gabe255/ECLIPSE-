@@ -4,7 +4,7 @@ import 'package:neostation/models/my_systems.dart';
 import 'package:neostation/services/sfx_service.dart';
 import 'package:neostation/utils/gamepad_nav.dart';
 
-import 'system_card.dart';
+import 'eclipse_platform_card.dart';
 
 /// ECLIPSE's horizontal platform shelf with touch and controller navigation.
 class EclipsePlatformShelf extends StatefulWidget {
@@ -184,12 +184,10 @@ class _EclipsePlatformShelfState extends State<EclipsePlatformShelf> {
               final system = widget.systems[index];
               return SizedBox(
                 width: _cardWidth,
-                child: SystemCard(
+                child: EclipsePlatformCard(
                   key: ValueKey('eclipse-platform-${system.folderName}-$index'),
                   info: system,
-                  isSelected: index == _selectedIndex,
-                  showCount: true,
-                  backgroundCacheWidth: 768,
+                  selected: index == _selectedIndex,
                   onTap: () {
                     _select(index);
                     widget.onOpen(index);
