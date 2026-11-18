@@ -1,6 +1,8 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
-/// The full-color NeoStation logo with a soft light band sweeping across it.
+/// The original ECLIPSE wordmark with a soft light band sweeping across it.
 ///
 /// Used as the minimal startup indicator while the initial config is applied
 /// and the ROM scan runs. The glyph keeps its brand gradient; a translucent
@@ -135,13 +137,116 @@ class _ShimmeringLogoState extends State<ShimmeringLogo>
           child: child,
         );
       },
-      child: Image.asset(
-        'assets/images/logo_transparent.png',
+      child: SizedBox(
         width: widget.width,
-        filterQuality: FilterQuality.medium,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CustomPaint(
+              size: Size(widget.width * 0.22, widget.width * 0.22),
+              painter: const _EclipseMarkPainter(),
+            ),
+            SizedBox(width: widget.width * 0.035),
+            Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'ECLIPSE',
+                    maxLines: 1,
+                    style: TextStyle(
+                      color: const Color(0xFFF4F0FF),
+                      fontSize: widget.width * 0.112,
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: widget.width * 0.012,
+                      height: 0.95,
+                    ),
+                  ),
+                  SizedBox(height: widget.width * 0.018),
+                  Text(
+                    'YOUR GAMING UNIVERSE',
+                    maxLines: 1,
+                    style: TextStyle(
+                      color: const Color(0xFFB99AFF),
+                      fontSize: widget.width * 0.027,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: widget.width * 0.007,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
+}
+
+
+/// Compact vector mark shared by the splash wordmark and the Android icon.
+class _EclipseMarkPainter extends CustomPainter {
+  const _EclipseMarkPainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final scale = size.width / 64;
+    canvas.save();
+    canvas.scale(scale);
+
+    final purple = Paint()
+      ..color = const Color(0xFFB99AFF)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 4.5
+      ..strokeCap = StrokeCap.round;
+    final cyan = Paint()
+      ..color = const Color(0xFF65D9E8)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 3.2
+      ..strokeCap = StrokeCap.round
+      ..strokeJoin = StrokeJoin.round;
+
+    canvas.drawCircle(const Offset(32, 32), 22, purple);
+
+    final crescent = Path()
+      ..moveTo(37, 12)
+      ..cubicTo(52, 18, 56, 36, 47, 48)
+      ..cubicTo(40, 58, 26, 58, 18, 50)
+      ..cubicTo(30, 52, 41, 44, 42, 32)
+      ..cubicTo(43, 23, 40, 17, 37, 12);
+    canvas.drawPath(
+      crescent,
+      Paint()
+        ..color = const Color(0xFF100B1D)
+        ..style = PaintingStyle.fill,
+    );
+
+    final orbit = Path()
+      ..moveTo(8, 48)
+      ..cubicTo(20, 37, 39, 25, 57, 13);
+    canvas.drawPath(orbit, cyan);
+
+    final star = Path()
+      ..moveTo(51, 4)
+      ..lineTo(54, 10)
+      ..lineTo(60, 13)
+      ..lineTo(54, 16)
+      ..lineTo(51, 22)
+      ..lineTo(48, 16)
+      ..lineTo(42, 13)
+      ..lineTo(48, 10)
+      ..close();
+    canvas.drawPath(
+      star,
+      Paint()..color = const Color(0xFFF4F0FF),
+    );
+
+    canvas.restore();
+  }
+
+  @override
+  bool shouldRepaint(covariant _EclipseMarkPainter oldDelegate) => false;
 }
 
 /// Slides the shine band across the glyph, 0 → fully off the left edge,
