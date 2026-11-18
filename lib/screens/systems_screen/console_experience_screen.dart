@@ -188,6 +188,7 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
   void initState() {
     super.initState();
     _loadFeaturedGameplay();
+    GameService.deviceScreenOn.addListener(_syncPreviewPlayback);
     _gamepadNav = GamepadNavigation(
       onNavigateUp: () {
         if (!_booting && _interfaceFamily == 'wii') {
@@ -249,12 +250,26 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
   @override
   void dispose() {
     _bootTimer?.cancel();
+    GameService.deviceScreenOn.removeListener(_syncPreviewPlayback);
     _featuredVideoController?.dispose();
     _wiiPointerSubscription?.cancel();
     GamepadNavigationManager.popLayer(_navigationLayerId);
     _gamepadNav.dispose();
     _bootController.dispose();
     super.dispose();
+  }
+
+  void _syncPreviewPlayback() {
+    final controller = _featuredVideoController;
+    if (!mounted || controller == null || !controller.value.isInitialized) return;
+    final routeIsCurrent = ModalRoute.of(context)?.isCurrent ?? true;
+    final shouldPlay = GameService.deviceScreenOn.value &&
+        !GameService.isGameLaunchInProgress && routeIsCurrent;
+    if (shouldPlay && !controller.value.isPlaying) {
+      controller.play();
+    } else if (!shouldPlay && controller.value.isPlaying) {
+      controller.pause();
+    }
   }
 
   Future<void> _loadFeaturedGameplay() async {
@@ -273,7 +288,10 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
           await controller.initialize();
           await controller.setLooping(true);
           await controller.setVolume(0);
-          await controller.play();
+          if (GameService.deviceScreenOn.value &&
+              !GameService.isGameLaunchInProgress) {
+            await controller.play();
+          }
           if (!mounted) {
             await controller.dispose();
             return;
@@ -339,6 +357,7 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
   }
 
   Future<void> _openLibrary() async {
+    await _featuredVideoController?.pause();
     await Navigator.of(context).push(
       MaterialPageRoute<void>(
         builder: (_) => SystemGamesList(
@@ -347,6 +366,7 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
         ),
       ),
     );
+    if (mounted) _syncPreviewPlayback();
   }
 
   @override
