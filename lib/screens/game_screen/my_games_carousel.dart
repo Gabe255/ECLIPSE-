@@ -201,7 +201,7 @@ class _PlayCountLabelState extends State<_PlayCountLabel>
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
-              Symbols.play_circle_outline_rounded,
+              Icons.play_circle_outline_rounded,
               size: 11.r,
               color: Colors.white.withValues(alpha: 0.72),
             ),
