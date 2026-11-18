@@ -398,7 +398,8 @@ const Map<String, dynamic> appLocaleEn = {
   AppLocale.cleanOrphanedMetadataNotRemovedOne:
       ' {count} entry couldn\'t be removed. Run the tool again to retry.',
   AppLocale.cleanOrphanedMetadataNothingToDelete: 'Nothing to delete: the only orphaned metadata was imported from ES-DE, and this tool leaves it alone.',
-  AppLocale.cleanOrphanedMetadataMediaUnavailable: 'ECLIPSE can\'t find its media folder. Restart ECLIPSE and try again.',
+  AppLocale.cleanOrphanedMetadataMediaUnavailable:
+      'ECLIPSE can\'t find its media folder. Restart ECLIPSE and try again.',
   AppLocale.cleanOrphanedMetadataFailed:
       'Failed to clean orphaned metadata: {error}',
   AppLocale.rematchAchievements: 'Match RetroAchievements Games',

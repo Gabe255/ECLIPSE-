@@ -126,10 +126,8 @@ const Map<String, dynamic> appLocaleRu = {
   AppLocale.startupStorageUseDefault: 'Продолжить без неё',
   AppLocale.startupStorageFolderMissing: 'ECLIPSE не удалось найти папку с вашими данными. Возможно, её переместили, переименовали или удалили, или накопитель, на котором она находится, не подключён.',
   AppLocale.startupStorageStartEmpty: 'Начать с пустой папки',
-  AppLocale.startupStorageCreateFailed:
-      'ECLIPSE не удалось создать там папку.',
-  AppLocale.startupLoading:
-      'Подготовка ECLIPSE. Ожидание хранилища и служб...',
+  AppLocale.startupStorageCreateFailed: 'ECLIPSE не удалось создать там папку.',
+  AppLocale.startupLoading: 'Подготовка ECLIPSE. Ожидание хранилища и служб...',
 
   AppLocale.play: 'Играть',
   AppLocale.playButton: 'ИГРАТЬ',

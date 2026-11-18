@@ -254,10 +254,7 @@ class EclipsePlatformCard extends StatelessWidget {
                       left: 0,
                       right: 0,
                       bottom: 0,
-                      child: Container(
-                        height: 3.r,
-                        color: _accent,
-                      ),
+                      child: Container(height: 3.r, color: _accent),
                     ),
                 ],
               ),

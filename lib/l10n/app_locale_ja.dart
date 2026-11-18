@@ -894,8 +894,7 @@ const Map<String, dynamic> appLocaleJa = {
   AppLocale.screenReturnAccessHint: 'ECLIPSEをオンにして、「許可」をタップしてください',
   AppLocale.screenReturnDialogTitle: '画面復帰を有効にする',
   AppLocale.screenReturnDialogBody: 'ドックからアプリを起動するには、画面復帰のユーザー補助サービスが必要です。開いたアプリを閉じたあと、この画面に戻れるようにします。これがないと、戻る手段がなくなることがあります。',
-  AppLocale.screenReturnDialogSteps:
-      '次の画面で、サービスの一覧から ECLIPSE を探してオンにしてください。',
+  AppLocale.screenReturnDialogSteps: '次の画面で、サービスの一覧から ECLIPSE を探してオンにしてください。',
   AppLocale.openSettings: '設定を開く',
   AppLocale.selectRomFolder: 'ROMフォルダを選択',
   AppLocale.romFolderSelected: 'ROMフォルダが選択されました！',
@@ -1502,8 +1501,7 @@ const Map<String, dynamic> appLocaleJa = {
   AppLocale.wizardSaveFailedTitle: 'セットアップが完了していません',
   AppLocale.wizardSaveFailedBody:
       'ECLIPSE は設定を保存できませんでした。ストレージが使用できることを確認してから、もう一度お試しください。\n\n{error}',
-  AppLocale.wizardRomFolderNotAdded:
-      'ECLIPSE はこのフォルダを追加できませんでした。\n\n{error}',
+  AppLocale.wizardRomFolderNotAdded: 'ECLIPSE はこのフォルダを追加できませんでした。\n\n{error}',
   AppLocale.wizardRomFolderTemporary: 'ECLIPSE は再起動後にこのフォルダへアクセスし続けることができません。ホームフォルダ内またはリムーバブルメディア上のフォルダを選んでください。',
   AppLocale.wizardFolderNotUsable:
       'ECLIPSE はこのフォルダを使用できません。端末のストレージまたは SD カード上のフォルダを選んでください。',

@@ -923,7 +923,8 @@ const Map<String, dynamic> appLocaleId = {
   AppLocale.screenScraperUseUsernameNotEmail: 'Masukkan nama pengguna ScreenScraper Anda, bukan alamat email. API tidak menerima email.',
   AppLocale.screenScraperApiClosed:
       'API ScreenScraper sementara tidak tersedia. Coba lagi nanti.',
-  AppLocale.screenScraperAppOutdated: 'ScreenScraper tidak lagi menerima versi aplikasi ini. Perbarui ECLIPSE.',
+  AppLocale.screenScraperAppOutdated:
+      'ScreenScraper tidak lagi menerima versi aplikasi ini. Perbarui ECLIPSE.',
   AppLocale.screenScraperQuotaReached:
       'Kuota harian ScreenScraper tercapai. Coba lagi besok.',
   AppLocale.screenScraperConnectionError: 'Tidak dapat menjangkau ScreenScraper. Periksa koneksi internet Anda dan coba lagi.',

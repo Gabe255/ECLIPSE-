@@ -118,8 +118,7 @@ const Map<String, dynamic> appLocaleZhHant = {
   AppLocale.download: '下載',
   AppLocale.stop: '停止',
   AppLocale.reset: '重置',
-  AppLocale.startupStorageUnavailable:
-      'ECLIPSE 無法存取儲存資料的資料夾。請確認 SD 卡或儲存裝置已連接。',
+  AppLocale.startupStorageUnavailable: 'ECLIPSE 無法存取儲存資料的資料夾。請確認 SD 卡或儲存裝置已連接。',
   AppLocale.startupStorageRetry: '重試',
   AppLocale.startupStorageUseDefault: '繼續（不使用）',
   AppLocale.startupStorageFolderMissing:
@@ -848,8 +847,7 @@ const Map<String, dynamic> appLocaleZhHant = {
   AppLocale.screenScraperUseUsernameNotEmail:
       '請輸入您的 ScreenScraper 使用者名稱，而不是電子郵件地址。API 不接受電子郵件。',
   AppLocale.screenScraperApiClosed: 'ScreenScraper API 暫時無法使用。請稍後再試。',
-  AppLocale.screenScraperAppOutdated:
-      'ScreenScraper 不再接受此應用程式版本。請更新 ECLIPSE。',
+  AppLocale.screenScraperAppOutdated: 'ScreenScraper 不再接受此應用程式版本。請更新 ECLIPSE。',
   AppLocale.screenScraperQuotaReached: '已達到 ScreenScraper 每日配額。請明天再試。',
   AppLocale.screenScraperConnectionError: '無法連線到 ScreenScraper。請檢查您的網路連線並重試。',
   AppLocale.whatIsScreenScraper: '什麼是 ScreenScraper？',
@@ -876,7 +874,8 @@ const Map<String, dynamic> appLocaleZhHant = {
       '關閉從應用程式塢開啟的應用程式後返回 Now Playing 畫面，並啟用系統截圖。僅讀取前景應用程式的名稱，不會收集任何螢幕內容。',
   AppLocale.screenReturnAccessHint: '開啟 ECLIPSE，然後點按「允許」',
   AppLocale.screenReturnDialogTitle: '啟用畫面返回',
-  AppLocale.screenReturnDialogBody: '要從應用程式塢啟動應用程式，ECLIPSE 需要「畫面返回」無障礙服務。它會在你關閉所開啟的應用程式後帶你回到這裡。沒有它，你可能無法返回。',
+  AppLocale.screenReturnDialogBody:
+      '要從應用程式塢啟動應用程式，ECLIPSE 需要「畫面返回」無障礙服務。它會在你關閉所開啟的應用程式後帶你回到這裡。沒有它，你可能無法返回。',
   AppLocale.screenReturnDialogSteps: '在下一個畫面中，從服務清單裡找到 ECLIPSE 並將其開啟。',
   AppLocale.openSettings: '開啟設定',
   AppLocale.selectRomFolder: '選擇 ROM 資料夾',
@@ -1143,10 +1142,12 @@ const Map<String, dynamic> appLocaleZhHant = {
   AppLocale.folderNotEmptyUseAnyway: '仍然使用',
   AppLocale.userDataFolderNotWritable: "無法寫入此資料夾。請選擇其他資料夾，或保留預設位置。",
   AppLocale.userDataFolderCantWrite: '無法寫入此資料夾。請選擇其他資料夾。',
-  AppLocale.userDataFolderGrantAllFiles: "若要使用此資料夾，請在 Android 設定 → 應用程式 → 特殊應用程式存取權 → 所有檔案存取權 中允許 ECLIPSE，然後重新選擇。",
+  AppLocale.userDataFolderGrantAllFiles:
+      "若要使用此資料夾，請在 Android 設定 → 應用程式 → 特殊應用程式存取權 → 所有檔案存取權 中允許 ECLIPSE，然後重新選擇。",
   AppLocale.userDataMoveToCardAppFolder: 'ECLIPSE 無法寫入你在這張 SD 卡上選擇的資料夾，因此會把資料保存在卡上它自己的資料夾中。解除安裝 ECLIPSE 時，Android 會刪除該資料夾。',
   AppLocale.moveUserDataTitle: '移動使用者資料？',
-  AppLocale.moveUserDataBody: 'ECLIPSE 會將自己的資料（資料庫、抓取的媒體和設定）從目前的資料夾移動到新的資料夾。非 ECLIPSE 建立的檔案不會被更動。',
+  AppLocale.moveUserDataBody:
+      'ECLIPSE 會將自己的資料（資料庫、抓取的媒體和設定）從目前的資料夾移動到新的資料夾。非 ECLIPSE 建立的檔案不會被更動。',
   AppLocale.moveUserDataDestNotEmpty:
       '新資料夾已包含 {count} 個項目。ECLIPSE 的資料將新增在它們旁邊。',
   AppLocale.moveUserDataConfirm: '移動資料',
@@ -1157,8 +1158,7 @@ const Map<String, dynamic> appLocaleZhHant = {
   AppLocale.migratingUserDataError: '遷移失敗',
   AppLocale.userDataMoveBusy: 'ECLIPSE 正忙：正在進行掃描、刮削、同步、匯入或執行工具。請在完成後再移動資料。',
   AppLocale.userDataMoveNoSpace: '新資料夾的可用空間不足。你的資料仍在目前的資料夾中。',
-  AppLocale.userDataMoveBlocked:
-      '新資料夾中有與 ECLIPSE 的檔案或資料夾同名的項目。你的資料仍在目前的資料夾中。',
+  AppLocale.userDataMoveBlocked: '新資料夾中有與 ECLIPSE 的檔案或資料夾同名的項目。你的資料仍在目前的資料夾中。',
   AppLocale.userDataMoveOverlapping: '新資料夾不能位於目前的資料夾內，也不能包含目前的資料夾。請選擇其他資料夾。',
   AppLocale.userDataMoveFailed: '無法移動你的資料。資料仍在目前的資料夾中。',
   AppLocale.migratingFiles: '正在複製 {current}/{total} 個檔案...',
@@ -1242,8 +1242,7 @@ const Map<String, dynamic> appLocaleZhHant = {
   AppLocale.rommLoadMore: '載入更多',
   AppLocale.rommNoSystemMatch: '沒有與此平台相符的本機系統',
   AppLocale.rommPlatformUnsupported: '不支援',
-  AppLocale.rommNoWritableFolder:
-      '無法寫入你的 ROM 資料夾。請授予 ECLIPSE「所有檔案存取權限」後再試一次。',
+  AppLocale.rommNoWritableFolder: '無法寫入你的 ROM 資料夾。請授予 ECLIPSE「所有檔案存取權限」後再試一次。',
   AppLocale.rommNotConnected: '請先在設定中連線到 RomM 伺服器',
   // Bulk "sync a whole platform/collection".
   AppLocale.rommSyncAll: '全部同步',
@@ -1461,8 +1460,7 @@ const Map<String, dynamic> appLocaleZhHant = {
   AppLocale.wizardArtPackUnavailable:
       '目前無法存取 System Art Pack。連上網路後，你可以稍後在「設定」中安裝它。',
   AppLocale.wizardSaveFailedTitle: '設定尚未完成',
-  AppLocale.wizardSaveFailedBody:
-      'ECLIPSE 無法儲存你的設定。請確認儲存空間可用，然後重試。\n\n{error}',
+  AppLocale.wizardSaveFailedBody: 'ECLIPSE 無法儲存你的設定。請確認儲存空間可用，然後重試。\n\n{error}',
   AppLocale.wizardRomFolderNotAdded: 'ECLIPSE 無法新增此資料夾。\n\n{error}',
   AppLocale.wizardRomFolderTemporary:
       'ECLIPSE 重新啟動後無法繼續存取該資料夾。請選擇主資料夾內或卸除式媒體上的資料夾。',

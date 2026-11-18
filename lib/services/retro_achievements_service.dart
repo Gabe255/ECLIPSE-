@@ -260,10 +260,7 @@ class RetroAchievementsService {
     final url = Uri.parse('$_baseUrl/API_GetUserProfile.php')
         .replace(queryParameters: {'u': username, 'y': resolveApiKey(apiKey)});
 
-    const headers = {
-      'User-Agent': 'ECLIPSE/1.0',
-      'Accept': 'application/json',
-    };
+    const headers = {'User-Agent': 'ECLIPSE/1.0', 'Accept': 'application/json'};
 
     return _fetchWithCache<RetroAchievementsUser?>(
       cacheKey: profileCacheKey(username),
@@ -416,10 +413,7 @@ class RetroAchievementsService {
         'y': effectiveApiKey,
       },
     );
-    final headers = {
-      'User-Agent': 'ECLIPSE/1.0',
-      'Accept': 'application/json',
-    };
+    final headers = {'User-Agent': 'ECLIPSE/1.0', 'Accept': 'application/json'};
     final response = client == null
         ? await http.get(url, headers: headers)
         : await client.get(url, headers: headers);
@@ -472,10 +466,7 @@ class RetroAchievementsService {
           },
         );
 
-    final headers = {
-      'User-Agent': 'ECLIPSE/1.0',
-      'Accept': 'application/json',
-    };
+    final headers = {'User-Agent': 'ECLIPSE/1.0', 'Accept': 'application/json'};
 
     return _fetchWithCache<List<RetroAchievementRecentUnlockItem>>(
       cacheKey: paginated
@@ -528,10 +519,7 @@ class RetroAchievementsService {
           },
         );
 
-    final headers = {
-      'User-Agent': 'ECLIPSE/1.0',
-      'Accept': 'application/json',
-    };
+    final headers = {'User-Agent': 'ECLIPSE/1.0', 'Accept': 'application/json'};
 
     return _fetchWithCache<List<RetroAchievementRecentlyPlayedGameItem>>(
       cacheKey:
@@ -581,10 +569,7 @@ class RetroAchievementsService {
           },
         );
 
-    final headers = {
-      'User-Agent': 'ECLIPSE/1.0',
-      'Accept': 'application/json',
-    };
+    final headers = {'User-Agent': 'ECLIPSE/1.0', 'Accept': 'application/json'};
 
     return _fetchWithCache<RetroAchievementCompletionProgressSummary>(
       cacheKey: 'completion_${username}_${effectiveCount}_$effectiveOffset',

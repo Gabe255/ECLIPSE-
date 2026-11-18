@@ -118,8 +118,7 @@ const Map<String, dynamic> appLocaleZh = {
   AppLocale.download: '下载',
   AppLocale.stop: '停止',
   AppLocale.reset: '重置',
-  AppLocale.startupStorageUnavailable:
-      'ECLIPSE 无法访问保存数据的文件夹。请确认 SD 卡或存储设备已连接。',
+  AppLocale.startupStorageUnavailable: 'ECLIPSE 无法访问保存数据的文件夹。请确认 SD 卡或存储设备已连接。',
   AppLocale.startupStorageRetry: '重试',
   AppLocale.startupStorageUseDefault: '继续（不使用）',
   AppLocale.startupStorageFolderMissing:
@@ -1159,8 +1158,7 @@ const Map<String, dynamic> appLocaleZh = {
   AppLocale.migratingUserDataError: '迁移失败',
   AppLocale.userDataMoveBusy: 'ECLIPSE 正忙：正在进行扫描、刮削、同步、导入或运行工具。请在完成后再移动数据。',
   AppLocale.userDataMoveNoSpace: '新文件夹的可用空间不足。你的数据仍在当前文件夹中。',
-  AppLocale.userDataMoveBlocked:
-      '新文件夹中有与 ECLIPSE 的文件或文件夹同名的项目。你的数据仍在当前文件夹中。',
+  AppLocale.userDataMoveBlocked: '新文件夹中有与 ECLIPSE 的文件或文件夹同名的项目。你的数据仍在当前文件夹中。',
   AppLocale.userDataMoveOverlapping: '新文件夹不能位于当前文件夹内，也不能包含当前文件夹。请选择其他文件夹。',
   AppLocale.userDataMoveFailed: '无法移动你的数据。数据仍在当前文件夹中。',
   AppLocale.migratingFiles: '正在复制 {current}/{total} 个文件...',
@@ -1462,8 +1460,7 @@ const Map<String, dynamic> appLocaleZh = {
   AppLocale.wizardArtPackUnavailable:
       '目前无法访问 System Art Pack。联网后，你可以稍后在“设置”中安装它。',
   AppLocale.wizardSaveFailedTitle: '设置尚未完成',
-  AppLocale.wizardSaveFailedBody:
-      'ECLIPSE 无法保存你的设置。请确认存储可用，然后重试。\n\n{error}',
+  AppLocale.wizardSaveFailedBody: 'ECLIPSE 无法保存你的设置。请确认存储可用，然后重试。\n\n{error}',
   AppLocale.wizardRomFolderNotAdded: 'ECLIPSE 无法添加此文件夹。\n\n{error}',
   AppLocale.wizardRomFolderTemporary:
       'ECLIPSE 重启后无法继续访问该文件夹。请选择主文件夹内或可移动介质上的文件夹。',

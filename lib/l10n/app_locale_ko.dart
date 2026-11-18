@@ -1187,7 +1187,8 @@ const Map<String, dynamic> appLocaleKo = {
   AppLocale.userDataMoveRemovingOldCopy: "이전 사본을 삭제하는 중…",
   AppLocale.migratingUserDataComplete: '이동 완료',
   AppLocale.migratingUserDataError: '이동 실패',
-  AppLocale.userDataMoveBusy: 'ECLIPSE이 작업 중입니다: 스캔, 스크래핑, 동기화, 가져오기 또는 도구가 실행 중입니다. 끝난 후 데이터를 이동하세요.',
+  AppLocale.userDataMoveBusy:
+      'ECLIPSE이 작업 중입니다: 스캔, 스크래핑, 동기화, 가져오기 또는 도구가 실행 중입니다. 끝난 후 데이터를 이동하세요.',
   AppLocale.userDataMoveNoSpace: '새 폴더에 여유 공간이 부족합니다. 데이터는 현재 폴더에 그대로 있습니다.',
   AppLocale.userDataMoveBlocked:
       '새 폴더에 ECLIPSE의 파일이나 폴더와 이름이 같은 항목이 있습니다. 데이터는 현재 폴더에 그대로 있습니다.',
@@ -1490,7 +1491,8 @@ const Map<String, dynamic> appLocaleKo = {
   AppLocale.wizardSaveFailedBody:
       'ECLIPSE이 설정을 저장하지 못했습니다. 저장소를 사용할 수 있는지 확인한 후 다시 시도하세요.\n\n{error}',
   AppLocale.wizardRomFolderNotAdded: 'ECLIPSE이 이 폴더를 추가하지 못했습니다.\n\n{error}',
-  AppLocale.wizardRomFolderTemporary: 'ECLIPSE은 다시 시작한 후에는 이 폴더에 계속 접근할 수 없습니다. 홈 폴더 안이나 이동식 미디어의 폴더를 선택하세요.',
+  AppLocale.wizardRomFolderTemporary:
+      'ECLIPSE은 다시 시작한 후에는 이 폴더에 계속 접근할 수 없습니다. 홈 폴더 안이나 이동식 미디어의 폴더를 선택하세요.',
   AppLocale.wizardFolderNotUsable:
       'ECLIPSE이 이 폴더를 사용할 수 없습니다. 기기 저장소나 SD 카드의 폴더를 선택하세요.',
   AppLocale.wizardArtPackFailed:

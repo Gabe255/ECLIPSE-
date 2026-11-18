@@ -405,7 +405,8 @@ const Map<String, dynamic> appLocaleIt = {
   AppLocale.cleanOrphanedMetadataNotRemovedOne:
       ' Impossibile rimuovere {count} voce. Esegui di nuovo lo strumento.',
   AppLocale.cleanOrphanedMetadataNothingToDelete: 'Niente da eliminare: gli unici metadati orfani sono stati importati da ES-DE, e questo strumento non li tocca.',
-  AppLocale.cleanOrphanedMetadataMediaUnavailable: 'ECLIPSE non trova la sua cartella dei media. Riavvia ECLIPSE e riprova.',
+  AppLocale.cleanOrphanedMetadataMediaUnavailable:
+      'ECLIPSE non trova la sua cartella dei media. Riavvia ECLIPSE e riprova.',
   AppLocale.cleanOrphanedMetadataFailed:
       'Impossibile pulire i metadati orfani: {error}',
   AppLocale.rematchAchievements: 'Abbina i giochi RetroAchievements',
@@ -1281,7 +1282,8 @@ const Map<String, dynamic> appLocaleIt = {
       'Impossibile spostare i tuoi dati. Sono ancora nella cartella attuale.',
   AppLocale.migratingFiles: 'Copia di {current} su {total} file...',
   AppLocale.restartRequired: 'Riavvio richiesto',
-  AppLocale.restartRequiredBody: 'ECLIPSE verrà chiuso ora. Riaprilo per utilizzare la nuova posizione.',
+  AppLocale.restartRequiredBody:
+      'ECLIPSE verrà chiuso ora. Riaprilo per utilizzare la nuova posizione.',
   AppLocale.userDataLocationUpdated: 'Posizione dati aggiornata',
   AppLocale.resetToDefault: 'Ripristina predefinito',
   AppLocale.romDirectories: 'Directory ROM',

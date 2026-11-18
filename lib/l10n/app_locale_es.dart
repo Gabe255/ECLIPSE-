@@ -128,8 +128,7 @@ const Map<String, dynamic> appLocaleEs = {
   AppLocale.startupStorageUseDefault: 'Continuar sin ella',
   AppLocale.startupStorageFolderMissing: 'ECLIPSE no encontró la carpeta donde se guardan tus datos. Puede que se haya movido, renombrado o eliminado, o que la unidad donde está no esté conectada.',
   AppLocale.startupStorageStartEmpty: 'Empezar con una carpeta vacía',
-  AppLocale.startupStorageCreateFailed:
-      'ECLIPSE no pudo crear la carpeta ahí.',
+  AppLocale.startupStorageCreateFailed: 'ECLIPSE no pudo crear la carpeta ahí.',
   AppLocale.startupLoading:
       'Preparando ECLIPSE. Esperando al almacenamiento y los servicios...',
 
@@ -329,8 +328,7 @@ const Map<String, dynamic> appLocaleEs = {
       'Requerido para config de RetroArch y Sincronización',
   AppLocale.defaultLauncherSubtitle: 'ECLIPSE es tu lanzador por defecto',
   AppLocale.isDefaultLauncher: 'ECLIPSE es tu lanzador por defecto',
-  AppLocale.setAsDefaultLauncher:
-      'Establecer ECLIPSE como pantalla de inicio',
+  AppLocale.setAsDefaultLauncher: 'Establecer ECLIPSE como pantalla de inicio',
   AppLocale.disableSecondaryScreen: 'Desactivar en pantalla secundaria',
   AppLocale.disableSecondaryScreenSub:
       'Apaga la aplicación en la pantalla secundaria',
@@ -927,7 +925,8 @@ const Map<String, dynamic> appLocaleEs = {
       'Usa tu nombre de usuario de ScreenScraper, no tu email.',
   AppLocale.screenScraperUseUsernameNotEmail: 'Introduce tu nombre de usuario de ScreenScraper, no tu email. La API no acepta el email.',
   AppLocale.screenScraperApiClosed: 'La API de ScreenScraper no está disponible temporalmente. Inténtalo de nuevo más tarde.',
-  AppLocale.screenScraperAppOutdated: 'ScreenScraper ya no acepta esta versión de la app. Actualiza ECLIPSE.',
+  AppLocale.screenScraperAppOutdated:
+      'ScreenScraper ya no acepta esta versión de la app. Actualiza ECLIPSE.',
   AppLocale.screenScraperQuotaReached: 'Has alcanzado la cuota diaria de ScreenScraper. Inténtalo de nuevo mañana.',
   AppLocale.screenScraperConnectionError: 'No se pudo conectar con ScreenScraper. Comprueba tu conexión a internet e inténtalo de nuevo.',
   AppLocale.whatIsScreenScraper: '¿Qué es ScreenScraper?',
@@ -1264,7 +1263,8 @@ const Map<String, dynamic> appLocaleEs = {
       'No se pudieron mover tus datos. Siguen en su carpeta actual.',
   AppLocale.migratingFiles: 'Copiando {current} de {total} archivos...',
   AppLocale.restartRequired: 'Reinicio Necesario',
-  AppLocale.restartRequiredBody: 'ECLIPSE se cerrará ahora. Ábrela de nuevo para usar la nueva ubicación.',
+  AppLocale.restartRequiredBody:
+      'ECLIPSE se cerrará ahora. Ábrela de nuevo para usar la nueva ubicación.',
   AppLocale.userDataLocationUpdated: 'Ubicación de datos actualizada',
   AppLocale.resetToDefault: 'Restablecer Predeterminado',
   AppLocale.romDirectories: 'Directorios de ROMs',

@@ -132,7 +132,8 @@ const Map<String, dynamic> appLocalePt = {
   AppLocale.startupStorageStartEmpty: 'Começar com uma pasta vazia',
   AppLocale.startupStorageCreateFailed:
       'O ECLIPSE não conseguiu criar a pasta ali.',
-  AppLocale.startupLoading: 'Preparando o ECLIPSE. A aguardar pelo armazenamento e pelos serviços...',
+  AppLocale.startupLoading:
+      'Preparando o ECLIPSE. A aguardar pelo armazenamento e pelos serviços...',
 
   AppLocale.play: 'Jogar',
   AppLocale.playButton: 'JOGAR',
@@ -934,7 +935,8 @@ const Map<String, dynamic> appLocalePt = {
       'Use seu nome de usuário do ScreenScraper, não seu email.',
   AppLocale.screenScraperUseUsernameNotEmail: 'Digite seu nome de usuário do ScreenScraper, não seu email. A API não aceita email.',
   AppLocale.screenScraperApiClosed: 'A API do ScreenScraper está temporariamente indisponível. Tente novamente mais tarde.',
-  AppLocale.screenScraperAppOutdated: 'O ScreenScraper não aceita mais esta versão do app. Atualize o ECLIPSE.',
+  AppLocale.screenScraperAppOutdated:
+      'O ScreenScraper não aceita mais esta versão do app. Atualize o ECLIPSE.',
   AppLocale.screenScraperQuotaReached:
       'Cota diária do ScreenScraper atingida. Tente novamente amanhã.',
   AppLocale.screenScraperConnectionError: 'Não foi possível alcançar o ScreenScraper. Verifique sua conexão e tente novamente.',
