@@ -76,7 +76,8 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
         _hasAny(['xbox 360', 'xbox360', 'xb360', '360'])) {
       return 'xbox360';
     }
-    if (_isFolderCode(['xbox']) || _hasAny(['original xbox', 'microsoft xbox'])) {
+    if (_isFolderCode(['xbox']) ||
+        _hasAny(['original xbox', 'microsoft xbox'])) {
       return 'xbox';
     }
     if (_isFolderCode(['ps1', 'psx']) ||
