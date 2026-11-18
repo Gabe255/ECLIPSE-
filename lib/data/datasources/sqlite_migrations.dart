@@ -4297,7 +4297,7 @@ class SqliteMigrations {
       db.execute('''
         INSERT OR IGNORE INTO app_systems (id, screenscraper_id, ra_id, real_name, folder_name, launch_date, description)
         VALUES ('all', 0, 0, 'All Systems', 'all', '2024-01-01', 
-                'Collection of all systems available in NeoStation.')
+                'Collection of all systems available in ECLIPSE.')
       ''');
       _log.i('System "All" registered in app_systems');
     } catch (e, stackTrace) {
@@ -4326,7 +4326,7 @@ class SqliteMigrations {
       db.execute('''
         INSERT OR IGNORE INTO app_systems (id, screenscraper_id, ra_id, real_name, folder_name, launch_date, description)
         VALUES ('all', 0, 0, 'All Systems', 'all', '2024-01-01', 
-                'Collection of all systems available in NeoStation.')
+                'Collection of all systems available in ECLIPSE.')
       ''');
 
       _log.i('Migration v66 completed: "All" system ID is now "all"');
@@ -4346,7 +4346,7 @@ class SqliteMigrations {
       db.execute('''
         INSERT OR IGNORE INTO app_systems (id, screenscraper_id, ra_id, real_name, folder_name, launch_date, description)
         VALUES ('all', 0, 0, 'All Systems', 'all', '2024-01-01', 
-                'Collection of all systems available in NeoStation.')
+                'Collection of all systems available in ECLIPSE.')
       ''');
 
       // 2. Insert into user_detected_systems if not present
