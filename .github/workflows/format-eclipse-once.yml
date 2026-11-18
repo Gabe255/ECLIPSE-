@@ -1,0 +1,40 @@
+name: Format ECLIPSE changes once
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/format-eclipse-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version-file: .fvmrc
+          channel: stable
+          cache: true
+      - name: Format changed Dart files
+        run: |
+          flutter pub get --enforce-lockfile
+          dart format \
+            lib/main.dart \
+            lib/screens/app_screen.dart \
+            lib/screens/systems_screen/my_systems_section/my_systems_grid.dart \
+            lib/screens/game_screen/my_games_carousel.dart \
+            lib/screens/settings_screen/new_settings_options/general_settings_content.dart \
+            lib/providers/wallpaper_provider.dart \
+            lib/themes/eclipse_theme.dart
+      - name: Commit formatting and remove one-time workflow
+        run: |
+          rm .github/workflows/format-eclipse-once.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add lib .github/workflows/format-eclipse-once.yml
+          git commit -m "style: format ECLIPSE frontend changes"
+          git push
