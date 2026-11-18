@@ -1275,7 +1275,7 @@ class _SecondaryScreenState extends State<SecondaryScreen> {
   /// the language-neutral [SecondaryDisplayStateData.welcomeSystemName]
   /// token; it is translated here, on the engine that draws it.
   String _welcomeText() =>
-      AppLocale.welcomeNeoStation.getString(_l10nContext ?? context);
+      AppLocale.welcomeEclipse.getString(_l10nContext ?? context);
 
   String _displaySystemName(String systemName) =>
       systemName.isEmpty ||
