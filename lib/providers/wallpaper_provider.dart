@@ -56,7 +56,7 @@ class WallpaperProvider extends ChangeNotifier {
       await wallpaperDirectory.create(recursive: true);
 
       final extension = path.extension(picked.name).toLowerCase();
-      final safeExtension = RegExp(r'^\\.(png|jpe?g|webp|bmp|gif)$')
+      final safeExtension = RegExp(r'^\.(png|jpe?g|webp|bmp|gif)$')
               .hasMatch(extension)
           ? extension
           : '.jpg';
