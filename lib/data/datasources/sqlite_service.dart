@@ -3522,7 +3522,7 @@ class SqliteService {
   /// Retrieves the current theme name.
   static Future<String> getThemeName() async {
     final config = await getUserConfig();
-    return config?['theme_name']?.toString() ?? 'system';
+    return config?['theme_name']?.toString() ?? 'eclipse';
   }
 
   /// Retrieves the active System Art pack folder.
