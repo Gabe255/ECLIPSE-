@@ -924,22 +924,23 @@ class _GamesCarouselState extends State<GamesCarousel> {
                   ),
                 ),
               ),
-            // Pegasus-inspired focus metadata: keep the selected game's
-            // identity readable even when the wheel artwork is missing.
-            // The panel is deliberately compact so it does not cover the
-            // centre artwork or the existing controller/status badges.
-            Positioned(
-              left: 14.r,
-              bottom: 14.r,
-              width: 190.r,
-              child: _buildPegasusFocusInfo(game),
-            ),
-            Positioned(
+                        Positioned(
               left: 0,
               right: 0,
               bottom: 0,
               child: _buildWheelOverlay(game),
             ),
+            // Pegasus-inspired focus metadata: keep the selected game's
+                        // identity readable even when the wheel artwork is missing.
+                        // The panel is deliberately compact so it does not cover the
+                        // centre artwork or the existing controller/status badges.
+                        Positioned(
+                          left: 14.r,
+                          bottom: 14.r,
+                          width: 190.r,
+                          child: _buildPegasusFocusInfo(game),
+                        ),
+            
             if (game.isFavorite == true)
               Positioned(
                 top: 8.r,
