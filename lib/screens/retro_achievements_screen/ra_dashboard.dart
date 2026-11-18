@@ -258,7 +258,7 @@ class RADashboardHubState extends State<RADashboardHub> {
 
   /// Schedules the next check, unless the screen is off.
   ///
-  /// NeoStation runs as a HOME launcher, so the activity is never paused when
+  /// ECLIPSE runs as a HOME launcher, so the activity is never paused when
   /// the device locks: without this gate a tab left open with the banner up
   /// would poll RetroAchievements all night behind a dark screen, which is the
   /// regression #451 fixed for the in-game poll. Nothing is missed by waiting
