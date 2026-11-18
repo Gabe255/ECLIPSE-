@@ -184,6 +184,14 @@ class _SystemOptionsDialogState extends State<SystemOptionsDialog> {
           selected: viewMode == 'carousel',
         ),
       ),
+      _OptionsEntry.row(
+        _OptionRow(
+          id: 'view_shelf',
+          label: 'ECLIPSE Shelf',
+          icon: Symbols.view_stream_rounded,
+          selected: viewMode == 'shelf',
+        ),
+      ),
       if (isGrid) ...[
         _OptionsEntry.group(AppLocale.cardSizeGroup.getString(context)),
         _OptionsEntry.row(
@@ -378,6 +386,8 @@ class _SystemOptionsDialogState extends State<SystemOptionsDialog> {
         await provider.updateSystemViewMode('grid');
       case 'view_carousel':
         await provider.updateSystemViewMode('carousel');
+      case 'view_shelf':
+        await provider.updateSystemViewMode('shelf');
       case 'sort_alpha':
         await provider.updateSystemSortBy('alphabetical');
       case 'sort_year':
