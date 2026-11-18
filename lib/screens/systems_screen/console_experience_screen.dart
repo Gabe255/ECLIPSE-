@@ -263,22 +263,11 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
     try {
       final games = await GameService.loadGamesForSystem(widget.system);
       for (final game in games) {
-        final candidates = <String>[
-          widget.fileProvider.getVideoPath(widget.system.folderName, game.romname),
-          ...widget.fileProvider.getEsdeMediaCandidates(
-            widget.system.folderName,
-            'videos',
-            game.romname,
-          ),
-        ];
-        String? videoPath;
-        for (final candidate in candidates.toSet()) {
-          if (await widget.fileProvider.fileExists(candidate)) {
-            videoPath = candidate;
-            break;
-          }
-        }
-        if (videoPath == null) continue;
+        final videoPath = game.getVideoPath(
+          widget.system.folderName,
+          widget.fileProvider,
+        );
+        if (!await widget.fileProvider.fileExists(videoPath)) continue;
         final controller = VideoPlayerController.file(File(videoPath));
         try {
           await controller.initialize();
