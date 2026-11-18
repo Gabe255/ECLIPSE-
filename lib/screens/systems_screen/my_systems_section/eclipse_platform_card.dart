@@ -43,10 +43,16 @@ class EclipsePlatformCard extends StatelessWidget {
         customWheel != null &&
         customWheel.isNotEmpty &&
         File(customWheel).existsSync();
-    final logoFolder = info.primaryFolderName?.isNotEmpty == true
-        ? info.primaryFolderName!
-        : (info.folderName?.isNotEmpty == true ? info.folderName! : 'all');
+    final logoFolder = info.isGame
+        ? (info.gameModel?.systemFolderName ?? 'all')
+        : (info.primaryFolderName?.isNotEmpty == true
+              ? info.primaryFolderName!
+              : (info.folderName?.isNotEmpty == true
+                    ? info.folderName!
+                    : 'all'));
     final logoAssetPath = 'assets/images/logos/$logoFolder.webp';
+    final backgroundAssetPath =
+        'assets/images/systems/carousel/$logoFolder-background.webp';
     final title = info.title ?? info.shortName ?? 'Platform';
     final count = info.numOfRoms ?? 0;
 
@@ -96,7 +102,7 @@ class EclipsePlatformCard extends StatelessWidget {
                     )
                   else
                     Image.asset(
-                      info.carouselImagePath,
+                      backgroundAssetPath,
                       fit: BoxFit.cover,
                       cacheWidth: 720,
                       errorBuilder: (context, error, stackTrace) =>
