@@ -3,10 +3,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:gamepads/gamepads.dart';
+import 'package:video_player/video_player.dart';
 
 import '../../models/system_model.dart';
 import '../../providers/file_provider.dart';
 import '../../services/android_service.dart';
+import '../../services/game_service.dart';
 import '../../services/gamepad/gamepad_navigation_manager.dart';
 import '../../utils/gamepad_nav.dart';
 import '../game_screen/my_games_list.dart';
@@ -32,6 +34,9 @@ class ConsoleExperienceScreen extends StatefulWidget {
 class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
     with SingleTickerProviderStateMixin {
   late final AnimationController _bootController;
+  VideoPlayerController? _featuredVideoController;
+  String? _featuredGameTitle;
+  bool _loadingFeaturedVideo = false;
   Timer? _bootTimer;
   StreamSubscription<GamepadEvent>? _wiiPointerSubscription;
   bool _booting = true;
@@ -182,6 +187,7 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
   @override
   void initState() {
     super.initState();
+    _loadFeaturedGameplay();
     _gamepadNav = GamepadNavigation(
       onNavigateUp: () {
         if (!_booting && _interfaceFamily == 'wii') {
@@ -243,11 +249,60 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
   @override
   void dispose() {
     _bootTimer?.cancel();
+    _featuredVideoController?.dispose();
     _wiiPointerSubscription?.cancel();
     GamepadNavigationManager.popLayer(_navigationLayerId);
     _gamepadNav.dispose();
     _bootController.dispose();
     super.dispose();
+  }
+
+  Future<void> _loadFeaturedGameplay() async {
+    if (_loadingFeaturedVideo || widget.system.romCount == 0) return;
+    _loadingFeaturedVideo = true;
+    try {
+      final games = await GameService.loadGamesForSystem(widget.system);
+      for (final game in games) {
+        final candidates = <String>[
+          widget.fileProvider.getVideoPath(widget.system.folderName, game.romname),
+          ...widget.fileProvider.getEsdeMediaCandidates(
+            widget.system.folderName,
+            'videos',
+            game.romname,
+          ),
+        ];
+        String? videoPath;
+        for (final candidate in candidates.toSet()) {
+          if (await widget.fileProvider.fileExists(candidate)) {
+            videoPath = candidate;
+            break;
+          }
+        }
+        if (videoPath == null) continue;
+        final controller = VideoPlayerController.file(File(videoPath));
+        try {
+          await controller.initialize();
+          await controller.setLooping(true);
+          await controller.setVolume(0);
+          await controller.play();
+          if (!mounted) {
+            await controller.dispose();
+            return;
+          }
+          setState(() {
+            _featuredVideoController = controller;
+            _featuredGameTitle = game.name;
+          });
+          return;
+        } catch (_) {
+          await controller.dispose();
+        }
+      }
+    } catch (_) {
+      // A missing preview is normal: the system artwork remains the fallback.
+    } finally {
+      _loadingFeaturedVideo = false;
+    }
   }
 
   void _finishBoot() {
@@ -1341,7 +1396,16 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
       child: Stack(
         fit: StackFit.expand,
         children: [
-          if (hasBackdrop)
+          if (_featuredVideoController?.value.isInitialized == true)
+            FittedBox(
+              fit: BoxFit.cover,
+              child: SizedBox(
+                width: _featuredVideoController!.value.size.width,
+                height: _featuredVideoController!.value.size.height,
+                child: VideoPlayer(_featuredVideoController!),
+              ),
+            )
+          else if (hasBackdrop)
             Image.file(
               File(backdrop),
               fit: BoxFit.cover,
@@ -1383,7 +1447,9 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'PLATFORM SPOTLIGHT',
+                        _featuredGameTitle == null
+                            ? 'PLATFORM SPOTLIGHT'
+                            : 'GAMEPLAY PREVIEW  ·  ${_featuredGameTitle!.toUpperCase()}',
                         maxLines: 1,
                         style: TextStyle(
                           color: _accent,
