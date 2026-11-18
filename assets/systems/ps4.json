@@ -1,0 +1,55 @@
+{
+  "system": {
+    "id": "ps4",
+    "multidisc": false,
+    "name": "Sony PlayStation 4",
+    "short_name": "PS4",
+    "details": {
+      "manufacturer": "Sony",
+      "release_date": "2013-11-15",
+      "description": "Sony's eighth-generation home console with a game-focused home screen and digital library.",
+      "type": "console"
+    },
+    "ids": {
+      "screenscraper": null,
+      "retroachievements": null
+    },
+    "folders": [
+      "ps4",
+      "PlayStation 4",
+      "Sony PlayStation 4"
+    ],
+    "colors": [
+      "#071B3B",
+      "#0070D1"
+    ],
+    "extensions": [
+      "pkg"
+    ]
+  },
+  "emulators": [
+    {
+      "name": "Bachata S4 (Android)",
+      "default_standalone": true,
+      "unique_id": "ps4.com.bachatas4.android",
+      "description": "Experimental Android PS4 emulator. Opens legally-owned .pkg files in Bachata S4 for import; installed games are launched from Bachata S4's own library.",
+      "extensions": [
+        "pkg"
+      ],
+      "is_retroachievements_compatible": false,
+      "platforms": {
+        "android": {
+          "launch_arguments": "-n com.bachatas4.android -a android.intent.action.VIEW -c android.intent.category.DEFAULT -d \"{file.uri}\" -t application/octet-stream",
+          "keep_saf_uri": true
+        }
+      }
+    }
+  ],
+  "neosync": {
+    "sync": false,
+    "android_sync_folder": [],
+    "windows_sync_folder": [],
+    "linux_sync_folder": [],
+    "macos_sync_folder": []
+  }
+}
