@@ -327,6 +327,42 @@ class MySystems extends StatelessWidget {
       ],
     );
 
+    final quickActions = Wrap(
+      spacing: 8.r,
+      runSpacing: 6.r,
+      children: [
+        FilledButton.tonalIcon(
+          onPressed: configProvider.isScanning
+              ? null
+              : () async {
+                  SfxService().playEnterSound();
+                  await configProvider.scanSystems();
+                },
+          icon: Icon(Icons.refresh_rounded, size: 15.r),
+          label: Text(
+            configProvider.isScanning ? 'Scanning…' : 'Rescan folders',
+            style: TextStyle(fontSize: 10.r, fontWeight: FontWeight.w700),
+          ),
+          style: FilledButton.styleFrom(
+            padding: EdgeInsets.symmetric(horizontal: 12.r, vertical: 8.r),
+            visualDensity: VisualDensity.compact,
+          ),
+        ),
+        TextButton.icon(
+          onPressed: () => _openSearch(context),
+          icon: Icon(Icons.search_rounded, size: 15.r),
+          label: Text(
+            'Search games',
+            style: TextStyle(fontSize: 10.r, fontWeight: FontWeight.w700),
+          ),
+          style: TextButton.styleFrom(
+            padding: EdgeInsets.symmetric(horizontal: 10.r, vertical: 8.r),
+            visualDensity: VisualDensity.compact,
+          ),
+        ),
+      ],
+    );
+
     return Padding(
       padding: EdgeInsets.fromLTRB(14.r, 8.r, 14.r, 4.r),
       child: Container(
@@ -355,29 +391,34 @@ class MySystems extends StatelessWidget {
         child: LayoutBuilder(
           builder: (context, constraints) {
             final compact = constraints.maxWidth < 430.r;
-            if (compact) {
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (compact)
                   Row(
                     children: [
                       mark,
                       SizedBox(width: 11.r),
                       Expanded(child: heading),
                     ],
+                  )
+                else
+                  Row(
+                    children: [
+                      mark,
+                      SizedBox(width: 11.r),
+                      Expanded(child: heading),
+                      SizedBox(width: 8.r),
+                      stats,
+                    ],
                   ),
+                if (compact) ...[
                   SizedBox(height: 9.r),
                   Align(alignment: Alignment.centerRight, child: stats),
                 ],
-              );
-            }
-            return Row(
-              children: [
-                mark,
-                SizedBox(width: 11.r),
-                Expanded(child: heading),
-                SizedBox(width: 8.r),
-                stats,
+                SizedBox(height: 10.r),
+                quickActions,
               ],
             );
           },
