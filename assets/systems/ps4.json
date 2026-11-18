@@ -39,7 +39,7 @@
       "is_retroachievements_compatible": false,
       "platforms": {
         "android": {
-          "launch_arguments": "-n com.bachatas4.android -a android.intent.action.VIEW -c android.intent.category.DEFAULT -d \"{file.uri}\" -t application/octet-stream",
+          "launch_arguments": "-n com.bachatas4.android/.MainActivity -a android.intent.action.VIEW -c android.intent.category.DEFAULT -d \"{file.uri}\" -t application/octet-stream",
           "keep_saf_uri": true
         }
       }
