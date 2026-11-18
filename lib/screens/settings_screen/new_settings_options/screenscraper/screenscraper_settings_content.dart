@@ -581,7 +581,7 @@ class ScreenScraperSettingsContentState
           subtitle: 'Add box art, heroes, logos and icons with your API key',
           focused: _focused(1),
           onTap: _configureSteamGridDb,
-          trailing: Icon(Symbols.image_search_rounded, size: 20.r),
+          trailing: Icon(Symbols.image_rounded, size: 20.r),
         ),
         SizedBox(height: 12.r),
         Text(
@@ -685,7 +685,7 @@ class ScreenScraperSettingsContentState
           subtitle: 'Save your key securely, then fill missing artwork in your library',
           focused: _focused(_steamGridSlot),
           onTap: _configureSteamGridDb,
-          trailing: Icon(Symbols.image_search_rounded, size: 20.r),
+          trailing: Icon(Symbols.image_rounded, size: 20.r),
         ),
       ],
     );
