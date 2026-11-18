@@ -217,9 +217,13 @@ class MySystems extends StatelessWidget {
     final accent = selected.color ?? theme.colorScheme.primary;
     final platformCount = configProvider.detectedSystems
         .where(
-          (system) => systems.any(
-            (entry) => entry.folderName == system.folderName,
-          ),
+          (system) =>
+              !SystemFolderNames.recursiveScanExcluded.contains(
+                system.folderName,
+              ) &&
+              systems.any(
+                (entry) => entry.folderName == system.folderName,
+              ),
         )
         .length;
     final gameCount = configProvider.totalGames;
