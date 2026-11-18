@@ -367,6 +367,43 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
     return 'Preparing ${widget.system.romCount} games for your library';
   }
 
+  List<Color> _bootColors() {
+    switch (_interfaceFamily) {
+      case 'xbox':
+        return const [Color(0xFF174B2A), Color(0xFF050B08)];
+      case 'xbox360':
+        return const [Color(0xFF315B27), Color(0xFF070D09)];
+      case 'wii':
+        return const [Color(0xFF245A83), Color(0xFF07101B)];
+      case 'ds':
+        return const [Color(0xFF344B83), Color(0xFF080D1A)];
+      case 'switch':
+        return const [Color(0xFF8F293B), Color(0xFF0B0812)];
+      case 'gameboy':
+        return const [Color(0xFF496C3B), Color(0xFF101A0D)];
+      case 'dreamcast':
+        return const [Color(0xFF14647A), Color(0xFF050B17)];
+      case 'sega':
+        return const [Color(0xFF244A8C), Color(0xFF060A18)];
+      case 'arcade':
+        return const [Color(0xFF633078), Color(0xFF0A0713)];
+      case 'playstation-ps1':
+      case 'playstation-ps2':
+      case 'playstation-ps4':
+      case 'playstation-modern':
+      case 'playstation-xmb':
+      case 'playstation-classic':
+      case 'psp':
+        return const [Color(0xFF243E82), Color(0xFF060A17)];
+      case 'gamecube':
+      case 'n64':
+      case 'nintendo-classic':
+        return const [Color(0xFF2A5278), Color(0xFF070C17)];
+      default:
+        return [_accent.withValues(alpha: 0.25), const Color(0xFF090B10)];
+    }
+  }
+
   Widget _buildBoot() {
     final name = widget.system.shortName ?? widget.system.realName;
     return GestureDetector(
@@ -379,7 +416,7 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
           gradient: RadialGradient(
             center: Alignment.center,
             radius: 1.05,
-            colors: [_accent.withValues(alpha: 0.25), const Color(0xFF090B10)],
+            colors: _bootColors(),
           ),
         ),
         child: Center(
@@ -433,6 +470,16 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
                           color: Colors.white.withValues(alpha: 0.35),
                           fontSize: 9,
                           letterSpacing: 2,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        'TAP OR PRESS A TO CONTINUE',
+                        style: TextStyle(
+                          color: _accent.withValues(alpha: 0.88),
+                          fontSize: 9,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: 1.8,
                         ),
                       ),
                     ],
