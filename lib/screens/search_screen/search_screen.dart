@@ -2743,7 +2743,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   /// Resolves a result's box art through the same path the game list uses.
   ///
-  /// [GameModel.getImagePath] is the canonical resolver: it covers NeoStation's
+  /// [GameModel.getImagePath] is the canonical resolver: it covers ECLIPSE's
   /// own media folder, ROMs with complex extensions, and — critically — the
   /// read-time ES-DE `downloaded_media` fallback. A raw [FileProvider.getMediaPath]
   /// lookup sees none of those, so libraries scraped through ES-DE rendered as
