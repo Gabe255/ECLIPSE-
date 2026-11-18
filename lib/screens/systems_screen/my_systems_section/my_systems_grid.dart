@@ -34,6 +34,7 @@ import 'widgets/grid_empty_state.dart';
 import 'package:neostation/widgets/spring_selected_card.dart';
 
 import 'eclipse_platform_shelf.dart';
+import 'my_systems_carousel.dart';
 
 import 'package:neostation/widgets/custom_notification.dart';
 import 'package:neostation/widgets/launch_failure_dialog.dart';
@@ -115,7 +116,8 @@ class MySystems extends StatelessWidget {
           // PHASE 3: Content Presentation.
           // Dynamically toggle between Carousel and Grid layouts based on user preference.
           final Widget systemsWidget;
-          if (configProvider.config.systemViewMode == 'carousel') {
+          if (configProvider.config.systemViewMode == 'shelf' ||
+              configProvider.config.systemViewMode == 'carousel') {
             final allSystems = _buildAllSystems(context, configProvider);
             final currentSystem = selectedIndex < allSystems.length
                 ? allSystems[selectedIndex]
@@ -130,11 +132,48 @@ class MySystems extends StatelessWidget {
                   configProvider,
                 ),
                 Expanded(
-                  child: _buildEclipsePlatformRow(
-                    context,
-                    allSystems,
-                    configProvider,
-                  ),
+                  child: configProvider.config.systemViewMode == 'shelf'
+                      ? _buildEclipsePlatformRow(
+                          context,
+                          allSystems,
+                          configProvider,
+                        )
+                      : Padding(
+                          padding: EdgeInsets.only(top: 56.r),
+                          child: MySystemsCarousel(
+                            selectedIndex: selectedIndex,
+                            onCardTapped: (index) {
+                              onCardTapped?.call(index);
+                              if (index >= 0 && index < allSystems.length) {
+                                _navigateToSystem(
+                                  context,
+                                  allSystems[index],
+                                  configProvider,
+                                );
+                              }
+                            },
+                            hideSystemLogos:
+                                configProvider.config.hideSystemLogos,
+                            bindYButton: false,
+                            onOptions: (index) {
+                              final selected =
+                                  index >= 0 && index < allSystems.length
+                                  ? allSystems[index]
+                                  : currentSystem;
+                              _openSystemOptions(
+                                context,
+                                selected,
+                                configProvider,
+                              );
+                            },
+                            onYPressed: () => _openSystemOptions(
+                              context,
+                              currentSystem,
+                              configProvider,
+                            ),
+                            onWestPressed: () => _openSearch(context),
+                          ),
+                        ),
                 ),
                 SystemsGridFooter(
                   system: currentSystem,
