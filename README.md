@@ -4,9 +4,9 @@
 
 <h4>A customizable gaming universe for your library, consoles, and apps — built with Flutter</h4>
 
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![Discord](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fdiscord.com%2Fapi%2Fv10%2Finvites%2FxE2kgKsRVq%3Fwith_counts%3Dtrue&query=%24.approximate_member_count&label=Discord&suffix=%20members&logo=discord&color=5865f2)](https://discord.gg/xE2kgKsRVq) ![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/miguelsotobaez/neostation-frontend/total) ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/miguelsotobaez/neostation-frontend/build-and-deploy.yml) [![Stars](https://img.shields.io/github/stars/misobadev/neostation-frontend?logo=github)](https://github.com/misobadev/neostation-frontend) [![Issues](https://img.shields.io/github/issues/misobadev/neostation-frontend)](https://github.com/misobadev/neostation-frontend/issues)  [![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20(x64%2Farm64)%20%7C%20macOS%20%7C%20Android-blue)](https://github.com/misobadev/neostation-frontend)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![Discord](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fdiscord.com%2Fapi%2Fv10%2Finvites%2FxE2kgKsRVq%3Fwith_counts%3Dtrue&query=%24.approximate_member_count&label=Discord&suffix=%20members&logo=discord&color=5865f2)](https://discord.gg/xE2kgKsRVq) ![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/Gabe255/ECLIPSE-/total) ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/Gabe255/ECLIPSE-/debug-apk.yml) [![Stars](https://img.shields.io/github/stars/Gabe255/ECLIPSE-?logo=github)](https://github.com/misobadev/neostation-frontend) [![Issues](https://img.shields.io/github/issues/misobadev/neostation-frontend)](https://github.com/Gabe255/ECLIPSE-/issues)  [![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20(x64%2Farm64)%20%7C%20macOS%20%7C%20Android-blue)](https://github.com/misobadev/neostation-frontend)
 
-![NeoStation Hero](https://repository-images.githubusercontent.com/1223168847/4e7a727d-9855-4597-a999-c07167d8552f)
+![ECLIPSE Hero](https://repository-images.githubusercontent.com/1223168847/4e7a727d-9855-4597-a999-c07167d8552f)
 
 </div>
 
@@ -39,7 +39,7 @@ The built-in organizer helps prepare multi-disc games for emulators that use `.m
 
 1. Open **Settings > Tools**.
 2. Select **Organize Multi-Disc Games**.
-3. NeoStation recursively scans all configured ROM folders and detects disc sets using `Disc`, `Disk`, or `CD` filename markers.
+3. ECLIPSE recursively scans all configured ROM folders and detects disc sets using `Disc`, `Disk`, or `CD` filename markers.
 4. Each detected set is placed in a game folder with an `.m3u` playlist. Existing playlists are reused rather than duplicated.
 
 Folders that already contain `.m3u` playlists are skipped during the scan.
@@ -81,7 +81,7 @@ either from Game Mode, or from the desktop with Steam running:
 
 1. Steam → *Games → Add a Non-Steam Game to My Library* → *Browse*
 2. Set the file filter to *All Files* (the picker hides `.AppImage` by default)
-3. Select the AppImage, then launch NeoStation from your library
+3. Select the AppImage, then launch ECLIPSE from your library
 
 This matters for the controls. With Steam not running, the Deck's controller sits
 in **lizard mode**, where the hardware emulates a keyboard and mouse instead of a
