@@ -122,15 +122,15 @@ const Map<String, dynamic> appLocaleId = {
   AppLocale.download: 'Unduh',
   AppLocale.stop: 'Berhenti',
   AppLocale.reset: 'Atur Ulang',
-  AppLocale.startupStorageUnavailable: 'NeoStation tidak dapat mengakses folder tempat data Anda disimpan. Pastikan kartu SD atau drive terpasang.',
+  AppLocale.startupStorageUnavailable: 'ECLIPSE tidak dapat mengakses folder tempat data Anda disimpan. Pastikan kartu SD atau drive terpasang.',
   AppLocale.startupStorageRetry: 'Coba lagi',
   AppLocale.startupStorageUseDefault: 'Lanjutkan tanpa itu',
-  AppLocale.startupStorageFolderMissing: 'NeoStation tidak menemukan folder tempat data Anda disimpan. Folder itu mungkin telah dipindahkan, diganti namanya, atau dihapus, atau drive tempatnya berada tidak terpasang.',
+  AppLocale.startupStorageFolderMissing: 'ECLIPSE tidak menemukan folder tempat data Anda disimpan. Folder itu mungkin telah dipindahkan, diganti namanya, atau dihapus, atau drive tempatnya berada tidak terpasang.',
   AppLocale.startupStorageStartEmpty: 'Mulai dengan folder kosong',
   AppLocale.startupStorageCreateFailed:
-      'NeoStation tidak dapat membuat folder di sana.',
+      'ECLIPSE tidak dapat membuat folder di sana.',
   AppLocale.startupLoading:
-      'Menyiapkan NeoStation. Menunggu penyimpanan dan layanan...',
+      'Menyiapkan ECLIPSE. Menunggu penyimpanan dan layanan...',
 
   AppLocale.play: 'Main',
   AppLocale.playButton: 'MAIN',
@@ -184,7 +184,7 @@ const Map<String, dynamic> appLocaleId = {
   AppLocale.recentCardSizeSubtitle: 'Ukuran kartu game terbaru di grid sistem',
   AppLocale.recentCardSizeDefault: 'Bawaan',
   AppLocale.recentCardSize2x1: 'Ringkas',
-  AppLocale.themesSubtitle: 'Personalisasi tampilan NeoStation',
+  AppLocale.themesSubtitle: 'Personalisasi tampilan ECLIPSE',
   AppLocale.neoglassGroup: 'NeoGlass',
   AppLocale.neoglassBlur: 'Blur Kaca',
   AppLocale.neoglassBlurSubtitle: 'Kekuatan buram: Mati, 1 atau 2',
@@ -328,9 +328,9 @@ const Map<String, dynamic> appLocaleId = {
   AppLocale.permissionDisabled: 'Izin Dinonaktifkan',
   AppLocale.allFilesAccessSubtitle:
       'Diperlukan untuk konfigurasi RetroArch dan sinkronisasi simpanan',
-  AppLocale.defaultLauncherSubtitle: 'NeoStation adalah launcher default Anda',
-  AppLocale.isDefaultLauncher: 'NeoStation adalah launcher default Anda',
-  AppLocale.setAsDefaultLauncher: 'Tetapkan NeoStation sebagai layar beranda',
+  AppLocale.defaultLauncherSubtitle: 'ECLIPSE adalah launcher default Anda',
+  AppLocale.isDefaultLauncher: 'ECLIPSE adalah launcher default Anda',
+  AppLocale.setAsDefaultLauncher: 'Tetapkan ECLIPSE sebagai layar beranda',
   AppLocale.disableSecondaryScreen: 'Nonaktifkan di layar sekunder',
   AppLocale.disableSecondaryScreenSub: 'Menutup aplikasi di layar sekunder',
   AppLocale.bartopShutdown: 'Matikan BarTOP saat keluar',
@@ -358,7 +358,7 @@ const Map<String, dynamic> appLocaleId = {
   AppLocale.selectExecutablePath: 'Pilih jalur eksekusi',
 
   AppLocale.exitApplication: 'Keluar dari Aplikasi',
-  AppLocale.exitConfirmation: 'Apakah Anda yakin ingin keluar dari NeoStation?',
+  AppLocale.exitConfirmation: 'Apakah Anda yakin ingin keluar dari ECLIPSE?',
   AppLocale.confirmExit: 'Konfirmasi Keluar',
   AppLocale.rescanAllFolders: 'Pindai ulang semua folder ROM',
   AppLocale.rescanAllFoldersSubtitle: 'Cari sistem dan ROM baru secara manual',
@@ -397,7 +397,7 @@ const Map<String, dynamic> appLocaleId = {
   AppLocale.cleanOrphanedMetadataNotRemoved: ' {count} entri tidak dapat dihapus. Jalankan alat ini lagi untuk mencoba ulang.',
   AppLocale.cleanOrphanedMetadataNotRemovedOne: ' {count} entri tidak dapat dihapus. Jalankan alat ini lagi untuk mencoba ulang.',
   AppLocale.cleanOrphanedMetadataNothingToDelete: 'Tidak ada yang perlu dihapus: satu-satunya metadata yatim diimpor dari ES-DE, dan alat ini tidak menyentuhnya.',
-  AppLocale.cleanOrphanedMetadataMediaUnavailable: 'NeoStation tidak dapat menemukan folder medianya. Mulai ulang NeoStation lalu coba lagi.',
+  AppLocale.cleanOrphanedMetadataMediaUnavailable: 'ECLIPSE tidak dapat menemukan folder medianya. Mulai ulang ECLIPSE lalu coba lagi.',
   AppLocale.cleanOrphanedMetadataFailed:
       'Gagal membersihkan metadata yatim: {error}',
   AppLocale.rematchAchievements: 'Cocokkan Game RetroAchievements',
@@ -451,7 +451,7 @@ const Map<String, dynamic> appLocaleId = {
   AppLocale.selectRomsFolder: 'Pilih folder ROM',
   AppLocale.scanningSystem: 'Memindai sistem',
 
-  AppLocale.thankYou: 'Terima kasih telah menggunakan NeoStation!',
+  AppLocale.thankYou: 'Terima kasih telah menggunakan ECLIPSE!',
   AppLocale.visitWebsite: 'Kunjungi situs web resmi kami',
   AppLocale.joinCommunity:
       'Bergabunglah dengan komunitas kami untuk mendapatkan dukungan',
@@ -560,9 +560,9 @@ const Map<String, dynamic> appLocaleId = {
   AppLocale.noOnlineSavesFound: 'Tidak ada simpanan online ditemukan',
   AppLocale.whatIsNeoSync: 'Apa itu NeoSync Cloud?',
   AppLocale.neoSyncDescription:
-      'NeoSync adalah mitra cloud terpadu untuk NeoStation Anda.',
+      'NeoSync adalah mitra cloud terpadu untuk ECLIPSE Anda.',
   AppLocale.crossPlatform: 'Lintas platform',
-  AppLocale.crossPlatformDesc: 'Lanjutkan dari tempat terakhir Anda berhenti di perangkat NeoStation mana pun.',
+  AppLocale.crossPlatformDesc: 'Lanjutkan dari tempat terakhir Anda berhenti di perangkat ECLIPSE mana pun.',
   AppLocale.securePrivate: 'Aman dan Pribadi',
   AppLocale.securePrivateDesc:
       'Data Anda dienkripsi dan hanya dapat diakses oleh Anda.',
@@ -923,7 +923,7 @@ const Map<String, dynamic> appLocaleId = {
   AppLocale.screenScraperUseUsernameNotEmail: 'Masukkan nama pengguna ScreenScraper Anda, bukan alamat email. API tidak menerima email.',
   AppLocale.screenScraperApiClosed:
       'API ScreenScraper sementara tidak tersedia. Coba lagi nanti.',
-  AppLocale.screenScraperAppOutdated: 'ScreenScraper tidak lagi menerima versi aplikasi ini. Perbarui NeoStation.',
+  AppLocale.screenScraperAppOutdated: 'ScreenScraper tidak lagi menerima versi aplikasi ini. Perbarui ECLIPSE.',
   AppLocale.screenScraperQuotaReached:
       'Kuota harian ScreenScraper tercapai. Coba lagi besok.',
   AppLocale.screenScraperConnectionError: 'Tidak dapat menjangkau ScreenScraper. Periksa koneksi internet Anda dan coba lagi.',
@@ -941,21 +941,21 @@ const Map<String, dynamic> appLocaleId = {
   AppLocale.ofSystems: '{scanned} dari {total} sistem',
   AppLocale.systemsDetected: '{count} sistem terdeteksi',
   AppLocale.romsLabel: '{count} ROM',
-  AppLocale.welcomeNeoStation: 'Selamat datang di NeoStation!',
+  AppLocale.welcomeEclipse: 'Selamat datang di ECLIPSE!',
   AppLocale.letsGetSetup: 'Mari kita lakukan penyiapan Anda',
   AppLocale.storagePermission: 'Izin Penyimpanan',
-  AppLocale.storagePermissionDesc: 'NeoStation memerlukan "Akses Semua File" untuk mengelola konfigurasi RetroArch dan menyinkronkan simpanan Anda dengan benar.\n\nHarap berikan izin ini di layar berikutnya.',
+  AppLocale.storagePermissionDesc: 'ECLIPSE memerlukan "Akses Semua File" untuk mengelola konfigurasi RetroArch dan menyinkronkan simpanan Anda dengan benar.\n\nHarap berikan izin ini di layar berikutnya.',
   AppLocale.screenReturnAccess: 'Akses Kembali ke Layar',
   AppLocale.screenReturnAccessDesc: 'Mengembalikan layar Now Playing saat Anda menutup aplikasi yang dibuka dari dock, dan mengaktifkan tangkapan layar sistem. Hanya nama aplikasi di latar depan yang dibaca — tidak ada konten layar yang dikumpulkan.',
-  AppLocale.screenReturnAccessHint: 'Aktifkan NeoStation, lalu ketuk Izinkan',
+  AppLocale.screenReturnAccessHint: 'Aktifkan ECLIPSE, lalu ketuk Izinkan',
   AppLocale.screenReturnDialogTitle: 'Aktifkan fitur Kembali ke Layar',
-  AppLocale.screenReturnDialogBody: 'Untuk membuka aplikasi dari dock, NeoStation memerlukan layanan aksesibilitas Kembali ke Layar. Layanan ini membawa Anda kembali ke sini setelah Anda menutup aplikasi yang dibuka. Tanpanya, Anda mungkin tidak bisa kembali.',
+  AppLocale.screenReturnDialogBody: 'Untuk membuka aplikasi dari dock, ECLIPSE memerlukan layanan aksesibilitas Kembali ke Layar. Layanan ini membawa Anda kembali ke sini setelah Anda menutup aplikasi yang dibuka. Tanpanya, Anda mungkin tidak bisa kembali.',
   AppLocale.screenReturnDialogSteps:
-      'Di layar berikutnya, cari NeoStation di daftar layanan lalu aktifkan.',
+      'Di layar berikutnya, cari ECLIPSE di daftar layanan lalu aktifkan.',
   AppLocale.openSettings: 'Buka setelan',
   AppLocale.selectRomFolder: 'Pilih Folder ROM',
   AppLocale.romFolderSelected: 'Folder ROM dipilih!',
-  AppLocale.chooseRomFolderDesc: 'Pilih folder tempat file ROM Anda disimpan.\n\nNeoStation akan memindai folder ini untuk mencari game.',
+  AppLocale.chooseRomFolderDesc: 'Pilih folder tempat file ROM Anda disimpan.\n\nECLIPSE akan memindai folder ini untuk mencari game.',
   AppLocale.setupComplete: 'Penyiapan selesai!',
   AppLocale.scanningRoms: 'Memindai ROM',
   AppLocale.foundSystemsWithGames: '{count} sistem dengan game ditemukan!',
@@ -1219,7 +1219,7 @@ const Map<String, dynamic> appLocaleId = {
   AppLocale.systemsUpdateChecking: 'Memeriksa pembaruan sistem...',
   AppLocale.systemsUpToDate: 'Sistem sudah versi terbaru (v{version})',
   AppLocale.systemsUpdateCheckFailed: 'Tidak dapat memeriksa pembaruan sistem. Periksa koneksi internet Anda dan coba lagi.',
-  AppLocale.systemsUpdateNeedsNewerApp: 'Versi sistem yang lebih baru memerlukan NeoStation yang lebih baru. Perbarui aplikasi terlebih dahulu.',
+  AppLocale.systemsUpdateNeedsNewerApp: 'Versi sistem yang lebih baru memerlukan ECLIPSE yang lebih baru. Perbarui aplikasi terlebih dahulu.',
 
   AppLocale.checkingCredentials: 'Memeriksa kredensial...',
   AppLocale.scrapeNoCredentials:
@@ -1240,16 +1240,16 @@ const Map<String, dynamic> appLocaleId = {
   AppLocale.userDataLocationDefault: 'Lokasi default',
   AppLocale.selectUserDataFolder: 'Pilih Folder Data',
   AppLocale.folderNotEmptyTitle: 'Folder Tidak Kosong',
-  AppLocale.folderNotEmptyBody: 'Folder ini sudah berisi {count} item. NeoStation akan menyimpan datanya sendiri di sini, bersama konten yang sudah ada.',
+  AppLocale.folderNotEmptyBody: 'Folder ini sudah berisi {count} item. ECLIPSE akan menyimpan datanya sendiri di sini, bersama konten yang sudah ada.',
   AppLocale.folderNotEmptyUseAnyway: 'Tetap Gunakan',
   AppLocale.userDataFolderNotWritable: "Tidak dapat menulis ke folder ini. Pilih folder lain, atau gunakan lokasi default.",
   AppLocale.userDataFolderCantWrite:
       'Tidak dapat menulis ke folder ini. Pilih folder lain.',
-  AppLocale.userDataFolderGrantAllFiles: "Untuk memakai folder ini, izinkan akses semua file untuk NeoStation di Setelan Android → Aplikasi → Akses aplikasi khusus → Akses semua file, lalu pilih lagi.",
-  AppLocale.userDataMoveToCardAppFolder: 'NeoStation tidak bisa menulis ke folder yang Anda pilih di kartu SD ini, jadi datanya akan disimpan di folder miliknya sendiri di kartu itu. Android menghapus folder itu saat NeoStation dihapus instalasinya.',
+  AppLocale.userDataFolderGrantAllFiles: "Untuk memakai folder ini, izinkan akses semua file untuk ECLIPSE di Setelan Android → Aplikasi → Akses aplikasi khusus → Akses semua file, lalu pilih lagi.",
+  AppLocale.userDataMoveToCardAppFolder: 'ECLIPSE tidak bisa menulis ke folder yang Anda pilih di kartu SD ini, jadi datanya akan disimpan di folder miliknya sendiri di kartu itu. Android menghapus folder itu saat ECLIPSE dihapus instalasinya.',
   AppLocale.moveUserDataTitle: 'Pindahkan Data Pengguna?',
-  AppLocale.moveUserDataBody: 'NeoStation akan memindahkan datanya sendiri — basis data, media hasil scrape, dan pengaturan — dari folder saat ini ke folder baru. Berkas yang tidak dibuat oleh NeoStation tidak akan diubah.',
-  AppLocale.moveUserDataDestNotEmpty: 'Folder baru sudah berisi {count} item. Data NeoStation akan ditambahkan di sampingnya.',
+  AppLocale.moveUserDataBody: 'ECLIPSE akan memindahkan datanya sendiri — basis data, media hasil scrape, dan pengaturan — dari folder saat ini ke folder baru. Berkas yang tidak dibuat oleh ECLIPSE tidak akan diubah.',
+  AppLocale.moveUserDataDestNotEmpty: 'Folder baru sudah berisi {count} item. Data ECLIPSE akan ditambahkan di sampingnya.',
   AppLocale.moveUserDataConfirm: 'Pindahkan Data',
   AppLocale.migratingUserData: 'Memindahkan Data',
   AppLocale.userDataMoveRunning:
@@ -1257,15 +1257,15 @@ const Map<String, dynamic> appLocaleId = {
   AppLocale.userDataMoveRemovingOldCopy: "Menghapus salinan lama…",
   AppLocale.migratingUserDataComplete: 'Migrasi selesai',
   AppLocale.migratingUserDataError: 'Migrasi gagal',
-  AppLocale.userDataMoveBusy: 'NeoStation sedang sibuk: pemindaian, scraping, sinkronisasi, impor, atau alat sedang berjalan. Pindahkan data Anda setelah selesai.',
+  AppLocale.userDataMoveBusy: 'ECLIPSE sedang sibuk: pemindaian, scraping, sinkronisasi, impor, atau alat sedang berjalan. Pindahkan data Anda setelah selesai.',
   AppLocale.userDataMoveNoSpace: 'Ruang kosong di folder baru tidak cukup. Data Anda masih di folder saat ini.',
-  AppLocale.userDataMoveBlocked: 'Ada sesuatu di folder baru yang namanya sama dengan salah satu file atau folder NeoStation. Data Anda masih di folder saat ini.',
+  AppLocale.userDataMoveBlocked: 'Ada sesuatu di folder baru yang namanya sama dengan salah satu file atau folder ECLIPSE. Data Anda masih di folder saat ini.',
   AppLocale.userDataMoveOverlapping: 'Folder baru tidak boleh berada di dalam folder saat ini, atau memuatnya. Pilih folder lain.',
   AppLocale.userDataMoveFailed:
       'Tidak dapat memindahkan data Anda. Data masih di folder saat ini.',
   AppLocale.migratingFiles: 'Menyalin {current} dari {total} file...',
   AppLocale.restartRequired: 'Restart Diperlukan',
-  AppLocale.restartRequiredBody: 'NeoStation akan ditutup sekarang. Buka kembali untuk menggunakan lokasi baru.',
+  AppLocale.restartRequiredBody: 'ECLIPSE akan ditutup sekarang. Buka kembali untuk menggunakan lokasi baru.',
   AppLocale.userDataLocationUpdated: 'Lokasi data diperbarui',
   AppLocale.resetToDefault: 'Setel Ulang ke Default',
   AppLocale.romDirectories: 'Direktori ROM',
@@ -1352,7 +1352,7 @@ const Map<String, dynamic> appLocaleId = {
   AppLocale.rommNoSystemMatch:
       'Tidak ada sistem lokal yang cocok untuk platform ini',
   AppLocale.rommPlatformUnsupported: 'Tidak didukung',
-  AppLocale.rommNoWritableFolder: 'Tidak dapat menulis ke folder ROM Anda. Berikan "Akses Semua File" ke NeoStation lalu coba lagi.',
+  AppLocale.rommNoWritableFolder: 'Tidak dapat menulis ke folder ROM Anda. Berikan "Akses Semua File" ke ECLIPSE lalu coba lagi.',
   AppLocale.rommNotConnected:
       'Hubungkan ke server RomM di Pengaturan terlebih dahulu',
   // Bulk "sync a whole platform/collection".
@@ -1606,11 +1606,11 @@ const Map<String, dynamic> appLocaleId = {
       'System Art Pack tidak dapat dijangkau saat ini. Anda dapat memasangnya '
       'nanti dari Pengaturan setelah online.',
   AppLocale.wizardSaveFailedTitle: 'Penyiapan belum selesai',
-  AppLocale.wizardSaveFailedBody: 'NeoStation tidak dapat menyimpan pengaturan Anda. Pastikan penyimpanan Anda tersedia, lalu coba lagi.\n\n{error}',
+  AppLocale.wizardSaveFailedBody: 'ECLIPSE tidak dapat menyimpan pengaturan Anda. Pastikan penyimpanan Anda tersedia, lalu coba lagi.\n\n{error}',
   AppLocale.wizardRomFolderNotAdded:
-      'NeoStation tidak dapat menambahkan folder ini.\n\n{error}',
-  AppLocale.wizardRomFolderTemporary: 'NeoStation tidak dapat mempertahankan akses ke folder itu setelah dimulai ulang. Pilih folder di dalam folder home Anda atau di media yang dapat dilepas.',
-  AppLocale.wizardFolderNotUsable: 'NeoStation tidak dapat menggunakan folder ini. Pilih folder di penyimpanan perangkat atau kartu SD.',
+      'ECLIPSE tidak dapat menambahkan folder ini.\n\n{error}',
+  AppLocale.wizardRomFolderTemporary: 'ECLIPSE tidak dapat mempertahankan akses ke folder itu setelah dimulai ulang. Pilih folder di dalam folder home Anda atau di media yang dapat dilepas.',
+  AppLocale.wizardFolderNotUsable: 'ECLIPSE tidak dapat menggunakan folder ini. Pilih folder di penyimpanan perangkat atau kartu SD.',
   AppLocale.wizardArtPackFailed: 'System Art Pack tidak dapat diunduh. Coba lagi, atau lewati untuk sekarang.',
   AppLocale.wizardScanFailed: 'Pemindaian tidak selesai. Coba lagi, atau lewati langkah ini.\n\n{error}',
 
