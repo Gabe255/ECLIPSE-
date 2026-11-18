@@ -28,6 +28,7 @@ import '../widgets/folder_not_empty_dialog.dart';
 import '../widgets/info_dialog.dart';
 import '../utils/rom_folder_path.dart';
 import 'core_footer.dart';
+import 'shimmering_logo.dart';
 import '../models/secondary_display_state.dart';
 
 /// Initial configuration wizard for the first time the app is opened
@@ -449,11 +450,7 @@ class _SetupWizardState extends State<SetupWizard> with WidgetsBindingObserver {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Logo
-            Image.asset(
-              'assets/images/logo_transparent.png',
-              width: 120.r,
-              height: 120.r,
-            ),
+            EclipseLogoMark(size: 120.r),
             SizedBox(height: 24.r),
 
             // Título
@@ -518,11 +515,7 @@ class _SetupWizardState extends State<SetupWizard> with WidgetsBindingObserver {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset(
-                    'assets/images/logo_transparent.png',
-                    width: 64.r,
-                    height: 64.r,
-                  ),
+                  EclipseLogoMark(size: 64.r),
                   SizedBox(height: 12.r),
 
                   Text(
