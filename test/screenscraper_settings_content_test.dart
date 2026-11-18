@@ -70,6 +70,7 @@ void main() {
     expect(key.currentState!.getItemCount(), 2);
     // The second row configures SteamGridDB; B still falls through at the top.
     expect(key.currentState!.navigateDown(), isTrue);
+    expect(key.currentState!.navigateUp(), isTrue);
     expect(key.currentState!.navigateBack(), isFalse);
   });
 }
