@@ -426,7 +426,7 @@ class MySystems extends StatelessWidget {
           color: accent.withValues(alpha: 0.16),
           image: hasBackground
               ? DecorationImage(
-                  image: FileImage(File(backgroundPath!)),
+                  image: FileImage(File(backgroundPath)),
                   fit: BoxFit.cover,
                   colorFilter: ColorFilter.mode(
                     Colors.black.withValues(alpha: 0.52),
