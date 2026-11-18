@@ -1310,6 +1310,52 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
               ],
               const SizedBox(height: 16),
               Expanded(child: child),
+              const SizedBox(height: 14),
+              Container(
+                height: 1,
+                color: Colors.white.withValues(alpha: 0.10),
+              ),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  Icon(
+                    Icons.grid_view_rounded,
+                    color: _accent,
+                    size: 15,
+                  ),
+                  const SizedBox(width: 7),
+                  Text(
+                    '${widget.system.romCount} TITLES',
+                    style: TextStyle(
+                      color: Colors.white.withValues(alpha: 0.68),
+                      fontSize: 9,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 1.2,
+                    ),
+                  ),
+                  const Spacer(),
+                  _ConsoleActionHint(
+                    label: 'A',
+                    text: 'OPEN',
+                    accent: _accent,
+                    onTap: _openLibrary,
+                  ),
+                  const SizedBox(width: 12),
+                  _ConsoleActionHint(
+                    label: 'Y',
+                    text: 'INFO',
+                    accent: _accent,
+                    onTap: _showSystemInfo,
+                  ),
+                  const SizedBox(width: 12),
+                  _ConsoleActionHint(
+                    label: 'B',
+                    text: 'BACK',
+                    accent: _accent,
+                    onTap: () => Navigator.of(context).maybePop(),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
@@ -1793,6 +1839,64 @@ class _DarkMenuButton extends StatelessWidget {
       ),
     ),
   );
+}
+
+class _ConsoleActionHint extends StatelessWidget {
+  const _ConsoleActionHint({
+    required this.label,
+    required this.text,
+    required this.accent,
+    required this.onTap,
+  });
+
+  final String label;
+  final String text;
+  final Color accent;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(8),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 5),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 19,
+              height: 19,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: accent.withValues(alpha: 0.20),
+                border: Border.all(color: accent.withValues(alpha: 0.55)),
+                borderRadius: BorderRadius.circular(6),
+              ),
+              child: Text(
+                label,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 10,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+            ),
+            const SizedBox(width: 5),
+            Text(
+              text,
+              style: const TextStyle(
+                color: Colors.white70,
+                fontSize: 9,
+                fontWeight: FontWeight.w800,
+                letterSpacing: 0.6,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
 
 class _SystemMark extends StatelessWidget {
