@@ -1216,12 +1216,7 @@ class _SecondaryScreenState extends State<SecondaryScreen> {
   }
 
   Widget _buildDefaultLogo() {
-    return Image.asset(
-      'assets/images/logo_transparent.png',
-      width: 200.r,
-      height: 200.r,
-      fit: BoxFit.contain,
-    );
+    return EclipseLogoMark(size: 200.r);
   }
 
   Widget _buildSystemLogo(SecondaryDisplayStateData value) {
