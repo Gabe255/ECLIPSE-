@@ -1311,18 +1311,11 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
               const SizedBox(height: 16),
               Expanded(child: child),
               const SizedBox(height: 14),
-              Container(
-                height: 1,
-                color: Colors.white.withValues(alpha: 0.10),
-              ),
+              Container(height: 1, color: Colors.white.withValues(alpha: 0.10)),
               const SizedBox(height: 10),
               Row(
                 children: [
-                  Icon(
-                    Icons.grid_view_rounded,
-                    color: _accent,
-                    size: 15,
-                  ),
+                  Icon(Icons.grid_view_rounded, color: _accent, size: 15),
                   const SizedBox(width: 7),
                   Text(
                     '${widget.system.romCount} TITLES',
