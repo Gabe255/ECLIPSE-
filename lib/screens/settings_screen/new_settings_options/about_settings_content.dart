@@ -245,7 +245,7 @@ class AboutSettingsContentState extends State<AboutSettingsContent> {
                       width: 64.r,
                       height: 64.r,
                       child: Image.asset(
-                        'assets/images/logo_transparent.png',
+                        'assets/images/logo.png',
                         fit: BoxFit.contain,
                         errorBuilder: (context, error, stackTrace) => Icon(
                           Symbols.games_rounded,
@@ -262,7 +262,16 @@ class AboutSettingsContentState extends State<AboutSettingsContent> {
                         fontSize: 12.r,
                       ),
                     ),
-                    SizedBox(height: 1.h),
+                    SizedBox(height: 2.r),
+                    Text(
+                      'Your Gaming Universe',
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: theme.colorScheme.primary,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 8.r,
+                      ),
+                    ),
+                    SizedBox(height: 5.r),
                     Text(
                       _appVersion,
                       style: theme.textTheme.bodySmall?.copyWith(
