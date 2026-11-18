@@ -1,4 +1,6 @@
-name: ECLIPSE branding scan after final UI pass
+name: ECLIPSE branding scan after settings refresh
+
+# Trigger source validation after the ECLIPSE settings navigation refresh.
 
 on:
   push:
