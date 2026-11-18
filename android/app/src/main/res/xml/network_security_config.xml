@@ -20,7 +20,7 @@
         </trust-anchors>
     </domain-config>
     
-    <!-- Configuración para dominios de producción NeoStation (HTTPS) -->
+    <!-- Configuración para dominios de producción ECLIPSE (HTTPS) -->
     <domain-config cleartextTrafficPermitted="false">
         <domain includeSubdomains="true">neostation.dev</domain>
         <trust-anchors>
