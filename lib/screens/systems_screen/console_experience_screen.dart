@@ -5,6 +5,7 @@ import 'package:gamepads/gamepads.dart';
 
 import '../../models/system_model.dart';
 import '../../providers/file_provider.dart';
+import '../../services/android_service.dart';
 import '../../services/gamepad/gamepad_navigation_manager.dart';
 import '../../utils/gamepad_nav.dart';
 import '../game_screen/my_games_list.dart';
@@ -68,7 +69,8 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
     if (_isFolderCode(['xbox']) || _hasAny(['original xbox', 'microsoft xbox'])) return 'xbox';
     if (_isFolderCode(['ps1', 'psx']) || _hasAny(['ps1', 'playstation 1', 'playstation (1994)', 'psx'])) return 'playstation-ps1';
     if (_isFolderCode(['ps2']) || _hasAny(['ps2', 'playstation 2'])) return 'playstation-ps2';
-    if (_hasAny(['ps5', 'playstation 5', 'ps4', 'playstation 4'])) return 'playstation-modern';
+    if (_isFolderCode(['ps4']) || _hasAny(['ps4', 'playstation 4'])) return 'playstation-ps4';
+    if (_hasAny(['ps5', 'playstation 5'])) return 'playstation-modern';
     if (_hasAny(['ps3', 'playstation 3'])) return 'playstation-xmb';
     if (_hasAny(['switch', 'nintendo switch']) || _isFolderCode(['switch'])) return 'switch';
     if (_hasAny(['gamecube']) || _isFolderCode(['gc'])) return 'gamecube';
@@ -149,6 +151,37 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
     setState(() => _booting = false);
   }
 
+  Future<void> _openPs4Emulator() async {
+    final installed = await AndroidService.isPackageInstalled(
+      'com.bachatas4.android',
+    );
+    if (!mounted) return;
+    if (!installed) {
+      await showDialog<void>(
+        context: context,
+        builder: (dialogContext) => AlertDialog(
+          title: const Text('Bachata S4 is not installed'),
+          content: const Text(
+            'Install Bachata S4 to import and run your legally-owned PS4 game packages. ECLIPSE can hand off .pkg files to it once installed.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(),
+              child: const Text('Got it'),
+            ),
+          ],
+        ),
+      );
+      return;
+    }
+    final opened = await AndroidService.launchPackage('com.bachatas4.android');
+    if (!opened && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Could not open Bachata S4.')),
+      );
+    }
+  }
+
   Future<void> _openLibrary() async {
     await Navigator.of(context).push(
       MaterialPageRoute<void>(
@@ -190,6 +223,8 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
         return 'PLAYSTATION BIOS';
       case 'playstation-ps2':
         return 'PLAYSTATION 2 BROWSER';
+      case 'playstation-ps4':
+        return 'PLAYSTATION 4 SYSTEM SOFTWARE';
       case 'playstation-xmb':
         return 'XMB INTERFACE';
       case 'playstation-modern':
@@ -318,6 +353,8 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
         return _buildPs1Home();
       case 'playstation-ps2':
         return _buildPs2Home();
+      case 'playstation-ps4':
+        return _buildPlayStation4Home();
       case 'playstation-modern':
         return _buildPlayStationModernHome();
       case 'playstation-xmb':
@@ -427,6 +464,103 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
         const SizedBox(height: 12),
         _HomeTile(accent: _accent, icon: Icons.settings, title: 'Console Settings', subtitle: 'System information', onTap: _showSystemInfo),
       ])),
+    );
+  }
+
+  Widget _buildPlayStation4Home() {
+    const ps4Blue = Color(0xFF0070D1);
+    return _buildShell(
+      eyebrow: 'PlayStation 4 home',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const Text(
+                'PLAYSTATION 4',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 25,
+                  fontWeight: FontWeight.w900,
+                  letterSpacing: 3,
+                ),
+              ),
+              const Spacer(),
+              Icon(Icons.wifi, color: Colors.white.withValues(alpha: .65)),
+              const SizedBox(width: 12),
+              Icon(Icons.notifications_none, color: Colors.white.withValues(alpha: .65)),
+              const SizedBox(width: 12),
+              Icon(Icons.person_outline, color: Colors.white.withValues(alpha: .65)),
+            ],
+          ),
+          const SizedBox(height: 18),
+          Row(
+            children: [
+              _XmbCategory(icon: Icons.auto_awesome, label: "What's New", accent: ps4Blue, selected: true),
+              const SizedBox(width: 14),
+              _XmbCategory(icon: Icons.explore_outlined, label: 'Explore', accent: ps4Blue),
+              const SizedBox(width: 14),
+              _XmbCategory(icon: Icons.sports_esports, label: 'Library', accent: ps4Blue),
+              const SizedBox(width: 14),
+              _XmbCategory(icon: Icons.settings_outlined, label: 'Settings', accent: ps4Blue),
+            ],
+          ),
+          const SizedBox(height: 18),
+          Expanded(
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 3,
+                  child: _FeaturePanel(
+                    accent: ps4Blue,
+                    icon: Icons.grid_view_rounded,
+                    title: 'Game Library',
+                    subtitle: '${widget.system.romCount} PS4 packages in your ECLIPSE library',
+                    onTap: _openLibrary,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  flex: 2,
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: _HomeTile(
+                          accent: ps4Blue,
+                          icon: Icons.folder_open_rounded,
+                          title: 'Your Games',
+                          subtitle: 'Browse your PS4 collection',
+                          onTap: _openLibrary,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Expanded(
+                        child: _HomeTile(
+                          accent: ps4Blue,
+                          icon: Icons.sports_esports_rounded,
+                          title: 'Bachata S4',
+                          subtitle: 'Open the PS4 emulator',
+                          onTap: _openPs4Emulator,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Expanded(
+                        child: _HomeTile(
+                          accent: ps4Blue,
+                          icon: Icons.tune_rounded,
+                          title: 'Console Settings',
+                          subtitle: 'ECLIPSE system options',
+                          onTap: _showSystemInfo,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
