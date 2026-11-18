@@ -8,6 +8,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:neostation/data/datasources/sqlite_service.dart';
 import 'package:neostation/l10n/app_locale.dart';
 import 'package:neostation/providers/sqlite_config_provider.dart';
+import 'package:neostation/providers/wallpaper_provider.dart';
 import 'package:neostation/screens/settings_screen/new_settings_options/general_settings_content.dart';
 import 'package:neostation/screens/settings_screen/new_settings_options/widgets/setting_row.dart';
 import 'package:neostation/services/global_notification_service.dart';
@@ -78,24 +79,29 @@ void main() {
         data: const MediaQueryData(size: Size(1920, 1080)),
         child: ScreenUtilInit(
           designSize: const Size(1920, 1080),
-          builder: (context, child) =>
+          builder: (context, child) => MultiProvider(
+            providers: [
               ChangeNotifierProvider<SqliteConfigProvider>(
                 create: (_) => SqliteConfigProvider(),
-                child: MaterialApp(
-                  localizationsDelegates:
-                      FlutterLocalization.instance.localizationsDelegates,
-                  supportedLocales:
-                      FlutterLocalization.instance.supportedLocales,
-                  home: Scaffold(
-                    body: GeneralSettingsContent(
-                      key: key,
-                      isContentFocused: true,
-                      selectedContentIndex: selectedContentIndex,
-                      onFullscreenToggle: (_) {},
-                    ),
-                  ),
+              ),
+              ChangeNotifierProvider<WallpaperProvider>(
+                create: (_) => WallpaperProvider(),
+              ),
+            ],
+            child: MaterialApp(
+              localizationsDelegates:
+                  FlutterLocalization.instance.localizationsDelegates,
+              supportedLocales: FlutterLocalization.instance.supportedLocales,
+              home: Scaffold(
+                body: GeneralSettingsContent(
+                  key: key,
+                  isContentFocused: true,
+                  selectedContentIndex: selectedContentIndex,
+                  onFullscreenToggle: (_) {},
                 ),
               ),
+            ),
+          ),
         ),
       ),
     );

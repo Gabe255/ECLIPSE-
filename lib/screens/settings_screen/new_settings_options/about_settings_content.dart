@@ -12,6 +12,8 @@ import 'package:neostation/utils/adaptive_scroll.dart';
 import 'package:neostation/data/datasources/sqlite_service.dart';
 import 'package:neostation/widgets/custom_notification.dart';
 import 'package:neostation/widgets/neo_glass.dart';
+import 'package:neostation/services/update_service.dart';
+import 'package:neostation/widgets/update_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'settings_title.dart';
@@ -38,13 +40,14 @@ class AboutSettingsContentState extends State<AboutSettingsContent> {
 
   /// Keys used for calculating viewport alignment during navigation, one per
   /// card.
-  final List<GlobalKey> _itemKeys = List.generate(5, (_) => GlobalKey());
+  final List<GlobalKey> _itemKeys = List.generate(6, (_) => GlobalKey());
 
   String _appVersion = '';
   String _systemsVersion = '';
 
   /// Blocks a second export while the zip is still being built.
   bool _exporting = false;
+  bool _checkingForUpdates = false;
 
   @override
   void initState() {
@@ -143,14 +146,63 @@ class AboutSettingsContentState extends State<AboutSettingsContent> {
     }
   }
 
+  Future<void> _checkForAppUpdates() async {
+    if (_checkingForUpdates) return;
+    setState(() => _checkingForUpdates = true);
+    try {
+      final updateInfo = await UpdateService.checkForUpdates();
+      if (!mounted) return;
+      if (updateInfo == null) {
+        await showDialog<void>(
+          context: context,
+          builder: (dialogContext) => AlertDialog(
+            title: const Text('No update found'),
+            content: const Text(
+              'No compatible ECLIPSE release was found. Check your connection or the GitHub Releases page.',
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(dialogContext),
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        );
+      } else {
+        await showDialog<bool>(
+          context: context,
+          barrierDismissible: false,
+          builder: (dialogContext) => UpdateDialog(updateInfo: updateInfo),
+        );
+      }
+    } catch (_) {
+      if (!mounted) return;
+      await showDialog<void>(
+        context: context,
+        builder: (dialogContext) => AlertDialog(
+          title: const Text('Update check failed'),
+          content: const Text('Could not check GitHub Releases right now.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+    } finally {
+      if (mounted) setState(() => _checkingForUpdates = false);
+    }
+  }
+
   int getItemCount() {
-    return 5;
+    return 6;
   }
 
   void selectItem(int index) {
     switch (index) {
       case 0:
-        _launchUrl('https://github.com/misobadev/neostation-frontend');
+        _launchUrl('https://github.com/Gabe255/ECLIPSE-');
         break;
       case 1:
         _launchUrl('https://www.patreon.com/cw/NeoStation');
@@ -162,6 +214,9 @@ class AboutSettingsContentState extends State<AboutSettingsContent> {
         _launchUrl('https://neostation.dev/');
         break;
       case 4:
+        _checkForAppUpdates();
+        break;
+      case 5:
         _exportLogs();
         break;
     }
@@ -177,7 +232,7 @@ class AboutSettingsContentState extends State<AboutSettingsContent> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SettingsTitle(title: AppLocale.thankYou.getString(context)),
+          SettingsTitle(title: 'About ECLIPSE'),
           SizedBox(height: 12.r),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 6.r),
@@ -190,7 +245,7 @@ class AboutSettingsContentState extends State<AboutSettingsContent> {
                       width: 64.r,
                       height: 64.r,
                       child: Image.asset(
-                        'assets/images/logo_transparent.png',
+                        'assets/images/logo.png',
                         fit: BoxFit.contain,
                         errorBuilder: (context, error, stackTrace) => Icon(
                           Symbols.games_rounded,
@@ -201,15 +256,24 @@ class AboutSettingsContentState extends State<AboutSettingsContent> {
                     ),
                     SizedBox(height: 6.r),
                     Text(
-                      'NeoStation',
+                      'ECLIPSE',
                       style: theme.textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                         fontSize: 12.r,
                       ),
                     ),
-                    SizedBox(height: 1.h),
+                    SizedBox(height: 2.r),
                     Text(
-                      "Beta $_appVersion",
+                      'Your Gaming Universe',
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: theme.colorScheme.primary,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 8.r,
+                      ),
+                    ),
+                    SizedBox(height: 5.r),
+                    Text(
+                      _appVersion,
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: theme.colorScheme.onSurface.withValues(
                           alpha: 0.6,
@@ -219,7 +283,7 @@ class AboutSettingsContentState extends State<AboutSettingsContent> {
                     ),
                     SizedBox(height: 1.h),
                     Text(
-                      'Systems v$_systemsVersion',
+                      'Library data v$_systemsVersion',
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: theme.colorScheme.onSurface.withValues(
                           alpha: 0.4,
@@ -286,6 +350,21 @@ class AboutSettingsContentState extends State<AboutSettingsContent> {
                       SizedBox(height: 12.r),
                       _buildInfoCard(
                         cardKey: _itemKeys[4],
+                        icon: Symbols.system_update_alt_rounded,
+                        title: 'Check for updates',
+                        value: _checkingForUpdates
+                            ? 'Checking GitHub Releases...'
+                            : 'Check for a newer ECLIPSE version',
+                        onTap: _checkForAppUpdates,
+                        trailingIcon: Symbols.download_rounded,
+                        theme: theme,
+                        isFocused:
+                            widget.isContentFocused &&
+                            widget.selectedContentIndex == 4,
+                      ),
+                      SizedBox(height: 12.r),
+                      _buildInfoCard(
+                        cardKey: _itemKeys[5],
                         icon: Symbols.bug_report_rounded,
                         title: AppLocale.exportLogs.getString(context),
                         value: AppLocale.exportLogsDesc.getString(context),
@@ -296,7 +375,7 @@ class AboutSettingsContentState extends State<AboutSettingsContent> {
                         theme: theme,
                         isFocused:
                             widget.isContentFocused &&
-                            widget.selectedContentIndex == 4,
+                            widget.selectedContentIndex == 5,
                       ),
                     ],
                   ),

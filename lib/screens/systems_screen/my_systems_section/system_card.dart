@@ -316,14 +316,30 @@ class _SystemCardState extends State<SystemCard> {
           cornerRadius: outerRadiusPx,
           child: Container(
             decoration: BoxDecoration(
-              // The chrome (the frame around the artwork and the footer)
-              // switches to secondary on selection; the artwork itself stays.
+              // Selected cards now read as the active destination at a glance:
+              // a crisp theme-colored rim and restrained glow, while the
+              // artwork itself remains unchanged.
               color: widget.isSelected
                   ? Theme.of(context).colorScheme.secondary
                   : Theme.of(context).colorScheme.surface,
               borderRadius: outerRadius,
+              border: Border.all(
+                color: widget.isSelected
+                    ? Theme.of(context).colorScheme.primary
+                          .withValues(alpha: 0.92)
+                    : Theme.of(context).colorScheme.outline
+                          .withValues(alpha: 0.16),
+                width: widget.isSelected ? 1.5.r : 0.6.r,
+              ),
               boxShadow: widget.showShadow && !_performanceMode
                   ? [
+                      if (widget.isSelected)
+                        BoxShadow(
+                          color: Theme.of(context).colorScheme.primary
+                              .withValues(alpha: 0.24),
+                          blurRadius: 20.r,
+                          spreadRadius: 1.r,
+                        ),
                       BoxShadow(
                         color: Theme.of(context).colorScheme.shadow
                             .withValues(alpha: 0.1),

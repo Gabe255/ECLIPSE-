@@ -29,6 +29,7 @@ import 'game_screen/android_apps/android_apps_grid.dart';
 
 import 'package:neostation/services/game_service.dart';
 import 'package:neostation/providers/theme_provider.dart';
+import 'package:neostation/providers/wallpaper_provider.dart';
 import 'package:neostation/repositories/emulator_repository.dart';
 
 import 'dart:async';
@@ -660,59 +661,81 @@ class AppScreenState extends State<AppScreen> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer2<SqliteConfigProvider, ThemeProvider>(
-      builder: (context, configProvider, themeProvider, child) {
-        _ensureSelectedTabVisible(configProvider.config);
+    return Consumer3<SqliteConfigProvider, ThemeProvider, WallpaperProvider>(
+      builder:
+          (context, configProvider, themeProvider, wallpaperProvider, child) {
+            _ensureSelectedTabVisible(configProvider.config);
 
-        return PopScope(
-          canPop: false, // Intercept hardware back button to maintain app flow.
-          child: Scaffold(
-            body: Stack(
-              children: [
-                // Background Layer.
-                Positioned.fill(
-                  child: Container(
-                    color: Theme.of(context).scaffoldBackgroundColor,
-                  ),
+            return PopScope(
+              canPop:
+                  false, // Intercept hardware back button to maintain app flow.
+              child: Scaffold(
+                body: Stack(
+                  children: [
+                    // Background Layer.
+                    Positioned.fill(
+                      child: Stack(
+                        fit: StackFit.expand,
+                        children: [
+                          Container(
+                            color: Theme.of(context).scaffoldBackgroundColor,
+                          ),
+                          if (wallpaperProvider.hasWallpaper)
+                            Opacity(
+                              opacity: 0.34,
+                              child: Image.file(
+                                File(wallpaperProvider.wallpaperPath!),
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) =>
+                                    const SizedBox.shrink(),
+                              ),
+                            ),
+                          if (wallpaperProvider.hasWallpaper)
+                            Container(
+                              color: Colors.black.withValues(alpha: 0.22),
+                            ),
+                        ],
+                      ),
+                    ),
+
+                    // Main Content Layer.
+                    Positioned.fill(child: _buildCurrentTabContent()),
+
+                    // Global Header: Managed based on app initialization state.
+                    Positioned(
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      child:
+                          (configProvider.initialized ||
+                              !configProvider.isLoading)
+                          ? FixedHeader(
+                              selectedTabIndex: _selectedTabIndex,
+                              onTabSelected: _onTabSelected,
+                              onSearch: _selectedTabIndex == AppTabs.systems
+                                  ? () => unawaited(_openSearchFromHeader())
+                                  : null,
+                            )
+                          : const SizedBox.shrink(),
+                    ),
+
+                    // Global Footer Placeholder.
+                    Positioned(
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child:
+                          configProvider.hasRomFolder &&
+                              !configProvider.isLoading &&
+                              !configProvider.isScanning
+                          ? _buildFooterForCurrentTab()
+                          : const SizedBox.shrink(),
+                    ),
+                  ],
                 ),
-
-                // Main Content Layer.
-                Positioned.fill(child: _buildCurrentTabContent()),
-
-                // Global Header: Managed based on app initialization state.
-                Positioned(
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  child:
-                      (configProvider.initialized || !configProvider.isLoading)
-                      ? FixedHeader(
-                          selectedTabIndex: _selectedTabIndex,
-                          onTabSelected: _onTabSelected,
-                          onSearch: _selectedTabIndex == AppTabs.systems
-                              ? () => unawaited(_openSearchFromHeader())
-                              : null,
-                        )
-                      : const SizedBox.shrink(),
-                ),
-
-                // Global Footer Placeholder.
-                Positioned(
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child:
-                      configProvider.hasRomFolder &&
-                          !configProvider.isLoading &&
-                          !configProvider.isScanning
-                      ? _buildFooterForCurrentTab()
-                      : const SizedBox.shrink(),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
+              ),
+            );
+          },
     );
   }
 

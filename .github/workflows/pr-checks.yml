@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - main
+      - migration/pegasus-flutter-port
   workflow_dispatch:
 
 env:
@@ -32,7 +33,7 @@ jobs:
       # repo) keeps the default checkout.
       - uses: actions/checkout@v7
         with:
-          ref: ${{ github.actor == 'dependabot[bot]' && github.head_ref || '' }}
+          ref: ${{ github.actor == 'dependabot[bot]' && github.head_ref || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && github.head_ref || '') }}
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -97,6 +98,26 @@ jobs:
       - name: Install dependencies
         run: flutter pub get --enforce-lockfile
 
+      # Format the PR branch itself before running the gates. This prevents
+      # a formatter-only failure from blocking analysis, tests, and the APK
+      # compile check. Same-repository PRs are checked out at their head branch
+      # and the formatter commit is pushed back; fork PRs remain read-only.
+      - name: Format Dart sources
+        run: dart format .
+
+      - name: Commit formatter changes
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+        run: |
+          if git diff --quiet -- '*.dart'; then
+            echo "Dart sources are already formatted."
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- '*.dart'
+          git commit -m 'style: format Dart sources'
+          git push origin "HEAD:${{ github.head_ref }}"
+
       - name: Verify formatting
         run: dart format --output=none --set-exit-if-changed .
 
@@ -112,7 +133,7 @@ jobs:
       # Dependabot's lockfile is rewritten by the lint job above.
       - uses: actions/checkout@v7
         with:
-          ref: ${{ github.actor == 'dependabot[bot]' && github.head_ref || '' }}
+          ref: ${{ github.actor == 'dependabot[bot]' && github.head_ref || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && github.head_ref || '') }}
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -147,7 +168,7 @@ jobs:
       # branch tip so every shard runs against the corrected lock.
       - uses: actions/checkout@v7
         with:
-          ref: ${{ github.actor == 'dependabot[bot]' && github.head_ref || '' }}
+          ref: ${{ github.actor == 'dependabot[bot]' && github.head_ref || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && github.head_ref || '') }}
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -205,6 +226,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && github.head_ref || '' }}
 
       - name: Setup Java
         uses: actions/setup-java@v6

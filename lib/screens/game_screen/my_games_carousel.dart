@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:provider/provider.dart';
 import 'package:neostation/sync/sync_manager.dart';
+import 'package:neostation/data/datasources/sqlite_service.dart';
 import 'package:neostation/models/game_model.dart';
 import 'package:neostation/models/system_model.dart';
 import 'package:neostation/utils/effective_system.dart';
@@ -135,6 +136,89 @@ class GamesCarousel extends StatefulWidget {
 
   @override
   State<GamesCarousel> createState() => _GamesCarouselState();
+}
+
+class _PlayCountLabel extends StatefulWidget {
+  const _PlayCountLabel({super.key, required this.romPath});
+
+  final String romPath;
+
+  @override
+  State<_PlayCountLabel> createState() => _PlayCountLabelState();
+}
+
+class _PlayCountLabelState extends State<_PlayCountLabel>
+    with WidgetsBindingObserver {
+  late Future<int> _playCount;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    _loadPlayCount();
+  }
+
+  @override
+  void didUpdateWidget(covariant _PlayCountLabel oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.romPath != widget.romPath) {
+      _loadPlayCount();
+    }
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _loadPlayCount(notify: true);
+    }
+  }
+
+  void _loadPlayCount({bool notify = false}) {
+    final nextCount = SqliteService.getRomPlayCount(widget.romPath);
+    if (notify && mounted) {
+      setState(() => _playCount = nextCount);
+    } else {
+      _playCount = nextCount;
+    }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<int>(
+      future: _playCount,
+      builder: (context, snapshot) {
+        if (!snapshot.hasData || snapshot.data == 0) {
+          return const SizedBox.shrink();
+        }
+        final count = snapshot.data!;
+        return Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.play_circle_outline_rounded,
+              size: 11.r,
+              color: Colors.white.withValues(alpha: 0.72),
+            ),
+            SizedBox(width: 4.r),
+            Text(
+              '$count ${count == 1 ? 'play' : 'plays'}',
+              style: TextStyle(
+                color: Colors.white.withValues(alpha: 0.72),
+                fontSize: 9.r,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
 
 class _GamesCarouselState extends State<GamesCarousel> {
@@ -924,6 +1008,16 @@ class _GamesCarouselState extends State<GamesCarousel> {
                   ),
                 ),
               ),
+            // Pegasus-inspired focus metadata: keep the selected game's
+            // identity readable even when the wheel artwork is missing.
+            // The panel is deliberately compact so it does not cover the
+            // centre artwork or the existing controller/status badges.
+            Positioned(
+              left: 14.r,
+              bottom: 14.r,
+              width: 190.r,
+              child: _buildPegasusFocusInfo(game),
+            ),
             Positioned(
               left: 0,
               right: 0,
@@ -1191,6 +1285,73 @@ class _GamesCarouselState extends State<GamesCarousel> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  /// Compact Pegasus-style selected-game information for the hero card.
+  /// Uses metadata already loaded by the existing game model; no extra
+  /// scraper/network work is triggered while the carousel is moving.
+  Widget _buildPegasusFocusInfo(GameModel game) {
+    final title = game.name.trim().isNotEmpty
+        ? game.name.trim()
+        : game.realname.trim();
+    final details = <String>[
+      if (game.formattedYear.trim().isNotEmpty) game.formattedYear.trim(),
+      if (game.genre.trim().isNotEmpty) game.genre.trim(),
+      if (game.developer.trim().isNotEmpty) game.developer.trim(),
+    ].take(2).join('  •  ');
+
+    return IgnorePointer(
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: Colors.black.withValues(alpha: 0.48),
+          borderRadius: BorderRadius.circular(14.r),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.12)),
+        ),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 12.r, vertical: 9.r),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                title,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 13.r,
+                  height: 1.12,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: 0.1,
+                  shadows: const [Shadow(color: Colors.black54, blurRadius: 8)],
+                ),
+              ),
+              if (details.isNotEmpty) ...[
+                SizedBox(height: 4.r),
+                Text(
+                  details,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: Colors.white.withValues(alpha: 0.78),
+                    fontSize: 9.r,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 0.2,
+                  ),
+                ),
+              ],
+              if (game.romPath != null && game.romPath!.isNotEmpty) ...[
+                SizedBox(height: 5.r),
+                _PlayCountLabel(
+                  key: ValueKey(game.romPath),
+                  romPath: game.romPath!,
+                ),
+              ],
+            ],
+          ),
         ),
       ),
     );

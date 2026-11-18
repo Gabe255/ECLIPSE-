@@ -16,6 +16,7 @@ import 'package:neostation/utils/adaptive_scroll.dart';
 import 'package:neostation/utils/nav_tabs.dart';
 
 import '../../../providers/sqlite_config_provider.dart';
+import '../../../providers/wallpaper_provider.dart';
 import '../../../repositories/retro_achievements_repository.dart';
 import '../../../repositories/system_repository.dart';
 import '../../../widgets/info_dialog.dart';
@@ -252,6 +253,7 @@ class GeneralSettingsContentState extends State<GeneralSettingsContent>
     if (Platform.isAndroid) {
       count++; // System Settings
     }
+    count++; // Library Wallpaper
     count++; // Scan on Startup
     count++; // Ignore hidden files in scan
     count++; // Auto-update App
@@ -354,6 +356,49 @@ class GeneralSettingsContentState extends State<GeneralSettingsContent>
     );
   }
 
+  Future<void> _manageWallpaper() async {
+    final wallpaper = context.read<WallpaperProvider>();
+    final choice = await showDialog<String>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('Library wallpaper'),
+        content: Text(
+          wallpaper.hasWallpaper
+              ? 'Choose a new background image or remove the current wallpaper.'
+              : 'Choose an image to use behind your ECLIPSE library.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, 'cancel'),
+            child: const Text('Cancel'),
+          ),
+          if (wallpaper.hasWallpaper)
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext, 'remove'),
+              child: const Text('Remove'),
+            ),
+          FilledButton(
+            onPressed: () => Navigator.pop(dialogContext, 'choose'),
+            child: const Text('Choose image'),
+          ),
+        ],
+      ),
+    );
+    if (!mounted || choice == null || choice == 'cancel') return;
+    if (choice == 'remove') {
+      await wallpaper.clearWallpaper();
+      return;
+    }
+    final selected = await wallpaper.chooseWallpaper();
+    if (!selected && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Could not load that image. Try another file.'),
+        ),
+      );
+    }
+  }
+
   void selectItem(int index) {
     SfxService().playNavSound();
     int currentItemIndex = 0;
@@ -367,6 +412,13 @@ class GeneralSettingsContentState extends State<GeneralSettingsContent>
       }
       currentItemIndex++;
     }
+
+    // Protocol: Library Wallpaper.
+    if (index == currentItemIndex) {
+      _manageWallpaper();
+      return;
+    }
+    currentItemIndex++;
 
     // Protocol: Background ROM Scanning.
     if (index == currentItemIndex) {
@@ -665,6 +717,30 @@ class GeneralSettingsContentState extends State<GeneralSettingsContent>
                   }(),
                   SizedBox(height: 12.r),
                 ],
+
+                // Setting: Custom library wallpaper.
+                SizedBox(height: 12.r),
+                () {
+                  final index = currentItemIdx++;
+                  final wallpaper = context.watch<WallpaperProvider>();
+                  return SettingRow(
+                    key: _itemKeys[index],
+                    onTap: () => selectItem(index),
+                    focused:
+                        widget.isContentFocused &&
+                        widget.selectedContentIndex == index,
+                    title: 'Library wallpaper',
+                    subtitle: wallpaper.hasWallpaper
+                        ? 'Custom background is active'
+                        : 'Choose an image for your library background',
+                    trailing: Icon(
+                      wallpaper.hasWallpaper
+                          ? Symbols.image_rounded
+                          : Symbols.image_rounded,
+                      size: 18.r,
+                    ),
+                  );
+                }(),
 
                 // Setting: Scan on Startup.
                 () {
