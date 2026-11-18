@@ -662,7 +662,13 @@ class AppScreenState extends State<AppScreen> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Consumer3<SqliteConfigProvider, ThemeProvider, WallpaperProvider>(
-      builder: (context, configProvider, themeProvider, wallpaperProvider, child) {
+      builder: (
+        context,
+        configProvider,
+        themeProvider,
+        wallpaperProvider,
+        child,
+      ) {
         _ensureSelectedTabVisible(configProvider.config);
 
         return PopScope(
