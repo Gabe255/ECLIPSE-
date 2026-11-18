@@ -190,8 +190,11 @@ class _EclipsePlatformShelfState extends State<EclipsePlatformShelf> {
                   info: system,
                   selected: index == _selectedIndex,
                   onTap: () {
-                    _select(index);
-                    widget.onOpen(index);
+                    if (index == _selectedIndex) {
+                      _openSelected();
+                    } else {
+                      _select(index);
+                    }
                   },
                   onLongPress: () => widget.onOptions(index),
                 ),
