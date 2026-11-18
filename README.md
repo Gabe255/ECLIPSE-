@@ -4,7 +4,7 @@
 
 <h4>A customizable gaming universe for your library, consoles, and apps — built with Flutter</h4>
 
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![Discord](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fdiscord.com%2Fapi%2Fv10%2Finvites%2FxE2kgKsRVq%3Fwith_counts%3Dtrue&query=%24.approximate_member_count&label=Discord&suffix=%20members&logo=discord&color=5865f2)](https://discord.gg/xE2kgKsRVq) ![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/Gabe255/ECLIPSE-/total) ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/Gabe255/ECLIPSE-/debug-apk.yml) [![Stars](https://img.shields.io/github/stars/Gabe255/ECLIPSE-?logo=github)](https://github.com/misobadev/neostation-frontend) [![Issues](https://img.shields.io/github/issues/misobadev/neostation-frontend)](https://github.com/Gabe255/ECLIPSE-/issues)  [![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20(x64%2Farm64)%20%7C%20macOS%20%7C%20Android-blue)](https://github.com/misobadev/neostation-frontend)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) ![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/Gabe255/ECLIPSE-/total) ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/Gabe255/ECLIPSE-/debug-apk.yml) [![Stars](https://img.shields.io/github/stars/Gabe255/ECLIPSE-?logo=github)](https://github.com/Gabe255/ECLIPSE-) [![Issues](https://img.shields.io/github/issues/Gabe255/ECLIPSE-)](https://github.com/Gabe255/ECLIPSE-/issues)  [![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20(x64%2Farm64)%20%7C%20macOS%20%7C%20Android-blue)](https://github.com/Gabe255/ECLIPSE-)
 
 ![ECLIPSE Hero](https://repository-images.githubusercontent.com/1223168847/4e7a727d-9855-4597-a999-c07167d8552f)
 
@@ -96,7 +96,7 @@ screen, the app isn't at fault — it's being run outside Steam.
 
 ```bash
 # Clone the repository
-git clone https://github.com/misobadev/neostation-frontend.git
+git clone https://github.com/Gabe255/ECLIPSE-.git
 cd neostation-frontend
 
 # Install dependencies
