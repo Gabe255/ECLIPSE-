@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:neostation/models/my_systems.dart';
 import 'package:neostation/services/sfx_service.dart';
+import 'package:neostation/services/gamepad/gamepad_navigation_manager.dart';
 import 'package:neostation/utils/gamepad_nav.dart';
 
 import 'eclipse_platform_card.dart';
