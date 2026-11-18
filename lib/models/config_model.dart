@@ -84,7 +84,7 @@ class ConfigModel {
   /// Preferred display mode for the game list (e.g., 'list', 'grid', 'carousel').
   final String gameViewMode;
 
-  /// Preferred display mode for the system list (e.g., 'grid', 'list').
+  /// Preferred system library layout: 'grid', 'carousel', or 'shelf'.
   final String systemViewMode;
 
   /// Whether to display detailed game metadata by default.
