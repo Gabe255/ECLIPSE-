@@ -151,9 +151,8 @@ class _EclipsePlatformShelfState extends State<EclipsePlatformShelf> {
               Text(
                 'YOUR PLATFORMS',
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSurface.withValues(
-                    alpha: 0.68,
-                  ),
+                  color: Theme.of(context).colorScheme.onSurface
+                      .withValues(alpha: 0.68),
                   fontSize: 9.r,
                   fontWeight: FontWeight.w800,
                   letterSpacing: 1.35.r,
@@ -163,9 +162,8 @@ class _EclipsePlatformShelfState extends State<EclipsePlatformShelf> {
               Text(
                 'SWIPE TO EXPLORE',
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSurface.withValues(
-                    alpha: 0.38,
-                  ),
+                  color: Theme.of(context).colorScheme.onSurface
+                      .withValues(alpha: 0.38),
                   fontSize: 8.r,
                   fontWeight: FontWeight.w700,
                   letterSpacing: 0.9.r,
@@ -187,9 +185,7 @@ class _EclipsePlatformShelfState extends State<EclipsePlatformShelf> {
               return SizedBox(
                 width: _cardWidth,
                 child: SystemCard(
-                  key: ValueKey(
-                    'eclipse-platform-${system.folderName}-$index',
-                  ),
+                  key: ValueKey('eclipse-platform-${system.folderName}-$index'),
                   info: system,
                   isSelected: index == _selectedIndex,
                   showCount: true,
