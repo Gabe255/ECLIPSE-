@@ -662,84 +662,81 @@ class AppScreenState extends State<AppScreen> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Consumer3<SqliteConfigProvider, ThemeProvider, WallpaperProvider>(
-      builder: (
-        context,
-        configProvider,
-        themeProvider,
-        wallpaperProvider,
-        child,
-      ) {
-        _ensureSelectedTabVisible(configProvider.config);
+      builder:
+          (context, configProvider, themeProvider, wallpaperProvider, child) {
+            _ensureSelectedTabVisible(configProvider.config);
 
-        return PopScope(
-          canPop: false, // Intercept hardware back button to maintain app flow.
-          child: Scaffold(
-            body: Stack(
-              children: [
-                // ECLIPSE background layer: keep user wallpaper behind a
-                // dark readability veil so library text and artwork stay clear.
-                Positioned.fill(
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      Container(
-                        color: Theme.of(context).scaffoldBackgroundColor,
-                      ),
-                      if (wallpaperProvider.hasWallpaper)
-                        Opacity(
-                          opacity: 0.34,
-                          child: Image.file(
-                            File(wallpaperProvider.wallpaperPath!),
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) =>
-                                const SizedBox.shrink(),
+            return PopScope(
+              canPop:
+                  false, // Intercept hardware back button to maintain app flow.
+              child: Scaffold(
+                body: Stack(
+                  children: [
+                    // ECLIPSE background layer: keep user wallpaper behind a
+                    // dark readability veil so library text and artwork stay clear.
+                    Positioned.fill(
+                      child: Stack(
+                        fit: StackFit.expand,
+                        children: [
+                          Container(
+                            color: Theme.of(context).scaffoldBackgroundColor,
                           ),
-                        ),
-                      if (wallpaperProvider.hasWallpaper)
-                        Container(
-                          color: Colors.black.withValues(alpha: 0.22),
-                        ),
-                    ],
-                  ),
-                ),
+                          if (wallpaperProvider.hasWallpaper)
+                            Opacity(
+                              opacity: 0.34,
+                              child: Image.file(
+                                File(wallpaperProvider.wallpaperPath!),
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) =>
+                                    const SizedBox.shrink(),
+                              ),
+                            ),
+                          if (wallpaperProvider.hasWallpaper)
+                            Container(
+                              color: Colors.black.withValues(alpha: 0.22),
+                            ),
+                        ],
+                      ),
+                    ),
 
-                // Main Content Layer.
-                Positioned.fill(child: _buildCurrentTabContent()),
+                    // Main Content Layer.
+                    Positioned.fill(child: _buildCurrentTabContent()),
 
-                // Global Header: Managed based on app initialization state.
-                Positioned(
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  child:
-                      (configProvider.initialized || !configProvider.isLoading)
-                      ? FixedHeader(
-                          selectedTabIndex: _selectedTabIndex,
-                          onTabSelected: _onTabSelected,
-                          onSearch: _selectedTabIndex == AppTabs.systems
-                              ? () => unawaited(_openSearchFromHeader())
-                              : null,
-                        )
-                      : const SizedBox.shrink(),
-                ),
+                    // Global Header: Managed based on app initialization state.
+                    Positioned(
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      child:
+                          (configProvider.initialized ||
+                              !configProvider.isLoading)
+                          ? FixedHeader(
+                              selectedTabIndex: _selectedTabIndex,
+                              onTabSelected: _onTabSelected,
+                              onSearch: _selectedTabIndex == AppTabs.systems
+                                  ? () => unawaited(_openSearchFromHeader())
+                                  : null,
+                            )
+                          : const SizedBox.shrink(),
+                    ),
 
-                // Global Footer Placeholder.
-                Positioned(
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child:
-                      configProvider.hasRomFolder &&
-                          !configProvider.isLoading &&
-                          !configProvider.isScanning
-                      ? _buildFooterForCurrentTab()
-                      : const SizedBox.shrink(),
+                    // Global Footer Placeholder.
+                    Positioned(
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child:
+                          configProvider.hasRomFolder &&
+                              !configProvider.isLoading &&
+                              !configProvider.isScanning
+                          ? _buildFooterForCurrentTab()
+                          : const SizedBox.shrink(),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
-        );
-      },
+              ),
+            );
+          },
     );
   }
 
