@@ -67,7 +67,7 @@ class _AppLifecycleHandlerState extends State<AppLifecycleHandler>
     // A HOME launcher is not paused on screen-off, so lifecycle `paused` never
     // fires on lock. Bridge the native screen on/off signal to the websocket:
     // suspend it while locked, reconnect on wake (music/audio is handled in
-    // GameService's channel handler). Screen-on only fires here when NeoStation
+    // GameService's channel handler). Screen-on only fires here when ECLIPSE
     // is foreground (gated on !isGameLaunched at the call site).
     GameService.onScreenStateChanged = (screenOn) {
       if (!mounted) return;
@@ -190,7 +190,7 @@ class _AppLifecycleHandlerState extends State<AppLifecycleHandler>
   /// Hands the decoded-image cache back when the app leaves the screen.
   ///
   /// The cache fills to its whole budget as the user browses artwork and then
-  /// holds it: nothing evicts on idle, so a minimised NeoStation sits on
+  /// holds it: nothing evicts on idle, so a minimised ECLIPSE sits on
   /// hundreds of megabytes of box art that nothing is drawing. Desktop makes
   /// that the normal case, since the app is left running behind other windows
   /// for hours at a time.
