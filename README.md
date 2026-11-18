@@ -99,7 +99,7 @@ screen, the app isn't at fault — it's being run outside Steam.
 ```bash
 # Clone the repository
 git clone https://github.com/Gabe255/ECLIPSE-.git
-cd neostation-frontend
+cd ECLIPSE-
 
 # Install dependencies
 flutter pub get
@@ -220,7 +220,7 @@ For more details, see [`ARCHITECTURE.md`](ARCHITECTURE.md).
 ## Local Packages
 
 ### Third-Party Licenses & Credits
-NeoStation is built upon the incredible work of the open-source community. To achieve the specific performance and compatibility goals of this project, we utilize modified versions of several libraries.
+ECLIPSE includes open-source components and locally maintained packages. Their original licenses and notices remain applicable.
 
 These packages are "vendored" within the /packages directory to ensure long-term stability and to include custom optimizations:
 
@@ -231,7 +231,7 @@ These packages are "vendored" within the /packages directory to ensure long-term
 
 ## Systems & Emulator Definitions
 
-NeoStation's system configurations, emulator definitions, and launch arguments are maintained in this repository under [`assets/systems/`](assets/systems/).  
+ECLIPSE's system configurations, emulator definitions, and launch arguments are maintained in this repository under [`assets/systems/`](assets/systems/).  
 **If you want to add new emulators, fix launch arguments, or update system configurations, please open a pull request here.**
 
 The bundled `assets/manifest.json` drives the over-the-air systems update mechanism, so compatible changes can be delivered to existing installs without requiring a full app release.
@@ -244,19 +244,13 @@ Please read [`CONTRIBUTING.md`](CONTRIBUTING.md) for guidelines on bug reports, 
 
 If you discover a security vulnerability, please follow the instructions in [`SECURITY.md`](SECURITY.md) to report it responsibly.
 
-## Project Team
+## Upstream foundation and acknowledgements
 
-### Lead
+ECLIPSE began as a downstream fork of [NeoStation](https://github.com/misobadev/neostation-frontend). The current project is being developed as its own Android-first gaming frontend, with a separate ECLIPSE interface, console experiences, navigation, and product direction. The shared Flutter foundation and inherited components are acknowledged here rather than presented as code written from scratch.
 
-- **@misobadev**
+ECLIPSE retains the upstream project's applicable GPL-3.0 licensing and third-party notices. Original authorship and copyright notices are preserved in the source files where required.
 
-### Official Co-Maintainers
-
-- **@androosio**
-- **@ItsRetroPup**
-- **@Codegnosis**
-
-These co-maintainers and collaborators work very hard to make NeoStation what it is today.
+For ECLIPSE development and issue tracking, use this repository's [issues](https://github.com/Gabe255/ECLIPSE-/issues) and [pull requests](https://github.com/Gabe255/ECLIPSE-/pulls).
 
 ## License
 
