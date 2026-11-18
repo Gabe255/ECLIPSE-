@@ -11,7 +11,7 @@ import 'package:neostation/services/game_service.dart';
 import 'core_footer.dart';
 
 /// Confirmation shown when the user picks a NON-empty folder as the user-data
-/// location. Warns that NeoStation will store its data alongside the existing
+/// location. Warns that ECLIPSE will store its data alongside the existing
 /// contents (a foreign front-end's library, etc.) so the choice is deliberate.
 ///
 /// Returns `true` if the user chooses to use the folder anyway, `false`
