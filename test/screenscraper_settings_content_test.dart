@@ -30,7 +30,9 @@ void main() {
     await dbHelper.tearDown();
   });
 
-  testWidgets('signed out, the page exposes sign-in and SteamGridDB rows', (tester) async {
+  testWidgets('signed out, the page exposes sign-in and SteamGridDB rows', (
+    tester,
+  ) async {
     final key = GlobalKey<ScreenScraperSettingsContentState>();
     await tester.pumpWidget(
       MediaQuery(
