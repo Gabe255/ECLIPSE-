@@ -49,7 +49,7 @@ class RetroAchievementsService {
       final url = Uri.parse('$_baseUrl/$endpoint.php')
           .replace(queryParameters: {...parameters, 'y': apiKey});
       final headers = {
-        'User-Agent': 'NeoStation/1.0',
+        'User-Agent': 'ECLIPSE/1.0',
         'Accept': 'application/json',
       };
       return _fetchWithCache<dynamic>(
@@ -179,7 +179,7 @@ class RetroAchievementsService {
       cacheKey: 'gotw',
       send: () {
         final headers = {
-          'User-Agent': 'NeoStation/1.0',
+          'User-Agent': 'ECLIPSE/1.0',
           'Accept': 'application/json',
         };
         return client == null
@@ -261,7 +261,7 @@ class RetroAchievementsService {
         .replace(queryParameters: {'u': username, 'y': resolveApiKey(apiKey)});
 
     const headers = {
-      'User-Agent': 'NeoStation/1.0',
+      'User-Agent': 'ECLIPSE/1.0',
       'Accept': 'application/json',
     };
 
@@ -307,7 +307,7 @@ class RetroAchievementsService {
     );
 
     const headers = {
-      'User-Agent': 'NeoStation/1.0',
+      'User-Agent': 'ECLIPSE/1.0',
       'Accept': 'application/json',
       'Cache-Control': 'no-cache, no-store, must-revalidate',
       'Pragma': 'no-cache',
@@ -366,7 +366,7 @@ class RetroAchievementsService {
       final response = await http.get(
         url,
         headers: {
-          'User-Agent': 'NeoStation/1.0',
+          'User-Agent': 'ECLIPSE/1.0',
           'Accept': 'application/json',
           'Cache-Control': 'no-cache, no-store, must-revalidate',
           'Pragma': 'no-cache',
@@ -417,7 +417,7 @@ class RetroAchievementsService {
       },
     );
     final headers = {
-      'User-Agent': 'NeoStation/1.0',
+      'User-Agent': 'ECLIPSE/1.0',
       'Accept': 'application/json',
     };
     final response = client == null
@@ -473,7 +473,7 @@ class RetroAchievementsService {
         );
 
     final headers = {
-      'User-Agent': 'NeoStation/1.0',
+      'User-Agent': 'ECLIPSE/1.0',
       'Accept': 'application/json',
     };
 
@@ -529,7 +529,7 @@ class RetroAchievementsService {
         );
 
     final headers = {
-      'User-Agent': 'NeoStation/1.0',
+      'User-Agent': 'ECLIPSE/1.0',
       'Accept': 'application/json',
     };
 
@@ -582,7 +582,7 @@ class RetroAchievementsService {
         );
 
     final headers = {
-      'User-Agent': 'NeoStation/1.0',
+      'User-Agent': 'ECLIPSE/1.0',
       'Accept': 'application/json',
     };
 
@@ -753,7 +753,7 @@ class RetroAchievementsService {
   }
 
   static const Map<String, String> _raHeaders = {
-    'User-Agent': 'NeoStation/1.0',
+    'User-Agent': 'ECLIPSE/1.0',
     'Accept': 'application/json',
   };
 
@@ -800,7 +800,7 @@ class RetroAchievementsService {
       send: () => http.get(
         url,
         headers: {
-          'User-Agent': 'NeoStation/1.0',
+          'User-Agent': 'ECLIPSE/1.0',
           'Accept': 'application/json',
           'Cache-Control': 'no-cache, no-store, must-revalidate',
           'Pragma': 'no-cache',
@@ -833,7 +833,7 @@ class RetroAchievementsService {
 
       final response = await http.get(
         url,
-        headers: {'User-Agent': 'NeoStation/1.0', 'Accept': 'application/json'},
+        headers: {'User-Agent': 'ECLIPSE/1.0', 'Accept': 'application/json'},
       );
 
       if (response.statusCode == 200) {
