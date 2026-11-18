@@ -1948,7 +1948,7 @@ class SqliteService {
         id INTEGER PRIMARY KEY CHECK (id = 1),
         last_scan TEXT,
         game_view_mode TEXT DEFAULT 'list',
-        system_view_mode TEXT DEFAULT 'grid',
+        system_view_mode TEXT DEFAULT 'shelf',
         theme_name TEXT DEFAULT 'eclipse',
         video_sound INTEGER DEFAULT 1,
         ra_user TEXT,
@@ -2754,7 +2754,7 @@ class SqliteService {
       await db.insert('user_config', {
         'id': 1,
         'last_scan': null,
-        'system_view_mode': 'grid',
+        'system_view_mode': 'shelf',
         'theme_name': 'eclipse',
         'video_sound': 1,
         'ra_user': null,
@@ -3506,7 +3506,7 @@ class SqliteService {
   /// Retrieves the system view mode.
   static Future<String> getSystemViewMode() async {
     final config = await getUserConfig();
-    return config?['system_view_mode']?.toString() ?? 'grid';
+    return config?['system_view_mode']?.toString() ?? 'shelf';
   }
 
   /// Updates the system view mode.
