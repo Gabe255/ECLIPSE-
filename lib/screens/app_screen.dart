@@ -400,7 +400,7 @@ class AppScreenState extends State<AppScreen> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
-    // When NeoStation's own UI regains focus and no game is actually running,
+    // When ECLIPSE's own UI regains focus and no game is actually running,
     // clear any stale Now Playing state left over from quitting mid-game. Use
     // isGameLaunchInProgress (not isGameLaunched) so a transient resume during
     // the launch dialog/handoff window — before _registerGameLaunch flips
