@@ -22,8 +22,8 @@ class SystemDetailsState extends State<SystemDetails> {
     // Special branding for the 'ALL' (Global Library) view.
     final isAllSystem =
         widget.selectedSystem!.folderName.toLowerCase() == 'all';
-    const neoStationDescription =
-        'NeoStation is your ultimate hub for classic games. Relive the nostalgia and rediscover gaming history.';
+    const eclipseDescription =
+        'ECLIPSE is your ultimate hub for classic games. Relive the nostalgia and rediscover gaming history.';
 
     return Column(
       children: [
@@ -47,7 +47,7 @@ class SystemDetailsState extends State<SystemDetails> {
               ),
               child: Text(
                 isAllSystem
-                    ? neoStationDescription
+                    ? eclipseDescription
                     : widget.selectedSystem!.description!,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   color: Theme.of(context).colorScheme.onSurface
@@ -237,7 +237,7 @@ class SystemDetailsState extends State<SystemDetails> {
           // Main data viewport.
           Expanded(
             child: isEmptyState
-                ? _buildNeoStationDescription(context)
+                ? _buildECLIPSEDescription(context)
                 : _buildSystemStats(context),
           ),
         ],
@@ -245,8 +245,8 @@ class SystemDetailsState extends State<SystemDetails> {
     );
   }
 
-  /// Placeholder content for the default NeoStation introduction.
-  Widget _buildNeoStationDescription(BuildContext context) {
+  /// Placeholder content for the default ECLIPSE introduction.
+  Widget _buildECLIPSEDescription(BuildContext context) {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(16.r),
@@ -260,7 +260,7 @@ class SystemDetailsState extends State<SystemDetails> {
         ),
       ),
       child: Text(
-        'NeoStation is your ultimate hub for classic games. Relive the nostalgia and rediscover gaming history.',
+        'ECLIPSE is your ultimate hub for classic games. Relive the nostalgia and rediscover gaming history.',
         style: Theme.of(context).textTheme.bodySmall?.copyWith(
           color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.8),
           fontSize: 11.r,
