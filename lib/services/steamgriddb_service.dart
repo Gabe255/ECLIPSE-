@@ -82,11 +82,11 @@ class SteamGridDbService {
           if (changed) updated++;
         }
       } catch (e) {
-        _log.w('SteamGridDB: Skipped \${game['filename']}: $e');
+        _log.w('SteamGridDB: Skipped ${game['filename']}: $e');
       }
       onProgress?.call(done, games.length);
     }
-    _log.i('SteamGridDB: Updated artwork for $updated of \${games.length} games.');
+    _log.i('SteamGridDB: Updated artwork for $updated of ${games.length} games.');
     return updated;
   }
 
@@ -123,7 +123,7 @@ class SteamGridDbService {
     if (missing.isEmpty) return false;
 
     final search = await _apiGet(
-      '/search/autocomplete/\${Uri.encodeComponent(title)}',
+      '/search/autocomplete/${Uri.encodeComponent(title)}',
       apiKey,
     );
     final searchData = search['data'];
@@ -151,7 +151,7 @@ class SteamGridDbService {
       final imageUrl = entries.first['url']?.toString();
       if (imageUrl == null || imageUrl.isEmpty) continue;
       final ext = _extensionFor(imageUrl, type);
-      final destination = '\${targets[type]}.$ext';
+      final destination = '${targets[type]}.$ext';
       if (await _downloadImage(imageUrl, destination)) changed = true;
     }
     return changed;
@@ -174,7 +174,7 @@ class SteamGridDbService {
       throw const HttpException('SteamGridDB rate limit reached. Try again later.');
     }
     if (response.statusCode != 200) {
-      throw HttpException('SteamGridDB returned HTTP \${response.statusCode}.');
+      throw HttpException('SteamGridDB returned HTTP ${response.statusCode}.');
     }
     final decoded = jsonDecode(response.body);
     if (decoded is! Map<String, dynamic>) {
@@ -182,7 +182,7 @@ class SteamGridDbService {
     }
     if (decoded['success'] == false) {
       throw HttpException(
-        'SteamGridDB request failed: \${decoded['errors'] ?? 'unknown error'}',
+        'SteamGridDB request failed: ${decoded['errors'] ?? 'unknown error'}',
       );
     }
     return decoded;
