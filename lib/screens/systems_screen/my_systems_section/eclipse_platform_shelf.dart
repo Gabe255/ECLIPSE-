@@ -174,15 +174,13 @@ class _EclipsePlatformShelfState extends State<EclipsePlatformShelf> {
         }
       }
 
-      final rowContext = (_activeRow == 0 ? _recentRowKey : _platformRowKey)
-          .currentContext;
+      final rowContext =
+          (_activeRow == 0 ? _recentRowKey : _platformRowKey).currentContext;
       if (rowContext != null && _verticalScrollController.hasClients) {
         Scrollable.ensureVisible(
           rowContext,
           alignment: _activeRow == 0 ? 0 : 1,
-          duration: animate
-              ? const Duration(milliseconds: 200)
-              : Duration.zero,
+          duration: animate ? const Duration(milliseconds: 200) : Duration.zero,
           curve: Curves.easeOutCubic,
         );
       }

@@ -132,7 +132,9 @@ class EclipsePlatformCard extends StatelessWidget {
                     top: 12.r,
                     left: 13.r,
                     child: Text(
-                      isRecentGame ? 'ECLIPSE  /  RECENT GAME' : 'ECLIPSE  /  PLATFORM',
+                      isRecentGame
+                          ? 'ECLIPSE  /  RECENT GAME'
+                          : 'ECLIPSE  /  PLATFORM',
                       style: TextStyle(
                         color: Colors.white.withValues(alpha: 0.70),
                         fontSize: 8.r,
