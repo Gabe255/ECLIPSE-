@@ -29,6 +29,7 @@ import 'game_screen/android_apps/android_apps_grid.dart';
 
 import 'package:neostation/services/game_service.dart';
 import 'package:neostation/providers/theme_provider.dart';
+import 'package:neostation/providers/wallpaper_provider.dart';
 import 'package:neostation/repositories/emulator_repository.dart';
 
 import 'dart:async';
@@ -660,8 +661,8 @@ class AppScreenState extends State<AppScreen> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer2<SqliteConfigProvider, ThemeProvider>(
-      builder: (context, configProvider, themeProvider, child) {
+    return Consumer3<SqliteConfigProvider, ThemeProvider, WallpaperProvider>(
+      builder: (context, configProvider, themeProvider, wallpaperProvider, child) {
         _ensureSelectedTabVisible(configProvider.config);
 
         return PopScope(
@@ -671,8 +672,22 @@ class AppScreenState extends State<AppScreen> with WidgetsBindingObserver {
               children: [
                 // Background Layer.
                 Positioned.fill(
-                  child: Container(
-                    color: Theme.of(context).scaffoldBackgroundColor,
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      Container(color: Theme.of(context).scaffoldBackgroundColor),
+                      if (wallpaperProvider.hasWallpaper)
+                        Opacity(
+                          opacity: 0.34,
+                          child: Image.file(
+                            File(wallpaperProvider.wallpaperPath!),
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) => const SizedBox.shrink(),
+                          ),
+                        ),
+                      if (wallpaperProvider.hasWallpaper)
+                        Container(color: Colors.black.withValues(alpha: 0.22)),
+                    ],
                   ),
                 ),
 
