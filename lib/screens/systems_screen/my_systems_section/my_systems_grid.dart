@@ -271,7 +271,7 @@ class MySystems extends StatelessWidget {
   }
 
   /// Builds the high-density grid layout for system selection.
-  
+  Widget _buildSystemsGrid(
     BuildContext context,
     SqliteConfigProvider configProvider,
   ) {
