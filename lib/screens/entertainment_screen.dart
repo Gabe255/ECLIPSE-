@@ -666,124 +666,159 @@ class _EntertainmentScreenState extends State<EntertainmentScreen> {
     );
   }
 
+  Future<void> _openYouTubeExplore(String query) async {
+    final uri = Uri.parse(
+      'https://www.youtube.com/results?search_query=${Uri.encodeQueryComponent(query)}',
+    );
+    await launchUrl(uri, mode: LaunchMode.externalApplication);
+  }
+
   Widget _buildSpotlight(ThemeData theme) {
-    final rows = _rows;
-    final featured = rows.isNotEmpty && rows[_selectedRow].apps.isNotEmpty
-        ? rows[_selectedRow].apps[_selectedItem
-              .clamp(0, rows[_selectedRow].apps.length - 1)
-              .toInt()]
-        : _catalog[2];
-    final installed = _installedPackages.contains(featured.packageName);
-    final accent = switch (featured.category) {
-      'music' => const Color(0xFF167C91),
-      'live' => const Color(0xFF9A3D55),
-      _ => const Color(0xFF6841B5),
-    };
-    final categoryLabel = switch (featured.category) {
-      'music' => AppLocale.entertainmentMusicCreators.getString(context),
-      'live' => AppLocale.entertainmentLiveSports.getString(context),
-      _ => AppLocale.entertainmentMoviesTv.getString(context),
-    };
+    final youtubeInstalled =
+        _installedPackages.contains('com.google.android.youtube');
+    final exploreTopics = <(String, String, IconData)>[
+      ('Gaming', 'gaming', Icons.sports_esports_rounded),
+      ('Retro games', 'retro gaming', Icons.videogame_asset_rounded),
+      ('Handhelds', 'gaming handhelds', Icons.gamepad_rounded),
+      ('Gameplay', 'gameplay walkthroughs', Icons.play_circle_outline_rounded),
+    ];
     return Container(
       height: 206.r,
       width: double.infinity,
+      clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(24.r),
-        gradient: LinearGradient(
+        borderRadius: BorderRadius.circular(22.r),
+        gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            accent.withValues(alpha: 0.88),
-            const Color(0xFF17152E),
-            const Color(0xFF080A12),
+            Color(0xFF33236D),
+            Color(0xFF17152E),
+            Color(0xFF080A12),
           ],
+        ),
+        border: Border.all(
+          color: const Color(0xFF9C7BFF).withValues(alpha: 0.32),
         ),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF865BFF).withValues(alpha: 0.18),
-            blurRadius: 28.r,
-            spreadRadius: 2.r,
+            color: const Color(0xFF865BFF).withValues(alpha: 0.16),
+            blurRadius: 26.r,
+            spreadRadius: 1.r,
           ),
         ],
       ),
       child: Stack(
         children: [
           Positioned(
-            right: 36.r,
-            top: 34.r,
-            child: Opacity(
-              opacity: 0.92,
-              child: Transform.rotate(
-                angle: -0.045,
-                child: _buildAppIcon(featured, installed, size: 116.r),
-              ),
+            right: 24.r,
+            top: 12.r,
+            child: Icon(
+              Icons.play_circle_filled_rounded,
+              size: 142.r,
+              color: Colors.white.withValues(alpha: 0.075),
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(28.r, 22.r, 28.r, 20.r),
+            padding: EdgeInsets.fromLTRB(26.r, 18.r, 26.r, 16.r),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  AppLocale.entertainmentFeatured
-                      .getString(context)
-                      .toUpperCase(),
-                  style: TextStyle(
-                    color: const Color(0xFFC8B7FF),
-                    fontSize: 10.r,
-                    letterSpacing: 2.2,
-                    fontWeight: FontWeight.w900,
-                  ),
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.smart_display_rounded,
+                      color: Color(0xFFFF4545),
+                      size: 19,
+                    ),
+                    SizedBox(width: 8.r),
+                    Text(
+                      'YOUTUBE DISCOVER',
+                      style: TextStyle(
+                        color: const Color(0xFFD5C9FF),
+                        fontSize: 10.r,
+                        fontWeight: FontWeight.w900,
+                        letterSpacing: 2.r,
+                      ),
+                    ),
+                    const Spacer(),
+                    if (youtubeInstalled)
+                      Text(
+                        'APP INSTALLED',
+                        style: TextStyle(
+                          color: Colors.white.withValues(alpha: 0.56),
+                          fontSize: 8.r,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: 1.r,
+                        ),
+                      ),
+                  ],
                 ),
-                SizedBox(height: 10.r),
+                SizedBox(height: 9.r),
                 Text(
-                  featured.name,
+                  'Find something to watch',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 34.r,
+                    fontSize: 25.r,
                     fontWeight: FontWeight.w900,
+                    letterSpacing: -0.5.r,
                   ),
                 ),
-                SizedBox(height: 7.r),
+                SizedBox(height: 5.r),
                 Text(
-                  '$categoryLabel  •  ${installed ? AppLocale.entertainmentInstalled.getString(context) : (Platform.isAndroid ? AppLocale.entertainmentNotInstalled.getString(context) : AppLocale.launch.getString(context))}',
+                  'Explore YouTube topics or open your own recommendations.',
                   style: TextStyle(
-                    color: Colors.white.withValues(alpha: 0.76),
-                    fontSize: 12.r,
+                    color: Colors.white.withValues(alpha: 0.7),
+                    fontSize: 10.r,
                   ),
                 ),
-                SizedBox(height: 17.r),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
+                SizedBox(height: 13.r),
+                Wrap(
+                  spacing: 7.r,
+                  runSpacing: 6.r,
                   children: [
-                    FilledButton.icon(
-                      onPressed: () => _launchApp(featured),
-                      icon: Icon(
-                        installed || !Platform.isAndroid
-                            ? Icons.play_arrow_rounded
-                            : Icons.open_in_new,
-                        size: 18.r,
+                    for (final topic in exploreTopics)
+                      ActionChip(
+                        avatar: Icon(
+                          topic.$3,
+                          size: 14.r,
+                          color: Colors.white,
+                        ),
+                        label: Text(
+                          topic.$1,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 9.r,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        backgroundColor: Colors.white.withValues(alpha: 0.12),
+                        side: BorderSide(
+                          color: Colors.white.withValues(alpha: 0.12),
+                        ),
+                        onPressed: () => _openYouTubeExplore(topic.$2),
                       ),
-                      label: Text(
-                        installed || !Platform.isAndroid
-                            ? AppLocale.launch.getString(context)
-                            : AppLocale.entertainmentOpenStore.getString(
-                                context,
-                              ),
-                      ),
-                    ),
-                    SizedBox(width: 10.r),
-                    IconButton.filledTonal(
-                      tooltip: AppLocale.favorite.getString(context),
-                      onPressed: () => _toggleFavorite(featured),
-                      icon: Icon(
-                        _favorites.contains(featured.packageName)
-                            ? Icons.star_rounded
-                            : Icons.star_outline_rounded,
-                      ),
-                    ),
                   ],
+                ),
+                SizedBox(height: 8.r),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: TextButton.icon(
+                    onPressed: () async {
+                      final youtube = _apps.firstWhere(
+                        (app) => app.packageName == 'com.google.android.youtube',
+                      );
+                      await _launchApp(youtube);
+                    },
+                    icon: const Icon(Icons.open_in_new_rounded, size: 14),
+                    label: const Text('Open YouTube recommendations'),
+                    style: TextButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      padding: EdgeInsets.symmetric(horizontal: 8.r),
+                      visualDensity: VisualDensity.compact,
+                    ),
+                  ),
                 ),
               ],
             ),
