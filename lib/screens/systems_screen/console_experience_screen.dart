@@ -1357,7 +1357,9 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
                   ),
                 ),
               ],
-              const SizedBox(height: 16),
+              const SizedBox(height: 14),
+              _buildSystemSpotlight(),
+              const SizedBox(height: 14),
               Expanded(child: child),
               const SizedBox(height: 14),
               Container(height: 1, color: Colors.white.withValues(alpha: 0.10)),
@@ -1401,6 +1403,111 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  /// A system-only cinematic banner. It is intentionally rendered inside
+  /// ConsoleExperienceScreen, never on the all-platforms landing page.
+  Widget _buildSystemSpotlight() {
+    final customBackground = widget.system.customBackgroundPath;
+    final hasCustomBackground =
+        customBackground != null &&
+        customBackground.isNotEmpty &&
+        File(customBackground).existsSync();
+    final backgroundAsset = widget.system.backgroundImage;
+    return Container(
+      height: MediaQuery.sizeOf(context).height < 520 ? 112 : 142,
+      width: double.infinity,
+      clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: _accent.withValues(alpha: 0.42)),
+        boxShadow: [
+          BoxShadow(
+            color: _accent.withValues(alpha: 0.16),
+            blurRadius: 24,
+            spreadRadius: -5,
+          ),
+        ],
+      ),
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          if (hasCustomBackground)
+            Image.file(File(customBackground), fit: BoxFit.cover)
+          else if (backgroundAsset != null && backgroundAsset.isNotEmpty)
+            Image.asset(
+              backgroundAsset,
+              fit: BoxFit.cover,
+              errorBuilder: (_, _, _) => const SizedBox.expand(),
+            ),
+          DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [
+                  const Color(0xFF080A12).withValues(alpha: 0.94),
+                  const Color(0xFF080A12).withValues(alpha: 0.62),
+                  _accent.withValues(alpha: 0.22),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            right: 22,
+            top: 0,
+            bottom: 0,
+            child: Opacity(
+              opacity: 0.94,
+              child: Center(
+                child: _SystemMark(system: widget.system, size: 88),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(22, 14, 132, 14),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'SYSTEM SPOTLIGHT',
+                  style: TextStyle(
+                    color: _accent.withValues(alpha: 0.96),
+                    fontSize: 9,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: 2.2,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  widget.system.shortName ?? widget.system.realName,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: -0.5,
+                  ),
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  '${widget.system.romCount} games in your collection',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: Colors.white.withValues(alpha: 0.76),
+                    fontSize: 11,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
