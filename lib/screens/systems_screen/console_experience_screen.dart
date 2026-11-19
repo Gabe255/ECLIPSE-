@@ -1495,7 +1495,7 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
                 ),
                 const SizedBox(height: 5),
                 Text(
-                  '${widget.system.romCount} games in your collection',
+                  '${widget.system.romCount}  •  ${AppLocale.games.getString(context)}',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
