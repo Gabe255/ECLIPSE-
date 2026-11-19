@@ -1473,7 +1473,7 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'SYSTEM SPOTLIGHT',
+                  AppLocale.systems.getString(context).toUpperCase(),
                   style: TextStyle(
                     color: _accent.withValues(alpha: 0.96),
                     fontSize: 9,
