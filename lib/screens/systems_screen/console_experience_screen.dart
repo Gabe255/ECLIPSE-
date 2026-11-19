@@ -1747,9 +1747,9 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
                 ),
               ),
               const SizedBox(height: 18),
-              const Text(
+              Text(
                 AppLocale.quickMenu.getString(context),
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 12,
                   fontWeight: FontWeight.w900,
