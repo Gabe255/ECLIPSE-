@@ -1435,7 +1435,7 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
         fit: StackFit.expand,
         children: [
           if (hasCustomBackground)
-            Image.file(File(customBackground), fit: BoxFit.cover)
+            Image.file(File(customBackground!), fit: BoxFit.cover)
           else if (backgroundAsset != null && backgroundAsset.isNotEmpty)
             Image.asset(
               backgroundAsset,
