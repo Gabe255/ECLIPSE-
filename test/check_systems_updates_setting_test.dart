@@ -91,8 +91,7 @@ void main() {
             child: MaterialApp(
               localizationsDelegates:
                   FlutterLocalization.instance.localizationsDelegates,
-              supportedLocales:
-                  FlutterLocalization.instance.supportedLocales,
+              supportedLocales: FlutterLocalization.instance.supportedLocales,
               home: Scaffold(
                 body: GeneralSettingsContent(
                   key: key,
