@@ -677,10 +677,26 @@ class _EntertainmentScreenState extends State<EntertainmentScreen> {
     final youtubeInstalled =
         _installedPackages.contains('com.google.android.youtube');
     final exploreTopics = <(String, String, IconData)>[
-      (AppLocale.games.getString(context), 'gaming', Icons.sports_esports_rounded),
-      (AppLocale.systems.getString(context), 'retro gaming', Icons.videogame_asset_rounded),
-      (AppLocale.discovery.getString(context), 'gaming handhelds', Icons.gamepad_rounded),
-      (AppLocale.entertainment.getString(context), 'gameplay walkthroughs', Icons.play_circle_outline_rounded),
+      (
+        AppLocale.games.getString(context),
+        'gaming',
+        Icons.sports_esports_rounded,
+      ),
+      (
+        AppLocale.systems.getString(context),
+        'retro gaming',
+        Icons.videogame_asset_rounded,
+      ),
+      (
+        AppLocale.discovery.getString(context),
+        'gaming handhelds',
+        Icons.gamepad_rounded,
+      ),
+      (
+        AppLocale.entertainment.getString(context),
+        'gameplay walkthroughs',
+        Icons.play_circle_outline_rounded,
+      ),
     ];
     return Container(
       height: 206.r,
@@ -745,7 +761,9 @@ class _EntertainmentScreenState extends State<EntertainmentScreen> {
                     const Spacer(),
                     if (youtubeInstalled)
                       Text(
-                        AppLocale.entertainmentInstalled.getString(context).toUpperCase(),
+                        AppLocale.entertainmentInstalled
+                            .getString(context)
+                            .toUpperCase(),
                         style: TextStyle(
                           color: Colors.white.withValues(alpha: 0.56),
                           fontSize: 8.r,
