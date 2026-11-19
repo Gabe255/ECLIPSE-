@@ -1,6 +1,26 @@
 part of 'app_locale.dart';
 
 const Map<String, dynamic> appLocaleZhHant = {
+  AppLocale.entertainment: '娛樂',
+  AppLocale.entertainmentFeatured: '精選',
+  AppLocale.entertainmentRecentlyOpened: '最近開啟',
+  AppLocale.entertainmentYourApps: '你的應用程式',
+  AppLocale.entertainmentMoviesTv: '電影與電視',
+  AppLocale.entertainmentLiveSports: '直播與體育',
+  AppLocale.entertainmentMusicCreators: '音樂與創作者',
+  AppLocale.entertainmentSearchHint: '搜尋娛樂應用程式',
+  AppLocale.entertainmentEmpty: '找不到符合的應用程式。',
+  AppLocale.entertainmentOpenStore: '開啟商店',
+  AppLocale.entertainmentInstalled: '已安裝',
+  AppLocale.entertainmentNotInstalled: '未安裝',
+
+  AppLocale.quickMenu: '快速選單',
+  AppLocale.quickMenuResumeLibrary: '返回遊戲庫',
+  AppLocale.quickMenuResumeLibrarySubtitle: '瀏覽並啟動此系統的遊戲',
+  AppLocale.quickMenuSystemInfo: '系統資訊',
+  AppLocale.quickMenuSystemInfoSubtitle: '查看平台詳細資料與已偵測到的遊戲',
+  AppLocale.quickMenuBackPlatforms: '返回平台',
+  AppLocale.quickMenuBackPlatformsSubtitle: '返回 ECLIPSE 系統列表',
   AppLocale.raCatalogueRefreshFailed: '無法重新整理RetroAchievements目錄。已使用儲存的資料進行比對。',
   AppLocale.smartMatchesOne: '1 個符合的遊戲',
   AppLocale.smartCollection: '智慧合集',

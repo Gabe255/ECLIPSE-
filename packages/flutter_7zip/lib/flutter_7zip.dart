@@ -2,6 +2,7 @@ import 'dart:ffi';
 import 'dart:io';
 import 'dart:isolate';
 import 'dart:typed_data';
+
 import 'package:ffi/ffi.dart';
 
 import 'src/flutter_7zip_bindings_generated.dart';
@@ -84,14 +85,7 @@ class SZArchive {
       modifyTime = _parseCTime(cFile.mTime);
     }
     _bindings.freeArchiveFile(cFile);
-    return ArchiveFile(
-      name,
-      size,
-      crc32,
-      createTime,
-      modifyTime,
-      isDirectory,
-    );
+    return ArchiveFile(name, size, crc32, createTime, modifyTime, isDirectory);
   }
 
   /// Extract the file at the given [index] to a [Uint8List].
@@ -164,12 +158,9 @@ class SZArchive {
     for (var i = 0; i < isolatesCount; i++) {
       var start = i * filesPerIsolate;
       var end = i == isolatesCount - 1 ? total : (i + 1) * filesPerIsolate;
-      futures.add(SZArchive._extractIsolate(
-        archivePath,
-        outputPath,
-        start,
-        end,
-      ));
+      futures.add(
+        SZArchive._extractIsolate(archivePath, outputPath, start, end),
+      );
     }
     await Future.wait(futures);
   }

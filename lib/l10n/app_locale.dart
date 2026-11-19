@@ -74,6 +74,29 @@ mixin AppLocale {
   static const String ignoreArticlesInGameSort = 'ignoreArticlesInGameSort';
   static const String ignoreArticlesInGameSortSubtitle =
       'ignoreArticlesInGameSortSubtitle';
+  static const String entertainment = 'entertainment';
+  static const String entertainmentFeatured = 'entertainmentFeatured';
+  static const String entertainmentYourApps = 'entertainmentYourApps';
+  static const String entertainmentRecentlyOpened =
+      'entertainmentRecentlyOpened';
+  static const String entertainmentMoviesTv = 'entertainmentMoviesTv';
+  static const String entertainmentLiveSports = 'entertainmentLiveSports';
+  static const String entertainmentMusicCreators = 'entertainmentMusicCreators';
+  static const String entertainmentSearchHint = 'entertainmentSearchHint';
+  static const String entertainmentEmpty = 'entertainmentEmpty';
+  static const String entertainmentOpenStore = 'entertainmentOpenStore';
+  static const String entertainmentInstalled = 'entertainmentInstalled';
+  static const String entertainmentNotInstalled = 'entertainmentNotInstalled';
+  static const String quickMenu = 'quickMenu';
+  static const String quickMenuResumeLibrary = 'quickMenuResumeLibrary';
+  static const String quickMenuResumeLibrarySubtitle =
+      'quickMenuResumeLibrarySubtitle';
+  static const String quickMenuSystemInfo = 'quickMenuSystemInfo';
+  static const String quickMenuSystemInfoSubtitle =
+      'quickMenuSystemInfoSubtitle';
+  static const String quickMenuBackPlatforms = 'quickMenuBackPlatforms';
+  static const String quickMenuBackPlatformsSubtitle =
+      'quickMenuBackPlatformsSubtitle';
   static const String videoPreviews = 'videoPreviews';
   static const String videoPreviewsSubtitle = 'videoPreviewsSubtitle';
   static const String videoPreviewsOff = 'videoPreviewsOff';

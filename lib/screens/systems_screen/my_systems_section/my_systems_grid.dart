@@ -237,6 +237,7 @@ class MySystems extends StatelessWidget {
         }
       },
       onSearch: () => _openSearch(context),
+      onQuickMenu: AppNavigation.openQuickMenu,
     );
   }
 
@@ -531,12 +532,7 @@ class MySystems extends StatelessWidget {
                     : allSystems[0];
                 _navigateToSystem(context, current, configProvider);
               },
-              onEscapePressed: () {
-                final current = selectedIndex < allSystems.length
-                    ? allSystems[selectedIndex]
-                    : allSystems[0];
-                _openSystemOptions(context, current, configProvider);
-              },
+              onEscapePressed: AppNavigation.openQuickMenu,
             ),
           ),
         ),
