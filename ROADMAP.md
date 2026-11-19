@@ -36,16 +36,20 @@ These are established project requirements/design decisions; implementation shou
 - Controller hints and smooth, controller-first navigation.
 - Apps Library that can display installed apps.
 - Quick Control Center shortcuts for Bluetooth, Wi-Fi, brightness, and volume.
+- Cinematic System Spotlight banner: console/system hardware in the foreground, exclusive-gameplay imagery behind it, and the system name/logo integrated into the composition.
 
 ## New roadmap additions
 
 ### 1. ECLIPSE home and navigation
 
-- Living Game Banners: cinematic hero banners with game artwork/gameplay-inspired backgrounds, title, and useful game information.
+- Living Game Banners: cinematic hero banners with game artwork or supported gameplay-video backgrounds, title, and useful game information.
 - Game Universe home: configurable horizontal shelves for favorites, recently played, installed games, collections, and platforms.
 - Universal Search across games, apps, collections, emulators, and settings.
 - Quick access to saved folders and pinned destinations.
 - Consistent controller, touch, keyboard, and remote navigation.
+- Dynamic System Worlds: each console/platform profile can have its own visual identity, accent palette, ambient effects, sounds, and curated game layout while remaining recognizably ECLIPSE.
+- Game Worlds: selecting a title opens a dedicated mini-hub with its artwork, screenshots, description, metadata, related titles, play history, and launch actions.
+- Quick Switch: switch between configured console/platform environments without rebuilding or rescanning the library.
 
 ### 2. Console experiences
 
@@ -53,6 +57,7 @@ These are established project requirements/design decisions; implementation shou
 - Custom boot and shutdown animations, with user-selectable sounds.
 - Handheld, tablet, Android TV, and dual-screen presentation modes where supported.
 - Per-profile startup destination and navigation behavior.
+- Dream Mode: an optional idle/ambient screen with subtle motion, clock, and selected artwork; include timeout and battery-conscious settings.
 
 ### 3. ECLIPSE Studio and visual customization
 
@@ -61,6 +66,7 @@ These are established project requirements/design decisions; implementation shou
 - Prism Flow theme direction inspired by iiSU.
 - Atmosphere Engine: adapt interface accents and backgrounds to the selected game or platform.
 - Preview themes before applying them; provide safe defaults and reset controls.
+- Shareable/importable theme packs, with clear compatibility information and safe handling of imported assets.
 
 ### 4. Game library and game pages
 
@@ -72,33 +78,44 @@ These are established project requirements/design decisions; implementation shou
 - Custom collections, favorites, and folders.
 - Apps Library for installed Android apps.
 - Storage Manager showing library locations and storage usage.
+- Smart Collections that automatically group titles by platform, genre, favorites, multiplayer support, recently added, and recently played; allow users to edit the rules.
 
 ### 5. Widgets and system controls
 
 - Live dashboard widgets for clock, battery, storage, and available system information.
-- Quick Control Center with Bluetooth, Wi-Fi, brightness, and volume shortcuts.
-- Performance information only where the operating system exposes reliable data.
+- Quick Control Center with Bluetooth, Wi-Fi, brightness, and volume shortcuts, using supported Android system controls and permissions.
+- Performance Dashboard for available device information such as battery state, memory/storage, and supported performance metrics; clearly label unavailable or approximate readings.
 - Configurable widget placement and visibility.
 
 ### 6. Gaming identity and stats
 
+- Eclipse Passport: a user-controlled gaming profile showing avatar, favorite systems, playtime, recently played titles, and supported achievements.
 - Eclipse Identity profiles and customizable avatars.
 - Gaming statistics such as playtime and recently played titles.
 - Achievement aggregation where supported by an integration, including existing RetroAchievements support.
+- Game Timeline: chronological, locally stored history of games launched and sessions recorded.
 - Optional local profiles; do not require an online account for core launcher use.
 
-### 7. Integrations and controller support
+### 7. Integrations, atmosphere, and audio
 
 - Preserve RetroArch and standalone emulator integrations.
 - Preserve gamepad and keyboard navigation.
 - Expand controller mapping and per-device/controller profiles.
 - Preserve existing game streaming integrations and add providers only when technically and legally supportable.
 - Clear per-game launch configuration and error feedback.
+- Eclipse Radio: optional user-configurable ambient audio and interface soundscapes, with mute, volume, and disable controls; do not bundle unlicensed commercial music.
+- Game-specific ambient effects should be optional, restrained, and respect reduced-motion and accessibility settings.
 
-### 8. Reliability, maintenance, and delivery
+### 8. Discovery and personality
+
+- Hidden Discoveries: optional Easter eggs, unlockable interface effects, and small secrets that never block core navigation or accessibility.
+- Customizable interface sound effects and transitions.
+- Keep novelty features opt-in and provide a way to disable them.
+
+### 9. Reliability, maintenance, and delivery
 
 - Update Center / ECLIPSE Hub for app and supported system-definition updates.
-- Backup and restore for settings, themes, and library configuration.
+- Eclipse Vault: backup and restore for settings, themes, profiles, and library configuration; make clear whether game saves/ROM files are included or excluded.
 - Offline-first access to the local library and settings.
 - Recovery/reset path for broken themes or configuration.
 - Robust scanning, scraping, and launch error handling.
@@ -109,13 +126,14 @@ These are established project requirements/design decisions; implementation shou
 ## Suggested implementation order
 
 1. Finish and verify the core redesigned home, navigation, and controller experience.
-2. Complete Living Game Banners and Game Profiles using existing library metadata.
-3. Add Universal Search and improve library scanning / Treat as Game / rescan flows.
+2. Complete the System Spotlight and Living Game Banners, then Game Profiles and Game Worlds.
+3. Add Universal Search, Quick Switch, and improve library scanning / Treat as Game / rescan flows.
 4. Build ECLIPSE Studio with safe theme previews and customization.
-5. Add Atmosphere Engine and configurable widgets / Quick Control Center.
+5. Add Dynamic System Worlds, Atmosphere Engine, Dream Mode, widgets, and Quick Control Center.
 6. Add console-specific startup profiles and device layouts.
-7. Expand identity, statistics, controller mapping, backup/restore, and update experiences.
-8. Validate APK builds, release signing, upgrades, and device compatibility.
+7. Expand Eclipse Passport, local profiles, statistics, Game Timeline, controller mapping, and Smart Collections.
+8. Add Eclipse Vault, Update Center, optional audio/discovery features, and performance dashboard.
+9. Validate APK builds, release signing, upgrades, accessibility, and device compatibility.
 
 ## Definition of done
 
