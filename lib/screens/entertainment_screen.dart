@@ -677,10 +677,10 @@ class _EntertainmentScreenState extends State<EntertainmentScreen> {
     final youtubeInstalled =
         _installedPackages.contains('com.google.android.youtube');
     final exploreTopics = <(String, String, IconData)>[
-      ('Gaming', 'gaming', Icons.sports_esports_rounded),
-      ('Retro games', 'retro gaming', Icons.videogame_asset_rounded),
-      ('Handhelds', 'gaming handhelds', Icons.gamepad_rounded),
-      ('Gameplay', 'gameplay walkthroughs', Icons.play_circle_outline_rounded),
+      (AppLocale.games.getString(context), 'gaming', Icons.sports_esports_rounded),
+      (AppLocale.systems.getString(context), 'retro gaming', Icons.videogame_asset_rounded),
+      (AppLocale.discovery.getString(context), 'gaming handhelds', Icons.gamepad_rounded),
+      (AppLocale.entertainment.getString(context), 'gameplay walkthroughs', Icons.play_circle_outline_rounded),
     ];
     return Container(
       height: 206.r,
@@ -734,7 +734,7 @@ class _EntertainmentScreenState extends State<EntertainmentScreen> {
                     ),
                     SizedBox(width: 8.r),
                     Text(
-                      'YOUTUBE DISCOVER',
+                      AppLocale.discovery.getString(context).toUpperCase(),
                       style: TextStyle(
                         color: const Color(0xFFD5C9FF),
                         fontSize: 10.r,
@@ -745,7 +745,7 @@ class _EntertainmentScreenState extends State<EntertainmentScreen> {
                     const Spacer(),
                     if (youtubeInstalled)
                       Text(
-                        'APP INSTALLED',
+                        AppLocale.entertainmentInstalled.getString(context).toUpperCase(),
                         style: TextStyle(
                           color: Colors.white.withValues(alpha: 0.56),
                           fontSize: 8.r,
@@ -757,7 +757,7 @@ class _EntertainmentScreenState extends State<EntertainmentScreen> {
                 ),
                 SizedBox(height: 9.r),
                 Text(
-                  'Find something to watch',
+                  AppLocale.entertainmentFeatured.getString(context),
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 25.r,
@@ -767,7 +767,7 @@ class _EntertainmentScreenState extends State<EntertainmentScreen> {
                 ),
                 SizedBox(height: 5.r),
                 Text(
-                  'Explore YouTube topics or open your own recommendations.',
+                  AppLocale.entertainmentMoviesTv.getString(context),
                   style: TextStyle(
                     color: Colors.white.withValues(alpha: 0.7),
                     fontSize: 10.r,
@@ -812,7 +812,7 @@ class _EntertainmentScreenState extends State<EntertainmentScreen> {
                       await _launchApp(youtube);
                     },
                     icon: const Icon(Icons.open_in_new_rounded, size: 14),
-                    label: const Text('Open YouTube recommendations'),
+                    label: Text(AppLocale.launch.getString(context)),
                     style: TextButton.styleFrom(
                       foregroundColor: Colors.white,
                       padding: EdgeInsets.symmetric(horizontal: 8.r),
