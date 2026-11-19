@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:neostation/l10n/app_locale.dart';
 import 'package:neostation/main.dart' show StartupStorageErrorApp;
 import 'package:neostation/services/sfx_service.dart';
+import 'package:neostation/widgets/shimmering_logo.dart';
 import 'package:neostation/utils/gamepad_translator.dart';
 import 'package:neostation/utils/user_data_startup_check.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -135,13 +136,7 @@ void main() {
 
     expect(tester.takeException(), isNull);
     // Centred content too tall for the screen is cut off at the top too.
-    final logo = tester.getRect(
-      find.byWidgetPredicate(
-        (w) =>
-            w is Image &&
-            (w.image as AssetImage).assetName.endsWith('logo_transparent.png'),
-      ),
-    );
+    final logo = tester.getRect(find.byType(EclipseLogoMark));
     expect(logo.top, greaterThanOrEqualTo(0));
     final message = tester.getRect(
       find.text(en(AppLocale.startupStorageFolderMissing)),
