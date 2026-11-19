@@ -674,8 +674,9 @@ class _EntertainmentScreenState extends State<EntertainmentScreen> {
   }
 
   Widget _buildSpotlight(ThemeData theme) {
-    final youtubeInstalled =
-        _installedPackages.contains('com.google.android.youtube');
+    final youtubeInstalled = _installedPackages.contains(
+      'com.google.android.youtube',
+    );
     final exploreTopics = <(String, String, IconData)>[
       (
         AppLocale.games.getString(context),
@@ -707,11 +708,7 @@ class _EntertainmentScreenState extends State<EntertainmentScreen> {
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [
-            Color(0xFF33236D),
-            Color(0xFF17152E),
-            Color(0xFF080A12),
-          ],
+          colors: [Color(0xFF33236D), Color(0xFF17152E), Color(0xFF080A12)],
         ),
         border: Border.all(
           color: const Color(0xFF9C7BFF).withValues(alpha: 0.32),
@@ -798,11 +795,7 @@ class _EntertainmentScreenState extends State<EntertainmentScreen> {
                   children: [
                     for (final topic in exploreTopics)
                       ActionChip(
-                        avatar: Icon(
-                          topic.$3,
-                          size: 14.r,
-                          color: Colors.white,
-                        ),
+                        avatar: Icon(topic.$3, size: 14.r, color: Colors.white),
                         label: Text(
                           topic.$1,
                           style: TextStyle(
@@ -825,7 +818,8 @@ class _EntertainmentScreenState extends State<EntertainmentScreen> {
                   child: TextButton.icon(
                     onPressed: () async {
                       final youtube = _apps.firstWhere(
-                        (app) => app.packageName == 'com.google.android.youtube',
+                        (app) =>
+                            app.packageName == 'com.google.android.youtube',
                       );
                       await _launchApp(youtube);
                     },
