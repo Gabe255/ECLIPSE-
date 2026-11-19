@@ -97,9 +97,6 @@ jobs:
       - name: Install dependencies
         run: flutter pub get --enforce-lockfile
 
-      - name: Debug formatted settings test
-        run: dart format --output=show test/check_systems_updates_setting_test.dart
-
       - name: Verify formatting
         run: dart format --output=none --set-exit-if-changed .
 
