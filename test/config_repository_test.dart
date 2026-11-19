@@ -21,10 +21,10 @@ void main() {
     });
 
     test(
-      'getThemeName returns default "system" when no config exists',
+      'getThemeName returns default "eclipse" when no config exists',
       () async {
         final theme = await ConfigRepository.getThemeName();
-        expect(theme, 'system');
+        expect(theme, 'eclipse');
       },
     );
 
