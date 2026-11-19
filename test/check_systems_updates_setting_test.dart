@@ -8,6 +8,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:neostation/data/datasources/sqlite_service.dart';
 import 'package:neostation/l10n/app_locale.dart';
 import 'package:neostation/providers/sqlite_config_provider.dart';
+import 'package:neostation/providers/wallpaper_provider.dart';
 import 'package:neostation/screens/settings_screen/new_settings_options/general_settings_content.dart';
 import 'package:neostation/screens/settings_screen/new_settings_options/widgets/setting_row.dart';
 import 'package:neostation/services/global_notification_service.dart';
@@ -79,8 +80,15 @@ void main() {
         child: ScreenUtilInit(
           designSize: const Size(1920, 1080),
           builder: (context, child) =>
-              ChangeNotifierProvider<SqliteConfigProvider>(
-                create: (_) => SqliteConfigProvider(),
+              MultiProvider(
+                providers: [
+                  ChangeNotifierProvider<SqliteConfigProvider>(
+                    create: (_) => SqliteConfigProvider(),
+                  ),
+                  ChangeNotifierProvider<WallpaperProvider>(
+                    create: (_) => WallpaperProvider(),
+                  ),
+                ],
                 child: MaterialApp(
                   localizationsDelegates:
                       FlutterLocalization.instance.localizationsDelegates,
