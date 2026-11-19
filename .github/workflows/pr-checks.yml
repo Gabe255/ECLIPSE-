@@ -97,9 +97,6 @@ jobs:
       - name: Install dependencies
         run: flutter pub get --enforce-lockfile
 
-      - name: Debug formatter diff
-        run: dart format --output=show lib/screens/entertainment_screen.dart | diff -u lib/screens/entertainment_screen.dart - || true
-
       - name: Verify formatting
         run: dart format --output=none --set-exit-if-changed .
 
