@@ -35,8 +35,8 @@ class EclipseHomeScreen extends StatefulWidget {
 
   static bool navigateLeft() => _EclipseHomeScreenState._current?._move(-1) ?? false;
   static bool navigateRight() => _EclipseHomeScreenState._current?._move(1) ?? false;
-  static bool navigateUp() => _EclipseHomeScreenState._current?._move(-2) ?? false;
-  static bool navigateDown() => _EclipseHomeScreenState._current?._move(2) ?? false;
+  static bool navigateUp() => _EclipseHomeScreenState._current?._moveVertical(-1) ?? false;
+  static bool navigateDown() => _EclipseHomeScreenState._current?._moveVertical(1) ?? false;
   static void selectCurrent() => _EclipseHomeScreenState._current?._activate();
 
   @override
@@ -68,6 +68,8 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen> {
     setState(() => _selectedActionIndex = next);
     return true;
   }
+
+  bool _moveVertical(int direction) => _move(direction * _actionColumns);
 
   void _activate() {
     if (_actionCallbacks.isEmpty) return;
@@ -108,8 +110,8 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen> {
                           totalGames: config.totalGames,
                           systems: systems.length,
                           featured: featured,
-                          onOpenSystems: onOpenSystems,
-                          onOpenSearch: onOpenSearch,
+                          onOpenSystems: widget.onOpenSystems,
+                          onOpenSearch: widget.onOpenSearch,
                           wide: wide,
                         ),
                         const SizedBox(height: 24),
@@ -389,14 +391,14 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen> {
         icon: Icons.grid_view_rounded,
         title: 'Game library',
         subtitle: 'All your systems and games',
-        onTap: onOpenSystems,
+        onTap: widget.onOpenSystems,
         accent: _violet,
       ),
       _HomeAction(
         icon: Icons.emoji_events_rounded,
         title: 'Achievements',
         subtitle: 'Your unlocks and progress',
-        onTap: onOpenAchievements,
+        onTap: widget.onOpenAchievements,
         accent: _cyan,
       ),
       if (showEntertainment)
@@ -404,14 +406,14 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen> {
           icon: Icons.live_tv_rounded,
           title: 'Entertainment',
           subtitle: 'Your installed media apps',
-          onTap: onOpenEntertainment,
+          onTap: widget.onOpenEntertainment,
           accent: const Color(0xFFE5A8FF),
         ),
       _HomeAction(
         icon: Icons.tune_rounded,
         title: 'Settings',
         subtitle: 'Make ECLIPSE yours',
-        onTap: onOpenSettings,
+        onTap: widget.onOpenSettings,
         accent: const Color(0xFFB8A6FF),
       ),
     ];
