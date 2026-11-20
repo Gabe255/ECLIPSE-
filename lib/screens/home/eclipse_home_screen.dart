@@ -167,9 +167,9 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen> {
           height: 34,
           padding: const EdgeInsets.all(5),
           decoration: BoxDecoration(
-            color: _violet.withValues(alpha: 0.13),
+            color: EclipseHomeScreen._violet.withValues(alpha: 0.13),
             borderRadius: BorderRadius.circular(11),
-            border: Border.all(color: _violet.withValues(alpha: 0.35)),
+            border: Border.all(color: EclipseHomeScreen._violet.withValues(alpha: 0.35)),
           ),
           child: SvgPicture.asset(
             'assets/branding/eclipse-mark.svg',
@@ -181,7 +181,7 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen> {
         const Text(
           'ECLIPSE',
           style: TextStyle(
-            color: _lunar,
+            color: EclipseHomeScreen._lunar,
             fontSize: 14,
             fontWeight: FontWeight.w900,
             letterSpacing: 2.2,
@@ -191,7 +191,7 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen> {
         Text(
           'YOUR GAMING UNIVERSE',
           style: TextStyle(
-            color: _cyan.withValues(alpha: 0.82),
+            color: EclipseHomeScreen._cyan.withValues(alpha: 0.82),
             fontSize: 9,
             fontWeight: FontWeight.w800,
             letterSpacing: 1.5,
@@ -217,15 +217,15 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen> {
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(26),
-        border: Border.all(color: _violet.withValues(alpha: 0.32)),
+        border: Border.all(color: EclipseHomeScreen._violet.withValues(alpha: 0.32)),
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [_plum, _void, Color(0xFF101B2A)],
+          colors: [EclipseHomeScreen._plum, EclipseHomeScreen._void, Color(0xFF101B2A)],
         ),
         boxShadow: [
           BoxShadow(
-            color: _violet.withValues(alpha: 0.12),
+            color: EclipseHomeScreen._violet.withValues(alpha: 0.12),
             blurRadius: 32,
             spreadRadius: -10,
           ),
@@ -242,12 +242,12 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: _violet.withValues(alpha: 0.20),
+                  color: EclipseHomeScreen._violet.withValues(alpha: 0.20),
                   width: 2,
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: _violet.withValues(alpha: 0.17),
+                    color: EclipseHomeScreen._violet.withValues(alpha: 0.17),
                     blurRadius: 65,
                     spreadRadius: 12,
                   ),
@@ -280,14 +280,14 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen> {
                     vertical: 6,
                   ),
                   decoration: BoxDecoration(
-                    color: _cyan.withValues(alpha: 0.10),
+                    color: EclipseHomeScreen._cyan.withValues(alpha: 0.10),
                     borderRadius: BorderRadius.circular(30),
-                    border: Border.all(color: _cyan.withValues(alpha: 0.25)),
+                    border: Border.all(color: EclipseHomeScreen._cyan.withValues(alpha: 0.25)),
                   ),
                   child: const Text(
                     'THE UNIVERSE IS YOURS',
                     style: TextStyle(
-                      color: _cyan,
+                      color: EclipseHomeScreen._cyan,
                       fontSize: 9,
                       fontWeight: FontWeight.w900,
                       letterSpacing: 1.4,
@@ -298,7 +298,7 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen> {
                 Text(
                   'Ready when\nyou are.',
                   style: TextStyle(
-                    color: _lunar,
+                    color: EclipseHomeScreen._lunar,
                     fontSize: wide ? 40 : 34,
                     height: 0.98,
                     fontWeight: FontWeight.w900,
@@ -309,7 +309,7 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen> {
                 Text(
                   '$totalGames games  •  $systems systems',
                   style: TextStyle(
-                    color: _lunar.withValues(alpha: 0.66),
+                    color: EclipseHomeScreen._lunar.withValues(alpha: 0.66),
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
                   ),
@@ -324,7 +324,7 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen> {
                       icon: const Icon(Icons.sports_esports_rounded, size: 18),
                       label: const Text('Open library'),
                       style: FilledButton.styleFrom(
-                        backgroundColor: _violet,
+                        backgroundColor: EclipseHomeScreen._violet,
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(
                           horizontal: 18,
@@ -337,9 +337,9 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen> {
                       icon: const Icon(Icons.search_rounded, size: 18),
                       label: const Text('Search'),
                       style: OutlinedButton.styleFrom(
-                        foregroundColor: _lunar,
+                        foregroundColor: EclipseHomeScreen._lunar,
                         side: BorderSide(
-                          color: _lunar.withValues(alpha: 0.25),
+                          color: EclipseHomeScreen._lunar.withValues(alpha: 0.25),
                         ),
                         padding: const EdgeInsets.symmetric(
                           horizontal: 16,
@@ -364,7 +364,7 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen> {
         Text(
           eyebrow,
           style: const TextStyle(
-            color: _cyan,
+            color: EclipseHomeScreen._cyan,
             fontSize: 9,
             fontWeight: FontWeight.w900,
             letterSpacing: 1.6,
@@ -374,7 +374,7 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen> {
         Text(
           title,
           style: const TextStyle(
-            color: _lunar,
+            color: EclipseHomeScreen._lunar,
             fontSize: 19,
             fontWeight: FontWeight.w800,
           ),
@@ -394,14 +394,14 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen> {
         title: 'Game library',
         subtitle: 'All your systems and games',
         onTap: widget.onOpenSystems,
-        accent: _violet,
+        accent: EclipseHomeScreen._violet,
       ),
       _HomeAction(
         icon: Icons.emoji_events_rounded,
         title: 'Achievements',
         subtitle: 'Your unlocks and progress',
         onTap: widget.onOpenAchievements,
-        accent: _cyan,
+        accent: EclipseHomeScreen._cyan,
       ),
       if (showEntertainment)
         _HomeAction(
@@ -452,7 +452,7 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
           child: Row(
             children: [
-              const Icon(Icons.auto_awesome_rounded, color: _violet, size: 22),
+              const Icon(Icons.auto_awesome_rounded, color: EclipseHomeScreen._violet, size: 22),
               const SizedBox(width: 12),
               const Expanded(
                 child: Column(
@@ -461,7 +461,7 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen> {
                     Text(
                       'ECLIPSE AI',
                       style: TextStyle(
-                        color: _lunar,
+                        color: EclipseHomeScreen._lunar,
                         fontWeight: FontWeight.w800,
                         fontSize: 12,
                       ),
@@ -491,7 +491,7 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen> {
       fit: fit,
       errorBuilder: (_, _, _) => const Icon(
         Icons.videogame_asset_rounded,
-        color: _lunar,
+        color: EclipseHomeScreen._lunar,
       ),
     );
   }
