@@ -9,7 +9,6 @@ import '../../models/system_model.dart';
 import '../../providers/file_provider.dart';
 import '../../services/android_service.dart';
 import '../../services/game_service.dart';
-import '../../services/gamepad/gamepad_navigation_manager.dart';
 import '../../utils/gamepad_nav.dart';
 import '../game_screen/my_games_list.dart';
 
@@ -261,7 +260,9 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
 
   void _syncPreviewPlayback() {
     final controller = _featuredVideoController;
-    if (!mounted || controller == null || !controller.value.isInitialized) return;
+    if (!mounted || controller == null || !controller.value.isInitialized) {
+      return;
+    }
     final routeIsCurrent = ModalRoute.of(context)?.isCurrent ?? true;
     final shouldPlay = GameService.deviceScreenOn.value &&
         !GameService.isGameLaunchInProgress && routeIsCurrent;
@@ -358,6 +359,7 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
 
   Future<void> _openLibrary() async {
     await _featuredVideoController?.pause();
+    if (!mounted) return;
     await Navigator.of(context).push(
       MaterialPageRoute<void>(
         builder: (_) => SystemGamesList(
@@ -1418,7 +1420,7 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
             Image.file(
               File(backdrop),
               fit: BoxFit.cover,
-              errorBuilder: (_, __, ___) => const SizedBox.expand(),
+              errorBuilder: (_, _, _) => const SizedBox.expand(),
             )
           else
             DecoratedBox(
@@ -1522,7 +1524,7 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
                           ? Image.file(
                               File(iconPath),
                               fit: BoxFit.contain,
-                              errorBuilder: (_, __, ___) => Icon(
+                              errorBuilder: (_, _, _) => Icon(
                                 Icons.videogame_asset_rounded,
                                 color: Colors.white,
                                 size: 58,
