@@ -48,6 +48,7 @@ import 'package:neostation/services/sfx_service.dart';
 import 'models/custom_sfx.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -637,10 +638,12 @@ class _StartupScaffoldState extends State<_StartupScaffold> {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Image.asset(
-                            'assets/images/logo_transparent.png',
+                          SvgPicture.asset(
+                            'assets/branding/eclipse-mark.svg',
                             width: 112 * scale,
                             height: 112 * scale,
+                            fit: BoxFit.contain,
+                            semanticsLabel: 'ECLIPSE',
                           ),
                           SizedBox(height: 24 * scale),
                           Text(
