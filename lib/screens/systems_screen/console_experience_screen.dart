@@ -2,8 +2,10 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:gamepads/gamepads.dart';
 
+import '../../l10n/app_locale.dart';
 import '../../models/system_model.dart';
 import '../../providers/file_provider.dart';
 import '../../services/android_service.dart';
@@ -218,7 +220,7 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
         }
       },
       onSettings: () {
-        if (!_booting) _showSystemInfo();
+        if (!_booting) _showQuickMenu();
       },
     );
     _bootController = AnimationController(
@@ -768,7 +770,7 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
               accent: _accent,
               icon: Icons.settings,
               title: 'Console Settings',
-              subtitle: 'System information',
+              subtitle: AppLocale.quickMenuSystemInfo.getString(context),
               onTap: _showSystemInfo,
             ),
           ],
@@ -1355,7 +1357,9 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
                   ),
                 ),
               ],
-              const SizedBox(height: 16),
+              const SizedBox(height: 14),
+              _buildSystemSpotlight(),
+              const SizedBox(height: 14),
               Expanded(child: child),
               const SizedBox(height: 14),
               Container(height: 1, color: Colors.white.withValues(alpha: 0.10)),
@@ -1399,6 +1403,111 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  /// A system-only cinematic banner. It is intentionally rendered inside
+  /// ConsoleExperienceScreen, never on the all-platforms landing page.
+  Widget _buildSystemSpotlight() {
+    final customBackground = widget.system.customBackgroundPath;
+    final hasCustomBackground =
+        customBackground != null &&
+        customBackground.isNotEmpty &&
+        File(customBackground).existsSync();
+    final backgroundAsset = widget.system.backgroundImage;
+    return Container(
+      height: MediaQuery.sizeOf(context).height < 520 ? 112 : 142,
+      width: double.infinity,
+      clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: _accent.withValues(alpha: 0.42)),
+        boxShadow: [
+          BoxShadow(
+            color: _accent.withValues(alpha: 0.16),
+            blurRadius: 24,
+            spreadRadius: -5,
+          ),
+        ],
+      ),
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          if (hasCustomBackground)
+            Image.file(File(customBackground), fit: BoxFit.cover)
+          else if (backgroundAsset != null && backgroundAsset.isNotEmpty)
+            Image.asset(
+              backgroundAsset,
+              fit: BoxFit.cover,
+              errorBuilder: (_, _, _) => const SizedBox.expand(),
+            ),
+          DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [
+                  const Color(0xFF080A12).withValues(alpha: 0.94),
+                  const Color(0xFF080A12).withValues(alpha: 0.62),
+                  _accent.withValues(alpha: 0.22),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            right: 22,
+            top: 0,
+            bottom: 0,
+            child: Opacity(
+              opacity: 0.94,
+              child: Center(
+                child: _SystemMark(system: widget.system, size: 88),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(22, 14, 132, 14),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  AppLocale.systems.getString(context).toUpperCase(),
+                  style: TextStyle(
+                    color: _accent.withValues(alpha: 0.96),
+                    fontSize: 9,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: 2.2,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  widget.system.shortName ?? widget.system.realName,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: -0.5,
+                  ),
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  '${widget.system.romCount}  •  ${AppLocale.games.getString(context)}',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: Colors.white.withValues(alpha: 0.76),
+                    fontSize: 11,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -1716,6 +1825,85 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
     );
   }
 
+  /// Opens the console quick menu from the controller's Settings shortcut.
+  /// Actions reuse the existing library and system-info flows; no parallel
+  /// settings store or duplicate navigation state is introduced.
+  void _showQuickMenu() {
+    showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: const Color(0xFF111522),
+      barrierColor: Colors.black.withValues(alpha: 0.62),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (sheetContext) => SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Container(
+                  width: 38,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.24),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 18),
+              Text(
+                AppLocale.quickMenu.getString(context),
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w900,
+                  letterSpacing: 2.2,
+                ),
+              ),
+              const SizedBox(height: 10),
+              _QuickMenuAction(
+                accent: _accent,
+                icon: Icons.sports_esports_rounded,
+                title: AppLocale.quickMenuResumeLibrary.getString(context),
+                subtitle: AppLocale.quickMenuResumeLibrarySubtitle.getString(
+                  context,
+                ),
+                onTap: () {
+                  Navigator.of(sheetContext).pop();
+                  _openLibrary();
+                },
+              ),
+              _QuickMenuAction(
+                accent: _accent,
+                icon: Icons.info_outline_rounded,
+                title: 'System information',
+                subtitle: AppLocale.quickMenuSystemInfoSubtitle.getString(
+                  context,
+                ),
+                onTap: () {
+                  Navigator.of(sheetContext).pop();
+                  _showSystemInfo();
+                },
+              ),
+              _QuickMenuAction(
+                accent: _accent,
+                icon: Icons.dashboard_customize_outlined,
+                title: AppLocale.quickMenuBackPlatforms.getString(context),
+                subtitle: AppLocale.quickMenuBackPlatformsSubtitle.getString(
+                  context,
+                ),
+                onTap: () => Navigator.of(context).maybePop(),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   void _showSystemInfo() {
     showDialog<void>(
       context: context,
@@ -1741,6 +1929,46 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
       ),
     );
   }
+}
+
+class _QuickMenuAction extends StatelessWidget {
+  const _QuickMenuAction({
+    required this.accent,
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+    required this.onTap,
+  });
+
+  final Color accent;
+  final IconData icon;
+  final String title;
+  final String subtitle;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) => ListTile(
+    contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+    leading: Container(
+      width: 42,
+      height: 42,
+      decoration: BoxDecoration(
+        color: accent.withValues(alpha: 0.13),
+        borderRadius: BorderRadius.circular(13),
+      ),
+      child: Icon(icon, color: accent),
+    ),
+    title: Text(
+      title,
+      style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
+    ),
+    subtitle: Text(
+      subtitle,
+      style: const TextStyle(color: Colors.white60, fontSize: 11),
+    ),
+    trailing: const Icon(Icons.chevron_right_rounded, color: Colors.white38),
+    onTap: onTap,
+  );
 }
 
 class _FeaturePanel extends StatelessWidget {

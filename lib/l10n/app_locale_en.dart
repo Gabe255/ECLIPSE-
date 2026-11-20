@@ -1,6 +1,29 @@
 part of 'app_locale.dart';
 
 const Map<String, dynamic> appLocaleEn = {
+  AppLocale.entertainment: 'Entertainment',
+  AppLocale.entertainmentFeatured: 'Featured',
+  AppLocale.entertainmentRecentlyOpened: 'Recently opened',
+  AppLocale.entertainmentYourApps: 'Your apps',
+  AppLocale.entertainmentMoviesTv: 'Movies & TV',
+  AppLocale.entertainmentLiveSports: 'Live & Sports',
+  AppLocale.entertainmentMusicCreators: 'Music & Creators',
+  AppLocale.entertainmentSearchHint: 'Search entertainment apps',
+  AppLocale.entertainmentEmpty: 'No matching entertainment apps found.',
+  AppLocale.entertainmentOpenStore: 'Open store',
+  AppLocale.entertainmentInstalled: 'Installed',
+  AppLocale.entertainmentNotInstalled: 'Not installed',
+
+  AppLocale.quickMenu: 'Quick menu',
+  AppLocale.quickMenuResumeLibrary: 'Resume game library',
+  AppLocale.quickMenuResumeLibrarySubtitle:
+      'Browse and launch games for this system',
+  AppLocale.quickMenuSystemInfo: 'System information',
+  AppLocale.quickMenuSystemInfoSubtitle:
+      'View platform details and detected games',
+  AppLocale.quickMenuBackPlatforms: 'Back to platforms',
+  AppLocale.quickMenuBackPlatformsSubtitle:
+      'Return to the ECLIPSE system shelf',
   AppLocale.raCatalogueRefreshFailed: 'Could not refresh the RetroAchievements catalogue. Matching used saved data.',
   AppLocale.smartMatchesOne: '1 matching game',
   AppLocale.smartCollection: 'Smart collection',

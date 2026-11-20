@@ -1,6 +1,30 @@
 part of 'app_locale.dart';
 
 const Map<String, dynamic> appLocaleFr = {
+  AppLocale.entertainment: 'Divertissement',
+  AppLocale.entertainmentFeatured: 'À la une',
+  AppLocale.entertainmentRecentlyOpened: 'Récemment ouvertes',
+  AppLocale.entertainmentYourApps: 'Vos applications',
+  AppLocale.entertainmentMoviesTv: 'Films et séries',
+  AppLocale.entertainmentLiveSports: 'En direct et sport',
+  AppLocale.entertainmentMusicCreators: 'Musique et créateurs',
+  AppLocale.entertainmentSearchHint:
+      'Rechercher des applications de divertissement',
+  AppLocale.entertainmentEmpty: 'Aucune application correspondante.',
+  AppLocale.entertainmentOpenStore: 'Ouvrir la boutique',
+  AppLocale.entertainmentInstalled: 'Installée',
+  AppLocale.entertainmentNotInstalled: 'Non installée',
+
+  AppLocale.quickMenu: 'Menu rapide',
+  AppLocale.quickMenuResumeLibrary: 'Reprendre la bibliothèque de jeux',
+  AppLocale.quickMenuResumeLibrarySubtitle:
+      'Parcourir et lancer les jeux de ce système',
+  AppLocale.quickMenuSystemInfo: 'Informations système',
+  AppLocale.quickMenuSystemInfoSubtitle:
+      'Voir les détails de la plateforme et les jeux détectés',
+  AppLocale.quickMenuBackPlatforms: 'Retour aux plateformes',
+  AppLocale.quickMenuBackPlatformsSubtitle:
+      'Revenir à la sélection de systèmes ECLIPSE',
   AppLocale.raCatalogueRefreshFailed: 'Impossible de mettre à jour le catalogue RetroAchievements. La recherche de correspondances a utilisé les données enregistrées.',
   AppLocale.smartMatchesOne: '1 jeu correspondant',
   AppLocale.smartCollection: 'Collection intelligente',

@@ -113,7 +113,11 @@ class SplashStatusLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scale = scaleOf(context);
-    final maxLogoWidth = _logoWidth * scale;
+    // Handhelds up to the text-growth threshold keep the established logo
+    // width; only genuinely larger displays grow it. This keeps the Thor's
+    // 467dp panel at the 280px design width while desktop scales up.
+    final logoScale = scale <= _textGrowthHeadroom ? 1.0 : scale;
+    final maxLogoWidth = _logoWidth * logoScale;
     final gap = _gap * scale;
     final bottomInset = _bottomInset * scale;
 
