@@ -226,7 +226,7 @@ void main() async {
   // opened before it was usable stayed off the file for the whole session.
   final log = LoggerService.instance;
   await log.init();
-  log.i('Starting NeoStation...');
+  log.i('Starting ECLIPSE...');
   for (final note in storageNotes) {
     log.w(note);
   }
