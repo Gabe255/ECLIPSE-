@@ -503,7 +503,7 @@ const Map<String, dynamic> appLocaleRu = {
   AppLocale.verifyEmail: 'Подтвердить Email',
   AppLocale.forgotPassword: 'Забыли пароль?',
   AppLocale.resetPassword: 'Сбросить пароль',
-  AppLocale.joinCloud Saves: 'Присоединиться к Cloud Saves',
+  AppLocale.joinNeoSync: 'Присоединиться к Cloud Saves',
   AppLocale.verificationToken: 'Токен верификации',
   AppLocale.enterTokenFromEmail: 'Введите токен из вашего письма',
   AppLocale.resendVerificationEmail: 'Отправить письмо повторно',
@@ -562,7 +562,7 @@ const Map<String, dynamic> appLocaleRu = {
   AppLocale.failedToRefreshCloud: 'Не удалось обновить хранилище',
   AppLocale.onlineSaves: 'Облачные сохранения',
   AppLocale.noOnlineSavesFound: 'Облачные сохранения не найдены',
-  AppLocale.whatIsCloud Saves: 'Что такое Cloud Saves Cloud?',
+  AppLocale.whatIsNeoSync: 'Что такое Cloud Saves Cloud?',
   AppLocale.neoSyncDescription:
       'Cloud Saves — ваш единый облачный помощник для ECLIPSE.',
   AppLocale.crossPlatform: 'Мультиплатформенность',
@@ -595,12 +595,12 @@ const Map<String, dynamic> appLocaleRu = {
   AppLocale.deleteCloudSave: 'Удалить облачное сохранение',
   AppLocale.deleteCloudSaveConfirm:
       'Безвозвратно удалить этот файл сохранения из облака?',
-  AppLocale.alsoDisableCloud Saves: 'Также отключить Cloud Saves',
+  AppLocale.alsoDisableNeoSync: 'Также отключить Cloud Saves',
   AppLocale.preventsAutoSaves:
       'Предотвращает будущие автосохранения для этой игры.',
   AppLocale.refreshing: 'Обновление...',
   AppLocale.refreshed: 'Обновлено',
-  AppLocale.failedToDisableCloud Saves:
+  AppLocale.failedToDisableNeoSync:
       'Не удалось отключить Cloud Saves для этой игры',
   AppLocale.saveFileDeleted: 'Файл сохранения успешно удален',
   AppLocale.failedToDeleteSave: 'Не удалось удалить файл сохранения',
