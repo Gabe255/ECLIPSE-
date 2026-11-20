@@ -63,7 +63,9 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen> {
 
   bool _move(int delta) {
     if (_actionCallbacks.isEmpty) return false;
-    final next = (_selectedActionIndex + delta).clamp(0, _actionCallbacks.length - 1);
+    final next = (_selectedActionIndex + delta)
+        .clamp(0, _actionCallbacks.length - 1)
+        .toInt();
     if (next == _selectedActionIndex) return false;
     setState(() => _selectedActionIndex = next);
     return true;
