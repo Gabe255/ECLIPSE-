@@ -25,13 +25,13 @@ class StartupThemeColors {
   /// Accent used for the error screen's buttons.
   final Color primary;
 
-  /// Dark neostation chrome — what a first launch (empty cache) paints, and
-  /// the fallback whenever the cache cannot be read. Values mirror
-  /// `dark_theme.dart` so a default install shows no handoff at all.
+  /// ECLIPSE signature chrome used on a first launch or when the cache cannot
+  /// be read. The deep-violet palette keeps the native-to-Flutter handoff
+  /// visually continuous with the ECLIPSE identity.
   static const fallback = StartupThemeColors(
-    background: Color(0xFF15191e),
-    foreground: Color(0xFFecf9ff),
-    primary: Color(0xFF605dff),
+    background: Color(0xFF100C19),
+    foreground: Color(0xFFF3EEFF),
+    primary: Color(0xFF9B7BFF),
   );
 
   /// Derived from the painted background rather than the theme's own

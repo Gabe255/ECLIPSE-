@@ -38,8 +38,8 @@ class SplashStatusLayout extends StatelessWidget {
   /// size of the design space nothing moves.
   static const double _logoWidth = 280;
 
-  /// Aspect ratio of `assets/images/logo_transparent.png` (772×510).
-  static const double _logoAspect = 772 / 510;
+  /// Aspect ratio of the ECLIPSE mark + wordmark startup lockup.
+  static const double _logoAspect = 280 / 72;
 
   /// Share of the screen width the logo may take, so it stays a logo rather
   /// than a wall on narrow panels.
