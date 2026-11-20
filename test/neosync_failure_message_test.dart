@@ -40,7 +40,7 @@ void main() {
 
     expect(
       neoSyncFailureMessage(result, english),
-      "NeoSync didn't confirm the change in time. It may still have gone "
+      "Cloud Saves didn't confirm the change in time. It may still have gone "
       'through, so check your plan before trying again.',
     );
     expect(
