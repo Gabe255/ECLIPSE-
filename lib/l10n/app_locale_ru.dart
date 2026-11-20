@@ -944,7 +944,7 @@ const Map<String, dynamic> appLocaleRu = {
   AppLocale.ofSystems: '{scanned} из {total} систем',
   AppLocale.systemsDetected: 'Обнаружено систем: {count}',
   AppLocale.romsLabel: '{count} ROM',
-  AppLocale.welcomeECLIPSE: 'Добро пожаловать в ECLIPSE!',
+  AppLocale.welcomeNeoStation: 'Добро пожаловать в ECLIPSE!',
   AppLocale.letsGetSetup: 'Давайте все настроим',
   AppLocale.storagePermission: 'Разрешение на доступ к памяти',
   AppLocale.storagePermissionDesc: 'ECLIPSE нужен «Доступ ко всем файлам» для управления конфигурациями RetroArch.',
