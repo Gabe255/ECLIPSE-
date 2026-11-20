@@ -151,7 +151,7 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen>
     }
     if (system == null) return;
     await _featuredVideoController?.pause();
-    if (!mounted) return;
+    if (!context.mounted) return;
     await GameService.launchGame(context, system, game);
   }
 
