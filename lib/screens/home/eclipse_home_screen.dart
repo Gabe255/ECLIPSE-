@@ -9,7 +9,7 @@ import '../../providers/sqlite_config_provider.dart';
 
 /// The ECLIPSE landing page. The existing Systems screen remains the full
 /// library and first-run ROM setup; this page is the console-style front door.
-class EclipseHomeScreen extends StatelessWidget {
+class EclipseHomeScreen extends StatefulWidget {
   const EclipseHomeScreen({
     super.key,
     required this.onOpenSystems,
@@ -32,6 +32,47 @@ class EclipseHomeScreen extends StatelessWidget {
   static const Color _violet = Color(0xFF9B7BFF);
   static const Color _cyan = Color(0xFF65D9E8);
   static const Color _lunar = Color(0xFFF3EEFF);
+
+  static bool navigateLeft() => _EclipseHomeScreenState._current?._move(-1) ?? false;
+  static bool navigateRight() => _EclipseHomeScreenState._current?._move(1) ?? false;
+  static bool navigateUp() => _EclipseHomeScreenState._current?._move(-2) ?? false;
+  static bool navigateDown() => _EclipseHomeScreenState._current?._move(2) ?? false;
+  static void selectCurrent() => _EclipseHomeScreenState._current?._activate();
+
+  @override
+  State<EclipseHomeScreen> createState() => _EclipseHomeScreenState();
+}
+
+class _EclipseHomeScreenState extends State<EclipseHomeScreen> {
+  static _EclipseHomeScreenState? _current;
+  int _selectedActionIndex = 0;
+  int _actionColumns = 2;
+  List<VoidCallback> _actionCallbacks = const [];
+
+  @override
+  void initState() {
+    super.initState();
+    _current = this;
+  }
+
+  @override
+  void dispose() {
+    if (identical(_current, this)) _current = null;
+    super.dispose();
+  }
+
+  bool _move(int delta) {
+    if (_actionCallbacks.isEmpty) return false;
+    final next = (_selectedActionIndex + delta).clamp(0, _actionCallbacks.length - 1);
+    if (next == _selectedActionIndex) return false;
+    setState(() => _selectedActionIndex = next);
+    return true;
+  }
+
+  void _activate() {
+    if (_actionCallbacks.isEmpty) return;
+    _actionCallbacks[_selectedActionIndex]();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +136,7 @@ class EclipseHomeScreen extends StatelessWidget {
                                   const SizedBox(width: 12),
                               itemBuilder: (context, index) => _SystemTile(
                                 system: systems[index],
-                                onTap: onOpenSystems,
+                                onTap: widget.onOpenSystems,
                               ),
                             ),
                           ),
@@ -375,6 +416,10 @@ class EclipseHomeScreen extends StatelessWidget {
       ),
     ];
 
+    _actionColumns = wide ? 4 : 2;
+    _actionCallbacks = actions.map((action) => action.onTap).toList();
+    if (_selectedActionIndex >= actions.length) _selectedActionIndex = actions.length - 1;
+
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -385,7 +430,7 @@ class EclipseHomeScreen extends StatelessWidget {
         mainAxisSpacing: 10,
         mainAxisExtent: 112,
       ),
-      itemBuilder: (context, index) => _ActionTile(action: actions[index]),
+      itemBuilder: (context, index) => _ActionTile(\n        action: actions[index],\n        selected: index == _selectedActionIndex,\n      ),
     );
   }
 
@@ -394,7 +439,7 @@ class EclipseHomeScreen extends StatelessWidget {
       color: Colors.white.withValues(alpha: 0.045),
       borderRadius: BorderRadius.circular(18),
       child: InkWell(
-        onTap: onOpenAi,
+        onTap: widget.onOpenAi,
         borderRadius: BorderRadius.circular(18),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
@@ -462,9 +507,9 @@ class _HomeAction {
 }
 
 class _ActionTile extends StatelessWidget {
-  const _ActionTile({required this.action});
+  const _ActionTile({required this.action, this.selected = false});
 
-  final _HomeAction action;
+  final _HomeAction action;\n  final bool selected;
 
   @override
   Widget build(BuildContext context) {
@@ -478,7 +523,7 @@ class _ActionTile extends StatelessWidget {
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(18),
-            border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+            border: Border.all(\n            color: selected ? const Color(0xFF9B7BFF) : Colors.white.withValues(alpha: 0.08),\n            width: selected ? 1.6 : 1,\n          ),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
