@@ -935,7 +935,7 @@ const Map<String, dynamic> appLocaleEn = {
   AppLocale.ofSystems: '{scanned} of {total} systems',
   AppLocale.systemsDetected: '{count} systems detected',
   AppLocale.romsLabel: '{count} ROMs',
-  AppLocale.welcomeECLIPSE: 'Welcome to ECLIPSE!',
+  AppLocale.welcomeNeoStation: 'Welcome to ECLIPSE!',
   AppLocale.letsGetSetup: 'Let\'s get you set up',
   AppLocale.storagePermission: 'Storage Permission',
   AppLocale.storagePermissionDesc: 'ECLIPSE needs "All Files Access" to manage your RetroArch configurations and sync your game saves correctly.\n\nPlease grant this permission in the next screen.',
