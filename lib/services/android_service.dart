@@ -16,9 +16,12 @@ class AndroidService {
   /// Opens Android's system speech-recognition prompt and returns the
   /// recognized phrase. Null means the prompt was cancelled or no speech was
   /// returned; unsupported devices report a platform error.
-  static Future<String?> startVoiceRecognition() async {
+  static Future<String?> startVoiceRecognition({String? languageTag}) async {
     try {
-      return await _channel.invokeMethod<String>('startVoiceRecognition');
+      return await _channel.invokeMethod<String>('startVoiceRecognition', {
+        if (languageTag != null && languageTag.trim().isNotEmpty)
+          'languageTag': languageTag,
+      });
     } catch (e) {
       _log.w("Voice recognition unavailable: $e");
       return null;
