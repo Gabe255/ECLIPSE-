@@ -866,7 +866,7 @@ const Map<String, dynamic> appLocaleZhHant = {
   AppLocale.ofSystems: '第 {scanned}/{total} 個系統',
   AppLocale.systemsDetected: '偵測到 {count} 個系統',
   AppLocale.romsLabel: '{count} 個 ROM',
-  AppLocale.welcomeECLIPSE: '歡迎來到 ECLIPSE！',
+  AppLocale.welcomeNeoStation: '歡迎來到 ECLIPSE！',
   AppLocale.letsGetSetup: '讓我們開始設定',
   AppLocale.storagePermission: '儲存權限',
   AppLocale.storagePermissionDesc:
