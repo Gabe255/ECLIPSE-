@@ -26,7 +26,7 @@ void main() {
   });
 
   group('StartupThemeCache', () {
-    test('load falls back to the dark chrome when nothing is cached', () async {
+    test('load falls back to ECLIPSE signature chrome when nothing is cached', () async {
       final colors = await StartupThemeCache.load();
 
       expect(colors.background, StartupThemeColors.fallback.background);
