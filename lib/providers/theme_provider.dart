@@ -16,14 +16,12 @@ class ThemeProvider extends ChangeNotifier with WidgetsBindingObserver {
   static final _log = LoggerService.instance;
 
   /// The current [ThemeData] being applied to the application.
-  ThemeData _currentTheme =
-      (WidgetsBinding.instance.platformDispatcher.platformBrightness ==
-          Brightness.dark)
-      ? AppThemes.darkTheme
-      : AppThemes.lightTheme;
+  /// First-frame fallback for new installs and database-read failures.
+  /// Existing saved theme choices are loaded before runApp and take priority.
+  ThemeData _currentTheme = AppThemes.eclipseTheme;
 
   /// Internal identifier for the current theme. Set to 'system' for dynamic mode.
-  String _currentThemeName = 'system';
+  String _currentThemeName = 'eclipse';
 
   /// Returns the appropriate [ThemeData] for the current selection.
   ///

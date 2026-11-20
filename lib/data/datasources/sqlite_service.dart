@@ -1949,7 +1949,7 @@ class SqliteService {
         last_scan TEXT,
         game_view_mode TEXT DEFAULT 'list',
         system_view_mode TEXT DEFAULT 'grid',
-        theme_name TEXT DEFAULT 'system',
+        theme_name TEXT DEFAULT 'eclipse',
         video_sound INTEGER DEFAULT 1,
         ra_user TEXT,
         show_game_info INTEGER DEFAULT 0,
@@ -2755,7 +2755,7 @@ class SqliteService {
         'id': 1,
         'last_scan': null,
         'system_view_mode': 'grid',
-        'theme_name': 'system',
+        'theme_name': 'eclipse',
         'video_sound': 1,
         'ra_user': null,
         'show_game_info': 0,
@@ -3522,7 +3522,7 @@ class SqliteService {
   /// Retrieves the current theme name.
   static Future<String> getThemeName() async {
     final config = await getUserConfig();
-    return config?['theme_name']?.toString() ?? 'system';
+    return config?['theme_name']?.toString() ?? 'eclipse';
   }
 
   /// Retrieves the active System Art pack folder.
