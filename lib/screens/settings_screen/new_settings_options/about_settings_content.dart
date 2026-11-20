@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:flutter_localization/flutter_localization.dart';
@@ -205,13 +206,13 @@ class AboutSettingsContentState extends State<AboutSettingsContent> {
         _launchUrl('https://github.com/Gabe255/ECLIPSE-');
         break;
       case 1:
-        _launchUrl('https://www.patreon.com/cw/NeoStation');
+        _launchUrl('https://github.com/Gabe255/ECLIPSE-/blob/migration/pegasus-flutter-port/docs/APPROVED_ECLIPSE_FEATURES.md');
         break;
       case 2:
-        _launchUrl('https://discord.gg/xE2kgKsRVq');
+        _launchUrl('https://github.com/Gabe255/ECLIPSE-/issues/new');
         break;
       case 3:
-        _launchUrl('https://neostation.dev/');
+        _launchUrl('https://github.com/Gabe255/ECLIPSE-/releases');
         break;
       case 4:
         _checkForAppUpdates();
@@ -244,8 +245,8 @@ class AboutSettingsContentState extends State<AboutSettingsContent> {
                     SizedBox(
                       width: 64.r,
                       height: 64.r,
-                      child: Image.asset(
-                        'assets/images/logo.png',
+                      child: SvgPicture.asset(
+                        'assets/branding/eclipse-mark.svg',
                         fit: BoxFit.contain,
                         errorBuilder: (context, error, stackTrace) => Icon(
                           Symbols.games_rounded,
@@ -301,11 +302,9 @@ class AboutSettingsContentState extends State<AboutSettingsContent> {
                       _buildInfoCard(
                         cardKey: _itemKeys[0],
                         icon: Symbols.code_rounded,
-                        title: AppLocale.openSourceLicense.getString(context),
-                        value: AppLocale.openSourceLicenseDesc.getString(
-                          context,
-                        ),
-                        url: 'https://github.com/misobadev/neostation-frontend',
+                        title: 'ECLIPSE source code',
+                        value: 'Explore the project and its development',
+                        url: 'https://github.com/Gabe255/ECLIPSE-',
                         theme: theme,
                         isFocused:
                             widget.isContentFocused &&
@@ -315,9 +314,9 @@ class AboutSettingsContentState extends State<AboutSettingsContent> {
                       _buildInfoCard(
                         cardKey: _itemKeys[1],
                         icon: Symbols.favorite_rounded,
-                        title: AppLocale.supportOnPatreon.getString(context),
-                        value: 'patreon.com/NeoStation',
-                        url: 'https://www.patreon.com/cw/NeoStation',
+                        title: 'Project roadmap',
+                        value: 'See approved ideas and development status',
+                        url: 'https://github.com/Gabe255/ECLIPSE-/blob/migration/pegasus-flutter-port/docs/APPROVED_ECLIPSE_FEATURES.md',
                         theme: theme,
                         isFocused:
                             widget.isContentFocused &&
@@ -327,9 +326,9 @@ class AboutSettingsContentState extends State<AboutSettingsContent> {
                       _buildInfoCard(
                         cardKey: _itemKeys[2],
                         icon: Symbols.chat_bubble_outline_rounded,
-                        title: AppLocale.joinCommunity.getString(context),
-                        value: 'discord.gg/xE2kgKsRVq',
-                        url: 'https://discord.gg/xE2kgKsRVq',
+                        title: 'Report an issue',
+                        value: 'Share a bug or request a change',
+                        url: 'https://github.com/Gabe255/ECLIPSE-/issues/new',
                         theme: theme,
                         isFocused:
                             widget.isContentFocused &&
@@ -339,9 +338,9 @@ class AboutSettingsContentState extends State<AboutSettingsContent> {
                       _buildInfoCard(
                         cardKey: _itemKeys[3],
                         icon: Symbols.language_rounded,
-                        title: AppLocale.visitWebsite.getString(context),
-                        value: 'neostation.dev',
-                        url: 'https://neostation.dev/',
+                        title: 'GitHub Releases',
+                        value: 'Find published ECLIPSE builds',
+                        url: 'https://github.com/Gabe255/ECLIPSE-/releases',
                         theme: theme,
                         isFocused:
                             widget.isContentFocused &&

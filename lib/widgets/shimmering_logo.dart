@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
-/// The full-color NeoStation logo with a soft light band sweeping across it.
+/// The ECLIPSE eclipse-mark and wordmark with a soft light band sweeping across it.
 ///
 /// Used as the minimal startup indicator while the initial config is applied
 /// and the ROM scan runs. The glyph keeps its brand gradient; a translucent
@@ -135,10 +136,35 @@ class _ShimmeringLogoState extends State<ShimmeringLogo>
           child: child,
         );
       },
-      child: Image.asset(
-        'assets/images/logo_transparent.png',
+      child: SizedBox(
         width: widget.width,
-        filterQuality: FilterQuality.medium,
+        child: Center(
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SvgPicture.asset('assets/branding/eclipse-mark.svg',
+                width: widget.width * 0.27, height: widget.width * 0.27),
+              SizedBox(width: widget.width * 0.045),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('ECLIPSE', style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSurface,
+                    fontSize: widget.width * 0.105,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: widget.width * 0.012, height: 1)),
+                  SizedBox(height: widget.width * 0.018),
+                  Text('YOUR GAMING UNIVERSE', style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontSize: widget.width * 0.027,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: widget.width * 0.009, height: 1)),
+                ],
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

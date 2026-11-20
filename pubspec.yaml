@@ -1,5 +1,5 @@
 name: neostation
-description: ECLIPSE - Your Gaming Universe
+description: ECLIPSE — Your Gaming Universe. A customizable Android-first gaming frontend.
 
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
@@ -104,6 +104,7 @@ flutter_launcher_icons:
 flutter:
   uses-material-design: true
   assets:
+    - assets/branding/
     - assets/images/
     - assets/images/logos/
     - assets/images/emulators/
