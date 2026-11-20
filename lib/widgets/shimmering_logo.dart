@@ -184,7 +184,7 @@ class _ShimmeringLogoState extends State<ShimmeringLogo>
             ),
           ],
         ),
-      )      ),
+      ),
     );
   }
 }
