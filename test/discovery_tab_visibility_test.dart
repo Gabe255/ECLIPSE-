@@ -22,8 +22,8 @@ void main() {
   tearDown(() async => dbHelper.tearDown());
 
   group('nav tab registration', () {
-    test('Discovery is the second tab, straight after Systems', () {
-      expect(NavTab.discovery.index, 1);
+    test('Discovery follows Home and Systems', () {
+      expect(NavTab.discovery.index, 2);
       expect(NavTab.discovery.index, NavTab.systems.index + 1);
       expect(NavTab.discovery.index, lessThan(NavTab.sync.index));
     });
