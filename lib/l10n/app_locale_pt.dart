@@ -507,7 +507,7 @@ const Map<String, dynamic> appLocalePt = {
   AppLocale.verifyEmail: 'Verificar E-mail',
   AppLocale.forgotPassword: 'Esqueceu a senha?',
   AppLocale.resetPassword: 'Redefinir Senha',
-  AppLocale.joinCloud Saves: 'Entrar no Cloud Saves',
+  AppLocale.joinNeoSync: 'Entrar no Cloud Saves',
   AppLocale.verificationToken: 'Token de Verificação',
   AppLocale.enterTokenFromEmail: 'Insira o token enviado ao seu e-mail',
   AppLocale.resendVerificationEmail: 'Reenviar E-mail de Verificação',
@@ -567,7 +567,7 @@ const Map<String, dynamic> appLocalePt = {
   AppLocale.failedToRefreshCloud: 'Falha ao atualizar armazenamento em nuvem',
   AppLocale.onlineSaves: 'Saves Online',
   AppLocale.noOnlineSavesFound: 'Nenhum save online encontrado',
-  AppLocale.whatIsCloud Saves: 'O que é Cloud Saves Cloud?',
+  AppLocale.whatIsNeoSync: 'O que é Cloud Saves Cloud?',
   AppLocale.neoSyncDescription:
       'Cloud Saves é o parceiro unificado em nuvem para seu ECLIPSE.',
   AppLocale.crossPlatform: 'Multiplataforma',
@@ -600,12 +600,12 @@ const Map<String, dynamic> appLocalePt = {
   AppLocale.deleteCloudSave: 'Excluir Save na Nuvem',
   AppLocale.deleteCloudSaveConfirm:
       'Excluir permanentemente este save da nuvem?',
-  AppLocale.alsoDisableCloud Saves: 'Desativar Cloud Saves também',
+  AppLocale.alsoDisableNeoSync: 'Desativar Cloud Saves também',
   AppLocale.preventsAutoSaves:
       'Impede salvamentos automáticos futuros para este jogo.',
   AppLocale.refreshing: 'Atualizando...',
   AppLocale.refreshed: 'Atualizado',
-  AppLocale.failedToDisableCloud Saves: 'Falha ao desativar Cloud Saves para este jogo',
+  AppLocale.failedToDisableNeoSync: 'Falha ao desativar Cloud Saves para este jogo',
   AppLocale.saveFileDeleted: 'Save excluído com sucesso',
   AppLocale.failedToDeleteSave: 'Falha ao excluir o save',
   AppLocale.storageLabel: 'Armazenamento',
