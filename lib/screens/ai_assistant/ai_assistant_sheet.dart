@@ -45,7 +45,10 @@ class _AiAssistantSheetState extends State<AiAssistantSheet> {
     if (_working || _listening) return;
     setState(() => _listening = true);
     try {
-      final phrase = await AndroidService.startVoiceRecognition();
+      final languageTag = Localizations.localeOf(context).toLanguageTag();
+      final phrase = await AndroidService.startVoiceRecognition(
+        languageTag: languageTag,
+      );
       if (!mounted) return;
       if (phrase != null && phrase.trim().isNotEmpty) {
         _input.text = phrase.trim();
