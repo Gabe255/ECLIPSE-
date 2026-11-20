@@ -190,8 +190,8 @@ void main() {
       body,
       matches(
         RegExp(
-          r'navTabSpec\(\s*NavTab\.values\[index\],?\s*\)'
-          r'\s*\.labelKey\s*\.getString\(context\)',
+          r'navTabSpec\(\s*NavTab\.values\[index\]\s*\)' 
+          r'\s*\.label\(context\)',
         ),
       ),
     );
