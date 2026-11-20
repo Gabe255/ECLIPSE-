@@ -74,7 +74,7 @@ class _SystemContentState extends State<SystemContent> {
     final showContent =
         !showSplash && configProvider.scanCompleted && !showInitialSetup;
 
-    // PHASE 1: Loading and Initialization — a shimmering NeoStation logo
+    // PHASE 1: Loading and Initialization — the ECLIPSE signature mark
     // with a thin progress bar and the current scan step as quiet detail.
     // PHASE 2: First-Run Experience / Initial Setup.
     // PHASE 3: Primary System Library.
