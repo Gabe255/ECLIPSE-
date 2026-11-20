@@ -434,7 +434,10 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen> {
         mainAxisSpacing: 10,
         mainAxisExtent: 112,
       ),
-      itemBuilder: (context, index) => _ActionTile(\n        action: actions[index],\n        selected: index == _selectedActionIndex,\n      ),
+      itemBuilder: (context, index) => _ActionTile(
+        action: actions[index],
+        selected: index == _selectedActionIndex,
+      ),
     );
   }
 
