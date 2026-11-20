@@ -138,40 +138,53 @@ class _ShimmeringLogoState extends State<ShimmeringLogo>
       },
       child: SizedBox(
         width: widget.width,
-        child: Center(
-          // Keep the complete lockup inside its requested width on narrow
-          // handhelds and in compact startup previews. Center alone loosens
-          // the constraints, so the natural-width Row can otherwise overflow.
-          child: FittedBox(
-            fit: BoxFit.scaleDown,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-            children: [
-              SvgPicture.asset('assets/branding/eclipse-mark.svg',
-                width: widget.width * 0.27, height: widget.width * 0.27),
-              SizedBox(width: widget.width * 0.045),
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('ECLIPSE', style: TextStyle(
-                    color: Theme.of(context).colorScheme.onSurface,
-                    fontSize: widget.width * 0.105,
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: widget.width * 0.012, height: 1)),
-                  SizedBox(height: widget.width * 0.018),
-                  Text('YOUR GAMING UNIVERSE', style: TextStyle(
-                    color: Theme.of(context).colorScheme.primary,
-                    fontSize: widget.width * 0.027,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: widget.width * 0.009, height: 1)),
-                ],
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              'assets/branding/eclipse-mark.svg',
+              width: widget.width * 0.27,
+              height: widget.width * 0.27,
+            ),
+            SizedBox(width: widget.width * 0.045),
+            SizedBox(
+              width: widget.width * 0.66,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.centerLeft,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'ECLIPSE',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface,
+                        fontSize: widget.width * 0.105,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: widget.width * 0.012,
+                        height: 1,
+                      ),
+                    ),
+                    SizedBox(height: widget.width * 0.018),
+                    Text(
+                      'YOUR GAMING UNIVERSE',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary,
+                        fontSize: widget.width * 0.027,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: widget.width * 0.009,
+                        height: 1,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ],
-          ),
-          ),
+            ),
+          ],
         ),
-      ),
+      )      ),
     );
   }
 }
