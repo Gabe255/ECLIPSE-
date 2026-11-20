@@ -803,7 +803,7 @@ class AppScreenState extends State<AppScreen> with WidgetsBindingObserver {
     if (text == 'help' ||
         text.contains('what can you do') ||
         text.contains('what do you do')) {
-      return 'I can take you to Systems, Discovery, Saves, Achievements, RomM, Settings, Android Apps, and Search. I also accept voice commands through Android speech recognition. Full open-ended cloud conversation is not connected yet.';
+      return 'I can take you to Home, Systems, Discovery, Saves, Achievements, RomM, Settings, Entertainment, and Search. I also accept voice commands through Android speech recognition. Full open-ended cloud conversation is not connected yet.';
     }
 
     if (text.contains('search') || text.startsWith('find ')) {
@@ -819,7 +819,8 @@ class AppScreenState extends State<AppScreen> with WidgetsBindingObserver {
     }
 
     final Map<int, List<String>> destinations = {
-      AppTabs.systems: ['home', 'systems', 'library', 'game library'],
+      AppTabs.home: ['home', 'dashboard', 'start'],
+      AppTabs.systems: ['systems', 'library', 'game library'],
       AppTabs.discovery: ['discovery', 'discover', 'browse'],
       AppTabs.sync: ['saves', 'sync', 'cloud saves'],
       AppTabs.achievements: ['achievements', 'trophies'],
