@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:neostation/services/android_service.dart';
 
 /// First-party ECLIPSE assistant surface.
 ///
@@ -31,12 +32,30 @@ class _AiAssistantSheetState extends State<AiAssistantSheet> {
     ),
   ];
   bool _working = false;
+  bool _listening = false;
 
   @override
   void dispose() {
     _input.dispose();
     _scrollController.dispose();
     super.dispose();
+  }
+
+  Future<void> _listen() async {
+    if (_working || _listening) return;
+    setState(() => _listening = true);
+    try {
+      final phrase = await AndroidService.startVoiceRecognition();
+      if (!mounted) return;
+      if (phrase != null && phrase.trim().isNotEmpty) {
+        _input.text = phrase.trim();
+        _input.selection = TextSelection.collapsed(
+          offset: _input.text.length,
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _listening = false);
+    }
   }
 
   Future<void> _send([String? suggested]) async {
@@ -217,9 +236,9 @@ class _AiAssistantSheetState extends State<AiAssistantSheet> {
                     Row(
                       children: [
                         IconButton(
-                          tooltip: 'Voice input is not connected yet',
-                          onPressed: null,
-                          icon: const Icon(Icons.mic_none_rounded),
+                          tooltip: 'Speak to ECLIPSE',
+                          onPressed: _working || _listening ? null : _listen,
+                          icon: Icon(_listening ? Icons.graphic_eq_rounded : Icons.mic_none_rounded),
                         ),
                         Expanded(
                           child: TextField(
