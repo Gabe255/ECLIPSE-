@@ -885,7 +885,7 @@ const Map<String, dynamic> appLocaleJa = {
   AppLocale.ofSystems: '{scanned} / {total} システム',
   AppLocale.systemsDetected: '{count}個のシステムを検出',
   AppLocale.romsLabel: '{count}個のROM',
-  AppLocale.welcomeECLIPSE: 'ECLIPSEへようこそ！',
+  AppLocale.welcomeNeoStation: 'ECLIPSEへようこそ！',
   AppLocale.letsGetSetup: 'セットアップを始めましょう',
   AppLocale.storagePermission: 'ストレージの許可',
   AppLocale.storagePermissionDesc: 'ECLIPSEがRetroArchの設定を管理し、セーブデータを正しく同期するには「すべてのファイルへのアクセス」が必要です。\n\n次の画面でこの許可を与えてください。',
