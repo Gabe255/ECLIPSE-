@@ -123,15 +123,15 @@ const Map<String, dynamic> appLocaleEn = {
   AppLocale.download: 'Download',
   AppLocale.stop: 'Stop',
   AppLocale.reset: 'Reset',
-  AppLocale.startupStorageUnavailable: 'NeoStation could not reach the folder where your data is stored. Check that the SD card or drive is connected.',
+  AppLocale.startupStorageUnavailable: 'ECLIPSE could not reach the folder where your data is stored. Check that the SD card or drive is connected.',
   AppLocale.startupStorageRetry: 'Retry',
   AppLocale.startupStorageUseDefault: 'Continue without it',
-  AppLocale.startupStorageFolderMissing: 'NeoStation could not find the folder where your data is stored. It may have been moved, renamed or deleted, or the drive it is on may not be connected.',
+  AppLocale.startupStorageFolderMissing: 'ECLIPSE could not find the folder where your data is stored. It may have been moved, renamed or deleted, or the drive it is on may not be connected.',
   AppLocale.startupStorageStartEmpty: 'Start with an empty folder',
   AppLocale.startupStorageCreateFailed:
-      'NeoStation could not create the folder there.',
+      'ECLIPSE could not create the folder there.',
   AppLocale.startupLoading:
-      'Preparing NeoStation. Waiting for storage and services...',
+      'Preparing ECLIPSE. Waiting for storage and services...',
 
   AppLocale.play: 'Play',
   AppLocale.playButton: 'PLAY',
@@ -186,7 +186,7 @@ const Map<String, dynamic> appLocaleEn = {
       'Size of the recently played card in the systems grid',
   AppLocale.recentCardSizeDefault: 'Default',
   AppLocale.recentCardSize2x1: 'Compact',
-  AppLocale.themesSubtitle: 'Personalize the appearance of your NeoStation',
+  AppLocale.themesSubtitle: 'Personalize the appearance of your ECLIPSE',
   AppLocale.neoglassGroup: 'NeoGlass',
   AppLocale.neoglassBlur: 'Glass Blur',
   AppLocale.neoglassBlurSubtitle: 'Frost strength: Off, 1 or 2',
@@ -327,9 +327,9 @@ const Map<String, dynamic> appLocaleEn = {
   AppLocale.permissionDisabled: 'Permission disabled',
   AppLocale.allFilesAccessSubtitle:
       'Required for RetroArch config and Save Sync',
-  AppLocale.defaultLauncherSubtitle: 'NeoStation is your default launcher',
-  AppLocale.isDefaultLauncher: 'NeoStation is your default launcher',
-  AppLocale.setAsDefaultLauncher: 'Set NeoStation as your home screen',
+  AppLocale.defaultLauncherSubtitle: 'ECLIPSE is your default launcher',
+  AppLocale.isDefaultLauncher: 'ECLIPSE is your default launcher',
+  AppLocale.setAsDefaultLauncher: 'Set ECLIPSE as your home screen',
   AppLocale.disableSecondaryScreen: 'Disable on secondary screen',
   AppLocale.disableSecondaryScreenSub:
       'It turns off the app on secondary display',
@@ -359,7 +359,7 @@ const Map<String, dynamic> appLocaleEn = {
   AppLocale.selectExecutablePath: 'Select Executable Path',
 
   AppLocale.exitApplication: 'Exit Application',
-  AppLocale.exitConfirmation: 'Are you sure you want to exit NeoStation?',
+  AppLocale.exitConfirmation: 'Are you sure you want to exit ECLIPSE?',
   AppLocale.confirmExit: 'Confirm Exit',
   AppLocale.rescanAllFolders: 'Rescan All ROM Folders',
   AppLocale.rescanAllFoldersSubtitle: 'Manually scan for new systems and ROMs',
@@ -398,7 +398,7 @@ const Map<String, dynamic> appLocaleEn = {
   AppLocale.cleanOrphanedMetadataNotRemovedOne:
       ' {count} entry couldn\'t be removed. Run the tool again to retry.',
   AppLocale.cleanOrphanedMetadataNothingToDelete: 'Nothing to delete: the only orphaned metadata was imported from ES-DE, and this tool leaves it alone.',
-  AppLocale.cleanOrphanedMetadataMediaUnavailable: 'NeoStation can\'t find its media folder. Restart NeoStation and try again.',
+  AppLocale.cleanOrphanedMetadataMediaUnavailable: 'ECLIPSE can\'t find its media folder. Restart ECLIPSE and try again.',
   AppLocale.cleanOrphanedMetadataFailed:
       'Failed to clean orphaned metadata: {error}',
   AppLocale.rematchAchievements: 'Match RetroAchievements Games',
@@ -451,7 +451,7 @@ const Map<String, dynamic> appLocaleEn = {
   AppLocale.selectRomsFolder: 'Select ROMs Folder',
   AppLocale.scanningSystem: 'Scanning system',
 
-  AppLocale.thankYou: 'Thank you for using NeoStation!',
+  AppLocale.thankYou: 'Thank you for using ECLIPSE!',
   AppLocale.visitWebsite: 'Visit our official website',
   AppLocale.joinCommunity: 'Join our community and get support',
   AppLocale.exportLogs: 'Export logs',
@@ -479,27 +479,27 @@ const Map<String, dynamic> appLocaleEn = {
   AppLocale.localSave: 'Local Save',
   AppLocale.localSaveSubtitle: 'On this device',
   AppLocale.cloudSaveTitle: 'Cloud Save',
-  AppLocale.cloudSaveSubtitle: 'From NeoSync',
+  AppLocale.cloudSaveSubtitle: 'From Cloud Saves',
   AppLocale.scrapingUnavailableAndroid:
       'Scraping unavailable for Android apps.',
   AppLocale.achievements: 'Achievements',
 
-  AppLocale.neoSyncLogin: 'NeoSync Login',
-  AppLocale.neoSyncSynchronizing: 'NeoSync: Synchronizing...',
-  AppLocale.neoSyncNotConnected: 'NeoSync: Not connected',
+  AppLocale.neoSyncLogin: 'Cloud Saves Login',
+  AppLocale.neoSyncSynchronizing: 'Cloud Saves: Synchronizing...',
+  AppLocale.neoSyncNotConnected: 'Cloud Saves: Not connected',
   AppLocale.neoSyncUnreachable:
-      "Couldn't reach NeoSync. Check your connection and try again.",
-  AppLocale.neoSyncBillingUnconfirmed: "NeoSync didn't confirm the change in time. It may still have gone through, so check your plan before trying again.",
-  AppLocale.neoSyncSynchronized: 'NeoSync: Saves synchronized',
-  AppLocale.neoSyncSavesSync: 'Save files will be synced with NeoSync',
-  AppLocale.neoSyncNoSave: 'NeoSync: No save files found',
+      "Couldn't reach Cloud Saves. Check your connection and try again.",
+  AppLocale.neoSyncBillingUnconfirmed: "Cloud Saves didn't confirm the change in time. It may still have gone through, so check your plan before trying again.",
+  AppLocale.neoSyncSynchronized: 'Cloud Saves: Saves synchronized',
+  AppLocale.neoSyncSavesSync: 'Save files will be synced with Cloud Saves',
+  AppLocale.neoSyncNoSave: 'Cloud Saves: No save files found',
   AppLocale.logout: 'Logout',
   AppLocale.logoutConfirm: 'Logout',
   AppLocale.failedToLoadProfile: 'Failed to load profile',
   AppLocale.verifyEmail: 'Verify Email',
   AppLocale.forgotPassword: 'Forgot Password',
   AppLocale.resetPassword: 'Reset Password',
-  AppLocale.joinNeoSync: 'Join NeoSync',
+  AppLocale.joinCloud Saves: 'Join Cloud Saves',
   AppLocale.verificationToken: 'Verification Token',
   AppLocale.enterTokenFromEmail: 'Enter the token from your email',
   AppLocale.resendVerificationEmail: 'Resend Verification Email',
@@ -557,11 +557,11 @@ const Map<String, dynamic> appLocaleEn = {
   AppLocale.failedToRefreshCloud: 'Failed to refresh cloud storage',
   AppLocale.onlineSaves: 'Online Saves',
   AppLocale.noOnlineSavesFound: 'No online saves found',
-  AppLocale.whatIsNeoSync: 'What is NeoSync Cloud?',
-  AppLocale.neoSyncDescription: 'NeoSync is your unified cloud companion for NeoStation. It securely synchronizes your game saves, and game states across all your devices, ensuring your progress is never lost.',
+  AppLocale.whatIsCloud Saves: 'What is Cloud Saves Cloud?',
+  AppLocale.neoSyncDescription: 'Cloud Saves is your unified cloud companion for ECLIPSE. It securely synchronizes your game saves, and game states across all your devices, ensuring your progress is never lost.',
   AppLocale.crossPlatform: 'Cross-Platform',
   AppLocale.crossPlatformDesc:
-      'Pick up exactly where you left off on any device running NeoStation.',
+      'Pick up exactly where you left off on any device running ECLIPSE.',
   AppLocale.securePrivate: 'Secure & Private',
   AppLocale.securePrivateDesc:
       'Your data is encrypted and only accessible by you.',
@@ -588,11 +588,11 @@ const Map<String, dynamic> appLocaleEn = {
   AppLocale.deleteCloudSave: 'Delete Cloud Save',
   AppLocale.deleteCloudSaveConfirm:
       'Permanently delete this save file from the cloud?',
-  AppLocale.alsoDisableNeoSync: 'Also disable NeoSync',
+  AppLocale.alsoDisableCloud Saves: 'Also disable Cloud Saves',
   AppLocale.preventsAutoSaves: 'Prevents future auto-saves for this game.',
   AppLocale.refreshing: 'Refreshing...',
   AppLocale.refreshed: 'Refreshed',
-  AppLocale.failedToDisableNeoSync: 'Failed to disable NeoSync for this game',
+  AppLocale.failedToDisableCloud Saves: 'Failed to disable Cloud Saves for this game',
   AppLocale.saveFileDeleted: 'Save file deleted successfully',
   AppLocale.failedToDeleteSave: 'Failed to delete save file',
   AppLocale.storageLabel: 'Storage',
@@ -917,7 +917,7 @@ const Map<String, dynamic> appLocaleEn = {
   AppLocale.screenScraperUseUsernameNotEmail: 'Enter your ScreenScraper username, not your email address. The API does not accept email.',
   AppLocale.screenScraperApiClosed:
       "ScreenScraper's API is temporarily unavailable. Please try again later.",
-  AppLocale.screenScraperAppOutdated: 'This app version is no longer accepted by ScreenScraper. Please update NeoStation.',
+  AppLocale.screenScraperAppOutdated: 'This app version is no longer accepted by ScreenScraper. Please update ECLIPSE.',
   AppLocale.screenScraperQuotaReached:
       'ScreenScraper daily quota reached. Please try again tomorrow.',
   AppLocale.screenScraperConnectionError: 'Could not reach ScreenScraper. Check your internet connection and try again.',
@@ -935,20 +935,20 @@ const Map<String, dynamic> appLocaleEn = {
   AppLocale.ofSystems: '{scanned} of {total} systems',
   AppLocale.systemsDetected: '{count} systems detected',
   AppLocale.romsLabel: '{count} ROMs',
-  AppLocale.welcomeNeoStation: 'Welcome to NeoStation!',
+  AppLocale.welcomeECLIPSE: 'Welcome to ECLIPSE!',
   AppLocale.letsGetSetup: 'Let\'s get you set up',
   AppLocale.storagePermission: 'Storage Permission',
-  AppLocale.storagePermissionDesc: 'NeoStation needs "All Files Access" to manage your RetroArch configurations and sync your game saves correctly.\n\nPlease grant this permission in the next screen.',
+  AppLocale.storagePermissionDesc: 'ECLIPSE needs "All Files Access" to manage your RetroArch configurations and sync your game saves correctly.\n\nPlease grant this permission in the next screen.',
   AppLocale.screenReturnAccess: 'Screen Return Access',
   AppLocale.screenReturnAccessDesc: 'Brings the Now Playing screen back when you close an app opened from the dock, and enables system screenshots. Only the foreground app name is read \u2014 no screen content is collected.',
-  AppLocale.screenReturnAccessHint: 'Turn on NeoStation, then tap Allow',
+  AppLocale.screenReturnAccessHint: 'Turn on ECLIPSE, then tap Allow',
   AppLocale.screenReturnDialogTitle: 'Enable Screen Return',
-  AppLocale.screenReturnDialogBody: 'To launch apps from the dock, NeoStation needs the Screen Return accessibility service. It lets NeoStation bring you back here after you close the app you opened. Without it you could be left with no way back.',
-  AppLocale.screenReturnDialogSteps: 'On the next screen, find NeoStation in the list of services and switch it on.',
+  AppLocale.screenReturnDialogBody: 'To launch apps from the dock, ECLIPSE needs the Screen Return accessibility service. It lets ECLIPSE bring you back here after you close the app you opened. Without it you could be left with no way back.',
+  AppLocale.screenReturnDialogSteps: 'On the next screen, find ECLIPSE in the list of services and switch it on.',
   AppLocale.openSettings: 'Open settings',
   AppLocale.selectRomFolder: 'Select ROM Folder',
   AppLocale.romFolderSelected: 'ROM folder selected!',
-  AppLocale.chooseRomFolderDesc: 'Choose the folder where your ROM files are stored.\n\nNeoStation will scan this folder for games.',
+  AppLocale.chooseRomFolderDesc: 'Choose the folder where your ROM files are stored.\n\nECLIPSE will scan this folder for games.',
   AppLocale.setupComplete: 'Setup Complete!',
   AppLocale.scanningRoms: 'Scanning ROMs',
   AppLocale.foundSystemsWithGames: 'Found {count} systems with games!',
@@ -1036,9 +1036,9 @@ const Map<String, dynamic> appLocaleEn = {
   AppLocale.loadingEmulators: 'Loading emulators...',
   AppLocale.selectEmulatorExecutable: 'Select {name} Executable',
 
-  AppLocale.neoSyncLocalSavesOnly: 'NeoSync: Local saves only',
-  AppLocale.neoSyncCloudSavesOnly: 'NeoSync: Cloud saves only',
-  AppLocale.neoSyncSaveConflict: 'NeoSync: Save conflict detected',
+  AppLocale.neoSyncLocalSavesOnly: 'Cloud Saves: Local saves only',
+  AppLocale.neoSyncCloudSavesOnly: 'Cloud Saves: Cloud saves only',
+  AppLocale.neoSyncSaveConflict: 'Cloud Saves: Save conflict detected',
   AppLocale.neoSyncNewerCloudCopy: "The cloud had a newer copy of this save, so it was downloaded. This device's copy is kept in Save history, where it can be restored.",
   AppLocale.neoSyncKeptCloudCopy: "This save also changed on another device. This device's copy was uploaded, and the other one is kept beside it as {file}.",
   AppLocale.keptCopiesTitle: 'Save history',
@@ -1067,8 +1067,8 @@ const Map<String, dynamic> appLocaleEn = {
   AppLocale.keptCopyCloseGame: 'Close the game first, then try again.',
   AppLocale.keptCopyWaitForSync:
       'Wait until the save sync has finished, then try again.',
-  AppLocale.neoSyncCloudSyncDisabled: 'NeoSync: Cloud sync disabled',
-  AppLocale.neoSyncQuotaExceeded: 'NeoSync: Storage quota exceeded',
+  AppLocale.neoSyncCloudSyncDisabled: 'Cloud Saves: Cloud sync disabled',
+  AppLocale.neoSyncQuotaExceeded: 'Cloud Saves: Storage quota exceeded',
   AppLocale.packageNameMissing: 'Package name is missing',
   AppLocale.failedToLaunchAndroidApp: 'Failed to launch Android app',
   AppLocale.romFileNotFound: 'ROM file not found',
@@ -1167,7 +1167,7 @@ const Map<String, dynamic> appLocaleEn = {
   AppLocale.updateDialogError: 'Update Error',
   AppLocale.updateErrorAndroid: 'Installation failed. Please ensure you have granted permission to install unknown apps and try again.',
   AppLocale.updateErrorDesktop:
-      'Update failed. Please try again later or visit neostation.dev',
+      'Update failed. Please try again later or visit github.com/Gabe255/ECLIPSE-/releases',
 
   AppLocale.systemsUpdateAvailable: 'Systems Update Available',
   AppLocale.systemsUpdateCurrentVersion: 'Current version: {version}',
@@ -1210,7 +1210,7 @@ const Map<String, dynamic> appLocaleEn = {
   AppLocale.systemsUpToDate: 'Systems are up to date (v{version})',
   AppLocale.systemsUpdateCheckFailed: "Couldn't check for systems updates. Check your internet connection and try again.",
   AppLocale.systemsUpdateNeedsNewerApp:
-      'A newer systems version needs a newer NeoStation. Update the app first.',
+      'A newer systems version needs a newer ECLIPSE. Update the app first.',
 
   AppLocale.checkingCredentials: 'Checking credentials...',
   AppLocale.scrapeNoCredentials:
@@ -1232,16 +1232,16 @@ const Map<String, dynamic> appLocaleEn = {
   AppLocale.userDataLocationDefault: 'Default location',
   AppLocale.selectUserDataFolder: 'Select User Data Folder',
   AppLocale.folderNotEmptyTitle: 'Folder Not Empty',
-  AppLocale.folderNotEmptyBody: 'This folder isn\'t empty (items: {count}). NeoStation will store its own data here, alongside the existing contents.',
+  AppLocale.folderNotEmptyBody: 'This folder isn\'t empty (items: {count}). ECLIPSE will store its own data here, alongside the existing contents.',
   AppLocale.folderNotEmptyUseAnyway: 'Use Anyway',
   AppLocale.userDataFolderNotWritable: "Can't write to this folder. Pick another one, or keep the default location.",
   AppLocale.userDataFolderCantWrite:
       "Can't write to this folder. Pick another one.",
-  AppLocale.userDataFolderGrantAllFiles: "To use this folder, allow All files access for NeoStation in Android Settings → Apps → Special app access → All files access, then pick it again.",
-  AppLocale.userDataMoveToCardAppFolder: "NeoStation can't write to the folder you picked on this SD card, so it will keep its data in its own folder on the card. Android deletes that folder when NeoStation is uninstalled.",
+  AppLocale.userDataFolderGrantAllFiles: "To use this folder, allow All files access for ECLIPSE in Android Settings → Apps → Special app access → All files access, then pick it again.",
+  AppLocale.userDataMoveToCardAppFolder: "ECLIPSE can't write to the folder you picked on this SD card, so it will keep its data in its own folder on the card. Android deletes that folder when ECLIPSE is uninstalled.",
   AppLocale.moveUserDataTitle: 'Move User Data?',
-  AppLocale.moveUserDataBody: 'NeoStation will move its own data — database, scraped media, and settings — from the current folder to the new one. Files not created by NeoStation are left untouched.',
-  AppLocale.moveUserDataDestNotEmpty: 'The new folder isn\'t empty (items: {count}). NeoStation data will be added alongside the existing contents.',
+  AppLocale.moveUserDataBody: 'ECLIPSE will move its own data — database, scraped media, and settings — from the current folder to the new one. Files not created by ECLIPSE are left untouched.',
+  AppLocale.moveUserDataDestNotEmpty: 'The new folder isn\'t empty (items: {count}). ECLIPSE data will be added alongside the existing contents.',
   AppLocale.moveUserDataConfirm: 'Move Data',
   AppLocale.migratingUserData: 'Moving User Data',
   AppLocale.userDataMoveRunning:
@@ -1249,16 +1249,16 @@ const Map<String, dynamic> appLocaleEn = {
   AppLocale.userDataMoveRemovingOldCopy: "Removing the old copy…",
   AppLocale.migratingUserDataComplete: 'Migration complete',
   AppLocale.migratingUserDataError: 'Migration failed',
-  AppLocale.userDataMoveBusy: 'NeoStation is busy: a scan, scrape, sync, import or tool is running. Move your data when it has finished.',
+  AppLocale.userDataMoveBusy: 'ECLIPSE is busy: a scan, scrape, sync, import or tool is running. Move your data when it has finished.',
   AppLocale.userDataMoveNoSpace: 'There isn\'t enough free space in the new folder. Your data is still in its current folder.',
-  AppLocale.userDataMoveBlocked: 'Something in the new folder has the same name as one of NeoStation\'s files or folders. Your data is still in its current folder.',
+  AppLocale.userDataMoveBlocked: 'Something in the new folder has the same name as one of ECLIPSE\'s files or folders. Your data is still in its current folder.',
   AppLocale.userDataMoveOverlapping: 'The new folder can\'t be inside the current one, or contain it. Pick another folder.',
   AppLocale.userDataMoveFailed:
       'Couldn\'t move your data. It is still in its current folder.',
   AppLocale.migratingFiles: 'Copying {current} of {total} files...',
   AppLocale.restartRequired: 'Restart Required',
   AppLocale.restartRequiredBody:
-      'NeoStation will close now. Please reopen it to use the new location.',
+      'ECLIPSE will close now. Please reopen it to use the new location.',
   AppLocale.userDataLocationUpdated: 'User data location updated',
   AppLocale.resetToDefault: 'Reset to Default',
   AppLocale.romDirectories: 'ROM Directories',
@@ -1342,7 +1342,7 @@ const Map<String, dynamic> appLocaleEn = {
   AppLocale.rommLoadMore: 'Load more',
   AppLocale.rommNoSystemMatch: 'No matching local system for this platform',
   AppLocale.rommPlatformUnsupported: 'Unsupported',
-  AppLocale.rommNoWritableFolder: 'Could not write to your ROM folder. Grant "All files access" to NeoStation and try again.',
+  AppLocale.rommNoWritableFolder: 'Could not write to your ROM folder. Grant "All files access" to ECLIPSE and try again.',
   AppLocale.rommNotConnected: 'Connect to a RomM server in Settings first',
   // Bulk "sync a whole platform/collection".
   AppLocale.rommSyncAll: 'Sync all',
@@ -1395,7 +1395,7 @@ const Map<String, dynamic> appLocaleEn = {
   AppLocale.disconnectRaConfirm: 'Disconnect RetroAchievements',
   AppLocale.disconnectRaConfirmBody: 'This will sign you out and remove your saved RetroAchievements credentials from this device.',
   AppLocale.neoSyncLogoutConfirmBody:
-      'This will sign you out of your NeoSync account on this device.',
+      'This will sign you out of your Cloud Saves account on this device.',
 
   AppLocale.deleteGame: 'Delete Game',
   AppLocale.deleteGameConfirm: 'Delete Forever',
@@ -1504,7 +1504,7 @@ const Map<String, dynamic> appLocaleEn = {
   AppLocale.raErrorLoadLeaderboardEntries:
       'Error loading leaderboard entries: {error}',
 
-  // Custom save folders (NeoSync v2)
+  // Custom save folders (Cloud Saves v2)
   AppLocale.customSaveFoldersTitle: 'Standalone save folders',
   AppLocale.customSaveFolderPickSystem: 'Pick a system',
   AppLocale.customSaveFolderPickEmulator: 'Pick an emulator',
@@ -1519,14 +1519,14 @@ const Map<String, dynamic> appLocaleEn = {
   AppLocale.customFolderUploadComplete: 'Standalone folder synced: {uploaded} uploaded, {skipped} already up to date',
   AppLocale.customFolderUploadFailed: 'Failed to sync standalone folder',
   AppLocale.customFolderUploadConfirm:
-      'Files to upload to NeoSync from {folder}: {count} ({size}).',
+      'Files to upload to Cloud Saves from {folder}: {count} ({size}).',
   AppLocale.customFolderUploadManyFiles: 'That\'s more files than a save folder usually holds. Check it\'s the right folder.',
   AppLocale.customFolderUploadLargeFiles:
       'Files over 64 MB: {count}, the largest {size}.',
   AppLocale.customFolderUploadOverQuota:
-      'That\'s more than your free NeoSync space ({free}).',
+      'That\'s more than your free Cloud Saves space ({free}).',
   AppLocale.customFolderUploadStopped: 'Upload stopped: {uploaded} uploaded.',
-  AppLocale.customSaveFoldersMigrate: 'Migrate cloud saves to NeoSync v2',
+  AppLocale.customSaveFoldersMigrate: 'Migrate cloud saves to Cloud Saves v2',
 
   // ES-DE import
   AppLocale.esdeImport: 'ES-DE Import',
@@ -1577,11 +1577,11 @@ const Map<String, dynamic> appLocaleEn = {
       'The System Art Pack couldn\'t be reached right now. You can install it '
       'later from Settings once you\'re online.',
   AppLocale.wizardSaveFailedTitle: "Setup isn't finished",
-  AppLocale.wizardSaveFailedBody: "NeoStation couldn't save your settings. Make sure your storage is available, then try again.\n\n{error}",
+  AppLocale.wizardSaveFailedBody: "ECLIPSE couldn't save your settings. Make sure your storage is available, then try again.\n\n{error}",
   AppLocale.wizardRomFolderNotAdded:
-      "NeoStation couldn't add this folder.\n\n{error}",
-  AppLocale.wizardRomFolderTemporary: "NeoStation can't keep access to that folder after a restart. Pick a folder inside your home folder or on removable media.",
-  AppLocale.wizardFolderNotUsable: "NeoStation can't use this folder. Pick a folder on this device's storage or SD card.",
+      "ECLIPSE couldn't add this folder.\n\n{error}",
+  AppLocale.wizardRomFolderTemporary: "ECLIPSE can't keep access to that folder after a restart. Pick a folder inside your home folder or on removable media.",
+  AppLocale.wizardFolderNotUsable: "ECLIPSE can't use this folder. Pick a folder on this device's storage or SD card.",
   AppLocale.wizardArtPackFailed: "The System Art Pack couldn't be downloaded. Try again, or skip it for now.",
   AppLocale.wizardScanFailed:
       "The scan didn't finish. Try again, or skip this step.\n\n{error}",
