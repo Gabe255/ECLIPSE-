@@ -1,10 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
-import '../../../models/system_model.dart';
-import '../../../providers/sqlite_config_provider.dart';
+import '../../models/system_model.dart';
+import '../../providers/sqlite_config_provider.dart';
 
 /// The ECLIPSE landing page. The existing Systems screen remains the full
 /// library and first-run ROM setup; this page is the console-style front door.
@@ -125,12 +126,10 @@ class EclipseHomeScreen extends StatelessWidget {
             borderRadius: BorderRadius.circular(11),
             border: Border.all(color: _violet.withValues(alpha: 0.35)),
           ),
-          child: Image.asset(
+          child: SvgPicture.asset(
             'assets/branding/eclipse-mark.svg',
-            errorBuilder: (_, _, _) => const Icon(
-              Icons.blur_on_rounded,
-              color: _violet,
-            ),
+            fit: BoxFit.contain,
+            semanticsLabel: 'ECLIPSE',
           ),
         ),
         const SizedBox(width: 10),
