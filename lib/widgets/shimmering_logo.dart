@@ -139,8 +139,13 @@ class _ShimmeringLogoState extends State<ShimmeringLogo>
       child: SizedBox(
         width: widget.width,
         child: Center(
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
+          // Keep the complete lockup inside its requested width on narrow
+          // handhelds and in compact startup previews. Center alone loosens
+          // the constraints, so the natural-width Row can otherwise overflow.
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
             children: [
               SvgPicture.asset('assets/branding/eclipse-mark.svg',
                 width: widget.width * 0.27, height: widget.width * 0.27),
@@ -163,6 +168,7 @@ class _ShimmeringLogoState extends State<ShimmeringLogo>
                 ],
               ),
             ],
+          ),
           ),
         ),
       ),
