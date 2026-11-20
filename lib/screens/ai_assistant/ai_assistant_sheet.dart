@@ -145,7 +145,7 @@ class _AiAssistantSheetState extends State<AiAssistantSheet> {
                                 ?.copyWith(fontWeight: FontWeight.w800),
                           ),
                           Text(
-                            'Frontend assistant · Local commands',
+                            'Voice commands · Local navigation',
                             style: Theme.of(context).textTheme.bodySmall
                                 ?.copyWith(color: colors.onSurfaceVariant),
                           ),
@@ -266,6 +266,16 @@ class _AiAssistantSheetState extends State<AiAssistantSheet> {
                           icon: const Icon(Icons.arrow_upward_rounded),
                         ),
                       ],
+                    ),
+                    const SizedBox(height: 6),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Voice uses Android speech services. ECLIPSE does not listen in the background.',
+                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                          color: colors.onSurfaceVariant,
+                        ),
+                      ),
                     ),
                   ],
                 ),
