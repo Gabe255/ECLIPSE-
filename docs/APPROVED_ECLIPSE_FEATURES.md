@@ -96,3 +96,35 @@ The following ideas were explicitly approved for implementation:
     - Voice input must use supported Android speech-recognition APIs and degrade gracefully when unavailable.
     - Assistant actions must be allowlisted, confirmed when consequential, and report failures honestly. It must not claim to control unsupported system settings or inspect other apps.
     - No always-listening wake word by default. A push-to-talk/controller shortcut is the initial voice interaction model.
+
+
+## Additional approved scope — 2026-11-20 (ideas 88–92)
+
+The following concepts were explicitly approved for implementation. They are roadmap approvals, not claims that the features already exist.
+
+88. Emulator Workshop
+    - Provide a focused management view for emulator apps already installed on the device and systems they can launch.
+    - Surface verified availability, supported launch configuration, and relevant per-emulator status.
+    - Reuse existing system definitions and launch integrations; do not create a duplicate emulator backend or imply that ECLIPSE installs/configures emulators when it cannot.
+
+89. Library Curator
+    - Help review duplicate entries, missing metadata/artwork, unavailable game paths, and incomplete library records.
+    - Offer clear review and repair actions backed by existing scanner, metadata, and library services.
+    - Never silently delete entries or files; distinguish a duplicate display record from duplicate game data and require confirmation for changes.
+
+90. Local Multiplayer Lounge
+    - Provide a place to prepare local multiplayer sessions using games and systems in the user's library.
+    - Show player-count and controller compatibility only when supported by reliable metadata or explicit user configuration.
+    - Help users identify and test connected controllers before launch; do not promise matchmaking, online play, or automatic player detection where unsupported.
+
+91. Gaming Museum
+    - Present a curated, browsable archive of the user's gaming collection and verified personal milestones.
+    - Reuse owned game artwork, metadata, and confirmed achievement/session records.
+    - Keep this as an archival/presentation experience, distinct from the operational Activity Feed and Achievement Center; never fabricate history or milestones.
+
+92. System Fun Facts
+    - Add a rotating fun-fact experience covering every gaming system supported by the user's ECLIPSE setup.
+    - Facts may cover hardware, release history, controllers, technical capabilities, notable games, and unusual trivia.
+    - Associate each fact with the correct system and show it in relevant system surfaces as well as a browsable facts view.
+    - Use a curated, verified fact catalogue with source/provenance records; do not invent facts or show facts for unsupported systems.
+    - Support a graceful empty state when a system has no verified facts yet.
