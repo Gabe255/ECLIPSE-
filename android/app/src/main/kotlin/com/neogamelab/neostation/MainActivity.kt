@@ -7,6 +7,8 @@ import android.os.Handler
 import android.view.InputDevice
 import android.view.KeyEvent
 import android.os.Environment
+import android.speech.RecognizerIntent
+import android.content.ActivityNotFoundException
 import android.view.MotionEvent
 import android.view.View
 import android.content.ComponentName
@@ -276,6 +278,7 @@ class MainActivity: MultiDisplayFlutterActivity(), GamepadsCompatibleActivity {
         methodChannel?.setMethodCallHandler {
             call, result ->
             when (call.method) {
+                "startVoiceRecognition" -> startVoiceRecognition(result)
                 "syncDeviceScreenState" -> {
                     val power = getSystemService(android.content.Context.POWER_SERVICE) as android.os.PowerManager
                     notifyFlutterScreenState(power.isInteractive)
@@ -1286,7 +1289,36 @@ class MainActivity: MultiDisplayFlutterActivity(), GamepadsCompatibleActivity {
 
     // --- SAF IMPLEMENTATION (Play Store Compliant) ---
     private var safResult: MethodChannel.Result? = null
+    private var voiceResult: MethodChannel.Result? = null
+    private val VOICE_REQUEST_CODE = 9998
     private val SAF_PICKER_REQUEST_CODE = 9999
+
+    /// Uses Android's system speech-recognition UI; ECLIPSE does not record
+    /// or continuously listen in the background.
+    private fun startVoiceRecognition(result: MethodChannel.Result) {
+        if (voiceResult != null) {
+            result.error("VOICE_BUSY", "Voice recognition is already active", null)
+            return
+        }
+        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+            putExtra(
+                RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
+            )
+            putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak to ECLIPSE")
+            putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1)
+        }
+        try {
+            voiceResult = result
+            startActivityForResult(intent, VOICE_REQUEST_CODE)
+        } catch (e: ActivityNotFoundException) {
+            voiceResult = null
+            result.error("VOICE_UNAVAILABLE", "No Android speech-recognition activity is available", null)
+        } catch (e: Exception) {
+            voiceResult = null
+            result.error("VOICE_FAILED", e.message, null)
+        }
+    }
 
     private fun openSafDirectoryPicker(result: MethodChannel.Result) {
         safResult = result
@@ -1304,6 +1336,16 @@ class MainActivity: MultiDisplayFlutterActivity(), GamepadsCompatibleActivity {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == VOICE_REQUEST_CODE) {
+            val recognized = if (resultCode == android.app.Activity.RESULT_OK && data != null) {
+                data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.firstOrNull()
+            } else {
+                null
+            }
+            voiceResult?.success(recognized)
+            voiceResult = null
+            return
+        }
         if (requestCode == SAF_PICKER_REQUEST_CODE) {
             if (resultCode == android.app.Activity.RESULT_OK && data != null && data.data != null) {
                 val uri = data.data!!
