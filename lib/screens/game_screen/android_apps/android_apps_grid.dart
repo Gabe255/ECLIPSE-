@@ -171,6 +171,8 @@ class _AndroidAppsGridState extends State<AndroidAppsGrid> {
             // The global header floats above embedded tab content.
             if (widget.embedded) SizedBox(height: 46.r),
             if (!widget.embedded) _buildCompactHeader(context),
+            if (!_isLoading && _apps.isNotEmpty)
+              _buildFeaturedAppCard(context, selectedIndex),
             Expanded(
               child: _isLoading
                   ? const Center(child: CircularProgressIndicator())
@@ -223,6 +225,93 @@ class _AndroidAppsGridState extends State<AndroidAppsGrid> {
               },
               onBack: widget.embedded ? null : _goBack,
               showBack: !widget.embedded,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// Fire TV-style featured panel for the currently focused app. The
+  /// existing app grid remains the source of truth for selection and launch.
+  Widget _buildFeaturedAppCard(BuildContext context, int selectedIndex) {
+    final theme = Theme.of(context);
+    final app = _apps[selectedIndex];
+    final name = app.name.isEmpty
+        ? (app.realname.isEmpty ? app.romname : app.realname)
+        : app.name;
+
+    return Padding(
+      padding: EdgeInsets.fromLTRB(16.r, 10.r, 16.r, 12.r),
+      child: Container(
+        width: double.infinity,
+        padding: EdgeInsets.all(16.r),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20.r),
+          border: Border.all(
+            color: theme.colorScheme.primary.withValues(alpha: 0.28),
+          ),
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              theme.colorScheme.primary.withValues(alpha: 0.20),
+              theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.72),
+              theme.colorScheme.surface,
+            ],
+          ),
+        ),
+        child: Row(
+          children: [
+            Icon(
+              Symbols.live_tv_rounded,
+              size: 30.r,
+              color: theme.colorScheme.primary,
+            ),
+            SizedBox(width: 14.r),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'FEATURED APP',
+                    style: TextStyle(
+                      color: theme.colorScheme.primary,
+                      fontSize: 9.r,
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: 1.5,
+                    ),
+                  ),
+                  SizedBox(height: 4.r),
+                  Text(
+                    name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: theme.colorScheme.onSurface,
+                      fontSize: 17.r,
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ),
+                  SizedBox(height: 3.r),
+                  Text(
+                    'Browse your installed entertainment apps',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: theme.colorScheme.onSurface.withValues(alpha: 0.58),
+                      fontSize: 10.r,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(width: 10.r),
+            FilledButton.icon(
+              onPressed: _isLaunching ? null : _launchSelectedApp,
+              icon: Icon(Icons.play_arrow_rounded, size: 17.r),
+              label: const Text('Open'),
             ),
           ],
         ),
