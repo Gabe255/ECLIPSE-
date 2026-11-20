@@ -21,7 +21,7 @@ void main() {
 
     expect(
       neoSyncFailureMessage(result, english),
-      "Couldn't reach NeoSync. Check your connection and try again.",
+      "Couldn't reach Cloud Saves. Check your connection and try again.",
     );
     expect(
       neoSyncFailureMessage(result, (key) => AppLocale.de[key] as String),
@@ -100,7 +100,7 @@ void main() {
         final text = map[key];
         expect(text, isA<String>(), reason: key);
         expect(text, isNot(AppLocale.en[key]), reason: key);
-        expect(text, contains('NeoSync'), reason: key);
+        expect(text, contains('Cloud Saves'), reason: key);
       }
     }
   });
