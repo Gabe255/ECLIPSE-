@@ -2,12 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:video_player/video_player.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/system_model.dart';
 import '../../models/game_model.dart';
 import '../../services/game_service.dart';
 import '../../providers/sqlite_config_provider.dart';
+import '../../providers/file_provider.dart';
 
 /// The ECLIPSE landing page. The existing Systems screen remains the full
 /// library and first-run ROM setup; this page is the console-style front door.
@@ -51,11 +53,13 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen> {
   int _actionColumns = 2;
   List<VoidCallback> _actionCallbacks = const [];
   Future<List<GameModel>>? _recentGamesFuture;
+  VideoPlayerController? _featuredVideoController;
 
   @override
   void initState() {
     super.initState();
     _current = this;
+    GameService.deviceScreenOn.addListener(_syncPreviewPlayback);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
       final config = context.read<SqliteConfigProvider>();
@@ -65,6 +69,8 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen> {
 
   @override
   void dispose() {
+    GameService.deviceScreenOn.removeListener(_syncPreviewPlayback);
+    _featuredVideoController?.dispose();
     if (identical(_current, this)) _current = null;
     super.dispose();
   }
@@ -79,7 +85,53 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen> {
     final lists = await Future.wait(
       supportedSystems.map((system) => GameService.loadGamesForSystem(system)),
     );
-    return GameService.getRecentlyPlayedGames(lists.expand((games) => games).toList());
+    final recent = GameService.getRecentlyPlayedGames(
+      lists.expand((games) => games).toList(),
+    );
+    await _loadFeaturedPreview(recent);
+    return recent;
+  }
+
+  Future<void> _loadFeaturedPreview(List<GameModel> games) async {
+    final fileProvider = context.read<FileProvider>();
+    for (final game in games) {
+      final systemFolder = game.systemFolderName;
+      if (systemFolder == null || systemFolder.isEmpty) continue;
+      final videoPath = game.getVideoPath(systemFolder, fileProvider);
+      if (!await fileProvider.fileExists(videoPath)) continue;
+
+      final controller = VideoPlayerController.file(File(videoPath));
+      try {
+        await controller.initialize();
+        await controller.setLooping(true);
+        await controller.setVolume(0);
+        if (!mounted) {
+          await controller.dispose();
+          return;
+        }
+        setState(() => _featuredVideoController = controller);
+        _syncPreviewPlayback();
+        return;
+      } catch (_) {
+        await controller.dispose();
+      }
+    }
+  }
+
+  void _syncPreviewPlayback() {
+    final controller = _featuredVideoController;
+    if (!mounted || controller == null || !controller.value.isInitialized) {
+      return;
+    }
+    final shouldPlay =
+        GameService.deviceScreenOn.value &&
+        !GameService.isGameLaunchInProgress &&
+        (ModalRoute.of(context)?.isCurrent ?? true);
+    if (shouldPlay && !controller.value.isPlaying) {
+      controller.play();
+    } else if (!shouldPlay && controller.value.isPlaying) {
+      controller.pause();
+    }
   }
 
   Future<void> _launchRecentGame(
@@ -271,6 +323,32 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen> {
       ),
       child: Stack(
         children: [
+          if (_featuredVideoController?.value.isInitialized == true)
+            Positioned.fill(
+              child: FittedBox(
+                fit: BoxFit.cover,
+                child: SizedBox(
+                  width: _featuredVideoController!.value.size.width,
+                  height: _featuredVideoController!.value.size.height,
+                  child: VideoPlayer(_featuredVideoController!),
+                ),
+              ),
+            ),
+          Positioned.fill(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [
+                    EclipseHomeScreen._void.withValues(alpha: 0.94),
+                    EclipseHomeScreen._void.withValues(alpha: 0.68),
+                    EclipseHomeScreen._void.withValues(alpha: 0.30),
+                  ],
+                ),
+              ),
+            ),
+          ),
           Positioned(
             right: -40,
             top: -90,
