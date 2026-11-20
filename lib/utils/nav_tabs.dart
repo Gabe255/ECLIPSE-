@@ -13,6 +13,7 @@ import 'package:neostation/models/config_model.dart';
 /// has to be renumbered in the same commit — nothing persists a tab index, but
 /// the two must agree or the dispatch silently repoints.
 enum NavTab {
+  home,
   systems,
   discovery,
   sync,
@@ -29,6 +30,7 @@ class NavTabSpec {
     required this.icon,
     required this.labelKey,
     this.iconData,
+    this.labelOverride,
     this.hidden,
     this.withHidden,
     this.settingsTitleKey,
@@ -40,6 +42,12 @@ class NavTabSpec {
 
   /// Material symbol fallback for tabs with no webp asset.
   final IconData? iconData;
+
+  /// Optional concise product label for tabs without a translation key yet.
+  final String? labelOverride;
+
+  String label(BuildContext context) =>
+      labelOverride ?? labelKey.getString(context);
 
   /// [AppLocale] key for the tab's display name.
   final String labelKey;
@@ -73,6 +81,12 @@ const NavTabSpec _fallbackSpec = NavTabSpec(
 /// predicate: Systems is the home tab, and Settings must stay reachable or a
 /// user who hid everything else could never turn it back on.
 const Map<NavTab, NavTabSpec> navTabSpecs = {
+  NavTab.home: NavTabSpec(
+    icon: '',
+    iconData: Symbols.home_rounded,
+    labelKey: AppLocale.systems,
+    labelOverride: 'Home',
+  ),
   NavTab.systems: NavTabSpec(
     icon: 'assets/images/icons/grids.webp',
     labelKey: AppLocale.systems,

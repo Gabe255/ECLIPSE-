@@ -457,8 +457,7 @@ class HeaderState extends State<Header> with WidgetsBindingObserver {
                                                     context,
                                                     tab.index,
                                                     navTabSpec(tab).icon,
-                                                    navTabSpec(tab).labelKey
-                                                        .getString(context),
+                                                    navTabSpec(tab).label(context),
                                                     iconData: navTabSpec(tab)
                                                         .iconData,
                                                     coverage:

@@ -54,20 +54,21 @@ class AppScreen extends StatefulWidget {
 /// that order. Inserting a tab shifts every later index, which is why the
 /// delegation logic below is written against these names rather than literals.
 abstract final class AppTabs {
-  static const int systems = 0;
+  static const int home = 0;
+  static const int systems = 1;
 
   /// Second in the strip, beside Systems: it is a way into the library rather
   /// than a tool, so it belongs with the browsing tabs and not after Settings.
-  static const int discovery = 1;
+  static const int discovery = 2;
 
-  static const int sync = 2;
-  static const int achievements = 3;
-  static const int romm = 4;
-  static const int settings = 5;
-  static const int androidApps = 6;
+  static const int sync = 3;
+  static const int achievements = 4;
+  static const int romm = 5;
+  static const int settings = 6;
+  static const int androidApps = 7;
 
   /// Total number of tabs, used for wrap-around when cycling with the bumpers.
-  static const int count = 7;
+  static const int count = 8;
 }
 
 /// Bridge class providing static access to the main application navigation state.
@@ -592,8 +593,7 @@ class AppScreenState extends State<AppScreen> with WidgetsBindingObserver {
 
       // The same label as the header's tab strip, translated here: the
       // second engine reads the language only when it starts.
-      final tabName = navTabSpec(NavTab.values[index]).labelKey
-          .getString(context);
+      final tabName = navTabSpec(NavTab.values[index]).label(context);
 
       secondaryState.updateState(
         systemName: tabName,
@@ -838,6 +838,22 @@ class AppScreenState extends State<AppScreen> with WidgetsBindingObserver {
   /// Content factory for the currently selected tab.
   Widget _buildCurrentTabContent() {
     switch (_selectedTabIndex) {
+      case AppTabs.home:
+        final config = Provider.of<SqliteConfigProvider>(context, listen: false);
+        if (!config.hasRomFolder) {
+          return SystemContent(
+            selectedIndex: _selectedSystemIndex,
+            onCardTapped: _onSystemCardTapped,
+          );
+        }
+        return EclipseHomeScreen(
+          onOpenSystems: () => _onTabSelected(AppTabs.systems),
+          onOpenEntertainment: () => _onTabSelected(AppTabs.androidApps),
+          onOpenAchievements: () => _onTabSelected(AppTabs.achievements),
+          onOpenSettings: () => _onTabSelected(AppTabs.settings),
+          onOpenSearch: _openSearchFromHeader,
+          onOpenAi: _openAiAssistant,
+        );
       case AppTabs.systems:
         return SystemContent(
           selectedIndex: _selectedSystemIndex,
