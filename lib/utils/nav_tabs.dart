@@ -77,9 +77,9 @@ const NavTabSpec _fallbackSpec = NavTabSpec(
   labelKey: AppLocale.systems,
 );
 
-/// Systems and Settings are deliberately absent a [NavTabSpec.hidden]
-/// predicate: Systems is the home tab, and Settings must stay reachable or a
-/// user who hid everything else could never turn it back on.
+/// Home, Systems, and Settings are deliberately absent a [NavTabSpec.hidden]
+/// predicate: Home is the landing page, and Systems and Settings must stay
+/// reachable so the library and its setup controls can never be hidden.
 const Map<NavTab, NavTabSpec> navTabSpecs = {
   NavTab.home: NavTabSpec(
     icon: '',
