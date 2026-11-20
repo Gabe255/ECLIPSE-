@@ -26,6 +26,7 @@ import 'settings_screen/new_settings_screen.dart';
 import 'saves_screen/saves_tab.dart';
 import 'romm_screen/romm_tab.dart';
 import 'game_screen/android_apps/android_apps_grid.dart';
+import 'ai_assistant/ai_assistant_sheet.dart';
 
 import 'package:neostation/services/game_service.dart';
 import 'package:neostation/providers/theme_provider.dart';
@@ -111,6 +112,7 @@ class AppScreenState extends State<AppScreen> with WidgetsBindingObserver {
 
   /// Guards the header's touch Search control against a double push.
   bool _searchOpen = false;
+  bool _assistantOpen = false;
 
   /// Input orchestration layer for gamepad and keyboard support.
   late GamepadNavigation _gamepadNav;
@@ -719,6 +721,19 @@ class AppScreenState extends State<AppScreen> with WidgetsBindingObserver {
                           : const SizedBox.shrink(),
                     ),
 
+                    // ECLIPSE AI entry point.
+                    if (configProvider.initialized && !configProvider.isLoading)
+                      Positioned(
+                        right: 20,
+                        bottom: 22,
+                        child: FloatingActionButton.extended(
+                          heroTag: 'eclipse-ai-assistant',
+                          onPressed: _openAiAssistant,
+                          icon: const Icon(Icons.auto_awesome_rounded),
+                          label: const Text('ECLIPSE AI'),
+                        ),
+                      ),
+
                     // Global Footer Placeholder.
                     Positioned(
                       bottom: 0,
@@ -737,6 +752,62 @@ class AppScreenState extends State<AppScreen> with WidgetsBindingObserver {
             );
           },
     );
+  }
+
+  Future<void> _openAiAssistant() async {
+    if (_assistantOpen || !mounted) return;
+    _assistantOpen = true;
+    try {
+      await showModalBottomSheet<void>(
+        context: context,
+        isScrollControlled: true,
+        useSafeArea: true,
+        backgroundColor: Colors.transparent,
+        builder: (_) => AiAssistantSheet(onCommand: _handleAssistantCommand),
+      );
+    } finally {
+      _assistantOpen = false;
+    }
+  }
+
+  Future<String> _handleAssistantCommand(String command) async {
+    final text = command.toLowerCase().trim();
+    if (text.isEmpty) return 'Try asking me to open a section.';
+
+    if (text == 'help' || text.contains('what can you do')) {
+      return 'I can open Systems, Discovery, Saves, Achievements, RomM, Settings, Android Apps, and Search. Voice and conversational AI integrations are not connected yet.';
+    }
+
+    if (text.contains('search')) {
+      await _openSearchFromHeader();
+      return 'Opened ECLIPSE Search.';
+    }
+
+    final Map<int, List<String>> destinations = {
+      AppTabs.systems: ['home', 'systems', 'library', 'game library'],
+      AppTabs.discovery: ['discovery', 'discover', 'browse'],
+      AppTabs.sync: ['saves', 'sync', 'cloud saves'],
+      AppTabs.achievements: ['achievements', 'trophies'],
+      AppTabs.romm: ['romm'],
+      AppTabs.settings: ['settings', 'preferences'],
+      AppTabs.androidApps: ['android apps', 'entertainment', 'streaming apps'],
+    };
+
+    for (final entry in destinations.entries) {
+      if (entry.value.any((name) =>
+          text == 'open $name' ||
+          text == 'show $name' ||
+          text == 'go to $name' ||
+          text == name)) {
+        if (!_visibleTabs.contains(NavTab.values[entry.key])) {
+          return 'That section is currently hidden or unavailable in your ECLIPSE navigation settings.';
+        }
+        _onTabSelected(entry.key);
+        return 'Opening ${entry.value.first == 'home' ? 'your game library' : entry.value.first}.';
+      }
+    }
+
+    return 'I can navigate ECLIPSE locally right now. Try “open settings”, “show achievements”, “open entertainment”, or “search”. Full conversational AI and voice input are still being integrated.';
   }
 
   Future<void> _openSearchFromHeader() async {
