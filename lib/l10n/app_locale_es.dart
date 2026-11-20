@@ -503,7 +503,7 @@ const Map<String, dynamic> appLocaleEs = {
   AppLocale.verifyEmail: 'Verificar Correo',
   AppLocale.forgotPassword: 'Olvidé mi contraseña',
   AppLocale.resetPassword: 'Restablecer contraseña',
-  AppLocale.joinCloud Saves: 'Unirse a Cloud Saves',
+  AppLocale.joinNeoSync: 'Unirse a Cloud Saves',
   AppLocale.verificationToken: 'Token de verificación',
   AppLocale.enterTokenFromEmail: 'Introduce el token de tu correo',
   AppLocale.resendVerificationEmail: 'Reenviar correo de verificación',
@@ -560,7 +560,7 @@ const Map<String, dynamic> appLocaleEs = {
       'Error al actualizar el almacenamiento en la nube',
   AppLocale.onlineSaves: 'Partidas en la Nube',
   AppLocale.noOnlineSavesFound: 'No se encontraron partidas en la nube',
-  AppLocale.whatIsCloud Saves: '¿Qué es Cloud Saves Cloud?',
+  AppLocale.whatIsNeoSync: '¿Qué es Cloud Saves Cloud?',
   AppLocale.neoSyncDescription: 'Cloud Saves es tu compañero unificado en la nube para ECLIPSE. Sincroniza de forma segura tus partidas y estados de juego en todos tus dispositivos, asegurando que nunca pierdas tu progreso.',
   AppLocale.crossPlatform: 'Multiplataforma',
   AppLocale.crossPlatformDesc: 'Continúa exactamente donde lo dejaste en cualquier dispositivo con ECLIPSE.',
@@ -590,12 +590,12 @@ const Map<String, dynamic> appLocaleEs = {
   AppLocale.deleteCloudSave: 'Eliminar Partida en la Nube',
   AppLocale.deleteCloudSaveConfirm:
       '¿Eliminar permanentemente este archivo de la nube?',
-  AppLocale.alsoDisableCloud Saves: 'También desactivar Cloud Saves',
+  AppLocale.alsoDisableNeoSync: 'También desactivar Cloud Saves',
   AppLocale.preventsAutoSaves:
       'Evita futuros guardados automáticos para este juego.',
   AppLocale.refreshing: 'Actualizando...',
   AppLocale.refreshed: 'Actualizado',
-  AppLocale.failedToDisableCloud Saves:
+  AppLocale.failedToDisableNeoSync:
       'Error al desactivar Cloud Saves para este juego',
   AppLocale.saveFileDeleted: 'Archivo eliminado correctamente',
   AppLocale.failedToDeleteSave: 'Error al eliminar el archivo',
