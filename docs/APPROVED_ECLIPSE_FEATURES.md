@@ -54,3 +54,45 @@ Implementation branch: migration/pegasus-flutter-port
 - Do not publish an APK/release until build and signing compatibility are verified.
 
 This file records approved scope and acceptance criteria. It does not claim these features are implemented.
+
+## Additional approved scope — 2026-11-20
+
+The following ideas were explicitly approved for implementation:
+
+10. Game Universes
+    - A game-specific hub that brings together its existing artwork, screenshots, videos, metadata, achievements, and launch actions.
+    - Reuse locally available assets and existing metadata providers; never fabricate media or metadata.
+11. Universal Search
+    - Search games, installed entertainment apps, systems, and supported settings from one entry point.
+    - Results must use existing library and Android package discovery data.
+12. Activity Feed
+    - A chronological feed of real game launches, achievements, scans, and supported app activity.
+    - Do not invent events or imply visibility into other apps' private activity.
+13. Dynamic Atmospheres
+    - Adapt backgrounds and visual presentation to the selected game, system, or entertainment area.
+    - Respect performance settings and reduced-motion preferences.
+14. Game Carousel Mode
+    - An optional full-width horizontal library browsing mode with controller and touch support.
+15. Storage Manager
+    - Show storage usage only where Android exposes reliable values; clearly distinguish app-managed files from data ECLIPSE cannot safely manage.
+    - No automatic deletion. Require explicit confirmation for destructive actions.
+16. Ambient Mode
+    - An idle presentation using clock, owned artwork, and optional local media visualizations.
+    - Provide a timeout/exit path and avoid unnecessary battery use.
+17. Layout Presets
+    - Handheld, TV, Desktop, and Minimal presets that adapt existing navigation and layout rather than duplicate screens.
+18. Game Discovery
+    - Filter and browse the user's own library by available genre, developer, year, and platform metadata.
+    - Do not imply access to a remote store/catalog unless a supported provider is connected.
+19. Notification Center
+    - A central view for real ECLIPSE events such as scans, controller state, achievements, and updates.
+    - Use existing event sources; avoid duplicate notifications.
+
+20. ECLIPSE AI Assistant
+    - A first-party assistant surface accessible throughout the frontend, with controller, touch, and voice entry points where supported.
+    - Local command handling for navigation and supported ECLIPSE actions (e.g. opening Systems, Discovery, Settings, Achievements, Android Apps, or Search).
+    - Conversational AI responses through an explicitly configured provider; never ship a hard-coded API key or silently transmit user data.
+    - Clear local-only/cloud processing indicators, privacy controls, microphone permission prompts, and a way to disable voice/cloud features.
+    - Voice input must use supported Android speech-recognition APIs and degrade gracefully when unavailable.
+    - Assistant actions must be allowlisted, confirmed when consequential, and report failures honestly. It must not claim to control unsupported system settings or inspect other apps.
+    - No always-listening wake word by default. A push-to-talk/controller shortcut is the initial voice interaction model.
