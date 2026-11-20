@@ -865,7 +865,7 @@ const Map<String, dynamic> appLocaleZh = {
   AppLocale.ofSystems: '第 {scanned}/{total} 个系统',
   AppLocale.systemsDetected: '检测到 {count} 个系统',
   AppLocale.romsLabel: '{count} 个 ROM',
-  AppLocale.welcomeECLIPSE: '欢迎来到 ECLIPSE！',
+  AppLocale.welcomeNeoStation: '欢迎来到 ECLIPSE！',
   AppLocale.letsGetSetup: '让我们开始设置',
   AppLocale.storagePermission: '存储权限',
   AppLocale.storagePermissionDesc:
