@@ -7,7 +7,7 @@
 ![ECLIPSE — Your Gaming Universe](assets/branding/eclipse-banner.svg)
 
 [![PR Checks](https://github.com/Gabe255/ECLIPSE-/actions/workflows/pr-checks.yml/badge.svg)](https://github.com/Gabe255/ECLIPSE-/actions/workflows/pr-checks.yml)
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE.md)
 [![GitHub stars](https://img.shields.io/github/stars/Gabe255/ECLIPSE-?style=flat)](https://github.com/Gabe255/ECLIPSE-/stargazers)
 
 [Source](https://github.com/Gabe255/ECLIPSE-) · [Roadmap](docs/APPROVED_ECLIPSE_FEATURES.md) · [Releases](https://github.com/Gabe255/ECLIPSE-/releases) · [Report a bug](https://github.com/Gabe255/ECLIPSE-/issues/new)
