@@ -151,6 +151,7 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen>
     }
     if (system == null) return;
     await _featuredVideoController?.pause();
+    if (!mounted) return;
     await GameService.launchGame(context, system, game);
   }
 
@@ -591,7 +592,9 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen>
 
     _actionColumns = wide ? 4 : 2;
     _actionCallbacks = actions.map((action) => action.onTap).toList();
-    if (_selectedActionIndex >= actions.length) _selectedActionIndex = actions.length - 1;
+    if (_selectedActionIndex >= actions.length) {
+      _selectedActionIndex = actions.length - 1;
+    }
 
     return GridView.builder(
       shrinkWrap: true,
