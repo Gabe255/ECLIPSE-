@@ -278,7 +278,10 @@ class MainActivity: MultiDisplayFlutterActivity(), GamepadsCompatibleActivity {
         methodChannel?.setMethodCallHandler {
             call, result ->
             when (call.method) {
-                "startVoiceRecognition" -> startVoiceRecognition(result)
+                "startVoiceRecognition" -> startVoiceRecognition(
+                    call.argument<String>("languageTag"),
+                    result
+                )
                 "syncDeviceScreenState" -> {
                     val power = getSystemService(android.content.Context.POWER_SERVICE) as android.os.PowerManager
                     notifyFlutterScreenState(power.isInteractive)
@@ -1295,7 +1298,7 @@ class MainActivity: MultiDisplayFlutterActivity(), GamepadsCompatibleActivity {
 
     /// Uses Android's system speech-recognition UI; ECLIPSE does not record
     /// or continuously listen in the background.
-    private fun startVoiceRecognition(result: MethodChannel.Result) {
+    private fun startVoiceRecognition(languageTag: String?, result: MethodChannel.Result) {
         if (voiceResult != null) {
             result.error("VOICE_BUSY", "Voice recognition is already active", null)
             return
@@ -1305,6 +1308,10 @@ class MainActivity: MultiDisplayFlutterActivity(), GamepadsCompatibleActivity {
                 RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
             )
+            if (!languageTag.isNullOrBlank()) {
+                putExtra(RecognizerIntent.EXTRA_LANGUAGE, languageTag)
+                putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, languageTag)
+            }
             putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak to ECLIPSE")
             putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1)
         }
