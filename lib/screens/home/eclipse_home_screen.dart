@@ -47,7 +47,8 @@ class EclipseHomeScreen extends StatefulWidget {
   State<EclipseHomeScreen> createState() => _EclipseHomeScreenState();
 }
 
-class _EclipseHomeScreenState extends State<EclipseHomeScreen> {
+class _EclipseHomeScreenState extends State<EclipseHomeScreen>
+    with WidgetsBindingObserver {
   static _EclipseHomeScreenState? _current;
   int _selectedActionIndex = 0;
   int _actionColumns = 2;
@@ -58,6 +59,7 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _current = this;
     GameService.deviceScreenOn.addListener(_syncPreviewPlayback);
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -69,6 +71,7 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen> {
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     GameService.deviceScreenOn.removeListener(_syncPreviewPlayback);
     _featuredVideoController?.dispose();
     if (identical(_current, this)) _current = null;
@@ -147,7 +150,18 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen> {
       }
     }
     if (system == null) return;
+    await _featuredVideoController?.pause();
     await GameService.launchGame(context, system, game);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _syncPreviewPlayback();
+    } else if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.hidden) {
+      _featuredVideoController?.pause();
+    }
   }
 
   bool _move(int delta) {
