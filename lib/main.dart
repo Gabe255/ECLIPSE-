@@ -647,7 +647,7 @@ class _StartupScaffoldState extends State<_StartupScaffold> {
                           ),
                           SizedBox(height: 24 * scale),
                           Text(
-                            'NeoStation',
+                            'ECLIPSE',
                             style: TextStyle(
                               color: _colors.foreground,
                               fontSize: 28 * textScale,
