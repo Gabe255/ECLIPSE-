@@ -941,7 +941,7 @@ const Map<String, dynamic> appLocaleId = {
   AppLocale.ofSystems: '{scanned} dari {total} sistem',
   AppLocale.systemsDetected: '{count} sistem terdeteksi',
   AppLocale.romsLabel: '{count} ROM',
-  AppLocale.welcomeECLIPSE: 'Selamat datang di ECLIPSE!',
+  AppLocale.welcomeNeoStation: 'Selamat datang di ECLIPSE!',
   AppLocale.letsGetSetup: 'Mari kita lakukan penyiapan Anda',
   AppLocale.storagePermission: 'Izin Penyimpanan',
   AppLocale.storagePermissionDesc: 'ECLIPSE memerlukan "Akses Semua File" untuk mengelola konfigurasi RetroArch dan menyinkronkan simpanan Anda dengan benar.\n\nHarap berikan izin ini di layar berikutnya.',
