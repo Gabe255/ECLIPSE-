@@ -19,8 +19,8 @@ class AndroidService {
   static Future<String?> startVoiceRecognition() async {
     try {
       return await _channel.invokeMethod<String>('startVoiceRecognition');
-    } on PlatformException catch (e) {
-      _log.w("Voice recognition unavailable: ${e.message}");
+    } catch (e) {
+      _log.w("Voice recognition unavailable: $e");
       return null;
     }
   }
