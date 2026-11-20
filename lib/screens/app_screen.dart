@@ -527,6 +527,10 @@ class AppScreenState extends State<AppScreen> with WidgetsBindingObserver {
   }
 
   void _handleSettings() {
+    if (_selectedTabIndex == AppTabs.home) {
+      _onTabSelected(AppTabs.settings);
+      return;
+    }
     if (_selectedTabIndex == AppTabs.systems) {
       return;
     }
