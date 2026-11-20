@@ -721,16 +721,19 @@ class AppScreenState extends State<AppScreen> with WidgetsBindingObserver {
                           : const SizedBox.shrink(),
                     ),
 
-                    // ECLIPSE AI entry point.
+                    // Keep the assistant available without covering library content.
                     if (configProvider.initialized && !configProvider.isLoading)
                       Positioned(
-                        right: 20,
-                        bottom: 22,
-                        child: FloatingActionButton.extended(
-                          heroTag: 'eclipse-ai-assistant',
-                          onPressed: _openAiAssistant,
-                          icon: const Icon(Icons.auto_awesome_rounded),
-                          label: const Text('ECLIPSE AI'),
+                        right: 18,
+                        bottom: 18,
+                        child: Tooltip(
+                          message: 'ECLIPSE AI',
+                          child: FloatingActionButton(
+                            heroTag: 'eclipse-ai-assistant',
+                            mini: true,
+                            onPressed: _openAiAssistant,
+                            child: const Icon(Icons.auto_awesome_rounded),
+                          ),
                         ),
                       ),
 
