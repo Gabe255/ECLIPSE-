@@ -499,7 +499,7 @@ const Map<String, dynamic> appLocaleId = {
   AppLocale.verifyEmail: 'Verifikasi Email',
   AppLocale.forgotPassword: 'Lupa kata sandi?',
   AppLocale.resetPassword: 'Atur Ulang Kata Sandi',
-  AppLocale.joinCloud Saves: 'Bergabung dengan Cloud Saves',
+  AppLocale.joinNeoSync: 'Bergabung dengan Cloud Saves',
   AppLocale.verificationToken: 'Token Verifikasi',
   AppLocale.enterTokenFromEmail: 'Masukkan token yang dikirim ke email Anda',
   AppLocale.resendVerificationEmail: 'Kirim ulang email verifikasi',
@@ -558,7 +558,7 @@ const Map<String, dynamic> appLocaleId = {
   AppLocale.failedToRefreshCloud: 'Gagal memperbarui penyimpanan cloud',
   AppLocale.onlineSaves: 'Simpanan Online',
   AppLocale.noOnlineSavesFound: 'Tidak ada simpanan online ditemukan',
-  AppLocale.whatIsCloud Saves: 'Apa itu Cloud Saves Cloud?',
+  AppLocale.whatIsNeoSync: 'Apa itu Cloud Saves Cloud?',
   AppLocale.neoSyncDescription:
       'Cloud Saves adalah mitra cloud terpadu untuk ECLIPSE Anda.',
   AppLocale.crossPlatform: 'Lintas platform',
@@ -589,12 +589,12 @@ const Map<String, dynamic> appLocaleId = {
   AppLocale.deleteCloudSave: 'Hapus Simpanan Cloud',
   AppLocale.deleteCloudSaveConfirm:
       'Hapus simpanan ini secara permanen dari cloud?',
-  AppLocale.alsoDisableCloud Saves: 'Juga nonaktifkan Cloud Saves',
+  AppLocale.alsoDisableNeoSync: 'Juga nonaktifkan Cloud Saves',
   AppLocale.preventsAutoSaves:
       'Mencegah penyimpanan otomatis di masa mendatang untuk game ini.',
   AppLocale.refreshing: 'Menyegarkan...',
   AppLocale.refreshed: 'Segar',
-  AppLocale.failedToDisableCloud Saves:
+  AppLocale.failedToDisableNeoSync:
       'Gagal menonaktifkan Cloud Saves untuk game ini',
   AppLocale.saveFileDeleted: 'Simpanan berhasil dihapus',
   AppLocale.failedToDeleteSave: 'Gagal menghapus simpanan',
