@@ -107,16 +107,15 @@ void main() {
       expect(tester.getRect(find.byType(ShimmeringLogo)).width, 280);
     });
 
-    testWidgets('a short panel is capped by its height, not the width', (
+    testWidgets('the Thor logo follows the responsive design scale', (
       tester,
     ) async {
-      // The Thor is 467dp tall, so the height fraction sets the size — landing
-      // within a few pixels of the 280 it rendered at before the splash
-      // started scaling with the screen.
+      // The Thor's 831dp width is 1.298x the 640dp design width. Its 467dp
+      // height leaves enough room for the logo, so width is the limiting axis.
       await pumpAt(tester, const Size(831, 467), const [Text('x')]);
       expect(
         tester.getRect(find.byType(ShimmeringLogo)).width,
-        moreOrLessEquals(280, epsilon: 4),
+        moreOrLessEquals(280 * (831 / 640), epsilon: 0.5),
       );
     });
 
