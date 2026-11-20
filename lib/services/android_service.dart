@@ -13,6 +13,18 @@ class AndroidService {
 
   static final _log = LoggerService.instance;
 
+  /// Opens Android's system speech-recognition prompt and returns the
+  /// recognized phrase. Null means the prompt was cancelled or no speech was
+  /// returned; unsupported devices report a platform error.
+  static Future<String?> startVoiceRecognition() async {
+    try {
+      return await _channel.invokeMethod<String>('startVoiceRecognition');
+    } on PlatformException catch (e) {
+      _log.w("Voice recognition unavailable: ${e.message}");
+      return null;
+    }
+  }
+
   /// Retrieves a list of all installed applications on the device.
   ///
   /// Returns a list of maps containing app metadata (label, package name, etc.).
