@@ -786,7 +786,7 @@ class AppScreenState extends State<AppScreen> with WidgetsBindingObserver {
     }
 
     final navigationIntent = RegExp(
-      r'\\b(open|show|go to|take me to|switch to|navigate to|launch)\\b',
+      r'\b(open|show|go to|take me to|switch to|navigate to|launch)\b',
     ).hasMatch(text);
     if (!navigationIntent && !['home', 'systems', 'discovery', 'settings'].contains(text)) {
       return 'I can control ECLIPSE navigation right now. Try “take me to settings”, “show achievements”, “open entertainment”, or “search”.';
