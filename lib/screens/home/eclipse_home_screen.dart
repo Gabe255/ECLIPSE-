@@ -511,7 +511,8 @@ class _HomeAction {
 class _ActionTile extends StatelessWidget {
   const _ActionTile({required this.action, this.selected = false});
 
-  final _HomeAction action;\n  final bool selected;
+  final _HomeAction action;
+  final bool selected;
 
   @override
   Widget build(BuildContext context) {
@@ -525,7 +526,12 @@ class _ActionTile extends StatelessWidget {
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(18),
-            border: Border.all(\n            color: selected ? const Color(0xFF9B7BFF) : Colors.white.withValues(alpha: 0.08),\n            width: selected ? 1.6 : 1,\n          ),
+            border: Border.all(
+              color: selected
+                  ? const Color(0xFF9B7BFF)
+                  : Colors.white.withValues(alpha: 0.08),
+              width: selected ? 1.6 : 1,
+            ),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
