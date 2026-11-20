@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="620" viewBox="0 0 1600 620">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#100C19"/><stop offset=".58" stop-color="#1B1230"/><stop offset="1" stop-color="#101D31"/></linearGradient>
+    <linearGradient id="beam" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#C4B5FD"/><stop offset=".55" stop-color="#9B7BFF"/><stop offset="1" stop-color="#65D9E8"/></linearGradient>
+    <radialGradient id="glow"><stop stop-color="#8B5CF6" stop-opacity=".34"/><stop offset="1" stop-color="#8B5CF6" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1600" height="620" rx="36" fill="url(#bg)"/><circle cx="1230" cy="300" r="390" fill="url(#glow)"/>
+  <g fill="#EDE7FF" opacity=".65"><circle cx="120" cy="120" r="2"/><circle cx="300" cy="470" r="2"/><circle cx="560" cy="88" r="2"/><circle cx="840" cy="520" r="2"/><circle cx="1450" cy="110" r="2"/><circle cx="1510" cy="470" r="2"/><circle cx="1040" cy="82" r="2"/><circle cx="690" cy="360" r="1.5"/><circle cx="210" cy="330" r="1.5"/></g>
+  <g transform="translate(930 78) scale(1.02)"><circle cx="256" cy="232" r="184" fill="none" stroke="url(#beam)" stroke-width="13"/><path d="M326 68c-91 0-164 73-164 164s73 164 164 164c-24 18-54 28-86 28-106 0-192-86-192-192S134 40 240 40c32 0 62 10 86 28Z" fill="url(#beam)"/><path d="M78 318c78-112 278-180 356-68" fill="none" stroke="#65D9E8" stroke-width="8" stroke-linecap="round"/><circle cx="408" cy="249" r="10" fill="#EDE7FF"/></g>
+  <text x="116" y="262" fill="#F3EEFF" font-family="Inter,Arial,sans-serif" font-size="104" font-weight="800" letter-spacing="15">ECLIPSE</text>
+  <text x="124" y="334" fill="#BDAAFF" font-family="Inter,Arial,sans-serif" font-size="27" font-weight="700" letter-spacing="8">YOUR GAMING UNIVERSE</text>
+  <text x="124" y="420" fill="#C9C2D8" font-family="Inter,Arial,sans-serif" font-size="22" letter-spacing="3">PLAY · DISCOVER · MAKE IT YOURS</text>
+  <path d="M124 468h440" stroke="url(#beam)" stroke-width="3" stroke-linecap="round" opacity=".8"/>
+</svg>
