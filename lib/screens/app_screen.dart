@@ -774,13 +774,22 @@ class AppScreenState extends State<AppScreen> with WidgetsBindingObserver {
     final text = command.toLowerCase().trim();
     if (text.isEmpty) return 'Try asking me to open a section.';
 
-    if (text == 'help' || text.contains('what can you do')) {
-      return 'I can open Systems, Discovery, Saves, Achievements, RomM, Settings, Android Apps, and Search. Voice and conversational AI integrations are not connected yet.';
+    if (text == 'help' ||
+        text.contains('what can you do') ||
+        text.contains('what do you do')) {
+      return 'I can take you to Systems, Discovery, Saves, Achievements, RomM, Settings, Android Apps, and Search. I also accept voice commands through Android speech recognition. Full open-ended cloud conversation is not connected yet.';
     }
 
-    if (text.contains('search')) {
+    if (text.contains('search') || text.startsWith('find ')) {
       await _openSearchFromHeader();
       return 'Opened ECLIPSE Search.';
+    }
+
+    final navigationIntent = RegExp(
+      r'\\b(open|show|go to|take me to|switch to|navigate to|launch)\\b',
+    ).hasMatch(text);
+    if (!navigationIntent && !['home', 'systems', 'discovery', 'settings'].contains(text)) {
+      return 'I can control ECLIPSE navigation right now. Try “take me to settings”, “show achievements”, “open entertainment”, or “search”.';
     }
 
     final Map<int, List<String>> destinations = {
@@ -794,20 +803,19 @@ class AppScreenState extends State<AppScreen> with WidgetsBindingObserver {
     };
 
     for (final entry in destinations.entries) {
-      if (entry.value.any((name) =>
-          text == 'open $name' ||
-          text == 'show $name' ||
-          text == 'go to $name' ||
-          text == name)) {
+      if (entry.value.any((name) => text == name || text.contains(name))) {
         if (!_visibleTabs.contains(NavTab.values[entry.key])) {
           return 'That section is currently hidden or unavailable in your ECLIPSE navigation settings.';
         }
         _onTabSelected(entry.key);
-        return 'Opening ${entry.value.first == 'home' ? 'your game library' : entry.value.first}.';
+        final destination = entry.key == AppTabs.systems
+            ? 'your game library'
+            : entry.value.first;
+        return 'Opening $destination.';
       }
     }
 
-    return 'I can navigate ECLIPSE locally right now. Try “open settings”, “show achievements”, “open entertainment”, or “search”. Full conversational AI and voice input are still being integrated.';
+    return 'I couldn’t match that to an ECLIPSE section. Try “open settings”, “show achievements”, “open entertainment”, or “search”.';
   }
 
   Future<void> _openSearchFromHeader() async {
