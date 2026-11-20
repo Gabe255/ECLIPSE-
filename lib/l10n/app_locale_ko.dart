@@ -889,7 +889,7 @@ const Map<String, dynamic> appLocaleKo = {
   AppLocale.ofSystems: '{scanned}/{total}개 시스템',
   AppLocale.systemsDetected: '{count}개의 시스템이 감지되었습니다',
   AppLocale.romsLabel: '{count} ROM',
-  AppLocale.welcomeECLIPSE: 'ECLIPSE에 오신 것을 환영합니다!',
+  AppLocale.welcomeNeoStation: 'ECLIPSE에 오신 것을 환영합니다!',
   AppLocale.letsGetSetup: '설정을 시작해 보세요',
   AppLocale.storagePermission: '저장소 권한',
   AppLocale.storagePermissionDesc: 'ECLIPSE은 RetroArch 구성을 관리하고 게임 저장을 올바르게 동기화하려면 "모든 파일 액세스"가 필요합니다.\n\n다음 화면에서 이 권한을 부여해 주세요.',
