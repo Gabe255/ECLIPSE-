@@ -5,6 +5,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/system_model.dart';
+import '../../models/game_model.dart';
+import '../../services/game_service.dart';
 import '../../providers/sqlite_config_provider.dart';
 
 /// The ECLIPSE landing page. The existing Systems screen remains the full
@@ -48,17 +50,52 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen> {
   int _selectedActionIndex = 0;
   int _actionColumns = 2;
   List<VoidCallback> _actionCallbacks = const [];
+  Future<List<GameModel>>? _recentGamesFuture;
 
   @override
   void initState() {
     super.initState();
     _current = this;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final config = context.read<SqliteConfigProvider>();
+      setState(() => _recentGamesFuture = _loadRecentGames(config));
+    });
   }
 
   @override
   void dispose() {
     if (identical(_current, this)) _current = null;
     super.dispose();
+  }
+
+  Future<List<GameModel>> _loadRecentGames(SqliteConfigProvider config) async {
+    final supportedSystems = config.detectedSystems.where(
+      (system) =>
+          system.id != null &&
+          system.folderName != 'android' &&
+          system.folderName != 'music',
+    );
+    final lists = await Future.wait(
+      supportedSystems.map((system) => GameService.loadGamesForSystem(system)),
+    );
+    return GameService.getRecentlyPlayedGames(lists.expand((games) => games).toList());
+  }
+
+  Future<void> _launchRecentGame(
+    BuildContext context,
+    SqliteConfigProvider config,
+    GameModel game,
+  ) async {
+    SystemModel? system;
+    for (final candidate in config.detectedSystems) {
+      if (candidate.folderName == game.systemFolderName) {
+        system = candidate;
+        break;
+      }
+    }
+    if (system == null) return;
+    await GameService.launchGame(context, system, game);
   }
 
   bool _move(int delta) {
@@ -116,6 +153,7 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen> {
                           onOpenSearch: widget.onOpenSearch,
                           wide: wide,
                         ),
+                        _buildContinuePlaying(context, config),
                         const SizedBox(height: 24),
                         _sectionHeading('YOUR SPACE', 'Jump back into ECLIPSE'),
                         const SizedBox(height: 12),
@@ -357,6 +395,45 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen> {
     );
   }
 
+  Widget _buildContinuePlaying(
+    BuildContext context,
+    SqliteConfigProvider config,
+  ) {
+    final future = _recentGamesFuture;
+    if (future == null) return const SizedBox.shrink();
+
+    return FutureBuilder<List<GameModel>>(
+      future: future,
+      builder: (context, snapshot) {
+        final games = snapshot.data ?? const <GameModel>[];
+        if (games.isEmpty) return const SizedBox.shrink();
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _sectionHeading('PICK UP WHERE YOU LEFT OFF', 'Continue playing'),
+            const SizedBox(height: 12),
+            SizedBox(
+              height: 112,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemCount: games.length,
+                separatorBuilder: (_, _) => const SizedBox(width: 10),
+                itemBuilder: (context, index) {
+                  final game = games[index];
+                  return _RecentGameTile(
+                    game: game,
+                    onTap: () => _launchRecentGame(context, config, game),
+                  );
+                },
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Widget _sectionHeading(String eyebrow, String title) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -567,6 +644,77 @@ class _ActionTile extends StatelessWidget {
                 ],
               ),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _RecentGameTile extends StatelessWidget {
+  const _RecentGameTile({required this.game, required this.onTap});
+
+  final GameModel game;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 238,
+      child: Material(
+        color: Colors.white.withValues(alpha: 0.055),
+        borderRadius: BorderRadius.circular(17),
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(17),
+          child: Padding(
+            padding: const EdgeInsets.all(14),
+            child: Row(
+              children: [
+                Container(
+                  width: 42,
+                  height: 42,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF9B7BFF).withValues(alpha: 0.16),
+                    borderRadius: BorderRadius.circular(13),
+                  ),
+                  child: const Icon(
+                    Icons.play_arrow_rounded,
+                    color: Color(0xFFBDAAFF),
+                    size: 25,
+                  ),
+                ),
+                const SizedBox(width: 11),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        game.name,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          color: Color(0xFFF3EEFF),
+                          fontSize: 11,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+                      Text(
+                        game.systemRealName ?? game.systemShortName ?? 'Game',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          color: Colors.white54,
+                          fontSize: 9,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
