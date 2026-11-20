@@ -472,6 +472,10 @@ class AppScreenState extends State<AppScreen> with WidgetsBindingObserver {
   // to allow for context-aware navigation patterns (Grid vs List vs Paged).
 
   void _navigateContentRight() {
+    if (_selectedTabIndex == AppTabs.home) {
+      EclipseHomeScreen.navigateRight();
+      return;
+    }
     if (_selectedTabIndex == AppTabs.systems) {
       return; // Grid navigation delegated to my_systems.dart via provider.
     }
@@ -482,6 +486,10 @@ class AppScreenState extends State<AppScreen> with WidgetsBindingObserver {
   }
 
   void _navigateContentLeft() {
+    if (_selectedTabIndex == AppTabs.home) {
+      EclipseHomeScreen.navigateLeft();
+      return;
+    }
     if (_selectedTabIndex == AppTabs.systems) return;
     if (_selectedTabIndex == AppTabs.settings) {
       NewSettingsScreen.navigateLeft();
@@ -497,6 +505,9 @@ class AppScreenState extends State<AppScreen> with WidgetsBindingObserver {
   /// mounted. Keeping a second route to the same screen is what caused the
   /// double-dispatch bug fixed in #255.
   bool _navigateContentDown() {
+    if (_selectedTabIndex == AppTabs.home) {
+      return EclipseHomeScreen.navigateDown();
+    }
     if (_selectedTabIndex == AppTabs.systems) return true;
     if (_selectedTabIndex == AppTabs.settings) {
       return NewSettingsScreen.navigateDown();
@@ -505,6 +516,9 @@ class AppScreenState extends State<AppScreen> with WidgetsBindingObserver {
   }
 
   bool _navigateContentUp() {
+    if (_selectedTabIndex == AppTabs.home) {
+      return EclipseHomeScreen.navigateUp();
+    }
     if (_selectedTabIndex == AppTabs.systems) return true;
     if (_selectedTabIndex == AppTabs.settings) {
       return NewSettingsScreen.navigateUp();
@@ -525,6 +539,10 @@ class AppScreenState extends State<AppScreen> with WidgetsBindingObserver {
   }
 
   void _selectCurrentItem() async {
+    if (_selectedTabIndex == AppTabs.home) {
+      EclipseHomeScreen.selectCurrent();
+      return;
+    }
     if (_selectedTabIndex == AppTabs.systems) {
       // The systems grid owns A through its own navigation layer, which is why
       // this returns. On first run that grid is replaced by the setup card,
