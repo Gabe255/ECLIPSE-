@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:neostation/constants/recent_card_sizes.dart';
 import 'package:neostation/l10n/app_locale.dart';
 import 'package:flutter_localization/flutter_localization.dart';
@@ -273,7 +274,11 @@ class MySystems extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.r),
         border: Border.all(color: accent.withValues(alpha: 0.35)),
       ),
-      child: Icon(Icons.blur_on_rounded, color: accent, size: 23.r),
+      child: SvgPicture.asset(
+        'assets/branding/eclipse-mark.svg',
+        fit: BoxFit.contain,
+        semanticsLabel: 'ECLIPSE',
+      ),
     );
     final heading = Column(
       mainAxisSize: MainAxisSize.min,
