@@ -18,6 +18,7 @@ import 'package:flutter_localization/flutter_localization.dart';
 
 import '../widgets/fixed_header.dart';
 import 'systems_screen/system_content.dart';
+import 'home/eclipse_home_screen.dart';
 import 'search_screen/search_screen.dart';
 import 'systems_screen/my_systems_section/initial_setup_widget.dart';
 import 'discovery_screen/discovery_content.dart';
