@@ -229,9 +229,9 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
     );
     _bootController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1250),
+      duration: const Duration(milliseconds: 1750),
     )..forward();
-    _bootTimer = Timer(const Duration(milliseconds: 1450), _finishBoot);
+    _bootTimer = Timer(const Duration(milliseconds: 2050), _finishBoot);
     if (_interfaceFamily == 'wii') _listenForWiiStick();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
@@ -442,71 +442,198 @@ class _ConsoleExperienceScreenState extends State<ConsoleExperienceScreen>
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
+          color: const Color(0xFF070910),
           gradient: RadialGradient(
-            center: Alignment.center,
-            radius: 1.05,
-            colors: [_accent.withValues(alpha: 0.25), const Color(0xFF090B10)],
+            center: const Alignment(0, -0.12),
+            radius: 1.12,
+            colors: [
+              _accent.withValues(alpha: 0.30),
+              const Color(0xFF111321),
+              const Color(0xFF070910),
+            ],
+            stops: const [0, 0.52, 1],
           ),
         ),
-        child: Center(
-          child: AnimatedBuilder(
-            animation: _bootController,
-            builder: (context, _) {
-              final scale = 0.92 + (_bootController.value * 0.08);
-              return Opacity(
-                opacity: _bootController.value.clamp(0.15, 1),
-                child: Transform.scale(
-                  scale: scale,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      _SystemMark(system: widget.system, size: 92),
-                      const SizedBox(height: 24),
-                      Text(
-                        name.toUpperCase(),
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 25,
-                          fontWeight: FontWeight.w800,
-                          letterSpacing: 4,
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      Text(
-                        _bootLabel,
-                        style: TextStyle(
-                          color: Colors.white.withValues(alpha: 0.58),
-                          fontSize: 11,
-                          letterSpacing: 3,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(height: 26),
-                      SizedBox(
-                        width: 150,
-                        child: LinearProgressIndicator(
-                          value: _bootController.value,
-                          minHeight: 3,
-                          backgroundColor: Colors.white.withValues(alpha: 0.12),
-                          valueColor: AlwaysStoppedAnimation<Color>(_accent),
-                        ),
-                      ),
-                      const SizedBox(height: 18),
-                      Text(
-                        _bootStatus.toUpperCase(),
-                        style: TextStyle(
-                          color: Colors.white.withValues(alpha: 0.35),
-                          fontSize: 9,
-                          letterSpacing: 2,
-                        ),
-                      ),
-                    ],
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Positioned(
+              top: -MediaQuery.sizeOf(context).width * 0.28,
+              right: -MediaQuery.sizeOf(context).width * 0.22,
+              child: Container(
+                width: MediaQuery.sizeOf(context).width * 0.72,
+                height: MediaQuery.sizeOf(context).width * 0.72,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: _accent.withValues(alpha: 0.10),
+                    width: 1,
                   ),
                 ),
-              );
-            },
-          ),
+              ),
+            ),
+            Positioned(
+              bottom: -MediaQuery.sizeOf(context).width * 0.38,
+              left: -MediaQuery.sizeOf(context).width * 0.30,
+              child: Container(
+                width: MediaQuery.sizeOf(context).width * 0.82,
+                height: MediaQuery.sizeOf(context).width * 0.82,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: Colors.white.withValues(alpha: 0.045),
+                    width: 1,
+                  ),
+                ),
+              ),
+            ),
+            SafeArea(
+              child: Center(
+                child: AnimatedBuilder(
+                  animation: _bootController,
+                  builder: (context, _) {
+                    final progress = Curves.easeOutCubic.transform(
+                      _bootController.value,
+                    );
+                    final scale = 0.94 + (progress * 0.06);
+                    return Opacity(
+                      opacity: progress.clamp(0.12, 1),
+                      child: Transform.scale(
+                        scale: scale,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              'ECLIPSE  /  CONSOLE ENVIRONMENT',
+                              style: TextStyle(
+                                color: Colors.white.withValues(alpha: 0.52),
+                                fontSize: 9,
+                                fontWeight: FontWeight.w800,
+                                letterSpacing: 2.4,
+                              ),
+                            ),
+                            const SizedBox(height: 30),
+                            SizedBox(
+                              width: 174,
+                              height: 174,
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  Container(
+                                    width: 174,
+                                    height: 174,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        color: _accent.withValues(alpha: 0.16),
+                                        width: 1,
+                                      ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: _accent.withValues(alpha: 0.15),
+                                          blurRadius: 42,
+                                          spreadRadius: 2,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 154,
+                                    height: 154,
+                                    child: CircularProgressIndicator(
+                                      value: progress,
+                                      strokeWidth: 2.2,
+                                      backgroundColor:
+                                          Colors.white.withValues(alpha: 0.09),
+                                      valueColor:
+                                          AlwaysStoppedAnimation<Color>(_accent),
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 126,
+                                    height: 126,
+                                    padding: const EdgeInsets.all(22),
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.black.withValues(alpha: 0.22),
+                                      border: Border.all(
+                                        color: Colors.white.withValues(alpha: 0.10),
+                                      ),
+                                    ),
+                                    child: _SystemMark(
+                                      system: widget.system,
+                                      size: 82,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 30),
+                            Text(
+                              name.toUpperCase(),
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 25,
+                                fontWeight: FontWeight.w900,
+                                letterSpacing: 3.4,
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            Text(
+                              _bootLabel,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: _accent.withValues(alpha: 0.95),
+                                fontSize: 10,
+                                letterSpacing: 2.4,
+                                fontWeight: FontWeight.w800,
+                              ),
+                            ),
+                            const SizedBox(height: 24),
+                            SizedBox(
+                              width: 190,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(20),
+                                child: LinearProgressIndicator(
+                                  value: progress,
+                                  minHeight: 2,
+                                  backgroundColor:
+                                      Colors.white.withValues(alpha: 0.10),
+                                  valueColor:
+                                      AlwaysStoppedAnimation<Color>(_accent),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 14),
+                            Text(
+                              _bootStatus.toUpperCase(),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.white.withValues(alpha: 0.43),
+                                fontSize: 9,
+                                letterSpacing: 1.5,
+                              ),
+                            ),
+                            const SizedBox(height: 28),
+                            Text(
+                              'TAP OR PRESS A BUTTON TO SKIP',
+                              style: TextStyle(
+                                color: Colors.white.withValues(alpha: 0.30),
+                                fontSize: 8,
+                                fontWeight: FontWeight.w700,
+                                letterSpacing: 1.8,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
