@@ -48,7 +48,9 @@ void main() {
       expect(result.issue, isNull);
     });
 
-    test('rejects a healthy SQLite database with the wrong schema', () async {
+    test(
+      'rejects a healthy SQLite database with the wrong schema',
+      () async {
       final databaseFile = File('${tempDirectory.path}/data.sqlite');
       final database = sqlite.sqlite3.open(databaseFile.path);
       database.execute('CREATE TABLE unrelated (id INTEGER PRIMARY KEY)');
@@ -59,8 +61,9 @@ void main() {
       );
 
       expect(result.isValid, isFalse);
-      expect(result.issue, contains('required ECLIPSE tables'));
-    });
+        expect(result.issue, contains('required ECLIPSE tables'));
+      },
+    );
 
     test('rejects a corrupt database file', () async {
       await File('${tempDirectory.path}/data.sqlite').writeAsString(
