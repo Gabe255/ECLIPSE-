@@ -79,8 +79,7 @@ void main() {
         data: const MediaQueryData(size: Size(1920, 1080)),
         child: ScreenUtilInit(
           designSize: const Size(1920, 1080),
-          builder: (context, child) =>
-              MultiProvider(
+          builder: (context, child) => MultiProvider(
                 providers: [
                   ChangeNotifierProvider<SqliteConfigProvider>(
                     create: (_) => SqliteConfigProvider(),
