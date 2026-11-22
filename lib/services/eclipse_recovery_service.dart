@@ -23,7 +23,9 @@ class RecoveryFolderInspection {
   final DateTime? lastModified;
 
   String get summary {
-    if (!isValid) return issue ?? 'This folder is not a valid ECLIPSE data folder.';
+    if (!isValid) {
+      return issue ?? 'This folder is not a valid ECLIPSE data folder.';
+    }
     final size = databaseBytes == null
         ? 'unknown size'
         : '${(databaseBytes! / (1024 * 1024)).toStringAsFixed(1)} MB';
@@ -90,7 +92,9 @@ class EclipseRecoveryService {
           );
         }
 
-        final configRows = database.select('SELECT id FROM user_config LIMIT 1');
+        final configRows = database.select(
+          'SELECT id FROM user_config LIMIT 1',
+        );
         if (configRows.isEmpty) {
           return RecoveryFolderInspection(
             folderPath: normalized,
