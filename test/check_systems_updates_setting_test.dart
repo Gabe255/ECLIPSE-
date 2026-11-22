@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localization/flutter_localization.dart';
@@ -91,8 +89,7 @@ void main() {
             child: MaterialApp(
               localizationsDelegates:
                   FlutterLocalization.instance.localizationsDelegates,
-              supportedLocales:
-                  FlutterLocalization.instance.supportedLocales,
+              supportedLocales: FlutterLocalization.instance.supportedLocales,
               home: Scaffold(
                 body: GeneralSettingsContent(
                   key: key,
