@@ -1269,7 +1269,7 @@ class _MyAppState extends State<MyApp> {
                       // not Flutter's focus traversal (see appShortcuts).
                       shortcuts: appShortcuts(),
                       debugShowCheckedModeBanner: false,
-                      title: 'NeoStation',
+                      title: 'ECLIPSE',
                       locale: _locale,
                       localizationsDelegates: [
                         const FallbackMaterialLocalizationsDelegate(),
