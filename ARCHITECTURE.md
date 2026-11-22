@@ -1,6 +1,6 @@
-# Frontend Architecture
+# ECLIPSE Frontend Architecture
 
-This document describes the architecture of the NeoStation Flutter application.
+ECLIPSE is the user-facing gaming frontend. The current Flutter package and import namespace remain `neostation` for compatibility; that implementation detail does not define the product identity. ECLIPSE owns the presentation layer while reusing the existing ROM library, path management, metadata scraping, emulator integration, and system-art backend.
 
 ## Overview
 
