@@ -82,7 +82,9 @@ void main() {
 
         final logo = tester.getRect(find.byType(ShimmeringLogo));
         final text = tester.getRect(
-          find.text('Preparing NeoStation. Waiting for storage and services...'),
+          find.text(
+            'Preparing NeoStation. Waiting for storage and services...',
+          ),
         );
         expect(text.top, greaterThanOrEqualTo(logo.bottom));
         expect(text.bottom, lessThanOrEqualTo(entry.value.height));
