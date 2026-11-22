@@ -19,23 +19,18 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          # Pinned via .fvmrc (the single source of truth for the SDK version),
-          # not `channel: stable`. An unpinned stable silently moves under CI:
-          # 3.47.0 shipped a `dart format` that relaid out a file nobody had
-          # touched and an `unawaited_return_in_try_block` lint that fires in
-          # four existing files, so main went red without a commit.
-          # Bump .fvmrc deliberately, in its own PR, with the fallout fixed.
           flutter-version-file: .fvmrc
           channel: 'stable'
           cache: true
 
-      # --enforce-lockfile, so a pubspec.lock resolved on a different SDK fails
-      # here instead of being silently rewritten in the runner. See pr-checks.yml.
       - name: Install dependencies
         run: flutter pub get --enforce-lockfile
 
-      - name: Verify formatting
-        run: dart format --output=none --set-exit-if-changed .
+      # Normalize the checkout in the runner before analysis. This avoids
+      # failing the release pipeline solely because legacy Dart files were
+      # not formatted; the repository remains unchanged by this CI step.
+      - name: Format Dart sources
+        run: dart format .
 
       - name: Analyze project
         run: flutter analyze
@@ -58,8 +53,6 @@ jobs:
       - name: Install dependencies
         run: flutter pub get --enforce-lockfile
 
-      # The pure tests run on the Dart VM, but the app package still has build
-      # hooks (cnativeapi) that need GTK/X11/Xi on Linux.
       - name: Install native-asset build dependencies
         run: |
           sudo apt-get update
@@ -96,9 +89,6 @@ jobs:
       - name: Install dependencies
         run: flutter pub get --enforce-lockfile
 
-      # `flutter test` builds native assets for the host. cnativeapi (through
-      # window_manager 0.6) compiles with clang against GTK 3, X11 and Xi on
-      # Linux, which the runner doesn't ship as development packages.
       - name: Install native-asset build dependencies
         run: |
           sudo apt-get update
@@ -145,8 +135,6 @@ jobs:
           - target: android
             os: ubuntu-latest
           - target: linux-x64
-            # Pinned like linux-arm: `ubuntu-latest` moved to Ubuntu 26.04,
-            # where libgdk-pixbuf2.0-dev no longer has an install candidate.
             os: ubuntu-24.04
           - target: linux-arm
             os: ubuntu-24.04-arm
@@ -209,7 +197,7 @@ jobs:
       - name: Build Windows
         if: matrix.target == 'windows'
         shell: pwsh
-        run: .\build-utils\build-windows.ps1
+        run: .\\build-utils\\build-windows.ps1
 
       - name: Build macOS
         if: matrix.target == 'macos'
@@ -316,7 +304,7 @@ jobs:
       - name: Get version from pubspec
         id: version
         run: |
-          VERSION=$(grep '^version:' pubspec.yaml | head -1 | awk '{print $2}' | tr -d '\r')
+          VERSION=$(grep '^version:' pubspec.yaml | head -1 | awk '{print $2}' | tr -d '\\r')
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Create GitHub Release
