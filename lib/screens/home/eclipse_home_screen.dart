@@ -264,6 +264,103 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen>
     );
   }
 
+  Future<void> _openCommandPalette() async {
+    final commands = <({String title, String detail, IconData icon, VoidCallback run})>[
+      (title: 'Open game library', detail: 'Browse every system and game', icon: Icons.sports_esports_rounded, run: widget.onOpenSystems),
+      (title: 'Search your library', detail: 'Find a game by name', icon: Icons.search_rounded, run: widget.onOpenSearch),
+      (title: 'Achievements', detail: 'View your achievement progress', icon: Icons.emoji_events_rounded, run: widget.onOpenAchievements),
+      (title: 'Entertainment', detail: 'Open installed Android apps', icon: Icons.live_tv_rounded, run: widget.onOpenEntertainment),
+      (title: 'Settings', detail: 'Configure your ECLIPSE setup', icon: Icons.tune_rounded, run: widget.onOpenSettings),
+      (title: 'ECLIPSE assistant', detail: 'Ask the assistant for help', icon: Icons.auto_awesome_rounded, run: widget.onOpenAi),
+    ];
+    final searchController = TextEditingController();
+    await showDialog<void>(
+      context: context,
+      barrierColor: Colors.black.withValues(alpha: 0.72),
+      builder: (dialogContext) => StatefulBuilder(
+        builder: (context, refresh) {
+          final query = searchController.text.trim().toLowerCase();
+          final visible = commands.where((item) =>
+            item.title.toLowerCase().contains(query) ||
+            item.detail.toLowerCase().contains(query)).toList();
+          return Dialog(
+            backgroundColor: const Color(0xFF171122),
+            surfaceTintColor: Colors.transparent,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(24),
+              side: BorderSide(color: EclipseHomeScreen._violet.withValues(alpha: 0.38)),
+            ),
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 560, maxHeight: 620),
+              child: Padding(
+                padding: const EdgeInsets.all(22),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(children: [
+                      const Icon(Icons.bolt_rounded, color: EclipseHomeScreen._cyan, size: 24),
+                      const SizedBox(width: 10),
+                      const Expanded(child: Text('ECLIPSE COMMAND', style: TextStyle(color: EclipseHomeScreen._lunar, fontWeight: FontWeight.w900, letterSpacing: 1.8))),
+                      IconButton(onPressed: () => Navigator.pop(dialogContext), icon: const Icon(Icons.close_rounded, color: Colors.white70)),
+                    ]),
+                    const SizedBox(height: 6),
+                    Text('Your universe, one command away.', style: TextStyle(color: EclipseHomeScreen._lunar.withValues(alpha: 0.62), fontSize: 12)),
+                    const SizedBox(height: 18),
+                    TextField(
+                      controller: searchController,
+                      autofocus: true,
+                      onChanged: (_) => refresh(() {}),
+                      style: const TextStyle(color: EclipseHomeScreen._lunar),
+                      decoration: InputDecoration(
+                        hintText: 'Search actions…',
+                        hintStyle: TextStyle(color: EclipseHomeScreen._lunar.withValues(alpha: 0.42)),
+                        prefixIcon: const Icon(Icons.search_rounded, color: EclipseHomeScreen._cyan),
+                        filled: true,
+                        fillColor: Colors.white.withValues(alpha: 0.045),
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide(color: EclipseHomeScreen._violet.withValues(alpha: 0.25))),
+                        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide(color: EclipseHomeScreen._violet.withValues(alpha: 0.25))),
+                        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: EclipseHomeScreen._violet)),
+                      ),
+                    ),
+                    const SizedBox(height: 14),
+                    Flexible(
+                      child: visible.isEmpty
+                        ? Center(child: Padding(padding: const EdgeInsets.all(24), child: Text('No matching commands', style: TextStyle(color: EclipseHomeScreen._lunar.withValues(alpha: 0.55)))))
+                        : ListView.separated(
+                            shrinkWrap: true,
+                            itemCount: visible.length,
+                            separatorBuilder: (_, _) => const SizedBox(height: 7),
+                            itemBuilder: (context, index) {
+                              final item = visible[index];
+                              return ListTile(
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                                tileColor: Colors.white.withValues(alpha: 0.035),
+                                leading: Icon(item.icon, color: EclipseHomeScreen._cyan),
+                                title: Text(item.title, style: const TextStyle(color: EclipseHomeScreen._lunar, fontWeight: FontWeight.w700)),
+                                subtitle: Text(item.detail, style: TextStyle(color: EclipseHomeScreen._lunar.withValues(alpha: 0.55), fontSize: 11)),
+                                trailing: const Icon(Icons.arrow_forward_ios_rounded, color: Colors.white38, size: 14),
+                                onTap: () {
+                                  Navigator.pop(dialogContext);
+                                  item.run();
+                                },
+                              );
+                            },
+                          ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text('QUICK ACCESS  •  ECLIPSE', style: TextStyle(color: EclipseHomeScreen._cyan.withValues(alpha: 0.65), fontSize: 9, fontWeight: FontWeight.w800, letterSpacing: 1.3)),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+    searchController.dispose();
+  }
+
   Widget _buildTopline(BuildContext context) {
     return Row(
       children: [
@@ -293,6 +390,16 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen>
           ),
         ),
         const Spacer(),
+        IconButton(
+          tooltip: 'ECLIPSE Command',
+          onPressed: _openCommandPalette,
+          icon: const Icon(Icons.bolt_rounded, color: EclipseHomeScreen._cyan),
+          style: IconButton.styleFrom(
+            backgroundColor: EclipseHomeScreen._violet.withValues(alpha: 0.12),
+            side: BorderSide(color: EclipseHomeScreen._violet.withValues(alpha: 0.3)),
+          ),
+        ),
+        const SizedBox(width: 8),
         Text(
           'YOUR GAMING UNIVERSE',
           style: TextStyle(
