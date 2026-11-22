@@ -65,9 +65,6 @@ class SplashStatusLayout extends StatelessWidget {
   /// The app's `ScreenUtil` design size (see `ScreenUtilInit` in `main.dart`).
   static const Size _designSize = Size(640, 480);
 
-  /// Minimum screen height ScreenUtil's `splitScreenMode` assumes.
-  static const double _splitScreenMinHeight = 700;
-
   /// The factor `.r` resolves to at this screen size, computed without
   /// ScreenUtil.
   ///
@@ -83,8 +80,7 @@ class SplashStatusLayout extends StatelessWidget {
   static double scaleOf(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
     final scaleWidth = size.width / _designSize.width;
-    final scaleHeight =
-        math.max(size.height, _splitScreenMinHeight) / _designSize.height;
+    final scaleHeight = size.height / _designSize.height;
     return math.max(1.0, math.min(scaleWidth, scaleHeight));
   }
 
