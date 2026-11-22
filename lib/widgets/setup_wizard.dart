@@ -951,8 +951,9 @@ class _SetupWizardState extends State<SetupWizard> with WidgetsBindingObserver {
       }
 
       if (selected == null || !mounted) return;
-      final inspection =
-          await EclipseRecoveryService.inspectUserDataFolder(selected);
+      final inspection = await EclipseRecoveryService.inspectUserDataFolder(
+        selected,
+      );
       if (!mounted) return;
       if (!inspection.isValid) {
         await _showWizardMessage(
@@ -2504,3 +2505,4 @@ class _SetupWizardState extends State<SetupWizard> with WidgetsBindingObserver {
     }
   }
 }
+import 'dart:async';
