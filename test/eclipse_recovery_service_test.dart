@@ -48,27 +48,23 @@ void main() {
       expect(result.issue, isNull);
     });
 
-    test(
-      'rejects a healthy SQLite database with the wrong schema',
-      () async {
-        final databaseFile = File('${tempDirectory.path}/data.sqlite');
-        final database = sqlite.sqlite3.open(databaseFile.path);
-        database.execute('CREATE TABLE unrelated (id INTEGER PRIMARY KEY)');
-        database.close();
+    test('rejects a healthy SQLite database with the wrong schema', () async {
+      final databaseFile = File('${tempDirectory.path}/data.sqlite');
+      final database = sqlite.sqlite3.open(databaseFile.path);
+      database.execute('CREATE TABLE unrelated (id INTEGER PRIMARY KEY)');
+      database.close();
 
-        final result = await EclipseRecoveryService.inspectUserDataFolder(
-          tempDirectory.path,
-        );
+      final result = await EclipseRecoveryService.inspectUserDataFolder(
+        tempDirectory.path,
+      );
 
-        expect(result.isValid, isFalse);
-        expect(result.issue, contains('required ECLIPSE tables'));
-      },
-    );
+      expect(result.isValid, isFalse);
+      expect(result.issue, contains('required ECLIPSE tables'));
+    });
 
     test('rejects a corrupt database file', () async {
-      await File('${tempDirectory.path}/data.sqlite').writeAsString(
-        'this is not a SQLite database',
-      );
+      await File('${tempDirectory.path}/data.sqlite')
+          .writeAsString('this is not a SQLite database');
 
       final result = await EclipseRecoveryService.inspectUserDataFolder(
         tempDirectory.path,
