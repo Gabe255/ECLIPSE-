@@ -915,10 +915,12 @@ class _SetupWizardState extends State<SetupWizard> with WidgetsBindingObserver {
     setState(() => _isRestoringExistingData = true);
     _gamepadNav?.deactivate();
 
+    final configProvider = context.read<SqliteConfigProvider>();
+    final neoAssetsProvider = context.read<NeoAssetsProvider>();
+    final fileProvider = context.read<FileProvider>();
     String? selected;
     String? previousCustomPath;
     var switchedPath = false;
-    SqliteConfigProvider? configProvider;
 
     try {
       if (Platform.isAndroid) {
@@ -970,6 +972,7 @@ class _SetupWizardState extends State<SetupWizard> with WidgetsBindingObserver {
         );
         return;
       }
+      if (!mounted) return;
 
       final confirmed = await showDialog<bool>(
         context: context,
@@ -993,10 +996,10 @@ class _SetupWizardState extends State<SetupWizard> with WidgetsBindingObserver {
       if (confirmed != true || !mounted) return;
 
       previousCustomPath = await UserDataLocationService.getCustomPath();
+      if (!mounted) return;
       await UserDataLocationService.setCustomPath(selected);
       switchedPath = true;
 
-      configProvider = context.read<SqliteConfigProvider>();
       await configProvider.reinitialize();
       if (!configProvider.databaseOpened) {
         throw StateError('ECLIPSE could not open the selected data folder.');
@@ -1004,9 +1007,9 @@ class _SetupWizardState extends State<SetupWizard> with WidgetsBindingObserver {
 
       // These services cache paths derived from the active user-data folder.
       // Refresh them just as the existing user-data relocation flow does.
-      await context.read<NeoAssetsProvider>().reinitialize();
+      await neoAssetsProvider.reinitialize();
       await LoggerService.instance.reinitialize();
-      await context.read<FileProvider>().reinitialize();
+      await fileProvider.reinitialize();
       if (!mounted) return;
 
       setState(() => _selectedUserDataPath = selected);
@@ -1029,7 +1032,10 @@ class _SetupWizardState extends State<SetupWizard> with WidgetsBindingObserver {
           } else {
             await UserDataLocationService.setCustomPath(previousCustomPath);
           }
-          await configProvider?.reinitialize();
+          await configProvider.reinitialize();
+          await neoAssetsProvider.reinitialize();
+          await LoggerService.instance.reinitialize();
+          await fileProvider.reinitialize();
         } catch (rollbackError) {
           _log.e(
             'Could not restore the previous user-data path: $rollbackError',
