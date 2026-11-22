@@ -87,11 +87,12 @@ class SplashStatusLayout extends StatelessWidget {
   /// How much bigger than the design space a panel has to be before the status
   /// text grows at all.
   ///
-  /// Handhelds sit just above the 640×480 design space — the Thor's 831×467
-  /// resolves to ~1.3 — and their status line was already the right size at a
-  /// flat 17px. Anything inside this headroom therefore renders text exactly
-  /// as it did before the splash became scale-aware; only a genuinely larger
-  /// panel, a desktop window or a TV, starts growing it.
+  /// Handhelds fit within the 640×480 design space once both dimensions are
+  /// considered — including the Thor's 831×467 panel, which is height-limited.
+  /// Their status line was already the right size at a flat 17px. Anything
+  /// inside this headroom therefore renders text exactly as it did before the
+  /// splash became scale-aware; only a genuinely larger panel, a desktop
+  /// window or a TV starts growing it.
   static const double _textGrowthHeadroom = 1.4;
 
   /// The factor the splash *text* is scaled by.
