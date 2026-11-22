@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -10,6 +11,7 @@ import '../../models/game_model.dart';
 import '../../services/game_service.dart';
 import '../../providers/sqlite_config_provider.dart';
 import '../../providers/file_provider.dart';
+import '../../l10n/app_locale.dart';
 
 /// The ECLIPSE landing page. The existing Systems screen remains the full
 /// library and first-run ROM setup; this page is the console-style front door.
@@ -54,6 +56,7 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen>
   int _actionColumns = 2;
   List<VoidCallback> _actionCallbacks = const [];
   Future<List<GameModel>>? _recentGamesFuture;
+  List<GameModel> _libraryGames = const [];
   VideoPlayerController? _featuredVideoController;
 
   @override
@@ -88,9 +91,11 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen>
     final lists = await Future.wait(
       supportedSystems.map((system) => GameService.loadGamesForSystem(system)),
     );
-    final recent = GameService.getRecentlyPlayedGames(
-      lists.expand((games) => games).toList(),
-    );
+    final allGames = lists.expand((games) => games).toList();
+    if (mounted) {
+      setState(() => _libraryGames = allGames);
+    }
+    final recent = GameService.getRecentlyPlayedGames(allGames);
     await _loadFeaturedPreview(recent);
     return recent;
   }
@@ -135,6 +140,22 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen>
     } else if (!shouldPlay && controller.value.isPlaying) {
       controller.pause();
     }
+  }
+
+  Future<void> _launchRandomGame(
+    BuildContext context,
+    SqliteConfigProvider config,
+  ) async {
+    if (_libraryGames.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppLocale.noGamesAvailable.getString(context)),
+        ),
+      );
+      return;
+    }
+    final game = _libraryGames[math.Random().nextInt(_libraryGames.length)];
+    await _launchRecentGame(context, config, game);
   }
 
   Future<void> _launchRecentGame(
@@ -694,6 +715,16 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen>
         subtitle: 'Make ECLIPSE yours',
         onTap: widget.onOpenSettings,
         accent: const Color(0xFFB8A6FF),
+      ),
+      _HomeAction(
+        icon: Icons.shuffle_rounded,
+        title: AppLocale.randomGame.getString(context),
+        subtitle: AppLocale.play.getString(context),
+        onTap: () => _launchRandomGame(
+          context,
+          context.read<SqliteConfigProvider>(),
+        ),
+        accent: EclipseHomeScreen._cyan,
       ),
     ];
 
