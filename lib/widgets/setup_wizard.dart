@@ -185,7 +185,11 @@ class _SetupWizardState extends State<SetupWizard> with WidgetsBindingObserver {
   void _initGamepad() {
     _gamepadNav = GamepadNavigation(
       onSelectItem: () {
-        if (_isSelectingFolder || _isSelectingUserDataFolder || _isRestoringExistingData) return;
+        if (_isSelectingFolder ||
+            _isSelectingUserDataFolder ||
+            _isRestoringExistingData) {
+          return;
+        }
 
         if (_isImportingEsde || _isDownloadingArt) return;
         if (_currentStep == _stepUserData && _restoreExistingDataFocused) {
@@ -1026,7 +1030,9 @@ class _SetupWizardState extends State<SetupWizard> with WidgetsBindingObserver {
           }
           await configProvider?.reinitialize();
         } catch (rollbackError) {
-          _log.e('Could not restore the previous user-data path: $rollbackError');
+          _log.e(
+            'Could not restore the previous user-data path: $rollbackError',
+          );
         }
       }
       if (mounted) {
