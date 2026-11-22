@@ -1,0 +1,102 @@
+name: ECLIPSE Signed Android APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/signed-release-apk.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: eclipse-signed-apk
+  cancel-in-progress: false
+
+jobs:
+  signed-release:
+    name: Build and publish signed APK
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: zulu
+          java-version: '17'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version-file: .fvmrc
+          channel: stable
+          cache: true
+
+      - name: Restore original ECLIPSE signing key
+        env:
+          KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          STORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+        run: |
+          set -euo pipefail
+          test -n "$KEYSTORE_BASE64"
+          test -n "$STORE_PASSWORD"
+          test -n "$KEY_PASSWORD"
+          test -n "$KEY_ALIAS"
+          mkdir -p android/app
+          printf '%s' "$KEYSTORE_BASE64" | base64 --decode > android/app/eclipse-release.jks
+          python3 - <<'PY'
+          import os
+          from pathlib import Path
+          def prop(value):
+              return value.replace('\\\\', '\\\\\\\\').replace('\\n', '\\\\n').replace('\\r', '\\\\r').replace(':', '\\\\:').replace('=', '\\\\=')
+          values = {
+              'storePassword': os.environ['STORE_PASSWORD'],
+              'keyPassword': os.environ['KEY_PASSWORD'],
+              'keyAlias': os.environ['KEY_ALIAS'],
+              'storeFile': 'app/eclipse-release.jks',
+          }
+          Path('android/key.properties').write_text(''.join(f'{k}={prop(v)}\\n' for k, v in values.items()))
+          PY
+
+      - name: Install dependencies
+        run: flutter pub get --enforce-lockfile
+
+      - name: Build release APK
+        run: flutter build apk --release
+
+      - name: Verify APK signature
+        id: verify
+        run: |
+          set -euo pipefail
+          APK="build/app/outputs/flutter-apk/app-release.apk"
+          test -s "$APK"
+          APKSIGNER="$(find "$ANDROID_HOME/build-tools" -type f -name apksigner | sort -V | tail -n 1)"
+          test -x "$APKSIGNER"
+          "$APKSIGNER" verify --verbose --print-certs "$APK" | tee signature.txt
+          grep -q "Signer #1 certificate" signature.txt
+          echo "apk=$APK" >> "$GITHUB_OUTPUT"
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ECLIPSE-signed-APK
+          path: build/app/outputs/flutter-apk/app-release.apk
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Publish browser-downloadable GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          TAG="eclipse-signed-${GITHUB_RUN_NUMBER}"
+          gh release create "$TAG" build/app/outputs/flutter-apk/app-release.apk \\
+            --repo "$GITHUB_REPOSITORY" \\
+            --title "ECLIPSE signed Android APK #${GITHUB_RUN_NUMBER}" \\
+            --notes "Signed Android release build from commit ${GITHUB_SHA}. APK signature verified in GitHub Actions." \\
+            --prerelease
