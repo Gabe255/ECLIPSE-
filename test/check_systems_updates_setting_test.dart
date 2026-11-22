@@ -80,29 +80,29 @@ void main() {
         child: ScreenUtilInit(
           designSize: const Size(1920, 1080),
           builder: (context, child) => MultiProvider(
-                providers: [
-                  ChangeNotifierProvider<SqliteConfigProvider>(
-                    create: (_) => SqliteConfigProvider(),
-                  ),
-                  ChangeNotifierProvider<WallpaperProvider>(
-                    create: (_) => WallpaperProvider(),
-                  ),
-                ],
-                child: MaterialApp(
-                  localizationsDelegates:
-                      FlutterLocalization.instance.localizationsDelegates,
-                  supportedLocales:
-                      FlutterLocalization.instance.supportedLocales,
-                  home: Scaffold(
-                    body: GeneralSettingsContent(
-                      key: key,
-                      isContentFocused: true,
-                      selectedContentIndex: selectedContentIndex,
-                      onFullscreenToggle: (_) {},
-                    ),
-                  ),
+            providers: [
+              ChangeNotifierProvider<SqliteConfigProvider>(
+                create: (_) => SqliteConfigProvider(),
+              ),
+              ChangeNotifierProvider<WallpaperProvider>(
+                create: (_) => WallpaperProvider(),
+              ),
+            ],
+            child: MaterialApp(
+              localizationsDelegates:
+                  FlutterLocalization.instance.localizationsDelegates,
+              supportedLocales:
+                  FlutterLocalization.instance.supportedLocales,
+              home: Scaffold(
+                body: GeneralSettingsContent(
+                  key: key,
+                  isContentFocused: true,
+                  selectedContentIndex: selectedContentIndex,
+                  onFullscreenToggle: (_) {},
                 ),
               ),
+            ),
+          ),
         ),
       ),
     );
