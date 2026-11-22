@@ -37,10 +37,10 @@ jobs:
 
       - name: Restore original ECLIPSE signing key
         env:
-          KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
-          STORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-          KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
-          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          KEYSTORE_BASE64: \${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          STORE_PASSWORD: \${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KEY_PASSWORD: \${{ secrets.ANDROID_KEY_PASSWORD }}
+          KEY_ALIAS: \${{ secrets.ANDROID_KEY_ALIAS }}
         run: |
           set -euo pipefail
           test -n "$KEYSTORE_BASE64"
@@ -52,15 +52,24 @@ jobs:
           python3 - <<'PY'
           import os
           from pathlib import Path
+
           def prop(value):
-              return value.replace('\\\\', '\\\\\\\\').replace('\\n', '\\\\n').replace('\\r', '\\\\r').replace(':', '\\\\:').replace('=', '\\\\=')
+              return (value.replace("\\\\", "\\\\\\\\")
+                           .replace("\\n", "\\\\n")
+                           .replace("\\r", "\\\\r")
+                           .replace(":", "\\\\:")
+                           .replace("=", "\\\\="))
+
           values = {
-              'storePassword': os.environ['STORE_PASSWORD'],
-              'keyPassword': os.environ['KEY_PASSWORD'],
-              'keyAlias': os.environ['KEY_ALIAS'],
-              'storeFile': 'app/eclipse-release.jks',
+              "storePassword": os.environ["STORE_PASSWORD"],
+              "keyPassword": os.environ["KEY_PASSWORD"],
+              "keyAlias": os.environ["KEY_ALIAS"],
+              "storeFile": "app/eclipse-release.jks",
           }
-          Path('android/key.properties').write_text(''.join(f'{k}={prop(v)}\\n' for k, v in values.items()))
+          Path("android/key.properties").write_text(
+              "".join(f"{key}={prop(value)}\n" for key, value in values.items()),
+              encoding="utf-8",
+          )
           PY
 
       - name: Install dependencies
@@ -91,12 +100,12 @@ jobs:
 
       - name: Publish browser-downloadable GitHub Release
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: \${{ github.token }}
         run: |
           set -euo pipefail
-          TAG="eclipse-signed-${GITHUB_RUN_NUMBER}"
+          TAG="eclipse-signed-\${GITHUB_RUN_NUMBER}"
           gh release create "$TAG" build/app/outputs/flutter-apk/app-release.apk \\
             --repo "$GITHUB_REPOSITORY" \\
-            --title "ECLIPSE signed Android APK #${GITHUB_RUN_NUMBER}" \\
-            --notes "Signed Android release build from commit ${GITHUB_SHA}. APK signature verified in GitHub Actions." \\
+            --title "ECLIPSE signed Android APK #\${GITHUB_RUN_NUMBER}" \\
+            --notes "Signed Android release build from commit \${GITHUB_SHA}. APK signature verified in GitHub Actions." \\
             --prerelease
