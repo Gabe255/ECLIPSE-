@@ -947,7 +947,100 @@ class _SetupWizardState extends State<SetupWizard> with WidgetsBindingObserver {
       }
 
       if (selected == null || !mounted) return;
-      selected = selected.replaceFirst(RegExp(r'[/\\]+
+      final inspection =
+          await EclipseRecoveryService.inspectUserDataFolder(selected);
+      if (!mounted) return;
+      if (!inspection.isValid) {
+        await _showWizardMessage(
+          'Cannot restore this folder',
+          inspection.issue ?? 'This folder is not a valid ECLIPSE data folder.',
+        );
+        return;
+      }
+
+      if (!await UserDataLocationService.canWriteDirectory(selected)) {
+        await _showWizardMessage(
+          'Folder is not writable',
+          _userDataNotWritableMessage(),
+        );
+        return;
+      }
+
+      final confirmed = await showDialog<bool>(
+        context: context,
+        builder: (dialogContext) => AlertDialog(
+          title: const Text('Reconnect existing ECLIPSE data?'),
+          content: Text(
+            '${inspection.summary} ECLIPSE will use this folder as its user-data location. Existing files will not be moved or deleted. Make sure this is shared storage or an SD card if you want it to survive future reinstalls.\n\n$selected',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(false),
+              child: const Text('Cancel'),
+            ),
+            FilledButton(
+              onPressed: () => Navigator.of(dialogContext).pop(true),
+              child: const Text('Reconnect data'),
+            ),
+          ],
+        ),
+      );
+      if (confirmed != true || !mounted) return;
+
+      previousCustomPath = await UserDataLocationService.getCustomPath();
+      await UserDataLocationService.setCustomPath(selected);
+      switchedPath = true;
+
+      configProvider = context.read<SqliteConfigProvider>();
+      await configProvider.reinitialize();
+      if (!configProvider.databaseOpened) {
+        throw StateError('ECLIPSE could not open the selected data folder.');
+      }
+
+      // These services cache paths derived from the active user-data folder.
+      // Refresh them just as the existing user-data relocation flow does.
+      await context.read<NeoAssetsProvider>().reinitialize();
+      await LoggerService.instance.reinitialize();
+      await context.read<FileProvider>().reinitialize();
+      if (!mounted) return;
+
+      setState(() => _selectedUserDataPath = selected);
+      if (configProvider.config.setupCompleted ||
+          configProvider.config.romFolders.isNotEmpty) {
+        await widget.onComplete();
+      } else {
+        await _showWizardMessage(
+          'ECLIPSE data connected',
+          'Your existing data folder is connected. Continue setup to finish configuring this installation.',
+          icon: Symbols.check_circle_rounded,
+        );
+      }
+    } catch (error) {
+      _log.e('Restoring existing ECLIPSE data failed: $error');
+      if (switchedPath) {
+        try {
+          if (previousCustomPath == null) {
+            await UserDataLocationService.clearCustomPath();
+          } else {
+            await UserDataLocationService.setCustomPath(previousCustomPath);
+          }
+          await configProvider?.reinitialize();
+        } catch (rollbackError) {
+          _log.e('Could not restore the previous user-data path: $rollbackError');
+        }
+      }
+      if (mounted) {
+        await _showWizardMessage(
+          'Could not reconnect ECLIPSE data',
+          'The previous data location was kept. Details: ${error.toString().split(String.fromCharCode(10)).first}',
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _isRestoringExistingData = false);
+      if (mounted) _gamepadNav?.activate();
+    }
+  }
+
   /// [_selectUserDataLocationWizard]'s work: answers why the picked folder
   /// can't be used, or null.
   Future<String?> _changeUserDataLocation() async {
