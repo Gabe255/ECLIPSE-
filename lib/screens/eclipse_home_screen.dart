@@ -430,7 +430,6 @@ class _CompactStat extends StatelessWidget {
   );
 }
 
-
 class _EclipseDock extends StatelessWidget {
   const _EclipseDock({
     required this.onDiscover,
