@@ -1,6 +1,28 @@
 part of 'app_locale.dart';
 
 const Map<String, dynamic> appLocaleId = {
+  AppLocale.entertainment: 'Hiburan',
+  AppLocale.entertainmentFeatured: 'Unggulan',
+  AppLocale.entertainmentRecentlyOpened: 'Baru dibuka',
+  AppLocale.entertainmentYourApps: 'Aplikasi Anda',
+  AppLocale.entertainmentMoviesTv: 'Film & TV',
+  AppLocale.entertainmentLiveSports: 'Siaran Langsung & Olahraga',
+  AppLocale.entertainmentMusicCreators: 'Musik & Kreator',
+  AppLocale.entertainmentSearchHint: 'Cari aplikasi hiburan',
+  AppLocale.entertainmentEmpty: 'Tidak ada aplikasi yang cocok.',
+  AppLocale.entertainmentOpenStore: 'Buka toko',
+  AppLocale.entertainmentInstalled: 'Terpasang',
+  AppLocale.entertainmentNotInstalled: 'Belum terpasang',
+
+  AppLocale.quickMenu: 'Menu cepat',
+  AppLocale.quickMenuResumeLibrary: 'Lanjutkan pustaka game',
+  AppLocale.quickMenuResumeLibrarySubtitle:
+      'Jelajahi dan jalankan game untuk sistem ini',
+  AppLocale.quickMenuSystemInfo: 'Informasi sistem',
+  AppLocale.quickMenuSystemInfoSubtitle:
+      'Lihat detail platform dan game yang terdeteksi',
+  AppLocale.quickMenuBackPlatforms: 'Kembali ke platform',
+  AppLocale.quickMenuBackPlatformsSubtitle: 'Kembali ke daftar sistem ECLIPSE',
   AppLocale.raCatalogueRefreshFailed: 'Katalog RetroAchievements tidak dapat diperbarui. Pencocokan menggunakan data tersimpan.',
   AppLocale.smartMatchesOne: '1 game cocok',
   AppLocale.smartCollection: 'Koleksi pintar',
