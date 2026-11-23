@@ -22,6 +22,8 @@ class EclipseHomeScreen extends StatefulWidget {
     this.onOpenDiscovery,
     this.onOpenSettings,
     this.onOpenEntertainment,
+    this.onQuickMenu,
+    this.onSearch,
   });
 
   final int selectedSystemIndex;
@@ -29,6 +31,8 @@ class EclipseHomeScreen extends StatefulWidget {
   final VoidCallback? onOpenDiscovery;
   final VoidCallback? onOpenSettings;
   final VoidCallback? onOpenEntertainment;
+  final VoidCallback? onQuickMenu;
+  final VoidCallback? onSearch;
 
   @override
   State<EclipseHomeScreen> createState() => _EclipseHomeScreenState();
@@ -169,16 +173,19 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen> {
                                   ],
                                 ),
                               ),
-                              _HeaderAction(
-                                icon: Icons.explore_outlined,
-                                label: 'DISCOVER',
-                                onPressed: widget.onOpenDiscovery,
+                              IconButton(
+                                tooltip: 'Search games',
+                                onPressed: widget.onSearch,
+                                icon: const Icon(Icons.search_rounded),
+                                color: _lavender,
+                                visualDensity: VisualDensity.compact,
                               ),
-                              const SizedBox(width: 8),
-                              _HeaderAction(
-                                icon: Icons.tune_rounded,
-                                label: 'SETTINGS',
-                                onPressed: widget.onOpenSettings,
+                              IconButton(
+                                tooltip: 'Quick Menu',
+                                onPressed: widget.onQuickMenu,
+                                icon: const Icon(Icons.grid_view_rounded),
+                                color: _lavender,
+                                visualDensity: VisualDensity.compact,
                               ),
                             ],
                           ),
