@@ -62,18 +62,21 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen> {
   Future<void> _loadExperience() async {
     final preferences = await SharedPreferences.getInstance();
     final saved = preferences.getString(_experiencePreferenceKey);
-    if (!mounted || saved == null ||
-        EclipseExperienceCatalog.byId(saved) == null) return;
+    if (!mounted ||
+        saved == null ||
+        EclipseExperienceCatalog.byId(saved) == null) {
+      return;
+    }
     setState(() => _selectedExperienceId = saved);
   }
 
   void _handleExperienceChanged(EclipseExperience experience) {
     setState(() => _selectedExperienceId = experience.id);
   }
+
   static const _violet = Color(0xFF9A72FF);
   static const _lavender = Color(0xFFD9CCFF);
 
-  @override
   @override
   Widget build(BuildContext context) {
     return Consumer2<SqliteConfigProvider, SqliteDatabaseProvider>(
@@ -173,7 +176,7 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen> {
                             ],
                           ),
                           const SizedBox(height: 14),
-                          const Align(
+                          Align(
                             alignment: Alignment.centerLeft,
                             child: EclipseExperienceSwitcher(
                               onChanged: _handleExperienceChanged,
@@ -188,13 +191,16 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen> {
                               border: Border.all(
                                 color: _accent.withValues(alpha: .32),
                               ),
-                              gradient: const LinearGradient(
+                              gradient: LinearGradient(
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
                                 colors: [
-                                  Color.alphaBlend(_accent.withValues(alpha: .20), const Color(0xFF292044)),
-                                  Color(0xFF171326),
-                                  Color(0xFF100D1B),
+                                  Color.alphaBlend(
+                                    _accent.withValues(alpha: .20),
+                                    const Color(0xFF292044),
+                                  ),
+                                  const Color(0xFF171326),
+                                  const Color(0xFF100D1B),
                                 ],
                               ),
                             ),
@@ -205,7 +211,7 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      const Text(
+                                      Text(
                                         '${_experience.name.toUpperCase()}  •  ${_experience.category.toUpperCase()}',
                                         style: TextStyle(
                                           color: _lavender,
