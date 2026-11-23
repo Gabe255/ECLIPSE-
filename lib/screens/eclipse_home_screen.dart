@@ -78,7 +78,6 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen> {
     setState(() => _selectedExperienceId = experience.id);
   }
 
-  static const _violet = Color(0xFF9A72FF);
   static const _lavender = Color(0xFFD9CCFF);
 
   @override
