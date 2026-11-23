@@ -48,7 +48,7 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen> {
     'Nintendo' => const Color(0xFFFF6B73),
     'Sega' => const Color(0xFF70A9FF),
     'Arcade & Retro' => const Color(0xFFFFB45E),
-    'Computers', 'PC Gaming' => const Color(0xFF66D9D0),
+    'Computers' || 'PC Gaming' => const Color(0xFF66D9D0),
     'Entertainment' => const Color(0xFFFF83C5),
     _ => const Color(0xFF9A72FF),
   };
