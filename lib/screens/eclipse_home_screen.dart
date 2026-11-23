@@ -3,6 +3,8 @@ import 'package:neostation/providers/sqlite_config_provider.dart';
 import 'package:neostation/providers/sqlite_database_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../widgets/eclipse_experience_switcher.dart';
+
 import 'systems_screen/system_content.dart';
 
 /// ECLIPSE's rebuilt main landing experience.
@@ -118,6 +120,11 @@ class EclipseHomeScreen extends StatelessWidget {
                                 onPressed: onOpenSettings,
                               ),
                             ],
+                          ),
+                          const SizedBox(height: 14),
+                          const Align(
+                            alignment: Alignment.centerLeft,
+                            child: EclipseExperienceSwitcher(),
                           ),
                           const SizedBox(height: 20),
                           Container(
