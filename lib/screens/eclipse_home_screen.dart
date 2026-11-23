@@ -40,6 +40,8 @@ class EclipseHomeScreen extends StatefulWidget {
 
 class _EclipseHomeScreenState extends State<EclipseHomeScreen> {
   static const _ink = Color(0xFF080711);
+  static const _violet = Color(0xFF9A72FF);
+  static const _lavender = Color(0xFFD9CCFF);
   static const _experiencePreferenceKey = 'eclipse.selected_experience';
   String _selectedExperienceId = EclipseExperienceCatalog.defaultExperienceId;
 
@@ -78,7 +80,6 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen> {
     setState(() => _selectedExperienceId = experience.id);
   }
 
-  static const _lavender = Color(0xFFD9CCFF);
 
   @override
   Widget build(BuildContext context) {
