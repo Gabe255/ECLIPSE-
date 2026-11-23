@@ -1,4 +1,5 @@
 import 'package:neostation/providers/sqlite_database_provider.dart';
+import 'eclipse_home_screen.dart';
 import 'package:neostation/providers/retro_achievements_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -772,9 +773,11 @@ class AppScreenState extends State<AppScreen> with WidgetsBindingObserver {
   Widget _buildCurrentTabContent() {
     switch (_selectedTabIndex) {
       case AppTabs.systems:
-        return SystemContent(
-          selectedIndex: _selectedSystemIndex,
-          onCardTapped: _onSystemCardTapped,
+        return EclipseHomeScreen(
+          selectedSystemIndex: _selectedSystemIndex,
+          onSystemSelected: _onSystemCardTapped,
+          onOpenDiscovery: () => _onTabSelected(AppTabs.discovery),
+          onOpenSettings: () => _onTabSelected(AppTabs.settings),
         );
       case AppTabs.sync:
         // Each save provider's content owns its gamepad navigation layer.
