@@ -21,7 +21,7 @@ class _EclipseExperienceSwitcherState extends State<EclipseExperienceSwitcher> {
   static const _preferenceKey = 'eclipse.selected_experience';
   static const _violet = Color(0xFF9A72FF);
 
-  String _selectedId = 'ps5';
+  String _selectedId = EclipseExperienceCatalog.defaultExperienceId;
   bool _ready = false;
 
   EclipseExperience get _selected =>
