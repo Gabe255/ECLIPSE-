@@ -1,6 +1,26 @@
 part of 'app_locale.dart';
 
 const Map<String, dynamic> appLocaleJa = {
+  AppLocale.entertainment: 'エンターテインメント',
+  AppLocale.entertainmentFeatured: '注目',
+  AppLocale.entertainmentRecentlyOpened: '最近開いたアプリ',
+  AppLocale.entertainmentYourApps: 'あなたのアプリ',
+  AppLocale.entertainmentMoviesTv: '映画・テレビ',
+  AppLocale.entertainmentLiveSports: 'ライブ・スポーツ',
+  AppLocale.entertainmentMusicCreators: '音楽・クリエイター',
+  AppLocale.entertainmentSearchHint: 'エンタメアプリを検索',
+  AppLocale.entertainmentEmpty: '該当するアプリはありません。',
+  AppLocale.entertainmentOpenStore: 'ストアを開く',
+  AppLocale.entertainmentInstalled: 'インストール済み',
+  AppLocale.entertainmentNotInstalled: '未インストール',
+
+  AppLocale.quickMenu: 'クイックメニュー',
+  AppLocale.quickMenuResumeLibrary: 'ゲームライブラリに戻る',
+  AppLocale.quickMenuResumeLibrarySubtitle: 'このシステムのゲームを閲覧して起動',
+  AppLocale.quickMenuSystemInfo: 'システム情報',
+  AppLocale.quickMenuSystemInfoSubtitle: 'プラットフォームの詳細と検出されたゲームを表示',
+  AppLocale.quickMenuBackPlatforms: 'プラットフォームに戻る',
+  AppLocale.quickMenuBackPlatformsSubtitle: 'ECLIPSEのシステム一覧に戻る',
   AppLocale.raCatalogueRefreshFailed:
       'RetroAchievementsカタログを更新できませんでした。保存済みのデータで照合しました。',
   AppLocale.smartMatchesOne: '一致するゲーム：1件',
