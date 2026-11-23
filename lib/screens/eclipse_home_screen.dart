@@ -474,8 +474,8 @@ class _EclipseDock extends StatelessWidget {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
-      builder: (_) => const Padding(
-        padding: EdgeInsets.fromLTRB(20, 22, 20, 28),
+      builder: (_) => Padding(
+        padding: const EdgeInsets.fromLTRB(20, 22, 20, 28),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -489,7 +489,7 @@ class _EclipseDock extends StatelessWidget {
                 fontWeight: FontWeight.w900,
               ),
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             EclipseExperienceSwitcher(onChanged: onExperienceChanged),
           ],
         ),
@@ -522,11 +522,11 @@ class _EclipseDock extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _DockItem(
+                const _DockItem(
                   icon: Icons.grid_view_rounded,
                   label: 'LIBRARY',
                   selected: true,
-                  onPressed: () {},
+                  onPressed: null,
                 ),
                 _DockItem(
                   icon: Icons.explore_outlined,
@@ -575,7 +575,7 @@ class _DockItem extends StatelessWidget {
     final color = selected ? const Color(0xFFD9CCFF) : const Color(0xFFAAA1C0);
     return Expanded(
       child: Semantics(
-        button: true,
+        button: onPressed != null,
         selected: selected,
         label: label,
         child: InkWell(
