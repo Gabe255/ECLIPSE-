@@ -34,12 +34,14 @@ class Header extends StatefulWidget {
 
   /// Touch search entry shown on the Systems tab. Null hides it.
   final VoidCallback? onSearch;
+  final VoidCallback? onQuickMenu;
 
   const Header({
     super.key,
     required this.selectedTabIndex,
     required this.onTabSelected,
     this.onSearch,
+    this.onQuickMenu,
   });
 
   @override
@@ -533,6 +535,26 @@ class HeaderState extends State<Header> with WidgetsBindingObserver {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 const NotificationBell(),
+                                if (widget.onQuickMenu != null) ...[
+                                  SizedBox(width: 8.r),
+                                  IconButton(
+                                    tooltip: AppLocale.quickMenu.getString(
+                                      context,
+                                    ),
+                                    onPressed: () {
+                                      SfxService().playNavSound();
+                                      widget.onQuickMenu?.call();
+                                    },
+                                    visualDensity: VisualDensity.compact,
+                                    padding: EdgeInsets.zero,
+                                    constraints: BoxConstraints.tightFor(
+                                      width: 22.r,
+                                      height: 22.r,
+                                    ),
+                                    iconSize: 15.r,
+                                    icon: const Icon(Icons.grid_view_rounded),
+                                  ),
+                                ],
                                 SizedBox(width: 10.r),
                                 Text(
                                   clockText,

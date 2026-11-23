@@ -74,7 +74,7 @@ void main() {
         // wraps, and the wrapped block still has to fit under the logo.
         await pumpAt(tester, entry.value, [
           const Text(
-            'Preparing NeoStation. Waiting for storage and services...',
+            'Preparing ECLIPSE. Waiting for storage and services...',
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 17),
           ),
@@ -82,9 +82,7 @@ void main() {
 
         final logo = tester.getRect(find.byType(ShimmeringLogo));
         final text = tester.getRect(
-          find.text(
-            'Preparing NeoStation. Waiting for storage and services...',
-          ),
+          find.text('Preparing ECLIPSE. Waiting for storage and services...'),
         );
         expect(text.top, greaterThanOrEqualTo(logo.bottom));
         expect(text.bottom, lessThanOrEqualTo(entry.value.height));

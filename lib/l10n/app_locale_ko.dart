@@ -1,6 +1,26 @@
 part of 'app_locale.dart';
 
 const Map<String, dynamic> appLocaleKo = {
+  AppLocale.entertainment: '엔터테인먼트',
+  AppLocale.entertainmentFeatured: '추천',
+  AppLocale.entertainmentRecentlyOpened: '최근 실행',
+  AppLocale.entertainmentYourApps: '내 앱',
+  AppLocale.entertainmentMoviesTv: '영화 및 TV',
+  AppLocale.entertainmentLiveSports: '라이브 및 스포츠',
+  AppLocale.entertainmentMusicCreators: '음악 및 크리에이터',
+  AppLocale.entertainmentSearchHint: '엔터테인먼트 앱 검색',
+  AppLocale.entertainmentEmpty: '일치하는 앱이 없습니다.',
+  AppLocale.entertainmentOpenStore: '스토어 열기',
+  AppLocale.entertainmentInstalled: '설치됨',
+  AppLocale.entertainmentNotInstalled: '미설치',
+
+  AppLocale.quickMenu: '빠른 메뉴',
+  AppLocale.quickMenuResumeLibrary: '게임 라이브러리로 돌아가기',
+  AppLocale.quickMenuResumeLibrarySubtitle: '이 시스템의 게임을 찾아 실행합니다',
+  AppLocale.quickMenuSystemInfo: '시스템 정보',
+  AppLocale.quickMenuSystemInfoSubtitle: '플랫폼 세부 정보와 검색된 게임 보기',
+  AppLocale.quickMenuBackPlatforms: '플랫폼으로 돌아가기',
+  AppLocale.quickMenuBackPlatformsSubtitle: 'ECLIPSE 시스템 선반으로 돌아갑니다',
   AppLocale.raCatalogueRefreshFailed:
       'RetroAchievements 카탈로그를 새로 고칠 수 없습니다. 저장된 데이터로 일치하는 게임을 찾았습니다.',
   AppLocale.smartMatchesOne: '일치하는 게임 1개',

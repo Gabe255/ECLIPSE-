@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:neostation/services/logger_service.dart';
 import 'package:neostation/services/permission_service.dart';
 import 'package:neostation/services/config_service.dart';
+import 'package:neostation/services/eclipse_recovery_service.dart';
 import 'package:neostation/services/user_data_location_service.dart';
 import 'package:neostation/services/screenshot_service.dart';
 import 'package:neostation/providers/theme_provider.dart';
@@ -45,6 +46,8 @@ class _SetupWizardState extends State<SetupWizard> with WidgetsBindingObserver {
   int _currentStep = 0;
   bool _isSelectingFolder = false;
   bool _isSelectingUserDataFolder = false;
+  bool _isRestoringExistingData = false;
+  bool _restoreExistingDataFocused = false;
   String? _selectedFolder;
   String? _selectedUserDataPath;
   SecondaryDisplayState? _secondaryDisplayState;
@@ -182,9 +185,17 @@ class _SetupWizardState extends State<SetupWizard> with WidgetsBindingObserver {
   void _initGamepad() {
     _gamepadNav = GamepadNavigation(
       onSelectItem: () {
-        if (_isSelectingFolder || _isSelectingUserDataFolder) return;
+        if (_isSelectingFolder ||
+            _isSelectingUserDataFolder ||
+            _isRestoringExistingData) {
+          return;
+        }
 
         if (_isImportingEsde || _isDownloadingArt) return;
+        if (_currentStep == _stepUserData && _restoreExistingDataFocused) {
+          _restoreExistingUserData();
+          return;
+        }
         // Mirror the on-screen button's disabled state on the final step: while
         // the theme manifest is still in flight we can't tell whether a pack is
         // available, and letting A through would finish setup with no art.
@@ -226,6 +237,13 @@ class _SetupWizardState extends State<SetupWizard> with WidgetsBindingObserver {
   /// Moves the art-pack list selection by [delta] (D-pad up/down). A no-op on
   /// every other wizard step.
   void _moveArtPackSelection(int delta) {
+    if (_currentStep == _stepUserData) {
+      final focusRestore = delta > 0;
+      if (_restoreExistingDataFocused != focusRestore) {
+        setState(() => _restoreExistingDataFocused = focusRestore);
+      }
+      return;
+    }
     if (_currentStep != _stepArtPack) return;
     final neoAssets = context.read<NeoAssetsProvider>();
     final themes = neoAssets.themes;
@@ -777,6 +795,16 @@ class _SetupWizardState extends State<SetupWizard> with WidgetsBindingObserver {
             ),
             textAlign: TextAlign.center,
           ),
+          SizedBox(height: isLandscape ? 8.r : 12.r),
+          Text(
+            'Already have an ECLIPSE data folder? Choose Restore below and select the folder containing data.sqlite. Use shared storage or an SD card so it survives an app reinstall.',
+            style: TextStyle(
+              fontSize: textSize - 1.r,
+              color: theme.colorScheme.onSurface.withValues(alpha: 0.65),
+              height: 1.25,
+            ),
+            textAlign: TextAlign.center,
+          ),
 
           if (_selectedUserDataPath != null) ...[
             SizedBox(height: isLandscape ? 8.r : 16.r),
@@ -877,6 +905,152 @@ class _SetupWizardState extends State<SetupWizard> with WidgetsBindingObserver {
         AppLocale.userDataLocation.getString(context),
         problem,
       );
+    }
+  }
+
+  /// Reconnects to a previously used ECLIPSE data folder without moving,
+  /// replacing, or deleting anything inside it.
+  Future<void> _restoreExistingUserData() async {
+    if (_isRestoringExistingData || _isSelectingUserDataFolder) return;
+    setState(() => _isRestoringExistingData = true);
+    _gamepadNav?.deactivate();
+
+    final configProvider = context.read<SqliteConfigProvider>();
+    final neoAssetsProvider = context.read<NeoAssetsProvider>();
+    final fileProvider = context.read<FileProvider>();
+    String? selected;
+    String? previousCustomPath;
+    var switchedPath = false;
+
+    try {
+      if (Platform.isAndroid) {
+        final isTV = await PermissionService.isTelevision();
+        if (!mounted) return;
+        if (isTV) {
+          selected = await TvDirectoryPicker.show(context);
+        } else {
+          try {
+            final uri = await PermissionService.requestFolderAccess();
+            if (uri != null) {
+              selected = UserDataLocationService.safUriToRealPath(
+                uri.toString(),
+              );
+            }
+          } on PlatformException catch (error) {
+            if (error.code == 'PICKER_FAILED' && mounted) {
+              selected = await TvDirectoryPicker.show(context);
+            } else {
+              rethrow;
+            }
+          }
+        }
+      } else {
+        selected = await TvDirectoryPicker.pickDirectory(
+          context,
+          dialogTitle: 'Select existing ECLIPSE data folder',
+          initialDirectory: _selectedUserDataPath,
+        );
+      }
+
+      if (selected == null || !mounted) return;
+      final inspection = await EclipseRecoveryService.inspectUserDataFolder(
+        selected,
+      );
+      if (!mounted) return;
+      if (!inspection.isValid) {
+        await _showWizardMessage(
+          'Cannot restore this folder',
+          inspection.issue ?? 'This folder is not a valid ECLIPSE data folder.',
+        );
+        return;
+      }
+
+      if (!await UserDataLocationService.canWriteDirectory(selected)) {
+        await _showWizardMessage(
+          'Folder is not writable',
+          _userDataNotWritableMessage(),
+        );
+        return;
+      }
+      if (!mounted) return;
+
+      final confirmed = await showDialog<bool>(
+        context: context,
+        builder: (dialogContext) => AlertDialog(
+          title: const Text('Reconnect existing ECLIPSE data?'),
+          content: Text(
+            '${inspection.summary} ECLIPSE will use this folder as its user-data location. Existing files will not be moved or deleted. Make sure this is shared storage or an SD card if you want it to survive future reinstalls.\n\n$selected',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(false),
+              child: const Text('Cancel'),
+            ),
+            FilledButton(
+              onPressed: () => Navigator.of(dialogContext).pop(true),
+              child: const Text('Reconnect data'),
+            ),
+          ],
+        ),
+      );
+      if (confirmed != true || !mounted) return;
+
+      previousCustomPath = await UserDataLocationService.getCustomPath();
+      if (!mounted) return;
+      await UserDataLocationService.setCustomPath(selected);
+      switchedPath = true;
+
+      await configProvider.reinitialize();
+      if (!configProvider.databaseOpened) {
+        throw StateError('ECLIPSE could not open the selected data folder.');
+      }
+
+      // These services cache paths derived from the active user-data folder.
+      // Refresh them just as the existing user-data relocation flow does.
+      await neoAssetsProvider.reinitialize();
+      await LoggerService.instance.reinitialize();
+      await fileProvider.reinitialize();
+      if (!mounted) return;
+
+      setState(() => _selectedUserDataPath = selected);
+      if (configProvider.config.setupCompleted ||
+          configProvider.config.romFolders.isNotEmpty) {
+        await widget.onComplete();
+      } else {
+        await _showWizardMessage(
+          'ECLIPSE data connected',
+          'Your existing data folder is connected. Continue setup to finish configuring this installation.',
+          icon: Symbols.check_circle_rounded,
+        );
+      }
+    } catch (error) {
+      _log.e('Restoring existing ECLIPSE data failed: $error');
+      if (switchedPath) {
+        try {
+          if (previousCustomPath == null) {
+            await UserDataLocationService.clearCustomPath();
+          } else {
+            await UserDataLocationService.setCustomPath(previousCustomPath);
+          }
+          await configProvider.reinitialize();
+          await neoAssetsProvider.reinitialize();
+          await LoggerService.instance.reinitialize();
+          await fileProvider.reinitialize();
+        } catch (rollbackError) {
+          _log.e(
+            'Could not restore the previous user-data path: $rollbackError',
+          );
+        }
+      }
+      if (mounted) {
+        await _showWizardMessage(
+          'Could not reconnect ECLIPSE data',
+          'The previous data location was kept. Details: ${error.toString().split(String.fromCharCode(10)).first}',
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _isRestoringExistingData = false);
+      if (mounted) _gamepadNav?.activate();
     }
   }
 
@@ -1886,6 +2060,41 @@ class _SetupWizardState extends State<SetupWizard> with WidgetsBindingObserver {
   }
 
   Widget _buildNavigationButtons(ThemeData theme) {
+    if (_currentStep == _stepUserData) {
+      final busy = _isSelectingUserDataFolder || _isRestoringExistingData;
+      final muted = theme.colorScheme.onSurface.withValues(alpha: 0.1);
+      final mutedText = theme.colorScheme.onSurface.withValues(alpha: 0.65);
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          GamepadControl(
+            icon: Symbols.restore_rounded,
+            label: 'Restore data',
+            semanticLabel: 'Reconnect an existing ECLIPSE data folder',
+            onTap: busy ? null : _restoreExistingUserData,
+            busy: _isRestoringExistingData,
+            backgroundColor: _restoreExistingDataFocused
+                ? theme.colorScheme.primary
+                : muted,
+            textColor: _restoreExistingDataFocused
+                ? theme.colorScheme.onPrimary
+                : mutedText,
+          ),
+          GamepadControl(
+            iconPath: 'assets/images/gamepad/Xbox_A_button.png',
+            label: AppLocale.next.getString(context),
+            onTap: busy ? null : _handleMainAction,
+            backgroundColor: _restoreExistingDataFocused
+                ? muted
+                : theme.colorScheme.primary,
+            textColor: _restoreExistingDataFocused
+                ? mutedText
+                : theme.colorScheme.onPrimary,
+          ),
+        ],
+      );
+    }
+
     // The scanning step advances to the optional ES-DE step once complete.
     final isInScanningStep = _currentStep == _stepScanning;
 

@@ -1,4 +1,7 @@
 import 'package:neostation/providers/sqlite_database_provider.dart';
+
+import 'eclipse_home_screen.dart';
+
 import 'package:neostation/providers/retro_achievements_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +20,9 @@ import 'package:neostation/l10n/app_locale.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 
 import '../widgets/fixed_header.dart';
+import '../widgets/eclipse_quick_menu.dart';
 import 'systems_screen/system_content.dart';
+import 'entertainment_screen.dart';
 import 'search_screen/search_screen.dart';
 import 'systems_screen/my_systems_section/initial_setup_widget.dart';
 import 'discovery_screen/discovery_content.dart';
@@ -64,9 +69,10 @@ abstract final class AppTabs {
   static const int romm = 4;
   static const int settings = 5;
   static const int androidApps = 6;
+  static const int entertainment = 7;
 
   /// Total number of tabs, used for wrap-around when cycling with the bumpers.
-  static const int count = 7;
+  static const int count = 8;
 }
 
 /// Bridge class providing static access to the main application navigation state.
@@ -77,6 +83,11 @@ class AppNavigation {
   /// Switches directly to [index] (see [AppTabs]).
   static void goToTab(int index) {
     AppScreenState._selectTabStatic(index);
+  }
+
+  /// Opens the global quick menu from nested controller-driven screens.
+  static void openQuickMenu() {
+    AppScreenState._currentInstance?._openQuickMenu();
   }
 
   /// Temporarily suspends global gamepad and keyboard navigation.
@@ -508,10 +519,45 @@ class AppScreenState extends State<AppScreen> with WidgetsBindingObserver {
     return true;
   }
 
-  void _handleSettings() {
-    if (_selectedTabIndex == AppTabs.systems) {
-      return;
-    }
+  void _handleSettings() => _openQuickMenu();
+
+  void _openQuickMenu() {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (sheetContext) => EclipseQuickMenu(
+        onClose: () => Navigator.of(sheetContext).pop(),
+        onAction: (action) {
+          Navigator.of(sheetContext).pop();
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (!mounted) return;
+            switch (action) {
+              case EclipseQuickAction.resumeLibrary:
+                _onTabSelected(AppTabs.systems);
+                break;
+              case EclipseQuickAction.entertainment:
+                _onTabSelected(AppTabs.entertainment);
+                break;
+              case EclipseQuickAction.discovery:
+                _onTabSelected(AppTabs.discovery);
+                break;
+              case EclipseQuickAction.rescan:
+                final config = context.read<SqliteConfigProvider>();
+                if (config.hasRomFolder) {
+                  unawaited(config.scanSystems());
+                } else {
+                  _onTabSelected(AppTabs.systems);
+                }
+                break;
+              case EclipseQuickAction.settings:
+                _onTabSelected(AppTabs.settings);
+                break;
+            }
+          });
+        },
+      ),
+    );
   }
 
   void _handleBackNavigation() {
@@ -724,13 +770,13 @@ class AppScreenState extends State<AppScreen> with WidgetsBindingObserver {
                       child:
                           (configProvider.initialized ||
                               !configProvider.isLoading)
-                          ? FixedHeader(
-                              selectedTabIndex: _selectedTabIndex,
-                              onTabSelected: _onTabSelected,
-                              onSearch: _selectedTabIndex == AppTabs.systems
-                                  ? () => unawaited(_openSearchFromHeader())
-                                  : null,
-                            )
+                          ? _selectedTabIndex == AppTabs.systems
+                                ? const SizedBox.shrink()
+                                : FixedHeader(
+                                    selectedTabIndex: _selectedTabIndex,
+                                    onTabSelected: _onTabSelected,
+                                    onQuickMenu: _openQuickMenu,
+                                  )
                           : const SizedBox.shrink(),
                     ),
 
@@ -772,9 +818,14 @@ class AppScreenState extends State<AppScreen> with WidgetsBindingObserver {
   Widget _buildCurrentTabContent() {
     switch (_selectedTabIndex) {
       case AppTabs.systems:
-        return SystemContent(
-          selectedIndex: _selectedSystemIndex,
-          onCardTapped: _onSystemCardTapped,
+        return EclipseHomeScreen(
+          selectedSystemIndex: _selectedSystemIndex,
+          onSystemSelected: _onSystemCardTapped,
+          onOpenDiscovery: () => _onTabSelected(AppTabs.discovery),
+          onOpenSettings: () => _onTabSelected(AppTabs.settings),
+          onOpenEntertainment: () => _onTabSelected(AppTabs.entertainment),
+          onQuickMenu: _openQuickMenu,
+          onSearch: () => unawaited(_openSearchFromHeader()),
         );
       case AppTabs.sync:
         // Each save provider's content owns its gamepad navigation layer.
@@ -804,6 +855,14 @@ class AppScreenState extends State<AppScreen> with WidgetsBindingObserver {
           _gamepadNav.deactivate();
         });
         return AndroidAppsGrid(system: androidSystem, embedded: true);
+      case AppTabs.entertainment:
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _gamepadNav.deactivate();
+        });
+        return EntertainmentScreen(
+          onBack: () => _onTabSelected(AppTabs.systems),
+          onQuickMenu: _openQuickMenu,
+        );
       case AppTabs.discovery:
         // Discovery hosts the systems grid, which pushes its own gamepad layer
         // on top of this one. Adding a deactivate callback here would leave two

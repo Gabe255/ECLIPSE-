@@ -1,6 +1,28 @@
 part of 'app_locale.dart';
 
 const Map<String, dynamic> appLocaleRu = {
+  AppLocale.entertainment: 'Развлечения',
+  AppLocale.entertainmentFeatured: 'Рекомендуем',
+  AppLocale.entertainmentRecentlyOpened: 'Недавно открытые',
+  AppLocale.entertainmentYourApps: 'Ваши приложения',
+  AppLocale.entertainmentMoviesTv: 'Фильмы и ТВ',
+  AppLocale.entertainmentLiveSports: 'Трансляции и спорт',
+  AppLocale.entertainmentMusicCreators: 'Музыка и авторы',
+  AppLocale.entertainmentSearchHint: 'Поиск развлекательных приложений',
+  AppLocale.entertainmentEmpty: 'Подходящие приложения не найдены.',
+  AppLocale.entertainmentOpenStore: 'Открыть магазин',
+  AppLocale.entertainmentInstalled: 'Установлено',
+  AppLocale.entertainmentNotInstalled: 'Не установлено',
+
+  AppLocale.quickMenu: 'Быстрое меню',
+  AppLocale.quickMenuResumeLibrary: 'Вернуться к библиотеке игр',
+  AppLocale.quickMenuResumeLibrarySubtitle:
+      'Просмотр и запуск игр этой системы',
+  AppLocale.quickMenuSystemInfo: 'Информация о системе',
+  AppLocale.quickMenuSystemInfoSubtitle:
+      'Сведения о платформе и найденных играх',
+  AppLocale.quickMenuBackPlatforms: 'К списку платформ',
+  AppLocale.quickMenuBackPlatformsSubtitle: 'Вернуться к списку систем ECLIPSE',
   AppLocale.raCatalogueRefreshFailed: 'Не удалось обновить каталог RetroAchievements. Сопоставление выполнено по сохранённым данным.',
   AppLocale.smartMatchesOne: 'Подходящих игр: 1',
   AppLocale.smartCollection: 'Умная коллекция',

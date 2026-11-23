@@ -20,6 +20,7 @@ enum NavTab {
   romm,
   settings,
   androidApps,
+  entertainment,
 }
 
 /// Static description of one navigation tab: how it is drawn, whether the user
@@ -119,6 +120,11 @@ const Map<NavTab, NavTabSpec> navTabSpecs = {
     labelKey: AppLocale.androidApps,
     iconData: Symbols.android_rounded,
   ),
+  NavTab.entertainment: NavTabSpec(
+    icon: '',
+    labelKey: AppLocale.entertainment,
+    iconData: Symbols.live_tv_rounded,
+  ),
 };
 
 // Torn out as top-level functions so [navTabSpecs] can stay `const`.
@@ -155,8 +161,8 @@ List<NavTab> visibleNavTabs(ConfigModel config) {
   return orderNavTabs(visible);
 }
 
-/// Places Android Apps right after Discovery, or after Systems when Discovery
-/// is hidden, without changing tab identities.
+/// Places Android Apps right after Discovery and Entertainment right after
+/// Android Apps (or Discovery when Android Apps is hidden).
 List<NavTab> orderNavTabs(List<NavTab> tabs) {
   final ordered = List<NavTab>.of(tabs);
   if (ordered.remove(NavTab.androidApps)) {
@@ -164,6 +170,16 @@ List<NavTab> orderNavTabs(List<NavTab> tabs) {
     ordered.insert(
       discoveryIndex >= 0 ? discoveryIndex + 1 : 1,
       NavTab.androidApps,
+    );
+  }
+  if (ordered.remove(NavTab.entertainment)) {
+    final appsIndex = ordered.indexOf(NavTab.androidApps);
+    final discoveryIndex = ordered.indexOf(NavTab.discovery);
+    ordered.insert(
+      appsIndex >= 0
+          ? appsIndex + 1
+          : (discoveryIndex >= 0 ? discoveryIndex + 1 : 1),
+      NavTab.entertainment,
     );
   }
   return ordered;
