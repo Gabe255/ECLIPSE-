@@ -95,7 +95,14 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen> {
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [_ink, Color.alphaBlend(_accent.withValues(alpha: .13), const Color(0xFF100C20)), _ink],
+              colors: [
+                _ink,
+                Color.alphaBlend(
+                  _accent.withValues(alpha: .13),
+                  const Color(0xFF100C20),
+                ),
+                _ink,
+              ],
             ),
           ),
           child: Column(
@@ -586,7 +593,11 @@ class _DockItem extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(icon, size: 21, color: selected ? const Color(0xFFB99AFF) : color),
+                Icon(
+                  icon,
+                  size: 21,
+                  color: selected ? const Color(0xFFB99AFF) : color,
+                ),
                 const SizedBox(height: 4),
                 FittedBox(
                   fit: BoxFit.scaleDown,
