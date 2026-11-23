@@ -770,14 +770,13 @@ class AppScreenState extends State<AppScreen> with WidgetsBindingObserver {
                       child:
                           (configProvider.initialized ||
                               !configProvider.isLoading)
-                          ? FixedHeader(
-                              selectedTabIndex: _selectedTabIndex,
-                              onTabSelected: _onTabSelected,
-                              onQuickMenu: _openQuickMenu,
-                              onSearch: _selectedTabIndex == AppTabs.systems
-                                  ? () => unawaited(_openSearchFromHeader())
-                                  : null,
-                            )
+                          ? _selectedTabIndex == AppTabs.systems
+                                ? const SizedBox.shrink()
+                                : FixedHeader(
+                                    selectedTabIndex: _selectedTabIndex,
+                                    onTabSelected: _onTabSelected,
+                                    onQuickMenu: _openQuickMenu,
+                                  )
                           : const SizedBox.shrink(),
                     ),
 
@@ -825,6 +824,8 @@ class AppScreenState extends State<AppScreen> with WidgetsBindingObserver {
           onOpenDiscovery: () => _onTabSelected(AppTabs.discovery),
           onOpenSettings: () => _onTabSelected(AppTabs.settings),
           onOpenEntertainment: () => _onTabSelected(AppTabs.entertainment),
+          onQuickMenu: _openQuickMenu,
+          onSearch: () => unawaited(_openSearchFromHeader()),
         );
       case AppTabs.sync:
         // Each save provider's content owns its gamepad navigation layer.
