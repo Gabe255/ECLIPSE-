@@ -412,8 +412,6 @@ class _EclipseDock extends StatelessWidget {
   final VoidCallback? onSettings;
 
   static const _violet = Color(0xFF9A72FF);
-  static const _lavender = Color(0xFFD9CCFF);
-
   void _openSystems(BuildContext context) {
     showModalBottomSheet<void>(
       context: context,
@@ -425,7 +423,23 @@ class _EclipseDock extends StatelessWidget {
       ),
       builder: (_) => const Padding(
         padding: EdgeInsets.fromLTRB(20, 22, 20, 28),
-        child: EclipseExperienceSwitcher(),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'CONSOLE EXPERIENCES',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 13,
+                letterSpacing: 1.5,
+                fontWeight: FontWeight.w900,
+              ),
+            ),
+            SizedBox(height: 12),
+            EclipseExperienceSwitcher(),
+          ],
+        ),
       ),
     );
   }
