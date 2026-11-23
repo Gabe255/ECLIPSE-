@@ -80,7 +80,6 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen> {
     setState(() => _selectedExperienceId = experience.id);
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Consumer2<SqliteConfigProvider, SqliteDatabaseProvider>(
