@@ -39,8 +39,7 @@ class _EclipseExperienceSwitcherState extends State<EclipseExperienceSwitcher> {
     final saved = preferences.getString(_preferenceKey);
     if (!mounted) return;
     setState(() {
-      if (saved != null &&
-          EclipseExperienceCatalog.byId(saved) != null) {
+      if (saved != null && EclipseExperienceCatalog.byId(saved) != null) {
         _selectedId = saved;
       }
       _ready = true;
@@ -68,8 +67,8 @@ class _EclipseExperienceSwitcherState extends State<EclipseExperienceSwitcher> {
           builder: (context, setSheetState) {
             final filtered = EclipseExperienceCatalog.experiences
                 .where((experience) {
-                  final value =
-                      '${experience.name} ${experience.category}'.toLowerCase();
+                  final value = '${experience.name} ${experience.category}'
+                      .toLowerCase();
                   return value.contains(query.toLowerCase());
                 })
                 .toList(growable: false);
@@ -104,7 +103,10 @@ class _EclipseExperienceSwitcherState extends State<EclipseExperienceSwitcher> {
                           ),
                           IconButton(
                             onPressed: () => Navigator.pop(context),
-                            icon: const Icon(Icons.close, color: Colors.white70),
+                            icon: const Icon(
+                              Icons.close,
+                              color: Colors.white70,
+                            ),
                           ),
                         ],
                       ),
@@ -148,8 +150,7 @@ class _EclipseExperienceSwitcherState extends State<EclipseExperienceSwitcher> {
                                   const SizedBox(height: 5),
                               itemBuilder: (context, index) {
                                 final experience = filtered[index];
-                                final isSelected =
-                                    experience.id == _selectedId;
+                                final isSelected = experience.id == _selectedId;
                                 return ListTile(
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(13),
@@ -192,7 +193,8 @@ class _EclipseExperienceSwitcherState extends State<EclipseExperienceSwitcher> {
                                           Icons.chevron_right_rounded,
                                           color: Colors.white38,
                                         ),
-                                  onTap: () => Navigator.pop(context, experience),
+                                  onTap: () =>
+                                      Navigator.pop(context, experience),
                                 );
                               },
                             ),
@@ -224,7 +226,9 @@ class _EclipseExperienceSwitcherState extends State<EclipseExperienceSwitcher> {
       ),
       icon: const Icon(Icons.dashboard_customize_rounded, size: 17),
       label: Text(
-        _ready ? '${_selected.name.toUpperCase()} EXPERIENCE' : 'LOADING EXPERIENCE',
+        _ready
+            ? '${_selected.name.toUpperCase()} EXPERIENCE'
+            : 'LOADING EXPERIENCE',
         style: const TextStyle(
           fontSize: 9,
           letterSpacing: 1,

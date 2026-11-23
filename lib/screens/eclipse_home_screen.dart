@@ -37,8 +37,12 @@ class EclipseHomeScreen extends StatelessWidget {
       builder: (context, config, database, _) {
         final systems = config.detectedRealSystems;
         final recent = database.getRecentlyPlayedGames(1);
-        final gameCount = systems.fold<int>(0, (sum, system) => sum + system.romCount);
-        final ready = !config.isLoading && !config.isScanning && systems.isNotEmpty;
+        final gameCount = systems.fold<int>(
+          0,
+          (sum, system) => sum + system.romCount,
+        );
+        final ready =
+            !config.isLoading && !config.isScanning && systems.isNotEmpty;
 
         return DecoratedBox(
           decoration: const BoxDecoration(
@@ -79,7 +83,11 @@ class EclipseHomeScreen extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                child: const Icon(Icons.blur_on_rounded, color: Colors.white, size: 27),
+                                child: const Icon(
+                                  Icons.blur_on_rounded,
+                                  color: Colors.white,
+                                  size: 27,
+                                ),
                               ),
                               const SizedBox(width: 13),
                               const Expanded(
@@ -132,18 +140,25 @@ class EclipseHomeScreen extends StatelessWidget {
                             padding: EdgeInsets.all(compact ? 18 : 23),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(22),
-                              border: Border.all(color: _violet.withValues(alpha: .22)),
+                              border: Border.all(
+                                color: _violet.withValues(alpha: .22),
+                              ),
                               gradient: const LinearGradient(
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
-                                colors: [Color(0xFF292044), Color(0xFF171326), Color(0xFF100D1B)],
+                                colors: [
+                                  Color(0xFF292044),
+                                  Color(0xFF171326),
+                                  Color(0xFF100D1B),
+                                ],
                               ),
                             ),
                             child: Row(
                               children: [
                                 Expanded(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       const Text(
                                         'WELCOME BACK',
@@ -156,7 +171,9 @@ class EclipseHomeScreen extends StatelessWidget {
                                       ),
                                       const SizedBox(height: 7),
                                       Text(
-                                        recent.isNotEmpty ? 'Ready when you are.' : 'Your next adventure starts here.',
+                                        recent.isNotEmpty
+                                            ? 'Ready when you are.'
+                                            : 'Your next adventure starts here.',
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
@@ -181,7 +198,10 @@ class EclipseHomeScreen extends StatelessWidget {
                                         const SizedBox(height: 5),
                                         const Text(
                                           'Choose a console below to jump into your library.',
-                                          style: TextStyle(color: Color(0xFFB9B2CA), fontSize: 12),
+                                          style: TextStyle(
+                                            color: Color(0xFFB9B2CA),
+                                            fontSize: 12,
+                                          ),
                                         ),
                                       ],
                                     ],
@@ -195,7 +215,10 @@ class EclipseHomeScreen extends StatelessWidget {
                                     color: Colors.white.withValues(alpha: .12),
                                   ),
                                   const SizedBox(width: 20),
-                                  _Stat(value: '${systems.length}', label: 'CONSOLES'),
+                                  _Stat(
+                                    value: '${systems.length}',
+                                    label: 'CONSOLES',
+                                  ),
                                   const SizedBox(width: 24),
                                   _Stat(value: '$gameCount', label: 'GAMES'),
                                 ],
@@ -206,9 +229,15 @@ class EclipseHomeScreen extends StatelessWidget {
                             const SizedBox(height: 12),
                             Row(
                               children: [
-                                _CompactStat(value: '${systems.length}', label: 'CONSOLES'),
+                                _CompactStat(
+                                  value: '${systems.length}',
+                                  label: 'CONSOLES',
+                                ),
                                 const SizedBox(width: 10),
-                                _CompactStat(value: '$gameCount', label: 'GAMES'),
+                                _CompactStat(
+                                  value: '$gameCount',
+                                  label: 'GAMES',
+                                ),
                               ],
                             ),
                           ],
@@ -256,7 +285,11 @@ class EclipseHomeScreen extends StatelessWidget {
 }
 
 class _HeaderAction extends StatelessWidget {
-  const _HeaderAction({required this.icon, required this.label, this.onPressed});
+  const _HeaderAction({
+    required this.icon,
+    required this.label,
+    this.onPressed,
+  });
 
   final IconData icon;
   final String label;
@@ -273,7 +306,14 @@ class _HeaderAction extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
       icon: Icon(icon, size: 17),
-      label: Text(label, style: const TextStyle(fontSize: 9, letterSpacing: 1.1, fontWeight: FontWeight.w800)),
+      label: Text(
+        label,
+        style: const TextStyle(
+          fontSize: 9,
+          letterSpacing: 1.1,
+          fontWeight: FontWeight.w800,
+        ),
+      ),
     );
   }
 }
@@ -288,9 +328,24 @@ class _Stat extends StatelessWidget {
   Widget build(BuildContext context) => Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      Text(value, style: const TextStyle(color: Colors.white, fontSize: 23, fontWeight: FontWeight.w900)),
+      Text(
+        value,
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 23,
+          fontWeight: FontWeight.w900,
+        ),
+      ),
       const SizedBox(height: 3),
-      Text(label, style: const TextStyle(color: Color(0xFFAAA0C5), fontSize: 8, letterSpacing: 1.4, fontWeight: FontWeight.w800)),
+      Text(
+        label,
+        style: const TextStyle(
+          color: Color(0xFFAAA0C5),
+          fontSize: 8,
+          letterSpacing: 1.4,
+          fontWeight: FontWeight.w800,
+        ),
+      ),
     ],
   );
 }
@@ -312,9 +367,24 @@ class _CompactStat extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Text(value, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 17)),
+          Text(
+            value,
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w900,
+              fontSize: 17,
+            ),
+          ),
           const SizedBox(width: 8),
-          Text(label, style: const TextStyle(color: Color(0xFFAAA0C5), fontSize: 9, letterSpacing: 1.1, fontWeight: FontWeight.w800)),
+          Text(
+            label,
+            style: const TextStyle(
+              color: Color(0xFFAAA0C5),
+              fontSize: 9,
+              letterSpacing: 1.1,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
         ],
       ),
     ),
