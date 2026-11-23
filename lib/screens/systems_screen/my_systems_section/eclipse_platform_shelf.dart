@@ -17,6 +17,7 @@ class EclipsePlatformShelf extends StatefulWidget {
     required this.onOpen,
     required this.onOptions,
     required this.onSearch,
+    required this.onQuickMenu,
   });
 
   final List<SystemInfo> systems;
@@ -25,6 +26,7 @@ class EclipsePlatformShelf extends StatefulWidget {
   final ValueChanged<int> onOpen;
   final ValueChanged<int> onOptions;
   final VoidCallback onSearch;
+  final VoidCallback onQuickMenu;
 
   @override
   State<EclipsePlatformShelf> createState() => _EclipsePlatformShelfState();
@@ -76,7 +78,7 @@ class _EclipsePlatformShelfState extends State<EclipsePlatformShelf> {
       onNavigateUp: (_) => _moveRow(-1),
       onNavigateDown: (_) => _moveRow(1),
       onSelectItem: _openSelected,
-      onSettings: _openOptions,
+      onSettings: widget.onQuickMenu,
       onFavorite: _openOptions,
       onWestButton: widget.onSearch,
     );
