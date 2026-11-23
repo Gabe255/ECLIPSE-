@@ -23,6 +23,8 @@ class EclipseExperience {
 }
 
 abstract final class EclipseExperienceCatalog {
+  static const defaultExperienceId = 'ps5';
+
   static const experiences = <EclipseExperience>[
     EclipseExperience(
       id: 'ps5',
