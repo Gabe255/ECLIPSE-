@@ -1,6 +1,26 @@
 part of 'app_locale.dart';
 
 const Map<String, dynamic> appLocaleZh = {
+  AppLocale.entertainment: '娱乐',
+  AppLocale.entertainmentFeatured: '精选',
+  AppLocale.entertainmentRecentlyOpened: '最近打开',
+  AppLocale.entertainmentYourApps: '你的应用',
+  AppLocale.entertainmentMoviesTv: '电影和电视',
+  AppLocale.entertainmentLiveSports: '直播与体育',
+  AppLocale.entertainmentMusicCreators: '音乐与创作者',
+  AppLocale.entertainmentSearchHint: '搜索娱乐应用',
+  AppLocale.entertainmentEmpty: '没有找到匹配的应用。',
+  AppLocale.entertainmentOpenStore: '打开商店',
+  AppLocale.entertainmentInstalled: '已安装',
+  AppLocale.entertainmentNotInstalled: '未安装',
+
+  AppLocale.quickMenu: '快捷菜单',
+  AppLocale.quickMenuResumeLibrary: '返回游戏库',
+  AppLocale.quickMenuResumeLibrarySubtitle: '浏览并启动此系统的游戏',
+  AppLocale.quickMenuSystemInfo: '系统信息',
+  AppLocale.quickMenuSystemInfoSubtitle: '查看平台详情和已检测到的游戏',
+  AppLocale.quickMenuBackPlatforms: '返回平台',
+  AppLocale.quickMenuBackPlatformsSubtitle: '返回 ECLIPSE 系统列表',
   AppLocale.raCatalogueRefreshFailed: '无法刷新RetroAchievements目录。已使用保存的数据进行匹配。',
   AppLocale.smartMatchesOne: '1 个匹配游戏',
   AppLocale.smartCollection: '智能合集',
