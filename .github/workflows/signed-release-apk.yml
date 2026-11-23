@@ -37,10 +37,10 @@ jobs:
 
       - name: Restore original ECLIPSE signing key
         env:
-          KEYSTORE_BASE64: \${{ secrets.ANDROID_KEYSTORE_BASE64 }}
-          STORE_PASSWORD: \${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-          KEY_PASSWORD: \${{ secrets.ANDROID_KEY_PASSWORD }}
-          KEY_ALIAS: \${{ secrets.ANDROID_KEY_ALIAS }}
+          KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          STORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
         run: |
           set -euo pipefail
           test -n "$KEYSTORE_BASE64"
@@ -100,12 +100,12 @@ jobs:
 
       - name: Publish browser-downloadable GitHub Release
         env:
-          GH_TOKEN: \${{ github.token }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          TAG="eclipse-signed-\${GITHUB_RUN_NUMBER}"
-          gh release create "$TAG" build/app/outputs/flutter-apk/app-release.apk \\
-            --repo "$GITHUB_REPOSITORY" \\
-            --title "ECLIPSE signed Android APK #\${GITHUB_RUN_NUMBER}" \\
-            --notes "Signed Android release build from commit \${GITHUB_SHA}. APK signature verified in GitHub Actions." \\
+          TAG="eclipse-signed-${GITHUB_RUN_NUMBER}"
+          gh release create "$TAG" build/app/outputs/flutter-apk/app-release.apk \
+            --repo "$GITHUB_REPOSITORY" \
+            --title "ECLIPSE signed Android APK #${GITHUB_RUN_NUMBER}" \
+            --notes "Signed Android release build from commit ${GITHUB_SHA}. APK signature verified in GitHub Actions." \
             --prerelease
