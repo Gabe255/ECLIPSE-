@@ -355,40 +355,6 @@ class _EclipseHomeScreenState extends State<EclipseHomeScreen> {
   }
 }
 
-class _HeaderAction extends StatelessWidget {
-  const _HeaderAction({
-    required this.icon,
-    required this.label,
-    this.onPressed,
-  });
-
-  final IconData icon;
-  final String label;
-  final VoidCallback? onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextButton.icon(
-      onPressed: onPressed,
-      style: TextButton.styleFrom(
-        foregroundColor: const Color(0xFFD9CCFF),
-        padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 10),
-        backgroundColor: Colors.white.withValues(alpha: .055),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      ),
-      icon: Icon(icon, size: 17),
-      label: Text(
-        label,
-        style: const TextStyle(
-          fontSize: 9,
-          letterSpacing: 1.1,
-          fontWeight: FontWeight.w800,
-        ),
-      ),
-    );
-  }
-}
-
 class _Stat extends StatelessWidget {
   const _Stat({required this.value, required this.label});
 
