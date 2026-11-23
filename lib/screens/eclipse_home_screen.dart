@@ -351,6 +351,9 @@ class _Stat extends StatelessWidget {
 }
 
 class _CompactStat extends StatelessWidget {
+  static const _panel = Color(0xFF171326);
+  static const _violet = Color(0xFF9A72FF);
+
   const _CompactStat({required this.value, required this.label});
 
   final String value;
