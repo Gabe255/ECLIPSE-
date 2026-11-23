@@ -824,6 +824,7 @@ class AppScreenState extends State<AppScreen> with WidgetsBindingObserver {
           onSystemSelected: _onSystemCardTapped,
           onOpenDiscovery: () => _onTabSelected(AppTabs.discovery),
           onOpenSettings: () => _onTabSelected(AppTabs.settings),
+          onOpenEntertainment: () => _onTabSelected(AppTabs.entertainment),
         );
       case AppTabs.sync:
         // Each save provider's content owns its gamepad navigation layer.
