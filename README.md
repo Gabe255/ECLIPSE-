@@ -12,11 +12,26 @@
 
 <div align="left">
 
-ECLIPSE is an Android-first gaming frontend for organizing and launching your game library, consoles, and apps. Built on the NeoStation Flutter foundation, ECLIPSE is evolving toward a unified, customizable home experience with console-specific startup flows, horizontal game rows, hero artwork, and controller-first navigation.
+ECLIPSE is an Android-first gaming frontend built around one unified gaming universe. It brings game libraries, console collections, emulators, achievements, and entertainment shortcuts into a customizable, controller-friendly experience. The project is being rebuilt around an original ECLIPSE interface and a shared foundation that can power multiple selectable home-screen experiences.
 
 ---
 
 
+
+## Product direction
+
+ECLIPSE is designed as one platform with multiple selectable interface experiences—not separate launchers with separate libraries. The long-term experience system is intended to include:
+
+- **ECLIPSE Original** — the signature cosmic interface.
+- **Console-inspired experiences** — distinct layouts influenced by familiar console dashboards, including PlayStation-, Xbox-, and Nintendo-style approaches.
+- **Cocoon-inspired experience** — wide horizontal shelves and artwork-led browsing.
+- **Steam Big Picture-inspired experience** — controller-first library navigation.
+- **Entertainment experience** — a TV-style hub for supported installed media apps.
+- **Retro experience** — a nostalgic, system-focused presentation.
+
+These are product directions, not a claim that every interface is already implemented. All experiences are intended to share the same games, metadata, saves, settings, and backend services.
+
+---
 
 ## Features
 
