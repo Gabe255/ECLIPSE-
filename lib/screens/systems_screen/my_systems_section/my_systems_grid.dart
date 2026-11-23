@@ -237,6 +237,7 @@ class MySystems extends StatelessWidget {
         }
       },
       onSearch: () => _openSearch(context),
+      onQuickMenu: AppNavigation.openQuickMenu,
     );
   }
 
@@ -264,222 +265,9 @@ class MySystems extends StatelessWidget {
     SystemInfo selected,
     SqliteConfigProvider configProvider,
   ) {
-    final theme = Theme.of(context);
-    final accent = selected.color ?? theme.colorScheme.primary;
-    final platformCount = configProvider.detectedSystems
-        .where(
-          (system) =>
-              !SystemFolderNames.recursiveScanExcluded.contains(
-                system.folderName,
-              ) &&
-              systems.any((entry) => entry.folderName == system.folderName),
-        )
-        .length;
-    final gameCount = configProvider.totalGames;
-    final backgroundPath = selected.customBackgroundPath;
-    final hasBackground =
-        backgroundPath?.isNotEmpty == true &&
-        File(backgroundPath!).existsSync();
-
-    Widget stat(String value, String label) {
-      return Container(
-        constraints: BoxConstraints(minWidth: 58.r),
-        padding: EdgeInsets.symmetric(horizontal: 9.r, vertical: 7.r),
-        decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.055),
-          borderRadius: BorderRadius.circular(11.r),
-          border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              value,
-              maxLines: 1,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 15.r,
-                fontWeight: FontWeight.w800,
-                height: 1,
-              ),
-            ),
-            SizedBox(height: 4.r),
-            Text(
-              label,
-              maxLines: 1,
-              style: TextStyle(
-                color: Colors.white.withValues(alpha: 0.58),
-                fontSize: 8.r,
-                fontWeight: FontWeight.w700,
-                letterSpacing: 0.8.r,
-              ),
-            ),
-          ],
-        ),
-      );
-    }
-
-    final mark = Container(
-      width: 38.r,
-      height: 38.r,
-      decoration: BoxDecoration(
-        color: accent.withValues(alpha: 0.18),
-        borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(color: accent.withValues(alpha: 0.35)),
-      ),
-      child: Icon(Icons.blur_on_rounded, color: accent, size: 23.r),
-    );
-    final heading = Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'ECLIPSE  /  GAME SPACE',
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: TextStyle(
-            color: accent.withValues(alpha: 0.95),
-            fontSize: 8.r,
-            fontWeight: FontWeight.w800,
-            letterSpacing: 1.35.r,
-          ),
-        ),
-        SizedBox(height: 4.r),
-        Text(
-          'Your library',
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: TextStyle(
-            color: theme.colorScheme.onSurface,
-            fontSize: 19.r,
-            fontWeight: FontWeight.w800,
-            letterSpacing: -0.45.r,
-            height: 1,
-          ),
-        ),
-        SizedBox(height: 4.r),
-        Text(
-          'Choose a platform and jump back in.',
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: TextStyle(
-            color: theme.colorScheme.onSurface.withValues(alpha: 0.58),
-            fontSize: 9.r,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-      ],
-    );
-    final stats = Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        stat(platformCount.toString(), 'PLATFORMS'),
-        SizedBox(width: 7.r),
-        stat(gameCount.toString(), 'GAMES'),
-      ],
-    );
-
-    final quickActions = Wrap(
-      spacing: 8.r,
-      runSpacing: 6.r,
-      children: [
-        FilledButton.tonalIcon(
-          onPressed: configProvider.isScanning
-              ? null
-              : () async {
-                  SfxService().playEnterSound();
-                  await configProvider.scanSystems();
-                },
-          icon: Icon(Icons.refresh_rounded, size: 15.r),
-          label: Text(
-            configProvider.isScanning ? 'Scanning…' : 'Rescan folders',
-            style: TextStyle(fontSize: 10.r, fontWeight: FontWeight.w700),
-          ),
-          style: FilledButton.styleFrom(
-            padding: EdgeInsets.symmetric(horizontal: 12.r, vertical: 8.r),
-            visualDensity: VisualDensity.compact,
-          ),
-        ),
-        TextButton.icon(
-          onPressed: () => _openSearch(context),
-          icon: Icon(Icons.search_rounded, size: 15.r),
-          label: Text(
-            'Search games',
-            style: TextStyle(fontSize: 10.r, fontWeight: FontWeight.w700),
-          ),
-          style: TextButton.styleFrom(
-            padding: EdgeInsets.symmetric(horizontal: 10.r, vertical: 8.r),
-            visualDensity: VisualDensity.compact,
-          ),
-        ),
-      ],
-    );
-
-    return Padding(
-      padding: EdgeInsets.fromLTRB(14.r, 8.r, 14.r, 4.r),
-      child: Container(
-        width: double.infinity,
-        padding: EdgeInsets.symmetric(horizontal: 16.r, vertical: 12.r),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(19.r),
-          color: accent.withValues(alpha: 0.16),
-          image: hasBackground
-              ? DecorationImage(
-                  image: FileImage(File(backgroundPath)),
-                  fit: BoxFit.cover,
-                  colorFilter: ColorFilter.mode(
-                    Colors.black.withValues(alpha: 0.52),
-                    BlendMode.darken,
-                  ),
-                )
-              : null,
-          border: Border.all(color: accent.withValues(alpha: 0.34)),
-          boxShadow: [
-            BoxShadow(
-              color: accent.withValues(alpha: 0.09),
-              blurRadius: 22.r,
-              spreadRadius: -8.r,
-            ),
-          ],
-        ),
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            final compact = constraints.maxWidth < 430.r;
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (compact)
-                  Row(
-                    children: [
-                      mark,
-                      SizedBox(width: 11.r),
-                      Expanded(child: heading),
-                    ],
-                  )
-                else
-                  Row(
-                    children: [
-                      mark,
-                      SizedBox(width: 11.r),
-                      Expanded(child: heading),
-                      SizedBox(width: 8.r),
-                      stats,
-                    ],
-                  ),
-                if (compact) ...[
-                  SizedBox(height: 9.r),
-                  Align(alignment: Alignment.centerRight, child: stats),
-                ],
-                SizedBox(height: 10.r),
-                quickActions,
-              ],
-            );
-          },
-        ),
-      ),
-    );
+    // Platform identity belongs inside the selected console environment.
+    // The systems landing page stays focused on browsing platforms.
+    return const SizedBox.shrink();
   }
 
   /// Builds the high-density grid layout for system selection.
@@ -531,12 +319,7 @@ class MySystems extends StatelessWidget {
                     : allSystems[0];
                 _navigateToSystem(context, current, configProvider);
               },
-              onEscapePressed: () {
-                final current = selectedIndex < allSystems.length
-                    ? allSystems[selectedIndex]
-                    : allSystems[0];
-                _openSystemOptions(context, current, configProvider);
-              },
+              onEscapePressed: AppNavigation.openQuickMenu,
             ),
           ),
         ),
