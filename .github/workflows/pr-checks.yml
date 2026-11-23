@@ -97,6 +97,9 @@ jobs:
       - name: Install dependencies
         run: flutter pub get --enforce-lockfile
 
+      - name: Print formatted ECLIPSE home for diagnostics
+        run: dart format --output=show lib/screens/eclipse_home_screen.dart
+
       - name: Verify formatting
         run: dart format --output=none --set-exit-if-changed .
 
