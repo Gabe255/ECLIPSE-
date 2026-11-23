@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:neostation/providers/sqlite_config_provider.dart';
 import 'package:neostation/providers/sqlite_database_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../models/eclipse_experience_catalog.dart';
 import '../widgets/eclipse_experience_switcher.dart';
 
 import 'systems_screen/system_content.dart';
@@ -12,7 +14,7 @@ import 'systems_screen/system_content.dart';
 /// This deliberately composes the existing systems flow instead of reimplementing
 /// ROM discovery or system launch routing. The console-specific experience remains
 /// the destination after a platform is selected.
-class EclipseHomeScreen extends StatelessWidget {
+class EclipseHomeScreen extends StatefulWidget {
   const EclipseHomeScreen({
     super.key,
     this.selectedSystemIndex = 0,
@@ -28,10 +30,50 @@ class EclipseHomeScreen extends StatelessWidget {
   final VoidCallback? onOpenSettings;
   final VoidCallback? onOpenEntertainment;
 
+  @override
+  State<EclipseHomeScreen> createState() => _EclipseHomeScreenState();
+}
+
+class _EclipseHomeScreenState extends State<EclipseHomeScreen> {
   static const _ink = Color(0xFF080711);
+  static const _experiencePreferenceKey = 'eclipse.selected_experience';
+  String _selectedExperienceId = EclipseExperienceCatalog.defaultExperienceId;
+
+  EclipseExperience get _experience =>
+      EclipseExperienceCatalog.byId(_selectedExperienceId) ??
+      EclipseExperienceCatalog.experiences.first;
+
+  Color get _accent => switch (_experience.category) {
+    'Xbox' => const Color(0xFF78D65B),
+    'Nintendo' => const Color(0xFFFF6B73),
+    'Sega' => const Color(0xFF70A9FF),
+    'Arcade & Retro' => const Color(0xFFFFB45E),
+    'Computers', 'PC Gaming' => const Color(0xFF66D9D0),
+    'Entertainment' => const Color(0xFFFF83C5),
+    _ => const Color(0xFF9A72FF),
+  };
+
+  @override
+  void initState() {
+    super.initState();
+    _loadExperience();
+  }
+
+  Future<void> _loadExperience() async {
+    final preferences = await SharedPreferences.getInstance();
+    final saved = preferences.getString(_experiencePreferenceKey);
+    if (!mounted || saved == null ||
+        EclipseExperienceCatalog.byId(saved) == null) return;
+    setState(() => _selectedExperienceId = saved);
+  }
+
+  void _handleExperienceChanged(EclipseExperience experience) {
+    setState(() => _selectedExperienceId = experience.id);
+  }
   static const _violet = Color(0xFF9A72FF);
   static const _lavender = Color(0xFFD9CCFF);
 
+  @override
   @override
   Widget build(BuildContext context) {
     return Consumer2<SqliteConfigProvider, SqliteDatabaseProvider>(
@@ -46,11 +88,11 @@ class EclipseHomeScreen extends StatelessWidget {
             !config.isLoading && !config.isScanning && systems.isNotEmpty;
 
         return DecoratedBox(
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [_ink, Color(0xFF100C20), _ink],
+              colors: [_ink, Color.alphaBlend(_accent.withValues(alpha: .13), const Color(0xFF100C20)), _ink],
             ),
           ),
           child: Column(
@@ -120,20 +162,22 @@ class EclipseHomeScreen extends StatelessWidget {
                               _HeaderAction(
                                 icon: Icons.explore_outlined,
                                 label: 'DISCOVER',
-                                onPressed: onOpenDiscovery,
+                                onPressed: widget.onOpenDiscovery,
                               ),
                               const SizedBox(width: 8),
                               _HeaderAction(
                                 icon: Icons.tune_rounded,
-                                label: 'SYSTEM',
-                                onPressed: onOpenSettings,
+                                label: 'SETTINGS',
+                                onPressed: widget.onOpenSettings,
                               ),
                             ],
                           ),
                           const SizedBox(height: 14),
                           const Align(
                             alignment: Alignment.centerLeft,
-                            child: EclipseExperienceSwitcher(),
+                            child: EclipseExperienceSwitcher(
+                              onChanged: _handleExperienceChanged,
+                            ),
                           ),
                           const SizedBox(height: 20),
                           Container(
@@ -142,13 +186,13 @@ class EclipseHomeScreen extends StatelessWidget {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(22),
                               border: Border.all(
-                                color: _violet.withValues(alpha: .22),
+                                color: _accent.withValues(alpha: .32),
                               ),
                               gradient: const LinearGradient(
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
                                 colors: [
-                                  Color(0xFF292044),
+                                  Color.alphaBlend(_accent.withValues(alpha: .20), const Color(0xFF292044)),
                                   Color(0xFF171326),
                                   Color(0xFF100D1B),
                                 ],
@@ -162,7 +206,7 @@ class EclipseHomeScreen extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       const Text(
-                                        'WELCOME BACK',
+                                        '${_experience.name.toUpperCase()}  •  ${_experience.category.toUpperCase()}',
                                         style: TextStyle(
                                           color: _lavender,
                                           fontSize: 10,
@@ -273,14 +317,15 @@ class EclipseHomeScreen extends StatelessWidget {
                 ),
               Expanded(
                 child: SystemContent(
-                  selectedIndex: selectedSystemIndex,
-                  onCardTapped: onSystemSelected,
+                  selectedIndex: widget.selectedSystemIndex,
+                  onCardTapped: widget.onSystemSelected,
                 ),
               ),
               _EclipseDock(
-                onDiscover: onOpenDiscovery,
-                onEntertainment: onOpenEntertainment,
-                onSettings: onOpenSettings,
+                onDiscover: widget.onOpenDiscovery,
+                onEntertainment: widget.onOpenEntertainment,
+                onSettings: widget.onOpenSettings,
+                onExperienceChanged: _handleExperienceChanged,
               ),
             ],
           ),
@@ -405,11 +450,13 @@ class _EclipseDock extends StatelessWidget {
     required this.onDiscover,
     required this.onEntertainment,
     required this.onSettings,
+    required this.onExperienceChanged,
   });
 
   final VoidCallback? onDiscover;
   final VoidCallback? onEntertainment;
   final VoidCallback? onSettings;
+  final ValueChanged<EclipseExperience> onExperienceChanged;
 
   static const _violet = Color(0xFF9A72FF);
   void _openSystems(BuildContext context) {
@@ -437,7 +484,7 @@ class _EclipseDock extends StatelessWidget {
               ),
             ),
             SizedBox(height: 12),
-            EclipseExperienceSwitcher(),
+            EclipseExperienceSwitcher(onChanged: onExperienceChanged),
           ],
         ),
       ),
