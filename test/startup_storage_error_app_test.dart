@@ -136,7 +136,7 @@ void main() {
 
     expect(tester.takeException(), isNull);
     // Centred content too tall for the screen is cut off at the top too.
-    final logo = tester.getRect(find.byType(ShimmeringLogo));
+    final logo = tester.getRect(find.byType(EclipseLogoMark));
     expect(logo.top, greaterThanOrEqualTo(0));
     final message = tester.getRect(
       find.text(en(AppLocale.startupStorageFolderMissing)),
