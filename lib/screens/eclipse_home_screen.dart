@@ -19,12 +19,14 @@ class EclipseHomeScreen extends StatelessWidget {
     this.onSystemSelected,
     this.onOpenDiscovery,
     this.onOpenSettings,
+    this.onOpenEntertainment,
   });
 
   final int selectedSystemIndex;
   final ValueChanged<int>? onSystemSelected;
   final VoidCallback? onOpenDiscovery;
   final VoidCallback? onOpenSettings;
+  final VoidCallback? onOpenEntertainment;
 
   static const _ink = Color(0xFF080711);
   static const _violet = Color(0xFF9A72FF);
@@ -275,6 +277,11 @@ class EclipseHomeScreen extends StatelessWidget {
                   onCardTapped: onSystemSelected,
                 ),
               ),
+              _EclipseDock(
+                onDiscover: onOpenDiscovery,
+                onEntertainment: onOpenEntertainment,
+                onSettings: onOpenSettings,
+              ),
             ],
           ),
         );
@@ -390,4 +397,148 @@ class _CompactStat extends StatelessWidget {
       ),
     ),
   );
+}
+
+
+class _EclipseDock extends StatelessWidget {
+  const _EclipseDock({
+    required this.onDiscover,
+    required this.onEntertainment,
+    required this.onSettings,
+  });
+
+  final VoidCallback? onDiscover;
+  final VoidCallback? onEntertainment;
+  final VoidCallback? onSettings;
+
+  static const _violet = Color(0xFF9A72FF);
+  static const _lavender = Color(0xFFD9CCFF);
+
+  void _openSystems(BuildContext context) {
+    showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: const Color(0xFF100C1D),
+      isScrollControlled: true,
+      useSafeArea: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (_) => const Padding(
+        padding: EdgeInsets.fromLTRB(20, 22, 20, 28),
+        child: EclipseExperienceSwitcher(),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      top: false,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 8, 20, 12),
+        child: Center(
+          child: Container(
+            constraints: const BoxConstraints(maxWidth: 720),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+            decoration: BoxDecoration(
+              color: const Color(0xE8171424),
+              borderRadius: BorderRadius.circular(22),
+              border: Border.all(color: _violet.withValues(alpha: .28)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: .28),
+                  blurRadius: 24,
+                  offset: const Offset(0, 8),
+                ),
+              ],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                _DockItem(
+                  icon: Icons.grid_view_rounded,
+                  label: 'LIBRARY',
+                  selected: true,
+                  onPressed: () {},
+                ),
+                _DockItem(
+                  icon: Icons.explore_outlined,
+                  label: 'DISCOVER',
+                  onPressed: onDiscover,
+                ),
+                _DockItem(
+                  icon: Icons.gamepad_rounded,
+                  label: 'SYSTEMS',
+                  onPressed: () => _openSystems(context),
+                ),
+                _DockItem(
+                  icon: Icons.live_tv_rounded,
+                  label: 'ENTERTAINMENT',
+                  onPressed: onEntertainment,
+                ),
+                _DockItem(
+                  icon: Icons.tune_rounded,
+                  label: 'SETTINGS',
+                  onPressed: onSettings,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _DockItem extends StatelessWidget {
+  const _DockItem({
+    required this.icon,
+    required this.label,
+    required this.onPressed,
+    this.selected = false,
+  });
+
+  final IconData icon;
+  final String label;
+  final VoidCallback? onPressed;
+  final bool selected;
+
+  @override
+  Widget build(BuildContext context) {
+    final color = selected ? const Color(0xFFD9CCFF) : const Color(0xFFAAA1C0);
+    return Expanded(
+      child: Semantics(
+        button: true,
+        selected: selected,
+        label: label,
+        child: InkWell(
+          onTap: onPressed,
+          borderRadius: BorderRadius.circular(14),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 5),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(icon, size: 21, color: selected ? const Color(0xFFB99AFF) : color),
+                const SizedBox(height: 4),
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    label,
+                    maxLines: 1,
+                    style: TextStyle(
+                      color: color,
+                      fontSize: 8,
+                      letterSpacing: .65,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
